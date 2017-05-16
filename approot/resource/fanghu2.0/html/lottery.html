@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>首页</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/lottery.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<header class="index-header"></header>
+		<section class="lottery-box" >
+         <div class="banner">
+          <span class="txt">您的积分: <span class="money"> 2000 </span></span>
+          <span class="txt">今日抽奖次数: <span class="money"> 3 </span></span>
+          </div>
+          <div class="t-bg"></div>
+          <div class="turnt">
+          <div class="start">
+            <a href="#" class="start-btn"><img src="../images/lottery/start.png"></a>
+          </div>
+          <ul class="lot start-list" >
+          	<li><div class="lot_1"></div></li>
+          	<li><div class="lot_2"></div></li>
+          	<li class="cur"><div class="lot_3"></div></li>
+          	<li><div class="lot_4"></div></li>
+          	<li><div class="lot_5"></div></li>
+          	<li><div class="lot_6"></div></li>
+          	<li><div class="lot_7"></div></li>
+          	<li><div class="lot_8"></div></li>
+          </ul>
+          <div class="txt-h"><img src="../images/lottery/zi.png"></div>
+          </div>
+          <div class="myprize">
+          <div class="my-btn"><div class="txt"><a href="#">我的奖品</a></div></div>
+          </div>
+          <div class="prize-content">
+          	
+		  <div class="device" style="overflow:hidden">
+		    <a class="arrow-left" href="#"></a> 
+		    <a class="arrow-right" href="#"></a>
+		    <div class="swiper-container" >
+		      <div class="swiper-wrapper" >
+		        <div class="swiper-slide">
+		         <div class="txt fl">
+		           <p>2016年08月26日 14:20:21</p>
+                   <p>100元京东E卡</p>
+		         </div>
+		         <div class="pic fr"><img src="../images/lottery/100y.png"></div>
+		         </div>
+
+		        <div class="swiper-slide">
+		         <div class="txt fl">
+		           <p>2016年08月26日 14:20:21</p>
+                   <p>50元京东E卡</p>
+		         </div>
+		         <div class="pic fr"><img src="../images/lottery/50y.png"></div>
+		         </div> 
+             <div class="swiper-slide">
+             <div class="txt fl">
+               <p>2016年08月26日 14:20:21</p>
+                   <p>50积分京东劵</p>
+             </div>
+             <div class="pic fr"><img src="../images/lottery/50jf.png"></div>
+             </div> 
+             <div class="swiper-slide">
+             <div class="txt fl">
+               <p>2016年08月26日 14:20:21</p>
+                   <p>100积分京东劵</p>
+             </div>
+             <div class="pic fr"><img src="../images/lottery/100jf.png"></div>
+             </div> 
+
+		      </div>
+        </div>
+		  </div>
+
+          </div>
+          <div class="myprize">
+          <div class="my-btn"><div class="txt"><a href="#">中奖名单</a></div></div>
+          </div>
+          <div class="prize-content">
+            <ul class="prize-list prize-one">
+          		<li><span class="fl">用户</span><span class="fr">奖品</span></li>
+            </ul>
+            <div id="wrap">
+          	<ul class="prize-list list">
+          		<li><span class="fl">130****32321</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32322</span><span class="fr">小米48寸液晶电视</span></li>
+          		<li><span class="fl">130****32323</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32324</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32325</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32326</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32327</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32328</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32329</span><span class="fr">100元京东E卡</span></li>
+          		<li><span class="fl">130****32320</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32321</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32322</span><span class="fr">小米48寸液晶电视</span></li>
+              <li><span class="fl">130****32323</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32324</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32325</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32326</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32327</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32328</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32329</span><span class="fr">100元京东E卡</span></li>
+              <li><span class="fl">130****32320</span><span class="fr">100元京东E卡</span></li>
+          	</ul>
+            </div>
+          </div>
+          <div class="myprize">
+          <div class="my-btn"><div class="txt"><a href="#">活动规则</a></div></div>
+          </div>
+           <div class="prize-content">
+           	 <div class="pri-txt">
+           	 	<p>一、活动时间：2016.08.18-2016.12.31</p>
+				<p>二、活动形式：</p>
+				    <p> 1、每次抽奖需要扣除200积分，扣除的积分不退     
+				         还，每天最多抽奖三次；</p>
+				     <p>2、本活动奖品为：iPhone 6s、小米48英寸液晶电     
+				         视、京东E卡、积分，每天奖品数量超过1万份。</p>
+				<p>三、领取方式：</p>               
+				    <p> 1、中奖积分我们将直接发放到您的积分账户中，请    
+				         在房乎中查看“我的”→“我的积分”；</p>
+				     <p>2、京东E卡由专人通过手机短信的方式将京东E卡   
+				         的账号和密码发送到您的手机上；</p>
+				     <p>3、小米48英寸液晶电视和iPhone 6s需到新奇世界
+				         由山由谷或者御马坊项目案场领取奖品。</p>
+				<p>四、最终解释权归房乎所有。</p>
+           	 	</p>
+           	 </div>
+           </div>
+            <div class="d-bg"></div>
+		</section>
+
+		<footer class="index-footer">
+			<nav class="footer-nav">
+				<ul>
+					<li class="active"><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>首页</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe606;</i>客户</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe605;</i>我的</a></li>
+				</ul>
+			</nav>
+		</footer><br><br>
+		<script coolie src="../js/lib/coolie/coolie.min.js"
+			data-config="../../conf/coolie-config.js"
+			data-main="../main/lottery.js"></script>
+	</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>首页</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<header class="index-header">
+			
+		</header>
+		<section class="banner" >
+			<div class="swiper-container">
+			    <div class="swiper-wrapper">
+			        <div class="swiper-slide index-banner">
+			        	<img src="../images/index/index_banner.jpg"/>
+			        </div>
+			    </div>
+			    <!-- 如果需要分页器 -->
+			    <!--<div class="swiper-pagination"></div>-->
+			</div>
+		</section>
+		<section class="index-nav">
+			<ul>
+				<li>
+					<a href="#">
+						<p>天天领积分</p>
+						<span>百万积分任你领</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="nav-qy">
+						<p>会员权益说明</p>
+						<span>会员权益积分机制</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+		<section class="sm-banner" >
+			<div class="sm-swiper-container">
+			    <div class="swiper-wrapper">
+			        <div class="swiper-slide sm-index-banner">
+			        	<img src="../images/index/sm_banner.jpg" alt="" />
+			        </div>
+			        <div class="swiper-slide sm-index-banner">
+			        	<img src="../images/index/sm_banner.jpg"/>
+					</div>
+			        <div class="swiper-slide sm-index-banner">
+			        	<img src="../images/index/sm_banner.jpg"/>
+			        </div>
+			    </div>
+			    <!-- 如果需要分页器 -->
+			    <div class="swiper-pagination"></div>
+			</div>
+		</section>
+		<section class="index-list">
+			<h2>热门推荐</h2>
+			<ul>
+				<li>
+					<img src="../images/index/list_pic1.jpg"/>
+					<p class="fl">新奇世界 上影安吉A11-50</p>
+					<span class="fr"><font>￥69,000</font>/份</span>
+				</li>
+				<li>
+					<img src="../images/index/list_pic1.jpg"/>
+					<p class="fl">新奇世界 上影安吉A11-50</p>
+					<span class="fr"><font>￥69,000</font>/份</span>
+				</li>
+				<li>
+					<img src="../images/index/list_pic1.jpg"/>
+					<p class="fl">新奇世界 上影安吉A11-50</p>
+					<span class="fr"><font>￥69,000</font>/份</span>
+				</li>
+				<li>
+					<img src="../images/index/list_pic1.jpg"/>
+					<p class="fl">新奇世界 上影安吉A11-50-adsdadads</p>
+					<span class="fr"><font>￥69,000</font>/份</span>
+				</li>
+			</ul>
+		</section>
+		<footer class="index-footer">
+			<nav class="footer-nav">
+				<ul>
+					<li class="active"><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>首页</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe606;</i>客户</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe605;</i>我的</a></li>
+				</ul>
+			</nav>
+		</footer>
+		<script coolie src="../js/lib/coolie/coolie.min.js"
+			data-config="../../conf/coolie-config.js"
+			data-main="../main/index_main.js"></script>
+	</body>
+</html>

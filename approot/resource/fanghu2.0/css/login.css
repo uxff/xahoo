@@ -1,0 +1,67 @@
+.poster-login .pic{
+	text-align: center;
+	height:5.792rem;
+	width:5.792rem;
+	margin-top:4.167rem;
+	background-color: #f0f0f0;
+}
+.poster-login .pic{
+	width:100%;
+	height:100%;
+}
+
+/*input input*/
+.input-box>ul{
+	
+}
+.input-box>ul>li{
+	padding:0 .833rem;
+	margin-top:1.667rem;
+	line-height:2.917rem;
+	font-size: 1.083rem;
+	color: #323232;
+	overflow: hidden;
+}
+/*文字*/
+.input-box>ul>li>span{
+	float: left;
+	margin-right: .833rem;
+	width: 5.2rem;
+	color:#2a2a2a;
+	font-size:1.083rem;
+}
+.input-box>ul>li>span>i{
+	color:red;
+}
+/*文本框*/
+.input-box{
+	padding-top:3.125rem;
+}
+.input-box>ul>li>input{
+	float: left;
+	line-height: 3.75rem;
+	border:0;
+	font-size: 0.917rem;
+	color: #999999;
+	padding-left:0.833rem;
+} 
+.input-box>ul>li>textarea{
+	float: left;
+	border:0;
+	font-size: 0.917rem;
+	color: #999999;
+	padding-left:0.833rem;
+	width: 18.9rem;
+	height:7rem;
+	resize : none;
+} 
+
+.input-box>ul>li>input[type="text"],.input-box>ul>li>input[type="tel"],.input-box>ul>li>input[type="password"]{
+	width: 18.9rem;
+	height:2.917rem;
+    line-height: 1.5;
+}
+.login-link{
+  margin-top:1.667rem;
+ padding:0 0.833rem;
+}

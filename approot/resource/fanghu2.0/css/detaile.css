@@ -1,0 +1,33 @@
+.share-btn{
+	position: absolute;
+	bottom: 7.083rem;
+	padding:1.166rem 2.5rem;
+	width: 100%;
+	max-width: 750px;
+	height:4.541rem;
+	background: #fff;
+	border-top: 1px solid #dcdcdc;
+}
+.share-btn a{
+	display: block;
+	width: 8.333rem;
+	height: 2.083rem;
+	line-height: 2.083rem;
+	background: #ff5401;
+	border-radius: .166rem;
+	font-size: .916rem;
+	color: #fff;
+}
+.share-btn .iconfont{
+	float: left;
+	margin: .0205rem .916rem 0 1.25rem;
+	font-size: 1.25rem;
+}
+.task-list {
+	padding:3.5rem .833rem 11.624rem;
+}
+img {
+	max-width:100%;
+	margin:0 auto;
+	display:block;
+}

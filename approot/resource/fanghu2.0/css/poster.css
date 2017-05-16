@@ -1,0 +1,47 @@
+@charset "UTF-8";
+/************************************************
+ * @authors:Hu gang
+ * @description:
+ * @date:2016-07-13
+ * @version:
+************************************************/
+
+.poster-box>img{
+	max-width: 100%;
+}
+.user-info{
+	padding: 1.875rem 1.667rem;
+	background: #ffffff;
+	overflow: hidden;
+}
+.user-info .info-box{
+	float: left;
+	padding-top: 0.833rem;
+}
+.user-info .info-box>span{
+	display: block;
+	margin-bottom: 0.833rem;
+	font-size: 1.167rem;
+	color: #2a2a2a;
+}
+.user-head{
+	margin-right: 1.25rem;
+	width: 5.792rem;
+	height: 5.792rem;
+}
+#code{
+	position: relative;
+	width: 5.792rem;
+	height: 5.792rem;
+}
+#code img{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -0.708rem;
+	margin-top: -0.75rem;
+}
+#code canvas{
+	width: 5.792rem;
+	height: 5.792rem;
+}

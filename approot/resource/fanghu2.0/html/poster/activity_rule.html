@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>活动规则</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/activity_rule.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<section class="activity">
+			<div class="activity_banner">
+				<img src="../../images/article/activity_banner.jpg" alt="">
+			</div>
+			<div class="activity_info">
+				<ul class="activity_box">
+					<li><span>1、</span>首次关注奖励：0.38元</li>
+					<li><span>2、</span>活动直接粉丝奖励：0.10元</li>
+					<li><span>3、</span>获取间接粉丝奖励：0.05</li>
+					<li><span>4、</span>个人获得粉丝奖励封顶：5,00元</li>
+					<li><span>5、</span>最低提现金额：1,00元</li>
+					<li><span>6、</span>最高奖励金额：20,00元</li>
+				</ul>
+			</div>
+			<div class="activity_logo">
+				<img src="../../images/article/xqshijie_logo.png" alt="">
+			</div>
+		</section>
+	</body>
+</html>

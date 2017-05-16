@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>我的任务</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/list.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<header class="header">
+			<a href="#"class="fl"><i class="iconfont">&#xe604;</i></a>
+			我的任务
+			<a href="#" class="fr"><i class="iconfont icon-fx">&#xe602;</i></a>
+		</header>
+		<section class="task-list">
+			<div class="tab my-list-tab">
+		    	<a href="javascript:;" class="on">全部</a>
+		    	<a href="javascript:;" class="off center">进行中</a>
+		        <a href="javascript:;" class="off">已完成</a>
+		    </div>
+		    <div class="content">
+		    	<ul>
+		        	<li style="display:block;">
+						<ul>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p><i class="iconfont icon-money">&#xe600;</i>5积分</p>
+									</div>
+								</a>
+								<div class="fr task-btnbox">
+									<a class="sm-btn" href="javascript:;">我要参与</a>
+								</div>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p><i class="iconfont icon-money">&#xe600;</i>5积分</p>
+									</div>
+								</a>
+								<div class="fr task-btnbox">
+									<a class="sm-btn" href="javascript:;">我要参与</a>
+								</div>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p><i class="iconfont icon-money">&#xe600;</i>5积分</p>
+									</div>
+								</a>
+								<div class="fr task-btnbox">
+									<a class="sm-btn" href="javascript:;">我要参与</a>
+								</div>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p><i class="iconfont icon-money">&#xe600;</i>5积分</p>
+									</div>
+								</a>
+								<div class="fr task-btnbox">
+									<a class="sm-btn" href="javascript:;">我要参与</a>
+								</div>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p><i class="iconfont icon-money">&#xe600;</i>5积分</p>
+									</div>
+								</a>
+								<div class="fr task-btnbox">
+									<a class="sm-btn" href="javascript:;">我要参与</a>
+								</div>
+							</li>
+						</ul>
+		        	</li>
+		        	<li>
+		            	<ul>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</li>
+		            <li>
+		            	<ul>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="../images/list/list_pic.png"/>
+									<div class="fl task-info task-over">
+										<h3>新年开门红，邀请5个好友</h3>
+										<p class="active"><i class="iconfont icon-money">&#xe600;</i>5积分<span>点击：10次</span></p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</li>
+		        </ul>
+		    </div>
+		</section>
+		<footer class="index-footer">
+			<nav class="footer-nav">
+				<ul>
+					<li class="active"><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>首页</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>客户</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>我的</a></li>
+				</ul>
+			</nav>
+		</footer>
+		<script coolie src="../js/lib/coolie/coolie.min.js"
+			data-config="../../conf/coolie-config.js"
+			data-main="../main/list_main.js"></script>
+	</body>
+	</body>
+</html>

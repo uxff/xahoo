@@ -1,0 +1,232 @@
+<?php
+// set ares alias
+$currentAppPath = dirname(dirname(__FILE__));
+$protectedPath = dirname($currentAppPath);
+
+// uncomment the following to define a path alias
+// Yii::setPathOfAlias('local','path/to/local-folder');
+// This is the main Web application configuration. Any writable
+// CWebApplication properties can be configured here.
+$arrConfig = array(
+    'language' => 'zh_CN',
+    'basePath' => $protectedPath,
+    'name' => '房乎网',
+    // preloading 'log' component
+    'preload' => array('log'),
+    'controllerPath' => $currentAppPath . '/controllers',
+    'defaultController' => 'site',
+    // autoloading model and component classes
+    'import' => array(
+        'application.common.vendor.Smarty.sysplugins.*',
+        'application.common.extensions.*',
+        'application.ucentermob.api.*',
+        'application.ucentermodels.*',
+        'application.fanghumodels.*',
+        'application.fanghumobv2.models.*',
+        'application.fanghumobv2.components.*',
+        'application.fanghumobv2.controllers.BaseController',
+        'application.common.extensions.wxshare.*',
+        'application.common.components.*',
+        'application.common.extensions.sms.*',
+        'application.common.components.JSSDK',    ),
+    // application components
+    'components' => array(
+        // uncomment the following to enable cookie-based authentication
+        'loginUser' => array(
+            'class' => 'application.common.components.LoginUser',
+            'stateKeyPrefix' => '',
+            'guestName' => 'Guest',
+            'allowAutoLogin' => true,
+        ),
+        // uncomment the following to enable cookie params setting
+
+        'session'=>array(
+            'cookieParams' => array('path'=>'/','domain'=>'fanghu.xqshijie.com'),
+        ),
+
+        // uncomment the following to enable smarty template enginee
+        'smarty' => array(
+            'class' => 'application.common.extensions.CSmarty',
+        ),
+        // uncomment the following to enable error handler
+        'errorHandler' => array(
+            // use 'site/error' action to display errors
+            'errorAction' => 'site/error',
+        ),
+        // uncomment the following to enable URLs in path-format
+/*
+        'urlManager'=>array(
+            'urlFormat'=>'path',
+            'rules'=>array(
+                '<controller:\w+>'=>'<controller>',
+                '<controller:\w+>/<id:\d+>'=>'<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                //'<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
+            ),
+            'showScriptName' => false,
+            'urlSuffix' => '.html',
+        ),
+*/
+        // uncomment the following to use a MySQL database  
+        'db' => array(
+            'class' => 'application.common.components.DbConnectionManager',//扩展路径
+            'connectionString' => 'mysql:host=112.126.73.37;dbname=fanghu_db',//主数据库 写
+            'emulatePrepare' => true,
+            'username' => 'test',
+            'password' => 'mhxzkhl',
+            'charset' => 'utf8',
+            'enableSlave' => false, //从数据库启用
+            'slavesWrite' => true, //紧急情况 主数据库无法连接 启用从数据库 写功能
+            'masterRead' => true, //紧急情况 从数据库无法连接 启用主数据库 读功能
+            'slaves' => array(
+                array( // slave1
+                    'connectionString'=>'mysql:host=112.126.73.37;dbname=fanghu_db',
+                    'emulatePrepare' => true,
+                    'username' => 'test',
+                    'password' => 'mhxzkhl',
+                    'charset' => 'utf8',
+                ),
+                array( // slave2
+                    'connectionString'=>'mysql:host=112.126.73.37;dbname=fanghu_db',
+                    'emulatePrepare' => true,
+                    'username' => 'test',
+                    'password' => 'mhxzkhl',
+                    'charset' => 'utf8',
+                ),
+            ),
+        ),
+        'UCenterDb' => array(
+            'class' => 'application.common.components.DbConnectionManager',//扩展路径
+            'connectionString' => 'mysql:host=112.126.73.37;dbname=xqsj_db',//主数据库 写
+            'emulatePrepare' => true,
+            'username' => 'test',
+            'password' => 'mhxzkhl',
+            'charset' => 'utf8',
+            'enableSlave' => false, //从数据库启用
+            'slavesWrite' => true, //紧急情况 主数据库无法连接 启用从数据库 写功能
+            'masterRead' => true, //紧急情况 从数据库无法连接 启用主数据库 读功能
+            'slaves' => array(
+                array( // slave1
+                    'connectionString'=>'mysql:host=112.126.73.37;dbname=xqsj_db',
+                    'emulatePrepare' => true,
+                    'username' => 'test',
+                    'password' => 'mhxzkhl',
+                    'charset' => 'utf8',
+                ),
+                array( // slave2
+                    'connectionString'=>'mysql:host=112.126.73.37;dbname=xqsj_db',
+                    'emulatePrepare' => true,
+                    'username' => 'test',
+                    'password' => 'mhxzkhl',
+                    'charset' => 'utf8',
+                ),
+            ),
+        ),
+/*
+        'db' => array(
+            'connectionString' => 'mysql:host=localhost;dbname=fanghu_db',
+            'emulatePrepare' => true,
+            'username' => 'test',
+            'password' => 'mhxzkhl',
+            'charset' => 'utf8',
+        ),
+*/
+        // uncomment the following to use a log
+        'log' => array(
+            'class' => 'CLogRouter',
+            'routes' => array(
+                array(
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning',
+                ),
+                // uncomment the following to show log messages on web pages
+                /*
+                array(
+                    'class'=>'CWebLogRoute',
+                ),
+                */
+            ),
+        ),
+        'cache'=>array(
+            'class'=>'CMemCache',
+            'servers'=>array(
+                array(
+                    'host'=>'127.0.0.1',
+                    'port'=>11211,
+                    'weight'=>60,
+                ),
+            ),
+            'keyPrefix' => '',
+            'hashKey' => false,
+            'serializer' => false,
+        ),
+    ),
+    // application-level parameters that can be accessed
+    // using Yii::app()->params['paramName']
+    'params' => array(
+        // this is used in contact page
+        'adminEmail' => 'webmaster@example.com',
+        // this is used for fe resoure
+        'resourcePath' => '/resource/fanghu2.0',
+        'resourceThirdVendorPath' => '/resource/thirdvendor',
+        // this is used for view template
+        'tplPath' => '/fanghumobv2/dist',
+        // this is used for upload
+        'uploadPic' => array(
+            'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . "upload",
+            'webPath' => "/upload/",
+        ),
+        // 上传用户头像的子目录
+        'UPLOAD_AVATAR_SUBDIR' => 'avatar',
+        // this is userd for LOG CONFIG
+        'LOG_PATH' => '/var/log/www/testfanghu.xqshijie.com/',
+        'LOG_NAME' => 'fanghuv2.log',
+        'LOG_LEVEL'=>'2', //warning
+        'LOG_MAIL'=>'monitor@fangfull.com',
+        // Image Server
+        'ImageServerName' => 'http://'.$_SERVER['HTTP_HOST'],
+        // UCenter Server
+        'UCenterServerName' => 'http://'.$_SERVER['SERVER_NAME'].'/ucenter.php',
+        // XinQiShiJie Server
+        'XqsjFQServerName' => 'http://'.$_SERVER['SERVER_NAME'].'/xqsjfq.php',
+        'XqsjZCServerName' => 'http://'.$_SERVER['SERVER_NAME'].'/xqsjzc.php',
+        // FangHu Server
+        'FanghuServerName' => 'http://'.$_SERVER['SERVER_NAME'].'/fanghuv2.php',
+        // Baidu Tracking
+        'baiduTrackingKey' => '',
+        // page size
+        'pageSize' => 10,
+        // scroll page size
+        'scrollPageSize' => 10,
+        'weichat' => array(
+            'AppId' => 'wx7345a7e7764a9f88',
+            'AppScret' => '6cefcd603dd73561d14bafda788c8ace',
+        ),
+
+    ),
+    'modules' => array(),
+);
+
+$modulesConfig = dirname(__FILE__).'/modules.php';
+if (file_exists($modulesConfig)) {
+    $arrConfig['modules'] = require_once($modulesConfig);
+}
+
+// 加入其他配置
+if (!empty($_GET['debug']) && strtolower(trim($_GET['debug'])) == 'true') {
+    $arrConfig['components']['log']['routes'][] = array(
+        'class' => 'ext.yiidebugtb.XWebDebugRouter',
+        'config' => 'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
+        'levels' => 'error, warning, trace, profile, info',
+        'allowedIPs' => array('127.0.0.1', '::1', '192.168.1.54', '192\.168\.1[0-5]\.[0-9]{3}'),
+    );
+}
+
+// 前端构建目录
+// for online
+$arrConfig['params']['tplPath'] = '/fanghumobv2/dist';
+// for dev
+//$arrConfig['params']['tplPath'] = '/fanghumobv2';
+
+return $arrConfig;

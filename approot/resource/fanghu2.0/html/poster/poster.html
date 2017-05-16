@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>海报</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/poster.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<section class="poster-box">
+			<img src="../../images/poster/poster_bg.jpg" alt="">
+			<div class="user-info">
+				<img class="user-head fl" src="../../images/poster/user_head.jpg" alt="">
+				<div class="info-box">
+					<span>李士鹏</span>
+					<span>13512344565</span>
+				</div>
+				<div id="code" class="fr">
+					<img src="../../images/poster/poster_logo.jpg" alt="">
+				</div>
+			</div>
+		</section>
+	</body>
+	<script coolie src="../../js/lib/coolie/coolie.min.js"
+			data-config="../../conf/coolie-config.js"
+			data-main="../main/poster_main.js"></script>
+</html>

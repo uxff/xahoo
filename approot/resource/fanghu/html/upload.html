@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<script type="text/javascript"> 
+/** 
+* 从 file 域获取 本地图片 url 
+*/ 
+function getFileUrl(sourceId) { 
+var url; 
+if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
+url = document.getElementById(sourceId).value; 
+} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
+url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
+url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+} else if(window.webkitURL.createObjectURL){
+//Chrome8+
+url = window.webkitURL.createObjectURL(document.getElementById(sourceId).files.item(0));
+}
+return url; 
+} 
+
+/** 
+* 将本地图片 显示到浏览器上 
+*/ 
+function preImg(sourceId, targetId) { 
+var url = getFileUrl(sourceId); 
+var imgPre = document.getElementById(targetId); 
+imgPre.src = url; 
+} 
+</script> 
+</head> 
+<body> 
+<form action=""> 
+<input type="file" name="imgOne" id="imgOne" onchange="preImg(this.id,'imgPre');" /> 
+<img id="imgPre" src="" width="300px" height="300px" style="display: block;" /> 
+</form> 
+</body> 
+</html> 

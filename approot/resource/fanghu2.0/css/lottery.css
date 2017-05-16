@@ -1,0 +1,373 @@
+.index-header{
+	height:3.125rem;
+	background:#fff url(../images/index/header_bg.png) left center no-repeat;
+	background-size:50%;
+}
+.lottery-box{
+	overflow: hidden;
+	background-color:#1b1a39;
+	position: relative;
+}
+.banner{
+   padding:0.833rem;
+}
+.banner .txt{
+	text-align: left;
+	font-size:14px;
+	color:#fff5da;
+}
+.banner .money{
+   color:#ff5401;
+}
+.t-bg{
+	height:7px;
+	background:#1b1a39 url(../images/lottery/t_bg.png) center center repeat-x;
+}
+.d-bg{
+	padding:0.833rem 0;
+	height:7px;
+	background:#1b1a39 url(../images/lottery/d_bg.png) center center repeat-x;
+}
+.turnt{
+	position: relative;
+	margin:1rem auto;
+    width:24.5rem;
+    height:24.875rem;
+    background:#1b1a39 url(../images/lottery/zp.png) center center no-repeat;
+    background-size:100%;
+}
+.turnt .start{
+	position: absolute;
+	top:50%;
+	left:50%;
+	margin:-3.75rem 0 0 -3.583rem;
+	width:7.542rem;
+	height:7.417rem;
+	z-index: 9999;
+
+}
+.turnt .start .start-btn{
+   overflow: hidden;
+   display: block;
+}
+.turnt .start img{
+    width:100%;
+    height:100%;
+}
+.turnt .lot .cur{
+    opacity: 0.6;
+}
+.turnt .lot .cur .lot_1{
+	position: absolute;
+	top:1.8rem;
+	left:8.42rem;
+	width:8.0rem;
+	height:10.333rem;
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .lot .cur .lot_2{
+	position: absolute;
+	top:3.55rem;
+	left:12rem;
+	width:8.0rem;
+	height:10.333rem;
+	-webkit-transform: rotate(45deg);	
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .lot .cur .lot_3{
+	position: absolute;
+	top:7.2rem;
+	left:13.5rem;
+	width:8.0rem;
+	height:10.333rem;
+	-webkit-transform: rotate(90deg);	
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .lot .cur .lot_4{
+	position: absolute;
+	top:10.8rem;
+	left:11.7rem;
+	width:8.0rem;
+	height:10.333rem;
+	-webkit-transform: rotate(135deg);	
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .lot .cur .lot_5{
+	position: absolute;
+	top:12.2rem;
+	left:8rem;
+	width:8.0rem;
+	height:10.333rem;
+	-webkit-transform: rotate(180deg);	
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .lot .cur .lot_6{
+	position: absolute;
+	top:10.5rem;
+	left:4.49rem;
+	width:8.0rem;
+	height:10.333rem;
+	-webkit-transform: rotate(225deg);	
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .lot .cur .lot_7{
+	position: absolute;
+	top:6.8rem;
+	left:3rem;
+	width:8.0rem;
+	height:10.333rem;
+	-webkit-transform: rotate(270deg);	
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .lot .cur .lot_8{
+	position: absolute;
+	top:3.25rem;
+	left:4.75rem;
+	width:8.0rem;
+	height:10.333rem;
+	-webkit-transform: rotate(315deg);	
+	background: url(../images/lottery/p_bg.png) center center no-repeat;
+	background-size:100%;
+}
+.turnt .txt-h{
+	position: absolute;
+	top:50%;
+	left:50%;
+	margin:-9.0rem 0 0 -9.0rem;
+	width:18.042rem;
+	height:18.042rem;
+	z-index: 99;
+}
+.turnt .txt-h img{
+    width:100%;
+    height:100%;
+}
+.myprize{
+   position: relative;
+}
+.myprize .my-btn{
+	margin: 0 auto;
+	height:3.667rem;
+	width:13.917rem;
+	background:#1b1a39 url(../images/lottery/btn-bg.png) center center no-repeat;
+	background-size:100%;
+}
+.myprize .my-btn .txt{
+    display:block;
+    position: absolute;
+    color:#fff;
+    font-size:1rem;
+    font-weight: bold;
+    top:50%;
+    left:50%;
+    width:10.417rem;
+    height:2.083rem;
+    margin:-0.1rem 0 0 -4.8rem;
+}
+.myprize .my-btn .txt a{
+    text-align: center;
+    display: block;
+    width:10.417rem;
+    height:2.083rem;
+    color:#fff;
+    padding-top:0.2rem;
+}
+.prize-content{
+	position: relative;
+	margin:0.833rem auto;
+	width:24.833rem;
+	border:5px solid #ff738a;
+	border-radius:15px;
+	background-color: #fff5da;
+}
+.prize-list{
+	overflow: hidden;
+}
+.prize-one{
+	height:2.5rem;
+	padding-top:0.517rem;
+}
+@-webkit-keyframes move  
+{  
+    0%{  
+        top:0;  
+    }  
+    100%  
+    {  
+        top:-20.833rem;  
+    }     
+}  
+#wrap{ height:20.833rem;position:relative;overflow:hidden;} 
+.list{
+    padding-bottom:0.517rem;
+	position:absolute;
+    left:0;
+    top:0;
+    width:24.833rem;
+    -webkit-animation:8s move infinite linear;
+}
+ .prize-list li{
+	font-size:0.917rem;
+	height:2.083rem;
+	line-height:2.083rem;
+}
+.prize-list li span{
+    width:40%;
+    text-align: center;
+    display: inline-block;
+    color:#cb2c2c;
+    font-size:0.917rem;
+}
+.pri-txt{
+	padding:0.833rem;
+}
+.pri-txt p{
+	text-align: left;
+	font-size:0.917rem;
+	color:#cb2c2c;
+	line-height:1.5rem;
+}
+
+.device {
+  margin: 5px auto;
+  position: relative;
+  width:100%;
+}
+.device .arrow-left {
+  background: url(../images/lottery/arrows.png) no-repeat left top;
+  background-size:100%;
+  position: absolute;
+  left: 0.417rem;
+  top: 50%;
+  margin-top: -0.625rem;
+  width: 0.708rem;
+  height: 1.25rem;
+  z-index: 999;
+}
+.device .arrow-right {
+  background: url(../images/lottery/arrows.png) no-repeat left bottom;
+  background-size:100%;
+  position: absolute;
+  right: 0.417rem;
+  top: 50%;
+  margin-top: -0.625rem;
+  width: 0.708rem;
+  height: 1.25rem;
+  z-index: 999;
+}
+.swiper-container {
+  height: 8rem;
+  overflow: hidden;
+  padding-top:0.833rem;
+
+}
+.content-slide {
+  padding:0.833rem;
+  color: #fff;
+   overflow: hidden;
+}
+
+.swiper-slide .txt{
+  
+  padding:1.5rem 0 0 2.5rem ;
+  color:#cb2c2c;
+  font-size:0.833rem;
+  line-height:2rem;
+
+}
+.swiper-slide .pic{
+  padding:1.5rem 1.8rem 0 0;
+}
+.swiper-slide .pic img{
+  height:4rem;
+  width:7.083rem;
+}
+.footer_lot{
+	position: absolute;
+
+	width: 100%;
+	max-width: 750px;
+	padding: 1.666rem .833rem;
+	height: 7.083rem;
+	background: #4a4a4a;
+	color: #fff;
+	text-align: center;
+	z-index:9;
+}
+.footer_lot>ul{
+	overflow: hidden;
+	margin: 0 auto 1.25rem;
+	width: 100%;
+	font-size:0;
+}
+.footer_lot ul li{
+	display:inline-block;
+}
+.footer_lot ul li a{
+	display: block;
+	line-height: 1rem;
+	font-size: 1rem;
+	color: #fff;
+	overflow:hidden; 
+}
+.footer_lot ul li span a {
+	max-width:7rem;
+}
+.footer_lot ul li {
+	margin-left:0.5rem;
+}
+.footer_lot ul li:first-child {
+	margin-left:0;
+}
+.footer_lot ul li a.active{
+	display: block;
+	position: relative;
+	width: 4.166rem;
+}
+.footer_lot ul li a.active::before,.footer_lot ul li a.active::after{
+	position: absolute;
+	content: "";
+	top: 0;
+	width: 2px;
+	height: 1.166rem;
+	background: #fff;
+}
+.footer_lot ul li a.active::before{
+	left: 0;
+}
+.footer_lot ul li a.active::after{
+	right: 0;
+}
+.footer_lot p{
+	position: relative;
+	font-size: .75rem;
+}
+.footer_lot p::before{
+	left: 0;
+}
+.footer_lot p::after{
+	right: 0;
+}
+.pri-txt-t {
+	padding-left:2rem;
+}
+/*
+layer自定义弹窗样式
+*/
+body .lot-class {border-radius:10px;}
+body .lot-class .layui-layer-title{background:#fff; color:#000; border: none;border-radius:10px;padding-left:160px;}
+body .lot-class .layui-layer-content {text-align: center;}
+body .lot-class .layui-layer-content .winning {border:1px dotted #ff703d;border-radius: 5px;height:35px; line-height: 35px;display: inline-block;padding:0 20px;}
+body .lot-class .layui-layer-content .jf{color:#ff703d;}
+body .lot-class .layui-layer-content .big{font-size:16px;}
+body .lot-class .layui-layer-btn{border-top:1px solid #E9E7E7;padding:0 40px 20px;}
+body .lot-class .layui-layer-btn a{background:#ff5400;margin-top: 15px; border-radius:5px; width:90px;}
+body .lot-class .layui-layer-btn .layui-layer-btn1{background:#999;}
+body .lot-class .layui-layer-close2{top:-6px;right:-6px;}

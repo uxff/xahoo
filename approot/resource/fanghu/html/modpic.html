@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>房乎--我的--上传头像</title>
+    	<meta name="author" content="Hifang.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <meta name="apple-mobile-web-app-capable" content="yes"><!--  网站开启对 web app 程序的支持 -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">  <!-- 指定的iphone中safari顶端的状态条的样式 -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-itunes-app" content="app-id=432274380" /><!--  iPhone显示下载AppStore的banner -->
+        <meta http-equiv="Expires" CONTENT="-1">   <!--  网页在任何时候都不能被Cache存储        -->
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">           
+        <meta http-equiv="Pragma" CONTENT="no-cache">  
+        <link rel="stylesheet" href="../../thirdvendor/font-awesome/font-awesome.css">
+        <link rel="stylesheet/less" type="text/css" href="../less/app.less">
+        <script src="../../thirdvendor/less/less-1.7.4.min.js"></script>
+
+        <!-- holder.js 图片站位 可去掉-->
+        <script src="../../thirdvendor/holder/holder.min.js"></script>    
+    </head>
+    <body>
+        <header class="header">
+            <p class="h-top">上传头像</p>
+            <a href="" class="icon-angle-left"></a>
+            <a href="" class="icon-th-large"></a>
+        </header>
+        <section class="main-section">
+            <form action="">
+            <ul class="h-form h-upimg">
+                <li>
+                  <span class="tit">选择图片</span>  
+                  <input type="file"  name="photo" id="photo" accept="image/*" onchange="preImg(this.id,'imgPre');" >
+                  
+                </li>
+                <li class="nobord-b">
+                  <img id="imgPre" src=""/>
+                </li>
+                <li>
+                    <input class="btn-ora-line" type="submit" name="" value="保存">
+                </li>
+            </ul>  
+            </form>
+        </section>
+     
+   
+    <script src="../../thirdvendor/zepto1.0/zepto.js"></script>
+    <script src="../../thirdvendor/zepto1.0/touch.js"></script>
+    <script src="../js/base.js"></script>
+    <script>
+    /** 
+    * 从 file 域获取 本地图片 url 
+    */ 
+    function getFileUrl(sourceId) { 
+        var url; 
+        if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
+            url = document.getElementById(sourceId).value; 
+        } else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
+         url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+        } else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+        } else if(window.webkitURL.createObjectURL){
+            //Chrome8+
+            url = window.webkitURL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        }
+        return url; 
+    } 
+
+    /** 
+    * 将本地图片 显示到浏览器上 
+    */ 
+    function preImg(sourceId, targetId) { 
+        var url = getFileUrl(sourceId); 
+        var imgPre = document.getElementById(targetId); 
+        imgPre.src = url; 
+    } 
+    </script>
+    </body>
+</html>

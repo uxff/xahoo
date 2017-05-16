@@ -1,0 +1,110 @@
+.myreward-money{
+    background-color: #fff;
+    border:1px solid #dcdcdc;
+}
+.myreward-money span{
+    display: block;
+    text-align: center;
+    padding-top:0.833rem;
+}
+.myreward-money span.money{
+    font-size:3rem;
+    color:#ff5300;
+}
+.myreward-money span.ye{
+    padding-top:1.833rem;
+    font-size:1.2rem;
+    color:#000;
+}
+.myreward-money span.name{
+    font-size:1.2rem;
+    color:#969696;
+}
+.myreward-money .nav{
+    padding-top:0.833rem;
+    margin:0.833rem;
+    border-top:1px solid #dcdcdc;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    text-align: center;
+}
+.myreward-money .nav li{
+    -webkit-box-flex: 3;
+    -webkit-flex: 3;
+    flex: 3;
+}
+.myreward-money .nav li:nth-child(2n){
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;    
+}
+.myreward-money .nav li .line{
+    height:2.5rem;
+    margin-top:20px;
+    border-left: 1px solid #d9d9d9;
+    display: inline-block;
+    margin-left: -1px;
+    padding: 0px 0px 0px 3px;
+}
+.myreward-money .nav li span{
+    display: block;
+}
+.myreward-money .nav li span.num{
+   font-size:1.167rem;
+}
+.myreward-money .nav li span.gray{
+   color:#bbb;
+}
+.myreward-list {
+    background-color: #fff;
+    margin-top:1.25rem;
+    border-top:1px solid #d9d9d9;
+}
+.myreward-list li{
+    height:4.167rem;
+    line-height: 4.167rem;
+    padding:0 1.25rem;
+    border-bottom:1px solid #d9d9d9;
+    clear:both;
+}
+.myreward-list li>a{
+    display: block;
+    overflow: hidden;
+}
+.myreward-list li>a .fl{
+    color: #333;
+}
+.myreward-list li .fl{
+    font-size:1.167rem;
+}
+.myreward-list li>a .fr{
+    color:#868686;
+}
+
+.myreward-list li .icon-zuanshi,.myreward-list li .icon-qianbao,.myreward-list li .icon-fenlei{
+    color:#ff5400;
+    font-size:1.458rem;
+    padding-right:0.833rem;
+}
+.myreward-list li .icon-jiantou{
+    padding-left:0.417rem;
+}
+.myreward-btn {
+    margin:2rem 0.833rem;
+    text-align: center;
+    
+}
+.cash-pop {
+    display: none;
+    position: absolute;
+    top: 13.333rem;
+    left: 50%;
+    padding: 0 1.042rem;
+    background: #868686;
+    height: 2.083rem;
+    line-height: 2.083rem;
+    border-radius: 2.083rem;
+    font-size: 0.917rem;
+    color: #fff;
+}

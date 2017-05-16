@@ -1,0 +1,20 @@
+<?php 
+ return array(
+	'NewsAceView',
+	'NewsAceCreate',
+	'NewsAceUpdate',
+	'NewsAceDelete',
+	'NewsAceIndex',
+	'NewsAceAdmin',
+	'NewsView',
+	'RbacView',
+	'RbacIndex',
+	'SiteCaptcha',
+	'SitePage',
+	'SiteIndex',
+	'SiteError',
+	'SiteContact',
+	'SiteLogin',
+	'SiteLogout'
+);
+?>

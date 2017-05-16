@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>签到</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/edit.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<div class="container">
+			<header class="header">
+				<a href="#"class="fl"><i class="iconfont">&#xe604;</i></a>
+				签到
+				<a href="#" class="fr"><i class="iconfont icon-fx">&#xe602;</i></a>
+			</header>
+			<section class="task-list">
+				<div class="check">
+					<div class="check_jf">我的积分<br/><span>963</span></div>
+					<div class="check_box">
+						<span class="check_tl">签 到</span><br/><span class="hr"></span><br/><span class="check_des">连续1天</span>
+					</div>
+					<div class="day_list">
+						<div class="day_item first active">
+							<span class="day_bot"></span><i class="day_time">2.14</i>
+						</div>
+						<div class="day_item active">
+							<span class="day_bot"></span><i class="day_time">2.5</i>
+						</div>
+						<div class="day_item active">
+							<span class="day_bot"></span><i class="day_time">2.6</i>
+						</div>
+						<div class="day_item">
+							<span class="day_bot"></span><i class="day_time">2.7</i>
+						</div>
+						<div class="day_item">
+							<span class="day_bot"></span><i class="day_time">2.8</i>
+						</div>
+						<div class="day_item">
+							<span class="day_bot"></span><i class="day_time">2.19</i>
+						</div>
+						<div class="day_item last gift">
+							<span class="day_bot"></span><i class="day_time">2.10</i>
+						</div>
+					</div>
+				</div>
+				<div class="index-list">
+					<h2>热门推荐</h2>
+					<ul>
+						<li>
+							<img src="../images/index/list_pic1.jpg"/>
+							<p class="fl">新奇世界 上影安吉A11-50</p>
+							<span class="fr"><font>￥69,000</font>/份</span>
+						</li>
+						<li>
+							<img src="../images/index/list_pic1.jpg"/>
+							<p class="fl">新奇世界 上影安吉A11-50</p>
+							<span class="fr"><font>￥69,000</font>/份</span>
+						</li>
+						<li>
+							<img src="../images/index/list_pic1.jpg"/>
+							<p class="fl">新奇世界 上影安吉A11-50</p>
+							<span class="fr"><font>￥69,000</font>/份</span>
+						</li>
+						<li>
+							<img src="../images/index/list_pic1.jpg"/>
+							<p class="fl">新奇世界 上影安吉A11-50-adsdadads</p>
+							<span class="fr"><font>￥69,000</font>/份</span>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<footer class="footer">
+				<ul>
+					<li><a href="#">登录</a></li>
+					<li><a class="active" href="#">注册</a></li>
+					<li><a href="#">关于我们</a></li>
+				</ul>
+				<p>copyright@2016 京ICP备05021087 号</p>
+			</footer>
+		</div>
+	</body>
+</html>

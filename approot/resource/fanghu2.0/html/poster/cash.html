@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>提现</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/cash.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<section class="form-box cash-box">
+			<ul>
+				<li>
+					<span>￥</span>
+					<input type="text" class="form-input cash-input" maxlength="4" placeholder="最多可提现金20元" />
+					<em>全部提现</em>
+				</li>
+			</ul>
+			<p>以红包形式发送，请注意查收</p>
+		</section>
+		<p class="cash-txt">红包到账时间：申请提现之日起的2-3个工作日到帐</p>
+		<section class="btn-link">
+			<button class="btn lot-btn" type="submit">确定</button>
+		</section>
+		<section class="cash-pop">
+			未到最低提现额1元
+		</section>
+	</body>
+	<script coolie src="../../js/lib/coolie/coolie.min.js"
+			data-config="../../conf/coolie-config.js"
+			data-main="../main/cash_main.js"></script>
+</html>

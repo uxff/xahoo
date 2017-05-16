@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>邀请好友</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/integral.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<header class="header">
+			<a href="#"class="fl"><i class="iconfont">&#xe604;</i></a>
+			邀请好友
+			<a href="#" class="fr"><i class="iconfont icon-fx">&#xe602;</i></a>
+		</header>
+		<section class="task-list">
+			<div class="invite_reg_banner">
+				<img src="../images/integral/integ_friend.jpg" alt="">
+			</div>
+			<div class="invite_reg_info">
+				<img src="../images/integral/integ_100.png" alt="">
+				<p>现在注册送<span><strong>100</strong>积分</span>哦！</p>
+			</div>
+			<div class="btn-link">
+				<a href="javascript:;" class="btn lot-btn" type="button">马上注册</a>
+			</div>
+		</section>
+		<footer class="footer">
+			<ul>
+				<li><a href="#">登录</a></li>
+				<li><a class="active" href="#">注册</a></li>
+				<li><a href="#">关于我们</a></li>
+			</ul>
+			<p>copyright@2016 京ICP备05021087 号</p>
+		</footer>
+	</body>
+	</body>
+</html>

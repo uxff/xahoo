@@ -1,0 +1,221 @@
+.task-list {padding-bottom:7.083rem;}
+.integral_top {
+	width:100%;
+	height:7.5rem;
+	background:url(../images/integral/integral_bg.png) center no-repeat;
+	background-size:100% 100%;
+	border-bottom:1px solid #dcdcdc;
+	overflow:hidden;
+}
+.integral_now {
+	float:left;
+	padding:.833rem 0 0 .916rem;
+	color:#fff;
+}
+.integral_now_title {
+	font-size:1rem;
+}
+.integral_now_info {
+	font-size:2.58rem;
+}
+.integral_get {
+	color:#dcdcdc;
+	font-size:0.916rem;
+	float:right;
+	margin:1rem 1.2rem 0 0;
+}
+.integral_con {
+	padding-left:.833rem;
+	margin-top:.833rem;
+	border-top:1px solid #dcdcdc;
+	border-bottom: 1px solid #dcdcdc;
+	background:#fff;
+}
+.integral_con .integral_tl {
+	height:3.67rem;
+	line-height:3.67rem;
+	color:#323232;
+	font-size: 1.08rem;
+}
+.integral_more {
+	float:right;
+	color:#969696;
+	font-size:.916rem;
+	margin-right: .916rem;
+	height: 3.67rem;
+}
+.integral_item {
+	display:block;
+	border-top:1px solid #dcdcdc;
+	padding:0.5rem 0.916rem 0.5rem 0;
+	color:#323232;
+    width: 100%;
+	overflow:hidden;
+}
+.integral_item .ig_tl {
+	font-size:1rem;
+}
+.integral_item .ig_time {
+	color:#969696;
+	font-size:0.916rem;
+}
+.integral_item .plus {
+	color:#ff5401;
+	font-size: 1.67rem;
+}
+.integral_item .minus {
+	color:#3c9b57;
+	font-size: 1.67rem;
+}
+.sm_banner {margin-bottom:2rem;}
+.sm-swiper-container {
+    position: relative;
+    margin: 0 auto;
+    height: 5.833rem;
+    overflow: hidden;
+    z-index: 1;
+}
+img {width:100%;height:100%;}
+/*我的好友*/
+.add_friend {
+	height:3.7rem;
+	line-height:3.7rem;
+	background:#fff;
+	border-bottom:1px solid #dcdcdc;
+	padding:0 0.916rem;
+	color:#323232;
+	font-size:1.08rem;
+}
+.add_friend a {
+	color:#323232;
+}
+.add_icon {
+	margin-right:0.5rem;
+	color:#ff5401;
+	font-weight:bold;
+}
+.friend_con {
+	background:#fff;
+	border-top:1px solid #dcdcdc;
+}
+.friend_con .friend_item {
+	display:block;
+	padding:0.58rem 0.83rem;
+	border-bottom:1px solid #dcdcdc;
+	overflow:hidden;
+}
+.friend_icon {
+	width:3.08rem;
+	height3.08rem;
+	border-radius:50%;
+	margin-right:0.5rem;
+}
+.friend_name {
+	color:#323232;
+	font-size:1.08rem;
+}
+.friend_phone {
+	color:#969696;
+	font-size:.83rem;
+}
+
+/*邀请好友*/
+.invite_friend_banner {
+	width:100%;
+	height:12.08rem;
+	background:url(../images/integral/invite_f_b.png) center no-repeat;
+	background-size:100%;
+}
+.invite_code {
+	font-size:2.6rem;
+	text-align:center;
+	color:#fff8cb;
+	padding-top:4.7rem;
+}
+.invite_f_info {
+	margin-top:1rem;
+	text-align:center;
+	font-size:.916rem;
+	line-height:1.8;
+}
+.invite_f_info .invite_color {
+	color:#ff5401;
+}
+.invite_f_info .big_font {
+	font-size:1.25rem;
+	font-weight:bold;
+}
+.btn {
+	letter-spacing:0;
+}
+
+.gain {
+	float:right;
+	color:#969696;
+	font-size:.912rem;
+}
+.integral_table {
+	padding:.833rem 2.75rem;
+}
+.integral_table table {
+	width:100%;
+	background:#fff;
+}
+.integral_table thead th {
+	font-weight:normal;
+	background:#dcdcdc;
+	height:2.083rem;
+	color:#323232;
+	font-size:1rem;
+	border:1px solid #dcdcdc;
+}
+.integral_table tbody td {
+	color:#646464;
+	font-size:.833rem;
+	border:1px solid #dcdcdc;
+	padding:0 .75rem;
+	height:2rem;
+}
+.integral_table tbody td:nth-child(2) {
+	text-align:right;
+}
+.invite_reg_info {
+	width:16.625rem;
+	margin:1.8rem auto 0;
+	text-align: center;
+}
+.invite_reg_info p {
+	margin-top:0.5rem;
+	color:#969696;
+	font-size:.916rem;
+}
+.invite_reg_info p>span {
+	color:#ff5401;
+}
+.invite_reg_info strong{
+	font-size:1.5rem;
+}
+.r_bot {
+	font-size:20px;
+	color:#969696;
+	vertical-align: top;
+}
+.sm-swiper-container {
+    position: relative;
+    margin: 0 auto;
+    height: 5.833rem;
+    overflow: hidden;
+    z-index: 1;
+}
+.sm-swiper-container>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: -.1rem;
+    position: absolute;
+    text-align: center;
+    z-index:2;
+}
+
+
+
+
+
+

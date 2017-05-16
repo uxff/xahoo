@@ -1,0 +1,59 @@
+.record_item {
+	overflow:hidden;
+	height:5.125rem;
+	border-bottom:1px solid #dcdcdc;
+	background:#fff;
+	padding:1.167rem 0.833rem 0;
+}
+.record_title {
+	color:#323232;
+	font-size:1.083rem;
+	white-space:nowrap;
+	overflow:hidden;
+	width:100%;
+}
+.record_time {
+	color:#969696;
+	font-size:0.833rem;
+}
+.record_price {
+	color:#ff5401;
+	font-size:1.25rem;
+	margin-top:0.5rem;
+	text-align:right;
+}
+.record_item .fl {
+	width:70%;
+}
+.record_item .fr {
+	width:30%;
+}
+.present .record_tip {
+	font-size:0.833rem;
+	text-align:right;
+	line-height:1;
+	margin-top:0.5rem;
+}
+.present .record_price {
+	margin-top:0;
+	line-height:1;
+}
+.present .record_on {
+	color:#969696;
+}
+.present .record_off {
+	color:#c97373;
+}
+.present .record_ing {
+	color:#e19f2d;
+}
+
+
+
+
+
+
+
+
+
+

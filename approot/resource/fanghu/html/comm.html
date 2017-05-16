@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>房乎--我的佣金</title>
+    	<meta name="author" content="Hifang.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <meta name="apple-mobile-web-app-capable" content="yes"><!--  网站开启对 web app 程序的支持 -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">  <!-- 指定的iphone中safari顶端的状态条的样式 -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-itunes-app" content="app-id=432274380" /><!--  iPhone显示下载AppStore的banner -->
+        <meta http-equiv="Expires" CONTENT="-1">   <!--  网页在任何时候都不能被Cache存储        -->
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">           
+        <meta http-equiv="Pragma" CONTENT="no-cache">  
+        <link rel="stylesheet" href="../../thirdvendor/font-awesome/font-awesome.css">
+        <link rel="stylesheet/less" type="text/css" href="../less/app.less">
+        <script src="../../thirdvendor/less/less-1.7.4.min.js"></script>
+
+        <!-- holder.js 图片站位 可去掉-->
+        <script src="../../thirdvendor/holder/holder.min.js"></script>    
+    </head>
+    <body class="bgf0">
+        <header class="header">
+            <p class="h-top">我的佣金</p>
+            <a href="" class="icon-angle-left"></a>
+            <a href="javascript:;" onclick="toggleKey();" class="h-icon-th"></a>
+            <nav class="h-navcl clearfix" id="navcl">
+                <a href="#">
+                    <i class="h-icon-user"></i><br/>
+                    我的
+                </a>
+                <a href="#">
+                    <i class="h-icon-money"></i><br/>
+                    立赚
+                </a>
+                <a href="#" class="active">
+                    <i class="h-icon-home"></i><br/>
+                    首页
+                </a>
+            </nav>
+        </header>
+        
+        <section class="main-section">
+            <div class="container h-grade-head clearfix">
+                <div class="h-grade-info clearfix">
+                    <h3 class="nickname"><i class="h-icon-comm"></i>当前佣金
+                        <span class="h-right orange"><a href="#">如何获得佣金</a> | <a href="#">申请提现</a></span></h3>
+                    <h2 class="h-myintegral-orange"><span class="small">￥</span>356002.00</h2>
+                </div>
+            </div>
+
+            <div class="container h-grade-head clearfix">
+                <div class="h-grade-info clearfix">
+                    <h3 class="nickname"><i class="h-icon-integral2"></i>佣金明细<a href="#" class="h-right">查看全部</a></h3>
+                </div>
+                <div class="h-comm-detail">
+                    <ul class="tab-v2 clearfix" id="tab">
+                        <li><a href="javascript:;">全部</a></li>
+                        <li class="active"><a href="javascript:;">进行中</a></li>
+                    </ul>
+                    <div class="panel-v2" id="panel">
+                        <ul class="all">
+                            <li class="listdash">
+                                <a href="" class="detail clearfix">
+                                    <img src="" data-src="holder.js/40x40/auto/sky" alt="">
+                                    <div class="detail-body">
+                                        <h4 class="">
+                                            <span class="tit">小喵喵爱苗（二只小活宝）</span>
+                                            <strong class="comm">+42.00</strong>
+                                        </h4>
+                                        <p class="">2014-12-06
+                                            <span class="state">获得佣金</span>
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="listdash">
+                                <a href="" class="detail clearfix">
+                                    <img src="" data-src="holder.js/40x40/auto/sky" alt="">
+                                    <div class="detail-body clearfix">
+                                        <h4>
+                                            <span class="tit">小喵喵爱苗（二只小活宝）</span>
+                                            <strong class="comm">+42.00</strong>
+                                        </h4>
+                                        <p>2014-12-06
+                                            <span class="state">获得佣金</span>
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                            <!-- 没有佣金状态 -->
+                            <!-- <li class="nocomm">
+                                您还没有获得佣金哦，<br>
+                                推荐小伙伴看房，<a class="orange" href="javascript:;">立赚佣金</a>！
+                            </li> -->
+                        </ul>
+                        <ul class="ing">
+                            <li class="listdash">
+                                <a href="" class="detail clearfix">
+                                    <img src="" data-src="holder.js/40x40/auto/sky" alt="">
+                                    <div class="detail-body">
+                                        <h4 class="">
+                                            <span class="tit">小喵喵爱苗（二只小活宝）</span>
+                                            <strong class="comm">+42.00</strong>
+                                        </h4>
+                                        <p class="">2014-12-06
+                                            <span class="state orange">等待付款</span>
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="listdash">
+                                <a href="" class="detail clearfix">
+                                    <img src="" data-src="holder.js/40x40/auto/sky" alt="">
+                                    <div class="detail-body clearfix">
+                                        <h4>
+                                            <span class="tit">小喵喵爱苗（二只小活宝）</span>
+                                            <strong class="comm">+42.00</strong>
+                                        </h4>
+                                        <p>2014-12-06
+                                            <span class="state orange">等待付款</span>
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container h-grade-head clearfix">
+                <div class="h-grade-info clearfix">
+                    <h3 class="nickname"><i class="h-icon-change"></i>佣金活动</h3>
+                    <img class="mg-t20" src="" data-src="holder.js/100%x50/auto/sky" alt="">
+                    <img class="mg-t10" src="" data-src="holder.js/100%x50/auto/sky" alt="">
+                </div>
+            </div>
+        </section>
+        
+    <!-- javascript -->
+   
+    <script src="../../thirdvendor/zepto1.0/zepto.js"></script>
+    <script src="../../thirdvendor/zepto1.0/touch.js"></script>
+    <script src="../js/base.js"></script>
+    <script>
+    // JS实现选项卡切换
+    window.onload = function() {
+        var tab = document.getElementById('tab').getElementsByTagName('li'),
+            panel = document.getElementById('panel').getElementsByTagName('ul'),
+            i, j, len = tab.length,bindclick;
+        bindclick = function(i) {
+            tab[i].onclick = function() {
+                for (j = 0; j < len; j++) {
+                    tab[j].className = tab[j].className.replace('active', '');
+                    panel[j].style.display = 'none';
+                }
+                panel[i].style.display = 'block';
+                tab[i].className += 'active';
+            }
+        };
+        for (i = 0; i < len; i++) {
+            bindclick(i);
+        }
+    }
+    </script>
+
+
+
+    </body>
+</html>

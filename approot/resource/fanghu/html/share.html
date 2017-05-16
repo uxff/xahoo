@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>房乎--分享--弹出框</title>
+    	<meta name="author" content="Hifang.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <meta name="apple-mobile-web-app-capable" content="yes"><!--  网站开启对 web app 程序的支持 -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">  <!-- 指定的iphone中safari顶端的状态条的样式 -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-itunes-app" content="app-id=432274380" /><!--  iPhone显示下载AppStore的banner -->
+        <meta http-equiv="Expires" CONTENT="-1">   <!--  网页在任何时候都不能被Cache存储        -->
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">           
+        <meta http-equiv="Pragma" CONTENT="no-cache">  
+        <link rel="stylesheet" href="../../thirdvendor/font-awesome/font-awesome.css">
+        <link rel="stylesheet/less" type="text/css" href="../less/app.less">
+        <script src="../../thirdvendor/less/less-1.7.4.min.js"></script>
+
+        <!-- holder.js 图片站位 可去掉-->
+        <script src="../../thirdvendor/holder/holder.min.js"></script>    
+    </head>
+    <body class="bgf0">
+        <header class="header">
+            <p class="h-top">分享弹出框</p>
+            <a href="javascript:;" class="icon-angle-left"></a>
+            <a href="javascript:;" id="share" class="h-icon-th"></a>
+        </header>
+        
+        <section>
+            <div class="h-share" id="sharebox">
+                <h1>分享到</h1>
+                <div class="link clearfix">
+                    <a href="">
+                        <i class="h-icon-wxp"></i><br/>
+                        微信朋友圈
+                    </a>
+                    <a href="">
+                        <i class="h-icon-wxh"></i><br/>
+                        微信好友
+                    </a>
+                    <a href="">
+                        <i class="h-icon-qqk"></i><br/>
+                        QQ空间
+                    </a>
+                    <a href="">
+                        <i class="h-icon-qqh"></i><br/>
+                        QQ好友
+                    </a>
+                    <a href="">
+                        <i class="h-icon-wb"></i><br/>
+                        新浪微博
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+    <!-- javascript -->
+   
+    <script src="../../thirdvendor/zepto1.0/zepto.js"></script>
+    <script src="../../thirdvendor/zepto1.0/touch.js"></script>
+    <script src="../js/base.js"></script>
+    <script>
+    $(function(){
+        fnMaskAlert('#share','#sharebox')
+    })
+    function fnMaskAlert(oCli,oALt){
+    $(oCli).click(function(event){
+        var str = '<div id="maskBox"><div id="gLoadingMask" class="h-mask-container"></div></div>';
+        $(str).appendTo($(document.body));
+        $('#gLoadingMask').css('display','block');
+        $(oALt).css('display','block');
+        stopBubble(event);
+        document.onclick=function(){
+            $('#gLoadingMask').remove();
+            $(oALt).css('display','none');
+            document.onclick=null;
+        }
+    })
+
+    $(oALt).click(function(event){
+        //只阻止了向上冒泡，而没有阻止向下捕获，所以点击oALt的内部对象时，仍然可以执行这个函数
+        stopBubble(event);
+    })
+}
+    
+    </script>
+
+
+    </body>
+</html>

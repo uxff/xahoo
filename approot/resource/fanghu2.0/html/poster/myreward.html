@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>邀请好友</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/myreward.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<div class="myreward-money">
+			<span class="ye">余额</span>
+            <span class="money">￥0.4</span>
+            <span class="name">sichaoyun</span>
+            <ul class="nav">
+            <li><span class="num">1人</span><span class="gray">总粉丝</span></li>
+            <li><a class="line"></a></li>
+            <li><span class="num">1人</span><span class="gray">总粉丝</span></li>
+            <li><a class="line"></a></li>
+            <li><span class="num">1人</span><span class="gray">总粉丝</span></li>
+            </ul>
+		</div>
+		<ul class="myreward-list">
+		  <li><span class="fl"><i class="iconfont icon-zuanshi"></i>奖励记录</span> <span class="fr"><a href="#">0.4元<i class="iconfont icon-jiantou"></i></a></span></li>
+		  <li><span class="fl"><i class="iconfont icon-qianbao"></i>提现记录</span> <span class="fr"><a href="#">0.4元<i class="iconfont icon-jiantou"></i></a></span></li>
+		  <li><span class="fl"><i class="iconfont icon-fenlei"></i>活动规则</span> <span class="fr"><a href="#"><i class="iconfont icon-jiantou"></i></a></span></li>
+		</ul>
+		<div class="myreward-btn"><button type="submit" class="btn lot-btn">提现</button></div>
+	</body>
+</html>

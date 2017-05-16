@@ -1,0 +1,65 @@
+.member{
+	padding: 4.25rem 2.208rem 8rem;
+}
+.member h1{
+	position: relative;
+	padding-left: 1.708rem;
+	margin-top: 1.666rem;
+	margin-bottom: .833rem;
+	line-height: 1;
+	font-size: 1.083rem;
+	color: #ff5401;
+}
+.member h1.active{
+	margin-top: 0;
+	border: 0;
+}
+.member h1::before{
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: "";
+	width: 1.291rem;
+	height: 1.291rem;
+	background: url(../images/member/icon_ask.png) no-repeat;
+	background-size: 100%;
+}
+.member p{
+    border-bottom: 1px dashed #dcdcdc;
+	padding-bottom: 1.666rem;
+	font-size: .916rem;
+	text-indent: 2em;
+}
+.member table{
+	width: 100%;
+	background: #fff;
+	border: 1px solid #dcdcdc;
+	border-right: 0;
+}
+.member table th,.member table td{
+	padding: .625rem .833rem;
+}
+.member table th{
+	background: #dcdcdc;
+	font-size: 1rem;
+	font-weight: normal;
+	color: #323232;
+}
+.member table td{
+	border-bottom: 1px solid #dcdcdc;
+	border-right: 1px solid #dcdcdc;
+	font-size: .833rem;
+	color: #646464;
+}
+.member table tr td:last-child{
+	text-align: right;
+}
+
+/*新版*/
+.memberrights{
+	padding: 3.125rem 0 7.083rem;
+	width: 100%;
+}
+.memberrights ul li img{
+	width: 100%;
+}

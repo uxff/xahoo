@@ -1,0 +1,52 @@
+body {
+	background:#ffd03c;
+}
+.activity {
+	max-width:750px;
+}
+.activity_banner img {
+	width:100%;
+}
+.activity_info {
+	padding:0.667rem 0.5rem 1.333rem;
+	background-color:#ffd03c;
+	
+}
+.activity_box {
+	
+	
+	height:15.667rem;
+	padding:2.708rem 0 0 5.583rem;
+}
+.activity_box li {
+	color:#5c1420;
+	font-size:0.917rem;
+	line-height:1.6rem;
+}
+.activity_box span {
+	color:#fa3c3c;
+}
+.activity_logo {
+	background:#ffd03c;
+	padding:3.5rem 6.417rem 1.417rem;
+}
+.activity_logo img {
+	width:100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

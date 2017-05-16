@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>房乎--分享--弹出框</title>
+    	<meta name="author" content="Hifang.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <meta name="apple-mobile-web-app-capable" content="yes"><!--  网站开启对 web app 程序的支持 -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">  <!-- 指定的iphone中safari顶端的状态条的样式 -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-itunes-app" content="app-id=432274380" /><!--  iPhone显示下载AppStore的banner -->
+        <meta http-equiv="Expires" CONTENT="-1">   <!--  网页在任何时候都不能被Cache存储        -->
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">           
+        <meta http-equiv="Pragma" CONTENT="no-cache">  
+        <link rel="stylesheet" href="../../thirdvendor/font-awesome/font-awesome.css">
+        <link rel="stylesheet/less" type="text/css" href="../less/app.less">
+        <script src="../../thirdvendor/less/less-1.7.4.min.js"></script>
+
+        <!-- holder.js 图片站位 可去掉-->
+        <script src="../../thirdvendor/holder/holder.min.js"></script>    
+    </head>
+    <body class="bgf0">
+        
+        
+        <section>
+            <div class="mask-alert transparent" id="on">
+                <i class="icon-allow"></i>
+                <p class="txt">点击右上角按钮，<br/>
+                    选择“分享到朋友圈”
+                </p>
+               
+            </div>
+        </section>
+        
+    <!-- javascript -->
+   
+    <script src="../../thirdvendor/zepto1.0/zepto.js"></script>
+    <script src="../../thirdvendor/zepto1.0/touch.js"></script>
+    <script src="../js/base.js"></script>
+    <script>
+    $(function(){
+        fnMaskAlert("#on");
+    })
+    function fnMaskAlert(oALt){
+            var str = '<div id="maskBox"><div id="gLoadingMask" class="h-mask-container"></div></div>';
+            $(str).appendTo($(document.body));
+            $('#gLoadingMask').css('display','block');
+            $(oALt).css('display','block');
+            
+            document.onclick=function(){
+                $('#gLoadingMask').remove();
+                $(oALt).css('display','none');
+                document.onclick=null;
+            }
+
+        
+    }
+    
+    
+    </script>
+
+
+    </body>
+</html>

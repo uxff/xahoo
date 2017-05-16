@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>积分规则</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/integral.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+	<div class="container">
+		<header class="header">
+			<a href="#"class="fl"><i class="iconfont">&#xe604;</i></a>
+			 积分规则
+			<a href="#" class="fr"><i class="iconfont icon-fx">&#xe602;</i></a>
+		</header>
+		<section class="task-list">
+			<div class="add_friend">使用房乎网站获得积分
+				<div class="gain">去赚分<span class="iconfont">&#xe604;</span></div>
+			</div>
+			<div class="integral_table">
+				<table cellpadding="0" cellspacing="0" border="0">
+					<thead>
+						<tr>
+							<th width="80%">活动</th>
+							<th width="20%">积分</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>新注册</td>
+							<td>+100</td>
+						</tr>
+						<tr>
+							<td>每天签到奖励</td>
+							<td>+2</td>
+						</tr>
+						<tr>
+							<td>连续签到7天</td>
+							<td>+3</td>
+						</tr>
+						<tr>
+							<td>连续签到15天</td>
+							<td>+5</td>
+						</tr>
+						<tr>
+							<td>连续签到30天</td>
+							<td>+10</td>
+						</tr>
+						<tr>
+							<td>完善个人信息</td>
+							<td>+20</td>
+						</tr>
+						<tr>
+							<td>会员升级奖励</td>
+							<td>+50</td>
+						</tr>
+						<tr>
+							<td>身份验证</td>
+							<td>+5</td>
+						</tr>
+						<tr>
+							<td>邮箱绑定</td>
+							<td>+2</td>
+						</tr>
+						<tr>
+							<td>关注房乎公众号（首次有效)</td>
+							<td>+50</td>
+						</tr>
+						<tr>
+							<td>关注新奇世界公众号（首次有效）</td>
+							<td>+50</td>
+						</tr>
+						<tr>
+							<td>成功分享内容到微信、微博</td>
+							<td>+5</td>
+						</tr>
+						<tr>
+							<td>分享内容被有效点击1次</td>
+							<td>+10</td>
+						</tr>
+						<tr>
+							<td>邀请小伙伴进行注册（每日上限200）</td>
+							<td>+20</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<footer class="footer">
+			<ul>
+				<li><a href="#">登录</a></li>
+				<li><a class="active" href="#">注册</a></li>
+				<li><a href="#">关于我们</a></li>
+			</ul>
+			<p>copyright@2016 京ICP备05021087 号</p>
+		</footer>
+	</div>
+	</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>房乎--我的佣金--佣金规则</title>
+    	<meta name="author" content="Hifang.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <meta name="apple-mobile-web-app-capable" content="yes"><!--  网站开启对 web app 程序的支持 -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">  <!-- 指定的iphone中safari顶端的状态条的样式 -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-itunes-app" content="app-id=432274380" /><!--  iPhone显示下载AppStore的banner -->
+        <meta http-equiv="Expires" CONTENT="-1">   <!--  网页在任何时候都不能被Cache存储        -->
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">           
+        <meta http-equiv="Pragma" CONTENT="no-cache">  
+        <link rel="stylesheet" href="../../thirdvendor/font-awesome/font-awesome.css">
+        <link rel="stylesheet/less" type="text/css" href="../less/app.less">
+        <script src="../../thirdvendor/less/less-1.7.4.min.js"></script>
+
+        <!-- holder.js 图片站位 可去掉-->
+        <script src="../../thirdvendor/holder/holder.min.js"></script>    
+    </head>
+    <body>
+        <header class="header">
+            <p class="h-top">佣金规则</p>
+            <a href="" class="icon-angle-left"></a>
+            <a href="javascript:;" onclick="toggleKey();" class="h-icon-th"></a>
+            <nav class="h-navcl clearfix" id="navcl">
+                <a href="#">
+                    <i class="h-icon-user"></i><br/>
+                    我的
+                </a>
+                <a href="#">
+                    <i class="h-icon-money"></i><br/>
+                    立赚
+                </a>
+                <a href="#" class="active">
+                    <i class="h-icon-home"></i><br/>
+                    首页
+                </a>
+            </nav>
+        </header>
+        
+        <section class="main-section">
+            <div class="container h-comm-rule">
+                <div class="roundimg">
+                    <img src="" data-src="holder.js/130x130/auto/sky" alt="">
+                </div>
+                <p>不需要专业人士，人人都可以成为经纪人！</p>
+                <p>只要邀约好友通过我分享的内容注册成功并买房，即可获得房款的1‰的佣金！</p>
+                <div class="roundimg">
+                    <img src="" data-src="holder.js/130x130/auto/sky" alt="">
+                </div>
+                <p>邀请更多小伙伴加入房乎，</p>
+                <p class="clearfix">他们所赚的佣金您也可以提成哦！<a class="link orange" href="commearn.html">我能赚多少？</a></p>
+
+                <a class="btn-ora" href="">
+                    <i class="h-icon-tjuser"></i> 推荐新伙伴</a>
+                <a class="btn-ora-line" href="">热门推荐房源</a>
+                <a class="btn-ora-line" href="">限时特惠房源</a>
+            </div>
+        </section>
+        
+    <!-- javascript -->
+   
+    <script src="../../thirdvendor/zepto1.0/zepto.js"></script>
+    <script src="../../thirdvendor/zepto1.0/touch.js"></script>
+    <script src="../js/base.js"></script>
+    <script>
+    // JS实现选项卡切换
+    window.onload = function() {
+        var tab = document.getElementById('tab').getElementsByTagName('li'),
+            panel = document.getElementById('panel').getElementsByTagName('ul'),
+            i, j, len = tab.length,bindclick;
+        bindclick = function(i) {
+            tab[i].onclick = function() {
+                for (j = 0; j < len; j++) {
+                    tab[j].className = tab[j].className.replace('active', '');
+                    panel[j].style.display = 'none';
+                }
+                panel[i].style.display = 'block';
+                tab[i].className += 'active';
+            }
+        };
+        for (i = 0; i < len; i++) {
+            bindclick(i);
+        }
+    }
+    </script>
+
+
+
+    </body>
+</html>

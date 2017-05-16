@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>编辑资料</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/edit.css" />
+		<link rel="stylesheet" href="../js/lib/webuploader/webuploader.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<div class="container">
+			<header class="header">
+				<a href="#"class="fl"><i class="iconfont">&#xe604;</i></a>
+				编辑资料
+				<a href="#" class="fr"><i class="iconfont icon-fx">&#xe602;</i></a>
+			</header>
+			<section class="task-list">
+				<a class="replace" href="javasrcipt:;">
+					更换头像
+					<div class="filePicker-box rp_icon">
+	                    <div id="front" class="uploader-list">
+					    <!--用来存放item-->
+						<img src="../images/integral/friend_icon.png" alt="">
+	                    </div>
+					    <div class="filePicker"></div>
+					</div>
+				</a>
+				<h3 class="exchange_tl">基本信息</h3>
+				<div class="form-box">
+					<ul>
+						<li>
+							<span>昵称</span>
+							<input type="text" class="form-input" placeholder="请输入昵称" id="nickname">
+						</li>
+						<li>
+							<span>姓名</span>
+							<input type="text" class="form-input" placeholder="请输入姓名" id="fullname">
+						</li>
+						<li>
+							<span>手机</span>
+							<input type="text" class="form-input" placeholder="请输入手机号码" id="phone">
+						</li>
+						<li>
+							<span>邮箱</span>
+							<input type="text" class="form-input" placeholder="请输入邮箱" id="email">
+						</li>
+					</ul>
+				</div>
+				<div class="btn-link">
+					<button class="btn lot-btn" type="button">保存</button>
+				</div>
+			</section>
+			<footer class="footer">
+				<ul>
+					<li><a href="#">登录</a></li>
+					<li><a class="active" href="#">注册</a></li>
+					<li><a href="#">关于我们</a></li>
+				</ul>
+				<p>copyright@2016 京ICP备05021087 号</p>
+			</footer>
+		</div>
+		<!--coolie-->
+		<script type="text/javascript" src="../js/lib/jquery/jquery-1.10.1.min.js" ></script>
+		<script src="../js/lib/webuploader/webuploader.html5only.min.js"></script>
+		<script type="text/javascript" src="../js/module/uploader.js" ></script>
+		<!--/coolie-->
+		<script coolie src="../js/lib/coolie/coolie.min.js"
+			data-config="../../conf/coolie-config.js"
+			data-main="../main/edit_pro.js"></script>
+	</body>
+	</body>
+</html>

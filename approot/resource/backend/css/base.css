@@ -1,0 +1,10 @@
+/*table */
+.table-minw{min-width: 1165px;}
+.btn-self{line-height: 36px; margin-right: 8px;}
+
+.tpl-listbox{display: none;  width: 850px;  border: 1px solid rgb(204, 204, 204);   position: absolute;   left: 50%;    top: 50%; margin-left: -448px;    margin-top: -75px;    z-index: 1001;    padding: 30px 0px 20px;    background: rgb(255, 255, 255);}
+.tpl-close{display:block; position:absolute; top:0; right:0; font-size:20px; width:25px; height:25px; text-align:center; font-family:微软雅黑; text-decoration: none; color:#000;}
+.tpl-btnbox{width: 250px;  margin: 20px auto;}
+.tpl-btnbox a{width: 100px; margin: 0 10px; text-align: center; display: inline-block; padding: 5px 0; text-decoration: none; color: #fff;}
+.tpl-btnbox a.gray{background: #ccc;}
+.tpl-btnbox a.blue{background: #4f99c6;color: #fff!important;}

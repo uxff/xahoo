@@ -1,0 +1,57 @@
+@charset "UTF-8";
+/************************************************
+ * @authors:Hu gang
+ * @description:
+ * @date:2016-07-13
+ * @version:
+************************************************/
+
+.cash-box{
+	padding-top: 0.833rem;
+}
+.cash-box>p{
+	margin:0.833rem 1rem;
+	font-size: 0.917rem;
+	color:#878787;
+}
+.cash-box>ul>li{
+	border-top: 1px solid #dcdcdc;
+}
+.cash-box>ul>li>input{
+	font-size: 1.083rem;
+	color: #2a2a2a;
+}
+.cash-box>ul>li>span{
+	margin-right: 1.25rem;
+	width: inherit;
+}
+.cash-box>ul>li>em{
+	float: right;
+	font-style: normal;
+	font-size: 0.917rem;
+	color: #3eaaee;
+	cursor: pointer;
+}
+.cash-txt {
+	display: none;
+    margin: 1.5rem 1rem;
+    font-size: 0.917rem;
+    color: #878787;
+    text-align: center;
+}
+.cash-pop{
+	display: none;
+	position: absolute;
+	top: 13.333rem;
+	left: 50%;
+	padding: 0 1.042rem;
+	background: #868686;
+	height: 2.083rem;
+	line-height: 2.083rem;
+	border-radius: 2.083rem;
+	font-size: 0.917rem;
+	color: #fff;
+}
+.form-box>ul>li>input[type="text"], .form-box>ul>li>input[type="tel"], .form-box>ul>li>input[type="password"]{
+	width: 18.6rem;
+}

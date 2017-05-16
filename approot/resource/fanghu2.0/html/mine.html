@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>我的房乎</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/mine.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<header class="list-header">我的房乎</header>
+		<section class="task-list">
+			<div class="mine_top">
+				<img src="../images/integral/mine_bg.jpg" alt="">
+				<div class="mine_top_con">
+					<div class="fl">
+						<div class="mine_icon">
+							<img src="../images/integral/friend_icon.png" alt="">
+						</div>
+						<div class="mine_info">
+							<p class="mine_name">Supper Liz</p>
+							<p class="mine_rank">贵妃用户</p>
+							<div class="rank_bar">
+								<div class="bar" style="width: 60%"></div>
+								<span class="rank_num">LV1</span>
+							</div>
+						</div>
+					</div>
+					<div class="check_in">
+						<a href="javasrcipt:;" class="sm-btn">签到</a>
+					</div>
+				</div>
+			</div>
+			<div class="mine_cont">
+				<a href="javasrcipt:;" class="mine_item"><span class="iconfont left_icon">&#xe602;</span>我的积分<span class="right_icon iconfont">&#xe604;</span></a>
+				<a href="javasrcipt:;" class="mine_item"><span class="iconfont left_icon">&#xe602;</span>我的任务<span class="right_icon iconfont">&#xe604;</span></a>
+				<a href="javasrcipt:;" class="mine_item"><span class="iconfont left_icon">&#xe602;</span>我的好友<span class="right_icon iconfont">&#xe604;</span></a>
+				<a href="javasrcipt:;" class="mine_item"><span class="iconfont left_icon">&#xe602;</span>邀请好友<span class="right_icon iconfont">&#xe604;</span><i class="icon_info">邀请好友享更多优惠</i></a>
+				<a href="javasrcipt:;" class="mine_item"><span class="iconfont left_icon">&#xe602;</span>积分商城<span class="wait">敬请期待</span></a>
+			</div>
+			<div class="mine_cont">
+				<a href="javasrcipt:;" class="mine_item"><span class="iconfont left_icon">&#xe602;</span>联系我们<span class="right_icon iconfont">&#xe604;</span></a>
+				<a href="javasrcipt:;" class="mine_item"><span class="iconfont left_icon">&#xe602;</span>关于我们<span class="right_icon iconfont">&#xe604;</span></a>
+			</div>
+		</section>
+		<footer class="index-footer">
+			<nav class="footer-nav">
+				<ul>
+					<li class="active"><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>首页</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>客户</a></li>
+					<li><a href="#"><i class="iconfont index-iconfont">&#xe602;</i>我的</a></li>
+				</ul>
+			</nav>
+		</footer>
+	</body>
+	</body>
+</html>

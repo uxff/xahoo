@@ -1,0 +1,100 @@
+<?php
+// set ares alias
+$currentAppPath = dirname(dirname(__FILE__));
+$protectedPath = dirname($currentAppPath);
+
+// uncomment the following to define a path alias
+// Yii::setPathOfAlias('local','path/to/local-folder');
+// This is the main Web application configuration. Any writable
+// CWebApplication properties can be configured here.
+$arrConfig = array(
+    'language' => 'zh_CN',
+    'basePath' => $protectedPath,
+    'name' => '图片服务',
+    // preloading 'log' component
+    'preload' => array('log'),
+    'controllerPath' => $currentAppPath . '/controllers',
+    'defaultController' => 'site',
+    // autoloading model and component classes
+    'import' => array(
+        'application.common.extensions.*',
+        'application.common.extensions.easyimage.*',
+        'application.image.models.*',
+        'application.image.components.*',
+        'application.image.controllers.*',
+    ),
+    // application components
+    'components' => array(
+        // uncomment the following to enable cookie-based authentication
+        'loginUser' => array(
+            'class' => 'application.common.components.LoginUser',
+            'stateKeyPrefix' => '',
+            'guestName' => 'Guest',
+            'allowAutoLogin' => true,
+        ),
+        // uncomment the following to enable error handler
+        'errorHandler' => array(
+            // use 'site/error' action to display errors
+            'errorAction' => 'site/error',
+        ),
+        // uncomment the following to use a MySQL database
+        'easyImage' => array(
+            'class' => 'application.common.extensions.easyimage.EasyImage',
+            //'driver' => 'GD',
+            'driver' => 'Imagick',
+            'quality' => 100,
+            'cachePath' => '/images/',
+            'cacheTime' => 2592000,
+            //'retinaSupport' => false,
+        ),
+        // uncomment the following to use a log
+        'log' => array(
+            'class' => 'CLogRouter',
+            'routes' => array(
+                array(
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning',
+                ),
+                // uncomment the following to show log messages on web pages
+                /*
+                array(
+                    'class'=>'CWebLogRoute',
+                ),
+                */
+            ),
+        ),
+    ),
+    // application-level parameters that can be accessed
+    // using Yii::app()->params['paramName']
+    'params' => array(
+        // this is used for upload
+        'uploadPic' => array(
+            'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "upload",
+            'webPath' => "/upload/",
+        ),
+        // this is userd for LOG CONFIG
+        'LOG_PATH' => '/var/log/www/xqsj.com/image/',
+        'LOG_NAME' => 'app.log',
+        'LOG_LEVEL'=>'2', //warning
+        'LOG_MAIL'=>'monitor@fangfull.com',
+        // Image Server
+        'ImageServerName' => 'http://'.$_SERVER['HTTP_HOST'],
+        // Baidu Tracking
+        'baiduTrackingKey' => '',
+        // page size
+        'pageSize' => 10,
+
+    ),
+);
+
+// 加入其他配置
+if (!empty($_GET['debug']) && strtolower(trim($_GET['debug'])) == 'true') {
+    $arrConfig['components']['log']['routes'][] = array(
+        'class' => 'ext.yiidebugtb.XWebDebugRouter',
+        'config' => 'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
+        'levels' => 'error, warning, trace, profile, info',
+        'allowedIPs' => array('127.0.0.1', '::1', '192.168.1.54', '192\.168\.1[0-5]\.[0-9]{3}'),
+    );
+}
+
+return $arrConfig;

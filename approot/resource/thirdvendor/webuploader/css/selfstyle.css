@@ -1,0 +1,19 @@
+
+    /* 相册样式自定义*/
+#filePicker{position: absolute; left:36px; top:-34px; }
+#uploader .statusBar .btns{left:47px; top:-52px;}
+#container{margin-top: 70px;}
+#container2{width:100%;border: 1px solid #dadada; margin:10px 0;overflow: hidden;}
+.imagewrap{margin:20px;overflow: hidden;}
+.imagewrap>li{ display: inline; float: left; font-size: 12px;  height: 110px; margin: 0 8px 20px 0;  width: 110px; position: relative;}
+.imagewrap>li>p{width:100%; height:100%;}
+.imagewrap>li>p>img{width:100%; height:100%;}
+.imagewrap>li>div{position: absolute; left:0; top:0; width:100%; background:#000; opacity:0.5; color:#fff;cursor: pointer; overflow: hidden;}
+.imagewrap .cancel{ background:url(../images/icons.png) no-repeat -45px -24px; cursor: pointer; display: block; height: 24px; margin: 5px auto 1px; overflow: hidden;  text-indent: -9999px;  width: 24px;}
+.imagewrap .cancel:hover{background:url(../images/icons.png) no-repeat -45px 0;}
+#uploader .placeholder{min-height: 0;padding:0; border:none;}
+#uploader .queueList{margin:0 20px;}
+#container{border:none;}
+#uploader .statusBar{border:none;}
+/*.queueList{border: 1px solid #dadada;}*/
+

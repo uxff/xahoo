@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>HTML5中的datepicker</title>
+</head>
+<body>
+	<h2>HTML5中的datepicker</h2>
+	<p>HTML5 拥有多个可供选取日期和时间的新输入类型：(chrome与ios显示不同)</p>
+	<ul>
+	<li>date – 选取日、月、年</li>
+	<li>month – 选取月、年</li>
+	<li>week – 选取周和年</li>
+	<li>time – 选取时间（小时和分钟）</li>
+	<li>datetime – 选取时间、日、月、年（UTC 时间）</li>
+	<li>datetime-local – 选取时间、日、月、年（本地时间）</li>
+	</ul>
+
+	<hr>
+	<h2>Example:</h2>
+	<div>
+	日/月/年: <input type="date" min="2000-01-01" max="2020-01-01" value="2011-01-29"/><BR /><BR />
+	月/年: <input type="month"/><BR /><BR />
+	周/年: <input type="week"/><BR /><BR />
+	分/小时: <input type="time" min="20:00" max="23:59" value="22:52"/><BR /><BR />
+	时间/日/月/年（UTC 时间）: <input type="datetime"/><BR /><BR />
+	时间/日/月/年（本地时间）:  <input type="datetime-local"/><BR /><BR />
+	</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>提现记录</title>
+		<!--coolie-->
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/record.css" />
+		<!--/coolie-->
+		<script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>750){
+                    	clientWidth = 750;
+                    }
+                    docEl.style.fontSize = 24 * (clientWidth / 640) + 'px';
+                };
+
+
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    	</script>
+	</head>
+	<body>
+		<section class="record present">
+			<div class="record_item">
+				<div class="fl">
+					<p class="record_title">提现</p>
+					<p class="record_time">2016-01-06 11:00</p>
+				</div>
+				<div class="fr">
+					<p class="record_price">2元</p>
+					<p class="record_tip record_on">已完成</p>
+				</div>
+			</div>
+			<div class="record_item">
+				<div class="fl">
+					<p class="record_title">提现</p>
+					<p class="record_time">2016-01-06 11:00</p>
+				</div>
+				<div class="fr">
+					<p class="record_price">2元</p>
+					<p class="record_tip record_ing">审核中</p>
+				</div>
+			</div>
+			<div class="record_item">
+				<div class="fl">
+					<p class="record_title">提现</p>
+					<p class="record_time">2016-01-06 11:00</p>
+				</div>
+				<div class="fr">
+					<p class="record_price">2元</p>
+					<p class="record_tip record_off">审核不通过</p>
+				</div>
+			</div>
+			<div class="record_item">
+				<div class="fl">
+					<p class="record_title">提现</p>
+					<p class="record_time">2016-01-06 11:00</p>
+				</div>
+				<div class="fr">
+					<p class="record_price">2元</p>
+					<p class="record_tip record_on">已完成</p>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
