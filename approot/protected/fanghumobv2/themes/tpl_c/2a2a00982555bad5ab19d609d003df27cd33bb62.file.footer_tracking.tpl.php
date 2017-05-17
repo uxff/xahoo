@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.17, created on 2017-05-17 01:03:20
+<?php /* Smarty version Smarty-3.1.17, created on 2017-05-17 22:50:30
          compiled from "/data/sharehd/xahoo/approot/protected/fanghumobv2/themes/tpl/common/footer_tracking.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1959875913591b30d8c76928-28681696%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1235331429591c63361c6876-25141065%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,7 +11,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1959875913591b30d8c76928-28681696',
+  'nocache_hash' => '1235331429591c63361c6876-25141065',
   'function' => 
   array (
   ),
@@ -21,9 +21,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.17',
-  'unifunc' => 'content_591b30d8c77d57_01073843',
+  'unifunc' => 'content_591c63361c7bd0_91112429',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_591b30d8c77d57_01073843')) {function content_591b30d8c77d57_01073843($_smarty_tpl) {?><?php if ($_smarty_tpl->tpl_vars['baiduTrackingKey']->value) {?>
+<?php if ($_valid && !is_callable('content_591c63361c7bd0_91112429')) {function content_591c63361c7bd0_91112429($_smarty_tpl) {?><?php if ($_smarty_tpl->tpl_vars['baiduTrackingKey']->value) {?>
 <!-- bdstat -->
 
 <script>
