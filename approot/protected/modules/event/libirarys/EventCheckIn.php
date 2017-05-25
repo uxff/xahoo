@@ -34,7 +34,7 @@ class EventCheckIn extends EventAbs {
         // 如果有连续签到 引发的积分变动事件 则不再添加积分变动事件
         if ($checkInLog) {
             $ret = false;
-            Yii::log(__METHOD__ .': cannot reduplicate add '.self::EVENT_KEY.' event! member_id='.$member_id.' date='.date('Y-m-d', $now), 'warning', 'EventModule');
+            Yii::log('cannot reduplicate add '.self::EVENT_KEY.' event! member_id='.$member_id.' date='.date('Y-m-d', $now), 'warning', __METHOD__);
         }
 
         // 封装下一个事件的参数

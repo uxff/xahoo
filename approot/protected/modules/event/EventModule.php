@@ -95,7 +95,7 @@ class EventModule extends CWebModule
     * 消费一个
     */
     protected function processEventOne(&$queueObj) {
-        static $eventTmp = array();
+        //static $eventTmp = array();
         
         if (!$queueObj) {
             Yii::log('no obj in event queue need process!'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
@@ -119,7 +119,7 @@ class EventModule extends CWebModule
         // 类工厂派发事件
         $eventObj = EventFactory::createEvent($queueObj->event_key, $eventTplModel->event_class);
 
-        $eventTmp[] = $queueObj->toArray();
+        //$eventTmp[] = $queueObj->toArray();
         // 组织params交给派发的类
         $params = $queueObj->params ? @json_decode($queueObj->params, true) : array();
         $params['_event_tpl'] = $eventTplModel->toArray();
