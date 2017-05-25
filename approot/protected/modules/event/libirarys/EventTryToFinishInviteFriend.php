@@ -58,6 +58,9 @@ class EventTryToFinishInviteFriend extends EventAbs {
         // 按照条件 继续 下一事件 finish_invite_friend
         // 注意 下一事件的主人是 $inviter
         if ($ret) {
+            if (!empty($this->model->use_rule_key)) {
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+            }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

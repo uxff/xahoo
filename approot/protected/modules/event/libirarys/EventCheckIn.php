@@ -45,6 +45,9 @@ class EventCheckIn extends EventAbs {
         // 积分变动（签到）事件，每天唯一
         
         if ($ret) {
+            if (!empty($this->model->use_rule_key)) {
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+            }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

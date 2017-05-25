@@ -94,7 +94,7 @@ class PointsModule extends CWebModule
         @param $rule_id
     */
     public function execRuleByRuleKey($member_id, $rule_key){
-        return $this->execRule($member_id, $rule_id, 'rule_key');
+        return $this->execRule($member_id, $rule_key, 'rule_key');
     }
 
     /*

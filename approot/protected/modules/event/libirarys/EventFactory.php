@@ -7,17 +7,29 @@ class EventFactory {
     }
     
     // 生产类
-    static public function createEvent($event_key, $event_class = null) {
-        //$event_obj = new EventTest;
-        if (class_exists($event_class)) {
-            $event_obj = new $event_class;
-        }
+    static public function createEvent($eventKey) {
         $eventClassMap = self::getEventClassMap();
-        if (isset($eventClassMap[$event_key]) && class_exists($eventClassMap[$event_key])) {
-            $event_obj = new $eventClassMap[$event_key];
+        if (isset($eventClassMap[$eventKey]) && class_exists($eventClassMap[$eventKey])) {
+            $eventObj = new $eventClassMap[$eventKey];
+            $eventObj->model = EventTplModel::model()->find('event_key=:event_key', [':event_key'=>$eventKey]);
         }
-        return $event_obj;
+        return $eventObj;
     }
+
+    // 生产类
+    static public function createEventByEventId($eventId) {
+        $eventModel = EventTplModel::model()->findByPk($eventId);
+        if ($eventModel) {
+            $eventKey = $eventModel->event_key;
+            $eventClassMap = self::getEventClassMap();
+            if (isset($eventClassMap[$eventKey]) && class_exists($eventClassMap[$eventKey])) {
+                $eventObj = new $eventClassMap[$eventKey];
+                $eventObj->model = $eventModel;
+            }
+        }
+        return $eventObj;
+    }
+
     static public function getEventClassMap() {
         static $eventClassMap = [
             'check_in_nday'                => 'EventCheckInNday',

@@ -50,6 +50,9 @@ class EventTryToFinishTask extends EventAbs {
 
         // 按照条件 继续
         if ($ret) {
+            if (!empty($this->model->use_rule_key)) {
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+            }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

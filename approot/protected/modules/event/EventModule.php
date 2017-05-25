@@ -111,18 +111,18 @@ class EventModule extends CWebModule
             }
         }
 
-        $eventTplModel = EventTplModel::model()->findByPk($queueObj->event_id);
-        if (!$eventTplModel) {
+        // 类工厂派发事件
+        $eventObj = EventFactory::createEventByEventId($queueObj->event_id);
+
+        if (!$eventObj) {
             Yii::log('no tpl obj of queue:'.$queueObj->event_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
             return false;
         }
-        // 类工厂派发事件
-        $eventObj = EventFactory::createEvent($queueObj->event_key, $eventTplModel->event_class);
 
         //$eventTmp[] = $queueObj->toArray();
         // 组织params交给派发的类
         $params = $queueObj->params ? @json_decode($queueObj->params, true) : array();
-        $params['_event_tpl'] = $eventTplModel->toArray();
+        $params['_event_tpl'] = $eventObj->model->toArray();
         $params['_event_queue'] = $queueObj->toArray();
         //$params['points_rule_key'] = $eventTplModel->use_rule_key;
         unset($params['_event_queue']['params']);
