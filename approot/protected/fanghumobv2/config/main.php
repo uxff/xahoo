@@ -106,7 +106,7 @@ $config['params']['UCenterServerName'] = ($_SERVER['SERVER_POST']=='443'?'https:
 $config['params']['XqsjFQServerName'] = ($_SERVER['SERVER_POST']=='443'?'https://':'http://').$_SERVER['SERVER_NAME'].'/xqsjfq.php';
 // FangHu Server
 // Baidu Tracking
-$config['params']['FanghuServerName'] = ($_SERVER['SERVER_POST']=='443'?'https://':'http://').$_SERVER['SERVER_NAME'].'/fanghuv2.php';
+$config['params']['FanghuServerName'] = ($_SERVER['SERVER_POST']=='443'?'https://':'http://').$_SERVER['SERVER_NAME'].'/frontendmob.php';
 $config['params']['baiduTrackingKey'] = '';
 // page size
 $config['params']['pageSize'] = 10;

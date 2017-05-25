@@ -281,30 +281,31 @@ class Controller extends CController {
             $data = @json_encode($arr);
             header('Content-Length: '.strlen($data));
             echo $data;
-            exit;
+            Yii::app()->end();
         }
         /*
             返回固定格式的错误
         */
-        public function jsonData($msg, $code=1, $value = array()) {
+        public function jsonData($msg, $code=1, $value = array(), $returnUrl = '') {
             $arr = array(
                 'code' => $code,
                 'msg' => $msg,
                 'value' => $value,
+                'returnurl' => $returnUrl,
             );
             return $this->showJson($arr);
         }
         /*
             返回固定格式的错误
         */
-        public function jsonError($msg, $value = array(), $code = 1) {
-            return $this->jsonData($msg, $code, $value);
+        public function jsonError($msg, $value = array(), $returnUrl = '', $code = 1) {
+            return $this->jsonData($msg, $code, $value, $returnUrl);
         }
         /*
             返回固定格式的错误
         */
-        public function jsonSuccess($msg, $value = array()) {
-            return $this->jsonData($msg, 0, $value);
+        public function jsonSuccess($msg, $value = array(), $returnUrl = '', $code = 0) {
+            return $this->jsonData($msg, $code, $value, $returnUrl);
         }
 
         /*

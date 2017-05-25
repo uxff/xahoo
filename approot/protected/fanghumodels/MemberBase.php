@@ -11,7 +11,7 @@
  * @property integer $has_children
  * @property string $parent_id
  * @property string $member_level_id
- * @property string $member_name
+ * @property string $member_fullname
  * @property integer $member_sex
  * @property string $member_birthday
  * @property string $member_mobile
@@ -64,7 +64,7 @@ class MemberBase extends CActiveRecord {
                     array('member_from, has_children, member_sex, member_mobile_verified, member_email_verified, status', 'numerical', 'integerOnly' => true),
                     array('member_account', 'length', 'max' => 30),
                     array('member_password', 'length', 'max' => 36),
-                    array('parent_id, member_name, member_mobile', 'length', 'max' => 20),
+                    array('parent_id, member_fullname, member_mobile', 'length', 'max' => 20),
                     array('member_level_id', 'length', 'max' => 11),
                     array('member_nickname, member_email', 'length', 'max' => 50),
                     array('member_avatar', 'length', 'max' => 100),
@@ -72,7 +72,7 @@ class MemberBase extends CActiveRecord {
                     array('member_birthday, create_time, last_modified, last_login', 'safe'),
                     // The following rule is used by search().
                     // @todo Please remove those attributes that should not be searched.
-                    array('member_id, member_account, member_password, member_from, has_children, parent_id, member_level_id, member_name, member_sex, member_birthday, member_mobile, member_mobile_verified, member_nickname, member_email, member_email_verified, member_avatar, status, create_time, last_modified, last_login, member_address', 'safe', 'on' => 'search'),
+                    array('member_id, member_account, member_password, member_from, has_children, parent_id, member_level_id, member_fullname, member_sex, member_birthday, member_mobile, member_mobile_verified, member_nickname, member_email, member_email_verified, member_avatar, status, create_time, last_modified, last_login, member_address', 'safe', 'on' => 'search'),
                 );
         }
 
@@ -98,7 +98,7 @@ class MemberBase extends CActiveRecord {
 //                       'has_children' => '是否有小伙伴',
 //                       'parent_id' => '会员上级编号',
 //                       'member_level_id' => '会员等级ID',
-                    'member_name' => '会员姓名',
+                    'member_fullname' => '会员姓名',
                     'member_sex' => '性别',
                     'member_birthday' => '会员生日',
                     'member_mobile' => '会员手机号',
@@ -129,7 +129,7 @@ class MemberBase extends CActiveRecord {
                 $criteria->compare('has_children', $this->has_children);
                 $criteria->compare('parent_id', $this->parent_id, true);
                 $criteria->compare('member_level_id', $this->member_level_id, true);
-                $criteria->compare('member_name', $this->member_name, true);
+                $criteria->compare('member_fullname', $this->member_fullname, true);
                 $criteria->compare('member_sex', $this->member_sex);
                 $criteria->compare('member_birthday', $this->member_birthday, true);
                 $criteria->compare('member_mobile', $this->member_mobile, true);
