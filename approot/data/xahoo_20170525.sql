@@ -62,7 +62,7 @@ CREATE TABLE `fh_article` (
   `admin_id` int(11) NOT NULL COMMENT '创建人id',
   `admin_name` varchar(32) NOT NULL COMMENT '创建人',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房乎活动内容表（CMS）';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='xahoo活动内容表（CMS）';
 
 -- ----------------------------
 -- Records of fh_article
@@ -283,7 +283,7 @@ CREATE TABLE `fh_member_fans` (
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`) USING BTREE,
   KEY `fans_openid` (`fans_openid`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房乎海报粉丝表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='xahoo海报粉丝表';
 
 -- ----------------------------
 -- Records of fh_member_fans
@@ -844,7 +844,7 @@ CREATE TABLE `fh_share_log` (
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房乎分享记录表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='xahoo分享记录表';
 
 -- ----------------------------
 -- Records of fh_share_log
@@ -867,7 +867,7 @@ CREATE TABLE `fh_stastic_article` (
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `date` (`date`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房乎活动统计表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='xahoo活动统计表';
 
 -- ----------------------------
 -- Records of fh_stastic_article
@@ -892,7 +892,7 @@ CREATE TABLE `fh_stastic_by_day` (
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `date` (`date`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房乎运营统计表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='xahoo运营统计表';
 
 -- ----------------------------
 -- Records of fh_stastic_by_day
