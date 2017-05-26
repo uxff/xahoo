@@ -44,7 +44,7 @@ class MyController extends BaseController
 			'gShowHeader' => false,
 			'gShowFooter' => false,
 			'return_url' => $return_url,
-			'pageTitle' =>'我的房乎',
+			'pageTitle' =>'我的',
 			'invite_code' => $invite_code,
             'logout_return_url' => $this->createAbsoluteUrl('site/index'),
             'memberInfo' => $memberInfo,
@@ -400,7 +400,7 @@ class MyController extends BaseController
         $arrRender = array(
 			'gShowHeader'	=> false,
 			'gShowFooter'	=> true,
-			'pageTitle'		=>'我的房乎',
+			'pageTitle'		=>'我的',
             'favorList'		=> $favorList,
         );
 		$this->layout = "layouts/default_v2.tpl";

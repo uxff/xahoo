@@ -57,7 +57,7 @@
         </a>
     </div>
     <div class="mine_cont">
-        <a href="tel:400-900-0979" class="mine_item"><span class="iconfont left_icon">&#xe60a;</span>联系我们<span class="right_icon iconfont">&#xe600;</span></a>
+        <a href="tel:400 0000 0000" class="mine_item"><span class="iconfont left_icon">&#xe60a;</span>联系我们<span class="right_icon iconfont">&#xe600;</span></a>
         <a href="{yii_createurl c=site a=aboutus}" class="mine_item"><span class="iconfont left_icon">&#xe60c;</span>关于我们<span class="right_icon iconfont">&#xe600;</span></a>
     </div>
     <div class="btn-link">
