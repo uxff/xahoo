@@ -956,7 +956,7 @@ CREATE TABLE `member` (
   `member_qq` varchar(11) NOT NULL DEFAULT '' COMMENT '会员qq号',
   `member_email` varchar(50) NOT NULL DEFAULT '' COMMENT '会员电子邮箱',
   `member_email_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT '会员电子邮箱是否认证',
-  `member_avatar` varchar(100) NOT NULL DEFAULT '/resource/backend/assets/avatars/avatar2.png' COMMENT '会员头像',
+  `member_avatar` varchar(100) NOT NULL DEFAULT '' COMMENT '会员头像',
   `signage` varchar(16) NOT NULL DEFAULT '' COMMENT '会员标识',
   `has_children` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否有小伙伴>0|没有,1|有',
   `parent_id` varchar(20) NOT NULL DEFAULT '0' COMMENT '会员上级编号',
