@@ -62,9 +62,9 @@ class TaskTplModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('task_name, surface_url, act_type, integral_upper, money_upper, last_modified, admin_id, admin_name', 'required'),
-                        array('task_type, act_type, reward_type, reward_type_money, integral_upper, money_upper, reward_points, rule_id, step_need_count, weight, status, flag, admin_id', 'numerical', 'integerOnly'=>true),
-                        array('reward_money', 'numerical'),
+                        array('task_name, surface_url, admin_id, admin_name', 'required'),
+                        array('task_type, act_type, reward_type, reward_type_money, integral_upper, reward_points, rule_id, step_need_count, weight, status, flag, admin_id', 'numerical', 'integerOnly'=>true),
+                        array('reward_money, money_upper', 'numerical'),
                         array('task_name', 'length', 'max'=>40),
                         array('task_desc, surface_url', 'length', 'max'=>1024),
                         array('task_url', 'length', 'max'=>255),
