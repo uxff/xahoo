@@ -122,15 +122,15 @@
                     <div class="col-sm-2"> <span class="help-inline middle" id="TaskTplModel_flag_em_">  </span> </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label no-padding-right" for="TaskTplModel_author_id">创建人id</label>
-                    <div class="col-sm-7"><input type="text" id="TaskTplModel_author_id" name="TaskTplModel[author_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.author_id}" /></div>
-                    <div class="col-sm-2"> <span class="help-inline middle" id="TaskTplModel_author_id_em_">  </span> </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="TaskTplModel_admin_id">创建人id</label>
+                    <div class="col-sm-7"><input type="text" id="TaskTplModel_admin_id" name="TaskTplModel[admin_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.admin_id}" /></div>
+                    <div class="col-sm-2"> <span class="help-inline middle" id="TaskTplModel_admin_id_em_">  </span> </div>
                 </div>
                 -->
 
                 <div class="form-group col-xs-3">
-                    <label class="col-xs-3 control-label no-padding-right" for="TaskTplModel_author_name">创建人</label>
-                    <div class="col-xs-8"><input type="text" id="TaskTplModel_author_name" name="TaskTplModel[author_name]" size="60" maxlength="200" class="col-xs-12" value="{$dataObj.author_name}" /></div>
+                    <label class="col-xs-3 control-label no-padding-right" for="TaskTplModel_admin_name">创建人</label>
+                    <div class="col-xs-8"><input type="text" id="TaskTplModel_admin_name" name="TaskTplModel[admin_name]" size="60" maxlength="200" class="col-xs-12" value="{$dataObj.admin_name}" /></div>
                 </div>
                 <div class="form-group col-xs-3">
                     &nbsp;
@@ -207,7 +207,7 @@
                             {/if}
                         </td>
                         <td>{$objModel.weight}</td>
-                        <td>{$objModel.author_name}</td>
+                        <td>{$objModel.admin_name}</td>
                         <td>{$objModel.create_time}</td>
                         <td>{$objModel.last_modified}</td>
                         <td>

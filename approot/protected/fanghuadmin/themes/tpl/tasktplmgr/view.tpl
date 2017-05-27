@@ -89,7 +89,7 @@
                                     <td>目标数量</td>
                                     <td>{$objModel.step_need_count}</td>
                                     <td>添加人</td>
-                                    <td>{$objModel.author_name}</td>
+                                    <td>{$objModel.admin_name}</td>
                                     <td>添加时间</td>
                                     <td>{$objModel.create_time}</td>
                                     <td>最后更新时间</td>

@@ -52,8 +52,8 @@ class TaskTplMgrController extends Controller
         $model = new TaskTplModel;
         if (isset($_POST['TaskTplModel'])) {
             //$model->attributes = $_POST['TaskTplModel'];
-            //$model->author_id = Yii::app()->memberadmin->id;
-            //$model->author_name = Yii::app()->memberadmin->name;
+            //$model->admin_id = Yii::app()->memberadmin->id;
+            //$model->admin_name = Yii::app()->memberadmin->name;
             //// 如果是分享类型的 需要创建rule_id
             //if ($model->task_type == TaskTplModel::TASK_TYPE_SHARE) {
             //    $ruleModel = new PointsRuleModel;
@@ -81,8 +81,8 @@ class TaskTplMgrController extends Controller
                 $taskTplAttr['TaskTplModel']['task_type'] = TaskTplModel::TASK_TYPE_SHARE;
                 //$errMsg = '只允许添加分享类型的任务！';
             }
-            $taskTplAttr['TaskTplModel']['author_id'] = Yii::app()->memberadmin->id;
-            $taskTplAttr['TaskTplModel']['author_name'] = Yii::app()->memberadmin->name;
+            $taskTplAttr['TaskTplModel']['admin_id'] = Yii::app()->memberadmin->id;
+            $taskTplAttr['TaskTplModel']['admin_name'] = Yii::app()->memberadmin->name;
             $taskTpl = Yii::app()->getModule('mtask')->addTaskTpl($taskTplAttr);
             if ($taskTpl && $taskTpl->task_id) {
                 // 同步修改对应的文章的surface_url
