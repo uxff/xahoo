@@ -21,6 +21,11 @@
 
                         <form class="form-horizontal" id="pointsRule-form" role="form" action="fanghuadmin.php?r=pointsRule/update&id={$model[$primaryKey]}" method="POST">
                 <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="PointsRuleModel_rule_key">规则意义</label>
+                    <div class="col-sm-7"><input type="text" id="PointsRuleModel_rule_key" name="" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.rule_key}" readonly/></div>
+                    <div class="col-sm-2"> <span class="help-inline middle" id="PointsRuleModel_rule_key_em_">  </span> </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="PointsRuleModel_rule_name">规则名称</label>
                     <div class="col-sm-7"><input type="text" id="PointsRuleModel_rule_name" name="PointsRuleModel[rule_name]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.rule_name}" /></div>
                     <div class="col-sm-2"> <span class="help-inline middle" id="PointsRuleModel_rule_name_em_">  </span> </div>

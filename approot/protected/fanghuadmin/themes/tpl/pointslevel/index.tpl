@@ -1,6 +1,6 @@
 <div class="page-content-area">
         <div class="page-header">
-                <h1> 会员等级 <small> <i class="ace-icon fa fa-angle-double-right"></i> 列表 </small> </h1>
+                <h1> 积分等级 <small> <i class="ace-icon fa fa-angle-double-right"></i> 列表 </small> </h1>
         </div>
         <!-- /.page-header -->
 

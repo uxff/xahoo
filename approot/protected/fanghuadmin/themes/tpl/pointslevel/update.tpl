@@ -1,6 +1,6 @@
 <div class="page-content-area">
         <div class="page-header">
-            <h1> <a href="fanghuadmin.php?r=pointsLevel">会员您登记</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 编辑 </small> </h1><br />
+            <h1> <a href="fanghuadmin.php?r=pointsLevel">积分等级</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 编辑 </small> </h1><br />
                 <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
         </div>
         <!-- /.page-header -->
