@@ -81,10 +81,12 @@ class NodeController extends Controller {
                 //
                 $this->smarty->assign("errormsgs", CHtml::errorSummary($model));
                 $parentNode = SysNode::model()->findByPk($pid);
-                $parentNode->loadParent();
+                if ($parentNode) {
+                    $parentNode->loadParent();
+                }
                 //render data
                 $arrRender = array(
-                    'parentNode' => $parentNode->toArray(),
+                    'parentNode' => $parentNode ? $parentNode->toArray() : null,
                     'pid' => $pid,
                     'modelName' => 'SysNode',
                     'attributes' => $model->getAttributes(),

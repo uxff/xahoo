@@ -118,7 +118,7 @@ class AdminUserController extends Controller {
          * @param integer $id the ID of the model to be updated
          */
         public function actionUpdate($id) {
-//var_dump($_POST);die;
+
                 $queryResult1 = SysAdminUser::model()->with('role')->findByPk($id);
                 $arrQueryResult1 = $this->convertModelToArray($queryResult1);
                 //print_r($arrQueryResult1);exit;
