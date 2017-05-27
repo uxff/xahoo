@@ -665,7 +665,7 @@ CREATE TABLE `fh_points_rule` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   PRIMARY KEY (`rule_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='积分规则表';
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='积分规则表';
 
 -- ----------------------------
 -- Records of fh_points_rule
@@ -679,6 +679,7 @@ INSERT INTO `fh_points_rule` VALUES ('6', 'register_by_invite', '注册(邀请)'
 INSERT INTO `fh_points_rule` VALUES ('7', 'register', '注册', '', '200', '', '1', '1', '0000-00-00 00:00:00', '2017-05-25 22:33:46');
 INSERT INTO `fh_points_rule` VALUES ('8', 'share_clicked', '分享被点击', '', '50', '', '1', '1', '0000-00-00 00:00:00', '2017-05-25 22:34:08');
 INSERT INTO `fh_points_rule` VALUES ('9', 'share', '分享', '', '80', '', '1', '1', '0000-00-00 00:00:00', '2017-05-25 22:34:23');
+INSERT INTO `fh_points_rule` VALUES ('10', 'finish_task', '完成任务', '', '0', '', '2', '1', '0000-00-00 00:00:00', '2017-05-25 22:34:23');
 
 -- ----------------------------
 -- Table structure for `fh_poster`

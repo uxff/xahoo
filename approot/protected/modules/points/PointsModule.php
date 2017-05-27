@@ -84,8 +84,8 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    public function execRuleByRuleId($member_id, $rule_id){
-        return $this->execRule($member_id, $rule_id, 'rule_id');
+    public function execRuleByRuleId($member_id, $rule_id, $points = 0){
+        return $this->execRule($member_id, $rule_id, 'rule_id', $points);
     }
 
     /*
@@ -93,22 +93,31 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    public function execRuleByRuleKey($member_id, $rule_key){
-        return $this->execRule($member_id, $rule_key, 'rule_key');
+    public function execRuleByRuleKey($member_id, $rule_key, $points = 0){
+        return $this->execRule($member_id, $rule_key, 'rule_key', $points);
     }
 
     /*
         【核心功能】执行积分规则
         @param $member_id
         @param $rule_id
+        @param $points 如果自定义规则，需要传$points
     */
     public function execRule($member_id, $rule_id, $keyType='rule_id') {
-        $ruleInfo = PointsRuleModel::model()->find($keyType.'="'.$rule_id.'"');
+        if (empty($keyType)) {
+             $keyType = 'rule_id';
+        }
+        $ruleInfo = PointsRuleModel::model()->find($keyType.'=:rid', array(':rid'=>$rule_id));
         if (!$ruleInfo) {
             //throw new CException('unknown rule_id: '.$rule_id);
             Yii::log(__METHOD__ .': unknown '.$keyType.': '.$rule_id, 'error', __CLASS__);
             return false;
         }
+
+        if ($ruleInfo->flag == PointsRuleModel::FLAG_DYNAMIC) {
+            $ruleInfo->points = $points;
+        }
+
         if ($ruleInfo->points==0) {
             //throw new CException('unknown rule_id: '.$rule_id);
             Yii::log(__METHOD__ .': points is zero, none to do. '.$keyType.': '.$rule_id, 'warning', __CLASS__);
@@ -136,7 +145,7 @@ class PointsModule extends CWebModule
         执行积分
         提供给事务使用 会抛错
     */
-    public function execRuleForTransaction($member_id, $ruleInfo) {
+    public function execRuleForTransaction($member_id, PointsRuleModel $ruleInfo) {
         
         // 积分操作
         $totalModel = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=1', array(':member_id'=>$member_id));
@@ -144,7 +153,7 @@ class PointsModule extends CWebModule
         if (!$totalModel) {
             $totalModel = new MemberTotalModel;
             $totalModel->member_id      = $member_id;
-            $totalModel->accounts_id    = 1;//房乎公众号下的member_total
+            $totalModel->accounts_id    = 1;// 公众号下的member_total
             $totalModel->points_total   = 0;
             $totalModel->points_gain    = 0;
             //$ret = $totalModel->insert();

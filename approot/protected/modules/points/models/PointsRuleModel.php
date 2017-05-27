@@ -1,6 +1,10 @@
 <?php
 class PointsRuleModel extends PointsRuleModelBase
 {
+        const FLAG_STATIC  = 1; //普通静态规则
+        const FLAG_DYNAMIC = 2; //动态规则
+
+        const RULE_ID_FOR_TASK = 10; //任务的rule_id
 	
         /**
          * @return array validation rules for model attributes.
