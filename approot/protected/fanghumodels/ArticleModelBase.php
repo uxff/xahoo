@@ -20,8 +20,8 @@
  * @property string $comment_count
  * @property string $create_time
  * @property string $last_modified
- * @property integer $author_id
- * @property string $author_name
+ * @property integer $admin_id
+ * @property string $admin_name
  */
 class ArticleModelBase extends CActiveRecord
 {
@@ -58,15 +58,15 @@ class ArticleModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('title, content, status, author_id, author_name', 'required'),
-                        array('type, status, author_id', 'numerical', 'integerOnly'=>true),
+                        array('title, content, status, admin_id, admin_name', 'required'),
+                        array('type, status, admin_id', 'numerical', 'integerOnly'=>true),
                         array('title, outer_url, visit_url, surface_url, abstract, remark', 'length', 'max'=>255),
                         array('view_count, share_count, favor_count, comment_count', 'length', 'max'=>10),
-                        array('author_name', 'length', 'max'=>32),
+                        array('admin_name', 'length', 'max'=>32),
                         array('create_time', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, title, type, content, outer_url, visit_url, surface_url, abstract, status, remark, view_count, share_count, favor_count, comment_count, create_time, last_modified, author_id, author_name', 'safe', 'on'=>'search'),
+                        array('id, title, type, content, outer_url, visit_url, surface_url, abstract, status, remark, view_count, share_count, favor_count, comment_count, create_time, last_modified, admin_id, admin_name', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -100,10 +100,10 @@ class ArticleModelBase extends CActiveRecord
                        //'share_count' => 'Share Count',
                        //'favor_count' => 'Favor Count',
                        //'comment_count' => 'Comment Count',
-                       'author_name' => '创建人',
+                       'admin_name' => '创建人',
                        'create_time' => '创建时间',
                        'last_modified' => '最后更新时间',
-                       //'author_id' => '创建人id',
+                       //'admin_id' => '创建人id',
                );
        }
        /**
@@ -126,10 +126,10 @@ class ArticleModelBase extends CActiveRecord
                        //'share_count' => 'Share Count',
                        //'favor_count' => 'Favor Count',
                        //'comment_count' => 'Comment Count',
-                       'author_name' => '创建人',
+                       'admin_name' => '创建人',
                        'create_time' => '创建时间',
                        'last_modified' => '最后更新时间',
-                       //'author_id' => '创建人id',
+                       //'admin_id' => '创建人id',
                );
        }
         /**
@@ -155,8 +155,8 @@ class ArticleModelBase extends CActiveRecord
 				$criteria->compare('t.comment_count',$this->comment_count,true);
 				$criteria->compare('t.create_time',$this->create_time,true);
 				$criteria->compare('t.last_modified',$this->last_modified,true);
-				$criteria->compare('t.author_id',$this->author_id);
-				$criteria->compare('t.author_name',$this->author_name,true);
+				$criteria->compare('t.admin_id',$this->admin_id);
+				$criteria->compare('t.admin_name',$this->admin_name,true);
                 return $criteria;
          }
 

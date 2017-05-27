@@ -50,8 +50,8 @@ class HotArticleController extends Controller
 				
 				
             $model->attributes = $_POST['HotArticleModel'];
-            $model->author_id = Yii::app()->memberadmin->id;
-            $model->author_name = Yii::app()->memberadmin->name;
+            $model->admin_id = Yii::app()->memberadmin->id;
+            $model->admin_name = Yii::app()->memberadmin->name;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }

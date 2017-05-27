@@ -43,8 +43,8 @@ class PicsetController extends Controller
         $model = new PicSetModel;
         if (isset($_POST['PicSetModel'])) {
             $model->attributes = $_POST['PicSetModel'];
-            $model->author_id = Yii::app()->memberadmin->id;
-            $model->author_name = Yii::app()->memberadmin->name;
+            $model->admin_id = Yii::app()->memberadmin->id;
+            $model->admin_name = Yii::app()->memberadmin->name;
 
             $used_type = $_POST['PicSetModel']['used_type'];
             if ($testModel = PicSetModel::model()->find('used_type=:used_type', array(':used_type'=>$used_type))) {

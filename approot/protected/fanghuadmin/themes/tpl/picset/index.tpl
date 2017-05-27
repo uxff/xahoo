@@ -48,15 +48,15 @@
 
 
                         <div class="form-group col-xs-3">
-                            <label class="col-sm-4 control-label no-padding-right" for="PicSetModel_author_id">创建人id</label>
-                            <div class="col-sm-8"><input type="text" id="PicSetModel_author_id" name="PicSetModel[author_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.author_id}" /></div>
-                            <div class="col-sm-4"> <span class="help-inline middle" id="PicSetModel_author_id_em_">  </span> </div>
+                            <label class="col-sm-4 control-label no-padding-right" for="PicSetModel_admin_id">创建人id</label>
+                            <div class="col-sm-8"><input type="text" id="PicSetModel_admin_id" name="PicSetModel[admin_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.admin_id}" /></div>
+                            <div class="col-sm-4"> <span class="help-inline middle" id="PicSetModel_admin_id_em_">  </span> </div>
                         </div>
                         -->
                         <div class="form-group col-xs-3">
-                            <label class="col-xs-3 control-label no-padding-right" for="PicSetModel_author_name">创建人</label>
+                            <label class="col-xs-3 control-label no-padding-right" for="PicSetModel_admin_name">创建人</label>
                             <div class="col-xs-8">
-                                <input class="col-xs-12" type="text" id="PicSetModel_author_name" name="PicSetModel[author_name]" size="60" maxlength="200" value="{$dataObj.author_name}"/>
+                                <input class="col-xs-12" type="text" id="PicSetModel_admin_name" name="PicSetModel[admin_name]" size="60" maxlength="200" value="{$dataObj.admin_name}"/>
                             </div>
                         </div>
 
@@ -150,7 +150,7 @@
                             -
                         {/if}
                     </td>
-                    <td>{$objModel.author_name}</td>
+                    <td>{$objModel.admin_name}</td>
                     <td>{$objModel.create_time}</td>
                     <td>{$objModel.last_modified}</td>
                     <td><div class="hidden-sm hidden-xs btn-group">

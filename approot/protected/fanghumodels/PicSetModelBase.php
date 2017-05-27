@@ -12,8 +12,8 @@
  * @property integer $status
  * @property string $create_time
  * @property string $last_modified
- * @property integer $author_id
- * @property string $author_name
+ * @property integer $admin_id
+ * @property string $admin_name
  */
 class PicSetModelBase extends CActiveRecord
 {
@@ -50,14 +50,14 @@ class PicSetModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('title, used_type, type, author_id, author_name', 'required'),
-                        array('used_type, type, circle_sec, status, author_id', 'numerical', 'integerOnly'=>true),
+                        array('title, used_type, type, admin_id, admin_name', 'required'),
+                        array('used_type, type, circle_sec, status, admin_id', 'numerical', 'integerOnly'=>true),
                         array('title', 'length', 'max'=>255),
-                        array('author_name', 'length', 'max'=>32),
+                        array('admin_name', 'length', 'max'=>32),
                         array('create_time', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, title, used_type, type, circle_sec, status, create_time, last_modified, author_id, author_name', 'safe', 'on'=>'search'),
+                        array('id, title, used_type, type, circle_sec, status, create_time, last_modified, admin_id, admin_name', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -84,10 +84,10 @@ class PicSetModelBase extends CActiveRecord
                        'type' => '图片类型',
                        'circle_sec' => '轮播间隔',
                        //'status' => '状态',
-                       'author_name' => '创建人',
+                       'admin_name' => '创建人',
                        'create_time' => '创建时间',
                        'last_modified' => '最后修改时间',
-                       //'author_id' => '创建人id',
+                       //'admin_id' => '创建人id',
                );
        }
         /**
@@ -105,8 +105,8 @@ class PicSetModelBase extends CActiveRecord
           				$criteria->compare('t.status',$this->status);
           				$criteria->compare('t.create_time',$this->create_time,true);
           				$criteria->compare('t.last_modified',$this->last_modified,true);
-          				$criteria->compare('t.author_id',$this->author_id);
-          				$criteria->compare('t.author_name',$this->author_name,true);
+          				$criteria->compare('t.admin_id',$this->admin_id);
+          				$criteria->compare('t.admin_name',$this->admin_name,true);
                 return $criteria;
          }
 
