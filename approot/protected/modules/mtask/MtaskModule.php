@@ -124,8 +124,9 @@ class MtaskModule extends CWebModule
     public function addTaskTpl($taskTplAttr) {
         $model = new TaskTplModel;
         $model->attributes = $taskTplAttr['TaskTplModel'];
-        // 如果是分享类型的 需要创建rule_id
+        // 如果是分享类型的 需要指定rule_id 
         if ($taskTplAttr['TaskTplModel']['task_type'] == TaskTplModel::TASK_TYPE_SHARE) {
+            /*
             $ruleModel = new PointsRuleModel;
             $ruleModel->rule_key = 'share_'.date('YmdHis_').mt_rand(100, 999);
             $ruleModel->rule_name = '任务：'.$model->task_name;
@@ -136,7 +137,8 @@ class MtaskModule extends CWebModule
                 Yii::log('save rule failed: '.$ruleModel->lastError().' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
                 return false;
             }
-            $model->rule_id = $ruleModel->rule_id;
+            */
+            $model->rule_id = PointsRuleModel::RULE_ID_FOR_TASK; //$ruleModel->rule_id;
             if (!$model->save()) {
                 //print_r($model->getErrors());print_r($taskTplAttr);exit;
                 Yii::log('save taskTplModel failed: '.$model->lastError().' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
