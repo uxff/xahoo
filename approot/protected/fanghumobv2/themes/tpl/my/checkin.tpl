@@ -19,6 +19,7 @@
             </div>
             {/foreach}
         </div>
+        <div class="day_list_des">坚持连续7天签到有好礼哦</div>
     </div>
     <div class="index-list">
         <h2>热门推荐</h2>
