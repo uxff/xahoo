@@ -15,5 +15,5 @@
             {/if}
 			<p>copyright@2014-{$smarty.now|date_format:'%Y'} 京ICP备15028464号-4</p>
 		</footer>
-</div>
 {/if}
+</div>

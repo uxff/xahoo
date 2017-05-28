@@ -173,15 +173,15 @@ class LizhuanController extends BaseController {
         }
         $shareCode = Yii::app()->getModule('friend')->getInviteCodeModel($member_id)->invite_code;
         // 如果本地连接 跳转到本地连接
-        $isLocalUrl = $this->isLocalUrl($taskInst->getModel()->task_tpl->task_url);
-        // task_type==2,3->完善信息和邀请注册的任务
-        if ($isLocalUrl || $taskInst->getModel()->task_tpl->task_type==2 || $taskInst->getModel()->task_tpl->task_type==3) {
-            $nextUrl = $taskInst->getModel()->task_tpl->task_url .'&task_id='.$taskTplId.'&share_code='.$shareCode.'&accounts_id='.$accounts_id;
-            $this->redirect($nextUrl);
-        } else {
+        //$isLocalUrl = $this->isLocalUrl($taskInst->getModel()->task_tpl->task_url);
+        //// task_type==2,3->完善信息和邀请注册的任务
+        //if ($isLocalUrl || $taskInst->getModel()->task_tpl->task_type==2 || $taskInst->getModel()->task_tpl->task_type==3) {
+        //    $nextUrl = $taskInst->getModel()->task_tpl->task_url .'&task_id='.$taskTplId.'&share_code='.$shareCode.'&accounts_id='.$accounts_id;
+        //    $this->redirect($nextUrl);
+        //} else {
             $nextUrl = $this->createAbsoluteUrl('lizhuan/show', array('task_id'=>$taskTplId, 'share_code'=>$shareCode, 'accounts_id'=>$accounts_id));
             $this->redirect($nextUrl);
-        }
+        //}
     }
     /*
         taskView 用户自己查看任务内容
@@ -255,13 +255,13 @@ class LizhuanController extends BaseController {
             $this->redirect($this->createAbsoluteUrl('lizhuan/index'));
         }
 
-        $isLocalUrl = $this->isLocalUrl($taskTplModel->task_url);
-        if ($isLocalUrl) {
-            $nextUrl = $taskTplModel->task_url .'&task_id='.$taskTplId.'&share_code='.$shareCode.'&accounts_id='.$accounts_id;
-            $this->redirect($nextUrl);
-        }
+        //$isLocalUrl = $this->isLocalUrl($taskTplModel->task_url);
+        //if ($isLocalUrl) {
+        //    $nextUrl = $taskTplModel->task_url .'&task_id='.$taskTplId.'&share_code='.$shareCode.'&accounts_id='.$accounts_id;
+        //    $this->redirect($nextUrl);
+        //}
         
-        $iframeUrl = $taskTplModel->task_url;
+        $iframeUrl = $taskTplModel->task_url.'&showheader=0';
         $defaultArticleSurfaceUrl = Yii::app()->request->getHostInfo().$taskTplModel->surface_url;
         $csrfToken = Yii::app()->request->csrfToken;
         // 
