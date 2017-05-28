@@ -11,7 +11,7 @@ $arrConfig = array(
     'language' => 'zh_CN',
     'basePath' => $protectedPath,
     'controllerPath' => $appAdminPath.'/controllers',
-    'name' => '房乎网管理后台',
+    'name' => 'Xahoo管理后台',
     // preloading 'log' component
     'preload' => array('log'),
     'defaultController' => 'site',

@@ -253,7 +253,7 @@ class Controller extends CController {
         }
 
         /**
-         * 获取房乎前台绝对URL
+         * 获取xahoo前台绝对URL
          * 
          * @param  string·   $route     页面路由
          * @param  array     $params    页面参数列表

@@ -58,7 +58,7 @@ class CashController extends BaseController {
         // 3. 获取用户分权交易资产信息
         $myTradeRevenueTotal = 0.99;
 
-        // 4. 获取用户房乎小伙伴以及佣金信息
+        // 4. 获取用户xahoo小伙伴以及佣金信息
         $arrMemberBuddyParams = array(
             'condition' => 't.parent_id='. $member_id,
         );
@@ -96,7 +96,7 @@ class CashController extends BaseController {
             'fqCardIndexUrl' => $this->createXqsjFQServerUrl('customer/cardList'),
             // 交易
             'myTradeRevenueTotal' => AresUtil::formatLocalPrice($myTradeRevenueTotal, 2),
-            // 房乎
+            // fh
             'myFHBuddyCount' => $myFHBuddyCount,
             'myFHAccountTotal' => AresUtil::formatLocalPrice($myFHAccountTotal, 2),
             'myFHRewardTotal' => AresUtil::formatLocalPrice($myFHRewardTotal, 2),

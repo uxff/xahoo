@@ -26,7 +26,7 @@
                         <a href="#" class="navbar-brand">
                                 <small>
                                         <i class="fa fa-leaf"></i>
-                                        房乎<span class="hidden-xs">管理后台</span>
+                                        Xahoo<span class="hidden-xs">管理后台</span>
                                 </small>
                         </a>
 

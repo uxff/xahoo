@@ -94,7 +94,7 @@ class MyHaibaoController extends BaseController{
 
         $mobile = $snsModel->member_mobile;
         $renderData = array(
-            'pageTitle'     => '房乎',
+            'pageTitle'     => 'Xahoo',
 			'posterModel'   => $posterModel,
             'mobile'        => $mobile,
             'snsInfo'       => $snsInfo,

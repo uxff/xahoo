@@ -37,8 +37,8 @@ wx.config({
 });
 // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
 var currentUrl = '{$currentUrl}';
-var wxtitle = '房乎 一呼百应，因友尽有';
-var wxdesc = '房源差，赚的少，累成狗，来房乎吧！超多房源轻松玩出钱，让你人脉变钱脉。';
+var wxtitle = 'Xahoo 一呼百应，因友尽有';
+var wxdesc = '房源差，赚的少，累成狗，来Xahoo吧！超多房源轻松玩出钱，让你人脉变钱脉。';
 var wximg = '{$resourcePath}/imgs/wxfangfull.png';
 wx.ready(function () {
     console.log('wx is ready!');

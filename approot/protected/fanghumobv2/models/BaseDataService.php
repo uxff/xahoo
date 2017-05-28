@@ -44,7 +44,7 @@ class BaseDataService {
     }
 
     /**
-     * 获取房乎绝对URL
+     * 获取Xahoo绝对URL
      * 
      * @param  string·   $route     页面路由
      * @param  array     $params    页面参数列表

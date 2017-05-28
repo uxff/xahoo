@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 	<meta name="format-detection" content="telephone=no" />
-    <title>{$pageTitle} - 房乎</title>
+    <title>{$pageTitle} - Xahoo</title>
     <!--coolie-->
     <link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/base.css" />
     <!--/coolie-->

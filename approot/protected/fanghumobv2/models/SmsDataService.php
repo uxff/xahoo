@@ -11,7 +11,7 @@
 class SmsDataService extends BaseDataService {
     
     // 短信服务
-    const SMS_SERVICE_APP_KEY = '69a0df47b3ab'; // 房乎AppKey
+    const SMS_SERVICE_APP_KEY = '69a0df47b3ab'; // Fh AppKey
     const SMS_SERVICE_ENDPOINT = 'https://120.132.154.117:8443'; // SMS服务器地址
     const SMS_API_CHECK_STATUS = '/check/status'; // 服务器装填监测接口
     const SMS_API_SEND_MSG = '/sms/sendmsg'; // 发送验证码接口

@@ -80,7 +80,7 @@ $config['params']['giiPath']['model'] = 'application.fanghuadmin.models';
 $config['params']['pageSize'] = 10;
 
 /*
-* 房乎微信公众号配置
+* fh微信公众号配置
 */
 $config['params']['fh_wechat_appid']        = 'wx829d7b12c00c4a97';
 $config['params']['fh_wechat_appsecret']    = 'd0eb0ee77de35361ee51fc41df85da60';

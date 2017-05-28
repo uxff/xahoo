@@ -3,7 +3,7 @@
         <head>
                 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
                 <meta charset="utf-8" />
-                <title>房乎管理后台</title>
+                <title>Xahoo管理后台</title>
                 <meta name="keyword" content="overview &amp; stats" />
                 <meta name="description" content="overview &amp; stats" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />

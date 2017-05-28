@@ -12,7 +12,7 @@ $arrConfig = array(
     'basePath' => $protectedPath,
     'controllerPath' => $appAdminPath.'/controllers',
     'viewPath' => $appAdminPath."/themes/tpl",
-    'name' => '房乎网管理后台',
+    'name' => 'Xahoo管理后台',
     // preloading 'log' component
     'preload' => array('log'),
     'defaultController' => 'site',

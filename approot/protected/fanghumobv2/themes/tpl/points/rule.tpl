@@ -1,7 +1,7 @@
 <div class="container">
 	<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/integral.css" />
 	<section class="task-list">
-		<div class="add_friend">使用房乎网站获得积分
+		<div class="add_friend">使用Xahoo网站获得积分
 			<div class="gain"><a href="{yii_createurl c=lizhuan a=index}">去赚积分</a><span class="iconfont">&#xe600;</span></div>
 		</div>
 		<div class="integral_table">

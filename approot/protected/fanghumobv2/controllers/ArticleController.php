@@ -240,7 +240,7 @@ class ArticleController extends BaseController {
             if (!$membertotalModel) {
                 $membertotalModel = new MemberTotalModel;
                 $membertotalModel->member_id      = $member_id;
-                $membertotalModel->accounts_id    = $accounts_id;//房乎公众号ID
+                $membertotalModel->accounts_id    = $accounts_id;//fh公众号ID
                 $membertotalModel->points_total   = 0;
                 $membertotalModel->points_gain    = 0;
                 $membertotalModel->money_total    = $task_data->reward_money;

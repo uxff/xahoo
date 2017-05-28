@@ -1,7 +1,7 @@
 <?php
 
 $config['language'] = 'zh_cn';
-$config['name'] = '房乎网';
+$config['name'] = 'Xahoo';
 $config['preload'][] = 'log';
 $config['defaultController'] = 'site';
 
@@ -63,7 +63,7 @@ $config['params']['reg_sms_limit_ip']      = 5;
 $config['params']['reg_sms_limit_time']    = 3600 * 24;
 
 /*
-* 房乎微信公众号配置
+* fh微信公众号配置
 */
 $config['params']['fh_wechat_appid']        = 'wx829d7b12c00c4a97';
 $config['params']['fh_wechat_appsecret']    = 'd0eb0ee77de35361ee51fc41df85da60';

@@ -307,15 +307,15 @@ class UserController extends Controller {
                 $checkFanghuMember = Member::model()->find($arrSqlParams);
                 if (!$checkFanghuMember) {
                     Yii::log('mobile not exist in fanghu:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-                    // 房乎本地没有，同步过来
+                    // fh 本地没有，同步过来
                     $fanghuMember = Member::cloneUcMember($checkObj);
                     $fanghuMember->member_from = $inviteCodeModel ? Member::MEMBER_FROM_XQSJ_TO_FANGHU_INVITE : Member::MEMBER_FROM_XQSJ_TO_FANGHU_REG;
                     if (!$fanghuMember->save()) {
                         Yii::log('clone xqsj member to fanghu member failed:'.$fanghuMember->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
-                        $errMsg = '账号已在新奇世界注册过了，但是同步到房乎失败，请重新提交注册';
+                        $errMsg = '账号已在新奇世界注册过了，但是同步到 fh 失败，请重新提交注册';
                     } else {
                         Yii::log('sync exist xqsj member to fanghu:'.$username.$fanghuMember->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-                        $errMsg = '账号已在新奇世界注册过了，并成功同步到房乎，请直接用新奇世界账号登录';
+                        $errMsg = '账号已在新奇世界注册过了，并成功同步到 fh ，请直接用新奇世界账号登录';
                     }
                 } else {
                     Yii::log('mobile exist in fanghu:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
@@ -345,7 +345,7 @@ class UserController extends Controller {
 				}
 				$member->member_mobile = $username;
 				//$member->is_mobile_actived = 1;
-                // 注册来源 房乎注册
+                // 注册来源 fh 注册
 				$member->member_from = $inviteCodeModel ? Member::MEMBER_FROM_FANGHU_INVITE : Member::MEMBER_FROM_FANGHU_REG;
 			}
 
@@ -374,7 +374,7 @@ class UserController extends Controller {
                 Yii::log('new xqsj member created:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
 				$member_id = $member->member_id;
 
-                // 同步记录房乎用户库
+                // 同步记录 fh 用户库
                 /*
                 $fanghuMember = Member::cloneUcMember($member);
                 if (!$fanghuMember->save()) {
@@ -1205,7 +1205,7 @@ class UserController extends Controller {
     }
     /*
         公众号中OAuth登陆
-            只有当session中设置了房乎公众号的 所以只能从wechat/authlogin跳转至此
+            只有当session中设置了 fh 公众号的 所以只能从wechat/authlogin跳转至此
             只要已绑定的可以登录
     */
 	public function actionWxautologin() {

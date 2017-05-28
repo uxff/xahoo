@@ -76,17 +76,17 @@
         </div>
         <div class="container h-integral-head clearfix">
                 <div class="h-grade-info h-integral-info  clearfix">                    
-                        <h3 class="nickname nickname2">在房乎网赚积分<a href="{$FanghuUrl}" class="h-right">去赚分</a></h3>
+                        <h3 class="nickname nickname2">在Xahoo网赚积分<a href="{$FanghuUrl}" class="h-right">去赚分</a></h3>
                         <dl class="h-grade-box active">
                                 <dt>活动</dt>
                                 <dd>积分</dd>
                         </dl>
                         <dl class="h-grade-box">
-                                <dt>关注房乎公众号（首次有效）</dt>
+                                <dt>关注Xahoo公众号（首次有效）</dt>
                                 <dd>+10</dd>
                         </dl>
                         <dl class="h-grade-box">
-                                <dt>通过房乎网购房</dt>
+                                <dt>通过Xahoo网购房</dt>
                                 <dd>房款的1‰</dd>
                         </dl>
                         <dl class="h-grade-box">

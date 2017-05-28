@@ -71,7 +71,7 @@ class WechatController extends BaseController {
 
         switch($type) {
             case Wechat::MSGTYPE_TEXT:
-                $weObj->text("一乎百应，因友尽有！小乎已在此恭候您多时。注册房乎，轻松一点，转发并分享，赚超额积分。闲暇之余，分秒赚外快！")->reply();
+                $weObj->text("一乎百应，因友尽有！小乎已在此恭候您多时。注册 Xahoo ，轻松一点，转发并分享，赚超额积分。闲暇之余，分秒赚外快！")->reply();
                 $revText = $weObj->getRevContent();
                 $this->processText($fromUser, $revText);
 
@@ -160,7 +160,7 @@ class WechatController extends BaseController {
                         break;
                     case 'MENU_ONLINE_ADVICE':
                         // 在线咨询
-                        $msg = '亲您好，欢迎您开启房乎之旅，如果您对房乎感兴趣，或者有任何问题，请在输入框内随时回复及留言，小乎将及时与您取得联系，灰常感谢您对小乎的支持。';
+                        $msg = '亲您好，欢迎您开启Xahoo之旅，如果您对Xahoo感兴趣，或者有任何问题，请在输入框内随时回复及留言，小乎将及时与您取得联系，灰常感谢您对小乎的支持。';
                         $weObj->text($msg)->reply();
                         break;
                     default:
@@ -171,7 +171,7 @@ class WechatController extends BaseController {
 
             case Wechat::EVENT_SUBSCRIBE:
                 $msg = '【转发海报领红包活动】开始啦！
-①关注房乎就领关注红包！
+①关注Xahoo就领关注红包！
 ②点击【生成海报】菜单——普通用户选择【项目海报】
     ——经纪人选择【个性海报】 
 ③将自己生成的海报转发到朋友圈，只要你的朋友识别你生成的海报右下角的二维码并关注，你就可以领取红包奖励！
@@ -612,7 +612,7 @@ class WechatController extends BaseController {
         $jjrInfo = ['jjr_name'=>"经纪人某\n15011111111",'jjr_type'=>1];
         $arrStr = [
             'middle' => "经纪人某\n15011111111",
-            //'under'  => "欢迎生成房乎海报，",
+            //'under'  => "欢迎生成Xahoo海报，",
         ];
         $this->makeHaibao($openid, $arrStr);
         echo 'done';
@@ -1188,7 +1188,7 @@ class WechatController extends BaseController {
                 throw new CException('already got reward: '.$histKey);
             }
             
-            $this->dispatchMoneyToMember($member_id, 3, '关注房乎公众号奖励');
+            $this->dispatchMoneyToMember($member_id, 3, '关注Xahoo公众号奖励');
 
             $trans->commit();
             $ret = true;

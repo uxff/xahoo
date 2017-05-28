@@ -139,7 +139,7 @@ class SnsModule extends CWebModule
         return $info;
     }
     /*
-        从房乎公众号的关注创建账号
+        从fh公众号的关注创建账号
     */
     public function makeAccountFromWxFanghu($openid) {
         $appid = Yii::app()->params['fh_wechat_appid'];

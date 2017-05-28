@@ -86,7 +86,7 @@ class MemberReportController extends Controller
             //$v['level']         = $arrLevel[$v['level']];
             $v['member_from']   = $arrMemberFrom[$v['member_from']];
         }
-        $name = '房乎会员信息导出'.date('YmdHis').'.xls';
+        $name = 'Xahoo会员信息导出'.date('YmdHis').'.xls';
         $this->downloadXls($mySearch['list'], $ths, $name);
 
     }
