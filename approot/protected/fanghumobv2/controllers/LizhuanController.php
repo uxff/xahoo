@@ -51,7 +51,7 @@ class LizhuanController extends BaseController {
         $arrRender = array(
             'gShowHeader' 	=> true,
             'gShowFooter' 	=> true,
-            'pageTitle' 	=> '立赚',
+            'pageTitle' 	=> '任务',
             'logout_return_url' => $this->createAbsoluteUrl("task/index"),
             'taskTplList' 	=> $taskTplList,
             'isGuest' 		=> $isGuest,

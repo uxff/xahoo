@@ -1328,7 +1328,7 @@ class WechatController extends BaseController {
     },
     {
         "type":"view",
-        "name":"立赚",
+        "name":"积分任务",
         "url":"https://fanghu.xqshijie.com/lizhuan/index.html"
     },
     {
@@ -1376,7 +1376,7 @@ class WechatController extends BaseController {
     },
     {
         "type":"view",
-        "name":"立赚",
+        "name":"积分任务",
         "url":"https://fanghu.xqshijie.com/lizhuan/index.html"
     },
     {
