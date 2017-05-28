@@ -197,6 +197,11 @@ class LizhuanController extends BaseController {
             $this->redirect($this->createAbsoluteUrl('lizhuan/index'));
         }
 
+        // 如果是非分享任务 跳到任务的地点
+        if ($taskTplModel->task_type != TaskTplModel::TASK_TYPE_SHARE) {
+            $this->redirect($taskTplModel->task_url);
+        }
+
         //$isLocalUrl = $this->isLocalUrl($taskTplModel->task_url);
         //if ($isLocalUrl) {
         //    $nextUrl = $taskTplModel->task_url .'&task_id='.$taskTplId.'&share_code='.$shareCode.'&accounts_id='.$accounts_id;
@@ -247,9 +252,9 @@ class LizhuanController extends BaseController {
             'shareCallbackUrl' => $shareCallbackUrl,
             'iframeUrl' => $iframeUrl,
         );
+
         $this->layout = "layouts/default_v2.tpl";
         $this->smartyRender('lizhuan/show.tpl', $arrRender);
-
 
     }
     protected function isLocalUrl ($url) {
