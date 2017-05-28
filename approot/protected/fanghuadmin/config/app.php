@@ -46,8 +46,8 @@ $config['components']['log']['routes'][0]['levels'] = 'error, warning';
 */
 $gii = [];
 $gii['class'] = 'system.gii.GiiModule';
-$gii['password'] = 'ares_gii_0910';
-$gii['ipFilters'] = ['127.0.0.1', '::1'];
+$gii['password'] = '123456';
+$gii['ipFilters'] = ['127.0.0.1', '::1', '192.168.*.*'];
 $config['modules']['gii'] = $gii;
 
 /*
