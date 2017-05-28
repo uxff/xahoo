@@ -110,7 +110,7 @@ class ArticleOperLogModel extends ArticleOperLogModelBase
         static public function saveAnOper($aid, $oldStatus, $newStatus) {
             //
             $model = new ArticleOperLogModel;
-            $model->admin_uid  = Yii::app()->memberadmin->id;
+            $model->admin_id  = Yii::app()->memberadmin->id;
             $model->admin_name = Yii::app()->memberadmin->name;
             $model->article_id = $aid;
             $model->old_status = $oldStatus;
@@ -215,7 +215,7 @@ class ArticleOperLogModel extends ArticleOperLogModelBase
 
             if (!$logModel) {
                 $logModel = new ArticleOperLogModel;
-                $logModel->admin_uid  = 1;//Yii::app()->memberadmin->id;
+                $logModel->admin_id  = 1;//Yii::app()->memberadmin->id;
                 $logModel->admin_name = 'admin';//Yii::app()->memberadmin->name;
                 $logModel->article_id = $aid;
                 $logModel->old_status = 0;//$oldStatus;
