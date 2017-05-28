@@ -50,7 +50,7 @@
                             </tr>
                             <tr>
                                 <td>创建人</td>
-                                <td>{$objModel.author_name}</td>
+                                <td>{$objModel.admin_name}</td>
                             </tr>
                             <tr>
                                 <td>创建时间</td>

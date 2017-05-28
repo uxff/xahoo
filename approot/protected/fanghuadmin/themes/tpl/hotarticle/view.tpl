@@ -49,7 +49,7 @@
                                 </tr>
                                 <tr>
                                     <td>添加人</td>
-                                    <td>{$objModel.author_name}</td>
+                                    <td>{$objModel.admin_name}</td>
                                 </tr>
                                 <tr>
                                     <td>添加事件</td>
