@@ -25,7 +25,7 @@ class MyController extends BaseController
 
         $member_id = Yii::app()->loginUser->getUserId();
         $totalInfo = Yii::app()->getModule('points')->getMemberTotalInfo($member_id);
-        $memberInfo = Member::model()->findByPk($member_id);
+        $memberInfo = UcMember::model()->findByPk($member_id);
         $levelList = Yii::app()->getModule('points')->getLevelList();
 		$arrMsgStack = Yii::app()->loginUser->getFlashes();
 
@@ -258,7 +258,7 @@ class MyController extends BaseController
         $this->checkLogin();
 
         $member_id = Yii::app()->loginUser->getUserId();
-        $memberInfo = Member::model()->findByPk($member_id);
+        $memberInfo = UcMember::model()->findByPk($member_id);
         $csrfToken = Yii::app()->request->csrfToken;
 		$arrMsgStack = Yii::app()->loginUser->getFlashes();
 		$arrRender=array(
@@ -298,7 +298,7 @@ class MyController extends BaseController
             return $this->jsonError('email格式错误，请重新填写');
         }
 
-        $memberInfo = Member::model()->findByPk($member_id);
+        $memberInfo = UcMember::model()->findByPk($member_id);
         // 昵称可以随便修改
         $_POST['member_nickname'] ? ($memberInfo->member_nickname = $_POST['member_nickname']) : 0;
         // 真实姓名和邮箱 只能改一次

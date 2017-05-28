@@ -126,8 +126,8 @@ class UserController extends Controller {
 			$arrSqlParams = array(
                 'condition' => 'member_mobile="' . $username . '" OR member_email="' . $username . '"',
 			);
-			$objMember = Member::model()->find($arrSqlParams);
-			//$objMember = Member::model()->find($arrSqlParams);
+			$objMember = UcMember::model()->find($arrSqlParams);
+			//$objMember = UcMember::model()->find($arrSqlParams);
 
 			if (empty($objMember)) {
 				//不存在当前用户 则返回错误信
@@ -294,7 +294,7 @@ class UserController extends Controller {
             $arrSqlParams = array(
                 'condition' => 'member_mobile="' . $username . '"',
             );
-            $checkObj = Member::model()->find('member_mobile=:mob', [':mob'=>$username]);
+            $checkObj = UcMember::model()->find('member_mobile=:mob', [':mob'=>$username]);
             $checkArr = is_object($checkObj) ? $this->convertModelToArray($checkObj) : array();
 
             if ($checkObj) { 
@@ -325,7 +325,7 @@ class UserController extends Controller {
         }
         
         if (empty($errMsg)) {
-			$member = new Member();
+			$member = new UcMember();
 			//登录名
 			if (AresValidator::isValidChineseMobile($username)) {
 
@@ -346,14 +346,14 @@ class UserController extends Controller {
 				$member->member_mobile = $username;
 				//$member->is_mobile_actived = 1;
                 // 注册来源 fh 注册
-				$member->member_from = $inviteCodeModel ? Member::MEMBER_FROM_FANGHU_INVITE : Member::MEMBER_FROM_FANGHU_REG;
+				$member->member_from = $inviteCodeModel ? UcMember::MEMBER_FROM_FANGHU_INVITE : UcMember::MEMBER_FROM_FANGHU_REG;
 			}
 
 			$parent_id = 0;
 			$is_invite = 0;
 
 			if (!empty($signage)) {
-				$objMember = Member::model()->find("signage=:signage", array(":signage" => $signage));
+				$objMember = UcMember::model()->find("signage=:signage", array(":signage" => $signage));
 				if (!empty($objMember)) {
 					$is_invite = 1;
 					//$member->member_from = 2; //来源邀请
@@ -691,7 +691,7 @@ class UserController extends Controller {
 			$errMsg = '所有项都不能为空';
 		} else {
 			//查找到对应的customer
-			$objMember = Member::model()->find('member_mobile=:member_mobile', array('member_mobile' => $username));
+			$objMember = UcMember::model()->find('member_mobile=:member_mobile', array('member_mobile' => $username));
 
 			if (!AresValidator::isValidChineseMobile($username)) {
 				$errMsg = '请输入正确的手机号';
@@ -910,7 +910,7 @@ class UserController extends Controller {
 		$member_id = '';
 		if (!$result) {    //用户手机号没有被注册的情况
 			//为用户创建新帐号及帐号相关联信息
-			$member = new Member();
+			$member = new UcMember();
 			//判断当前用户是否通过邀请来到本平台
 			$cookie = Yii::app()->request->getCookies();
 			if (!empty($cookie['signage']->value)) {
@@ -950,7 +950,7 @@ class UserController extends Controller {
 			}
 		} else {
 			//查询已经存在会员信息
-			$member_info = Member::model()->findByAttributes(array('member_mobile' => $this->getString($_POST['member_mobile'])));
+			$member_info = UcMember::model()->findByAttributes(array('member_mobile' => $this->getString($_POST['member_mobile'])));
 			$member_id = $member_info->member_id;
 		}
 
@@ -992,7 +992,7 @@ class UserController extends Controller {
 	 * 验证手机号码已经注册
 	 */
 	private function verifyMobile($mobile) {
-		$member = Member::model()->findByAttributes(array('member_mobile' => $mobile));
+		$member = UcMember::model()->findByAttributes(array('member_mobile' => $mobile));
 		if ($member) {
 			return true;
 		} else {
@@ -1268,7 +1268,7 @@ class UserController extends Controller {
 
         $this->checkLogin(Yii::app()->request->hostInfo.Yii::app()->request->url);
         $member_id = Yii::app()->loginUser->getUserId();
-        $objMember = Member::model()->findByPk($member_id);
+        $objMember = UcMember::model()->findByPk($member_id);
         $ret = $this->checkAndBindThirdPart($member_id, $objMember->member_mobile);
         
         $arrRender=array(
