@@ -29,13 +29,13 @@ class UserIdentity extends CUserIdentity {
 				
                 switch ($loginMode) {
                         case self::LOGIN_MODE_EMAIL:
-                                $objMember = Member::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
+                                $objMember = UcMember::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
                                 break;
                         case self::LOGIN_MODE_MOBILE:
-                                $objMember = Member::model()->find('member_mobile=:member_mobile', array('member_mobile' => $lowerUserName));
+                                $objMember = UcMember::model()->find('member_mobile=:member_mobile', array('member_mobile' => $lowerUserName));
                                 break;
                         default:
-                                $objMember = Member::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
+                                $objMember = UcMember::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
                                 break;
                 }
 
@@ -73,13 +73,13 @@ class UserIdentity extends CUserIdentity {
 				
                 switch ($loginMode) {
                         case self::LOGIN_MODE_EMAIL:
-                                $objMember = Member::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
+                                $objMember = UcMember::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
                                 break;
                         case self::LOGIN_MODE_MOBILE:
-                                $objMember = Member::model()->find('member_mobile=:member_mobile', array('member_mobile' => $lowerUserName));
+                                $objMember = UcMember::model()->find('member_mobile=:member_mobile', array('member_mobile' => $lowerUserName));
                                 break;
                         default:
-                                $objMember = Member::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
+                                $objMember = UcMember::model()->find('LOWER(member_email)=:member_email', array('member_email' => $lowerUserName));
                                 break;
                 }
 
@@ -109,7 +109,7 @@ class UserIdentity extends CUserIdentity {
          *
          */
         public function authenticateadd() {
-                $objMember = Member::model()->findByAttributes(array('member_mobile' => $this->username));
+                $objMember = UcMember::model()->findByAttributes(array('member_mobile' => $this->username));
 
                 if ($objMember === null) {
                         $this->errorCode = self::ERROR_USERNAME_INVALID;
@@ -165,7 +165,7 @@ class UserIdentity extends CUserIdentity {
         }
 
         public function thirdPartLogin($id) {
-                $objMember = Member::model()->findByPk($id);
+                $objMember = UcMember::model()->findByPk($id);
 
                 if ($objMember === null) {
                         $this->errorCode = self::ERROR_USERNAME_INVALID;
