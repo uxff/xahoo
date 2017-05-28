@@ -184,64 +184,6 @@ class LizhuanController extends BaseController {
         //}
     }
     /*
-        taskView 用户自己查看任务内容
-    */
-    public function actionTaskView() {
-        $this->checkLogin();
-        $member_id = Yii::app()->loginUser->getUserId();
-        $taskTplId = $_GET['task_id'];
-
-        $taskModule = Yii::app()->getModule('mtask');
-        $taskInst = TaskInst::makeInstByTpl($member_id, $taskTplId);
-
-        if (!$taskInst) {
-            //$taskInst = $taskModule->dispatchTask($member_id, $taskTplId);
-            $nextUrl = $this->createAbsoluteUrl('lizhuan/index');
-            $this->redirect($nextUrl);
-        }
-        
-        $defaultArticleSurfaceUrl = $taskInst->getModel()->task_tpl->surface_url;
-
-        $protocol = Yii::app()->request->getIsSecureConnection() ? "https://" : "http://";
-        $defaultArticleSurfaceUrl = strncmp($defaultArticleSurfaceUrl, 'http', 4)==0 ? $defaultArticleSurfaceUrl : $protocol.$_SERVER['HTTP_HOST'].$defaultArticleSurfaceUrl;
-        //Yii::app()->request->getHostInfo().'/resource/fanghu2.0/images/index/index_banner.jpg';
-
-        $shareCode = Yii::app()->getModule('friend')->getInviteCodeModel($member_id)->invite_code;
-
-        $csrfToken = Yii::app()->request->csrfToken;
-
-        $visitUrl = $this->createAbsoluteUrl('lizhuan/show') .'&'. http_build_query(array(
-                        'share_code' => $shareCode,
-                        'task_id' => $taskTplId,
-                        'plat_type' => 2,
-                        ));
-
-        $shareCallbackUrl = $this->createAbsoluteUrl('article/ajaxsharesuccess', array(
-            'url' => $visitUrl,
-            'token' => Yii::app()->request->csrfToken,
-        ));
-
-        $arrRender = array(
-            'gShowHeader' => false,
-            'gShowFooter' => true,
-            //'signage' => $signage,
-            'logout_return_url' => $this->createAbsoluteUrl("lizhuan/index"),
-            //'articleModel' => $articleModel,
-            'pageTitle' => $taskTplModel->task_name,
-            // for share
-            'visitUrl' => $visitUrl,//$this->_createArticleUrl($id, $shareCode, $taskTplId),
-            'articleTitle' => $taskTplModel->task_name,
-            'articleDesc' => '',//$taskTplModel->task_name,
-            'articleSurfaceUrl' => $defaultArticleSurfaceUrl,
-            'token' => $csrfToken,
-            'shareCode' => $shareCode,
-            'shareCallbackUrl' => $shareCallbackUrl,
-            'iframeUrl' => $iframeUrl,
-        );
-        $this->layout = "layouts/default_v2.tpl";
-        $this->smartyRender('lizhuan/taskview.tpl', $arrRender);
-    }
-    /*
         show 分享后别人查看任务内容
     */
     public function actionShow() {
@@ -274,6 +216,20 @@ class LizhuanController extends BaseController {
             'accounts_id' => $accounts_id
         ));
 
+        $member_id = Yii::app()->loginUser->getUserId();
+        if ($member_id) {
+            $myShareCode = Yii::app()->getModule('friend')->getInviteCodeModel($member_id)->invite_code;
+        } else {
+            $myShareCode = '';
+        }
+
+        if ($shareCode && $shareCode!=$myShareCode) {
+            //$taskTplId  = 0;//(int)$_GET['task_id'];
+            $platId     = (int)$_GET['plat_type'];
+            $platId     = $platId ? $platId : 2;
+            $this->shareClicked($taskTplId, $shareCode, $platId);
+        }
+
         $arrRender = array(
             'gShowHeader' => false,
             'gShowFooter' => true,
@@ -300,5 +256,60 @@ class LizhuanController extends BaseController {
         $url = trim($url);
         $myServerHost = Yii::app()->request->getHostInfo();
         return strncmp($url, $myServerHost, strlen($myServerHost)) == 0;
+    }
+    /*
+        任务分享被点击
+            只派发任务分享奖励
+            因为iframe包含article,不派发文章分享奖励
+    */
+    public function shareClicked($taskTplId, $shareCode, $platId = 2) {
+        // 查询 shareCode
+        $shareCodeModel = MemberInviteCodeModel::model()->find('invite_code=:code', array(':code'=>$shareCode));
+        if (!$shareCodeModel) {
+            Yii::log('share code not exist:'.$shareCode.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            return false;
+        }
+        // 查询文章的分享记录
+        $shareLog = ShareLogModel::model()->find('article_id=:aid and use_invite_code=:share_code and plat_type=:plat_type', [
+            ':aid'          => $id,
+            ':share_code'   => $shareCode,
+            ':plat_type'    => $platId,
+        ]);
+        // 
+        if (!$shareLog) {
+            Yii::log('aid('.$id.') not shared by:'.$shareCode.'('.$shareCodeModel->member_id.') @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            return false;
+        } else {
+            try {
+                $shareLog->view_count += 1;
+                $shareLog->save();
+            } catch (Exception $e) {
+                Yii::log('save share log view_count +=1 failed:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            }
+        }
+
+        if ($taskTplId) {
+            $taskInst = TaskInst::makeInstByTpl($shareCodeModel->member_id, $taskTplId);
+            if (!$taskInst) {
+                Yii::log('he('.$shareCodeModel->member_id.') has no task:'.$taskTplId.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            } else {
+                $taskInstModel = $taskInst->getModel();
+                $taskInstModel->view_count = $taskInstModel->view_count + 1;
+                if (!$taskInstModel->save()) {
+                    Yii::log('save art view_count failed:mid=('.$shareCodeModel->member_id.') :'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                }
+
+                // 派发积分
+                if ($taskInstModel->view_count<=1) {
+                    
+                    // 派发积分
+                    $eventParam = array(
+                        'taskTplId' => $taskTplId,
+                    );
+                    Yii::app()->getModule('event')->pushEvent($shareCodeModel->member_id, 'share_clicked', $eventParam);
+                }
+                return true;
+            }
+        }
     }
 }
