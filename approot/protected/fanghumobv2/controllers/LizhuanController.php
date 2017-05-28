@@ -208,7 +208,7 @@ class LizhuanController extends BaseController {
         //    $this->redirect($nextUrl);
         //}
         
-        $iframeUrl = $taskTplModel->task_url.'&showheader=0';
+        $iframeUrl = $taskTplModel->task_url.'&noheader=1';
         $defaultArticleSurfaceUrl = Yii::app()->request->getHostInfo().$taskTplModel->surface_url;
         $csrfToken = Yii::app()->request->csrfToken;
         // 

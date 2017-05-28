@@ -19,7 +19,7 @@ class ArticleController extends BaseController {
         $isGuest = Yii::app()->loginUser->getIsGuest();
         $accounts_id    = isset($_GET['accounts_id'])?$_GET['accounts_id']:1;
         $shareCode = $_GET['share_code'];
-        $showHeader = intval($_GET['showheader'])==1 ? true : false;
+        $showHeader = intval($_GET['noheader'])==1 ? false : true;
 
         if ($isGuest) {
             $member_id = 0;
