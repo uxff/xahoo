@@ -70,6 +70,12 @@ img {width:100%;height:100%;}
 .check_des {
 	font-size:.83rem;
 }
+.day_list_des {
+	font-size:.83rem;
+    margin-top: 2.3rem;
+    margin-left: 2.0rem;
+	color:#7a4708;
+}
 .check_jf {
 	position:absolute;
 	top:0.8rem;
