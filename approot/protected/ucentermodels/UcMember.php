@@ -1,4 +1,7 @@
 <?php
+// 身份加密deskey
+!defined('DES_KEY')?define('DES_KEY', ''):'';
+
 class UcMember extends UcMemberBase
 {
 
@@ -24,25 +27,53 @@ class UcMember extends UcMemberBase
         self::STATUS_DELETED=> '删除',
     ];
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules() {
-		//新增的在这里面加，如果修改 需要修改父类中的Rule
-		$curRules = array(
-		);
-		return array_merge(parent::rules(), $curRules);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+            //新增的在这里面加，如果修改 需要修改父类中的Rules
+            $curRules = array(
+            );
+            return array_merge(parent::rules(), $curRules);
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations() {
-		$curRelations = array(
-            'member_total' => array(self::HAS_ONE, 'MemberTotalModel', '', 'on' => 'member_total.member_id=t.member_id and member_total.accounts_id=1'),
-		);
-		return array_merge(parent::relations(), $curRelations);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+            $curRelations = array(
+                'member_total' => array(self::HAS_ONE, 'MemberTotalModel', '', 'on' => 'member_total.member_id=t.member_id and member_total.accounts_id=1'),
+            );
+            return array_merge(parent::relations(), $curRelations);
+    }
+
+    /**
+     * custom defined scope
+     * @param  integer $pageNo   页码
+     * @param  integer $pageSize 每页大小
+     * @return object
+     */
+    public function pagination($pageNo = 1, $pageSize = 20) {
+
+        $offset = ($pageNo > 1) ? ($pageNo - 1) * $pageSize : 0;
+        $limit = ($pageSize > 0) ? $pageSize : 20;
+
+        $this->getDbCriteria()->mergeWith(array('limit' => $limit, 'offset' => $offset));
+
+        return $this;
+    }
+
+    /**
+     * custom defined scope
+     * @param  integer $limit 数量
+     * @return object
+     */
+    public function recently($limit = 5) {
+
+        $this->getDbCriteria()->mergeWith(array('order' => 't.last_modified DESC', 'limit' => $limit));
+
+        return $this;
+    }
 
     /**
      * custom defined scope
@@ -59,48 +90,43 @@ class UcMember extends UcMemberBase
     }
 
     /**
-	 * 与Smarrty中的文本提示相对应，可以修改成中文提示
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels() {
-		$curLables = array(
-		);
-		return array_merge(parent::attributeLabels(), $curLables);
-	}
-	public function mySearch($condition = array())
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-		$criteria = $this->getBaseCDbCriteria();
+     * 与Smarrty中的文本提示相对应，可以修改成中文提示
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+            $curLables = array(
+            );
+            return array_merge(parent::attributeLabels(), $curLables);
+    }
+    public function mySearch($condition = array())
+    {
+           // @todo Please modify the following code to remove attributes that should not be searched.
+            $criteria = $this->getBaseCDbCriteria();
+            if(isset($condition['start_time'])) {
+                $criteria->addCondition(" t.create_time >= '{$condition['start_time']}'");
+            }
+            if(isset($condition['end_time'])) {
+                $criteria->addCondition(" t.create_time <= '{$condition['end_time']}'");
+            }
 
-        if(isset($condition['start_time']))
-        {
-            $criteria->addCondition(" t.create_time >= '{$condition['start_time']}'");
-        }
-        if(isset($condition['end_time']))
-        {
-            $criteria->addCondition(" t.create_time <= '{$condition['end_time']}'");
-        }
-        // 不包含临时用户
-        $criteria->addCondition(" t.member_mobile != ''");
-        //$criteria->addCondition(" t.member_from != '".self::MEMBER_FROM_WX_FANGHU."'");
-        
-		//为$criteria新增设置
-		$count = $this->count($criteria);
-		$pager = new CPagination($count);
-		$pager->pageSize = !empty(Yii::app()->params['pageSize'])?Yii::app()->params['pageSize']:10;
-		$pager->pageVar = 'page'; //修改分页参数，默认为page
-		$pager->params = array('type' => 'msg'); //分页中添加其他参数
-		$pager->applyLimit($criteria);
-		$list = $this->orderBy('t.member_id desc')->findAll($criteria);
-		$pages = array(
-                    'curPage' => $pager->currentPage+1,
-                    'totalPage' => ceil($pager->itemCount/$pager->pageSize),
-                    'pageSize' => $pager->pageSize,
-                    'totalCount'=>$pager->itemCount,
-                    'url'=>preg_replace("/&page=\d*[^&]/", "", Yii::app()->request->getUrl())."&page=",
-		);
-		return array('pages' => $pages, 'list' => $list);
-	}
+            //为$criteria新增设置
+            $count = $this->count($criteria);
+            $pager = new CPagination($count);
+            $pager->pageSize = !empty(Yii::app()->params['pageSize'])?Yii::app()->params['pageSize']:10;
+            $pager->pageVar = 'page'; //修改分页参数，默认为page
+            $pager->params = array('type' => 'msg'); //分页中添加其他参数
+            $pager->applyLimit($criteria);
+            $list = $this->findAll($criteria);
+            $pages = array(
+                'curPage' => $pager->currentPage+1,
+                'totalPage' => ceil($pager->itemCount/$pager->pageSize),
+                'pageSize' => $pager->pageSize,
+                'totalCount'=>$pager->itemCount,
+                'url'=>preg_replace("/&page=\d*[^&]/", "", Yii::app()->request->getUrl())."&page=",
+            );
+            return array('pages' => $pages, 'list' => $list);
+    }
+
 	public function mySearchForReport($condition = array())
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -139,7 +165,7 @@ class UcMember extends UcMemberBase
 	public function mySearchForReport2($condition=array(), $pageNo=1, $pageSize=10)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
-        $sql = 'select u.member_id,u.member_mobile,u.member_fullname,t.points_total,t.points_gain,t.points_consume,t.level,t.money_total,t.money_gain,t.money_withdraw,u.status,u.member_from,u.create_time,u.fh_last_login from xqsj_db.uc_member u left join fh_member_total t on t.member_id=u.member_id where u.member_mobile !=""';
+        $sql = 'select u.member_id,u.member_mobile,u.member_fullname,t.points_total,t.points_gain,t.points_consume,t.level,t.money_total,t.money_gain,t.money_withdraw,u.status,u.member_from,u.create_time,u.last_login from uc_member u left join fh_member_total t on t.member_id=u.member_id where u.member_mobile !=""';
         $where = '';
         $orderBy = ' order by t.points_total desc,u.member_id';
         if(isset($condition['start_time'])) {
@@ -175,19 +201,16 @@ class UcMember extends UcMemberBase
 		);
 		return array('pages' => $pages, 'list' => $list, 'totalInfo' => $cnt[0]);
 	}
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your UCenterActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return UcMember the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
-
-
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return UcMember the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+            return parent::model($className);
+    }
 	/**
 	 * 插入数据前对身份证号进行加密
 	 */
@@ -208,7 +231,6 @@ class UcMember extends UcMemberBase
 	 */
 	public function afterfind(){
         parent::afterfind();
-		!defined('DES_KEY')?define('DES_KEY', ''):'';
 		if($this->member_id_number!=""){
 			$AresObj = new AresCryptDes(DES_KEY);
 			$result = $AresObj->decrypt($this->member_id_number);
