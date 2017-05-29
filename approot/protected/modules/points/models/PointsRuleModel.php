@@ -15,7 +15,7 @@ class PointsRuleModel extends PointsRuleModelBase
         const RULE_KEY_REGISTER             = 'register';
         const RULE_KEY_SHARE_CLICKED        = 'share_clicked';
         const RULE_KEY_SHARE                = 'share';
-        const RULE_KEY_FINISH_TASK          = 'finish_task';
+        const RULE_KEY_TASK_SHARE           = 'task_share';
 
         /**
          * @return array validation rules for model attributes.
