@@ -29,7 +29,7 @@ class FhMoneyWithdrawModel extends FhMoneyWithdrawModelBase
         public function relations() {
                 $curRelations = array(
                     'haibao' => array(self::HAS_ONE, 'FhMemberHaibaoModel', '', 'on' => 'haibao.member_id  = t.member_id'),
-                    //'project' => array(self::HAS_ONE, 'Project', '', 'on' => 'project.project_id  = t.project_id'),
+                    'poster' => array(self::HAS_ONE, 'FhPosterModel', '', 'on' => 'poster.id  = t.poster_id'),
                 );
                 return array_merge(parent::relations(), $curRelations);
         }
@@ -122,9 +122,9 @@ class FhMoneyWithdrawModel extends FhMoneyWithdrawModelBase
                     if($condition['member_mobile'] != ''){
                         $criteria->addCondition(" haibao.member_mobile like "."'%".$condition['member_mobile']."%'");
                     }
-                    if($condition['project'] != ''){
-                        $criteria->addCondition(" haibao.project_id = ".(int)$condition['project']);
-                    }
+                    //if($condition['project'] != ''){
+                    //    $criteria->addCondition(" haibao.project_id = ".(int)$condition['project']);
+                    //}
                     if($condition['is_jjr'] != ''){
                         $criteria->addCondition(" haibao.is_jjr = ".(int)$condition['is_jjr']);
                     }
