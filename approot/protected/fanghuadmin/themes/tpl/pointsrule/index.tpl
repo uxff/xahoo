@@ -71,6 +71,7 @@
                 <tr>
                     <th>序号</th>
                     <th>规则名称</th>
+                    <th>规则key</th>
                     <th>积分分值</th>
                     <th>创建时间</th>
                     <th>最后更新时间</th>
@@ -82,6 +83,7 @@
                 <tr>
                     <td>{$i+($pages.curPage-1)*$pages.pageSize+1}</td>
                     <td>{$objModel.rule_name}</td>
+                    <td>{$objModel.rule_key}</td>
                     <td>{if ($objModel.points_desc)}{$objModel.points_desc}{else}{$objModel.points}{/if}</td>
                     <td>{$objModel.create_time}</td>
                     <td>{$objModel.last_modified}</td>
