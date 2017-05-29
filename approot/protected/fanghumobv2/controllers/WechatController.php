@@ -20,7 +20,7 @@ class WechatController extends BaseController {
         $openid = isset($_GET['openid'])?$_GET['openid']:'';
         Yii::app()->params['accounts_id'] = 1;//表fh_poster_accounts主键
         $value = array(
-            'token'=>'fanghu', 
+            'token'=>Yii::app()->params['fh_wechat_token'], 
             'appid' => Yii::app()->params['fh_wechat_appid'], 
             'appsecret' => Yii::app()->params['fh_wechat_appsecret'], 
             'EncodingAESKey' => Yii::app()->params['EncodingAESKey'], 
@@ -54,7 +54,7 @@ class WechatController extends BaseController {
     }
     public function actionIndex() {
         if (isset($_GET["echostr"])) {
-            $this->weObj->valid();
+            return $this->weObj->valid();
         }
         // 交给处理器
         $this->process();
