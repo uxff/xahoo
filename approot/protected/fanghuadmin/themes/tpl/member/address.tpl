@@ -94,7 +94,7 @@
                                                                         {elseif $attrId == 'status' && $objModel.status == 0}
                                                                         <td><span class="label label-sm label-warning">无效</span></td>
                                                                         {elseif $attrId == 'address'}
-                                                                        <td><a href="fanghuadmin.php?r=memberaddress/view&id={$objModel.id}">{$objModel.address}</a>{if $objModel.is_default == 1}<span class="btn btn-xs btn-info">默认收货地址</span>{/if}</td>
+                                                                        <td><a href="backend.php?r=memberaddress/view&id={$objModel.id}">{$objModel.address}</a>{if $objModel.is_default == 1}<span class="btn btn-xs btn-info">默认收货地址</span>{/if}</td>
                                                                         {else}
                                                                         <td>{$objModel.$attrId}</td>
                                                                         {/if}

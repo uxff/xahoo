@@ -1,7 +1,7 @@
 <div class="page-content-area">
     <div class="page-header">
         <h1>
-            <a href="fanghuadmin.php?r=taskTplMgr">任务管理</a>
+            <a href="backend.php?r=taskTplMgr">任务管理</a>
             <small> <i class="ace-icon fa fa-angle-double-right"></i>
                 编辑
             </small>
@@ -21,7 +21,7 @@
                 {$errormsgs}
             </div>
             {/if}
-            <form class="form-horizontal" id="taskTplMgr-form" role="form" action="fanghuadmin.php?r=taskTplMgr/update&id={$model[$primaryKey]}" method="POST">
+            <form class="form-horizontal" id="taskTplMgr-form" role="form" action="backend.php?r=taskTplMgr/update&id={$model[$primaryKey]}" method="POST">
                 <div class="form-group col-xs-12">
                     <div class="form-group col-xs-6">
                         <label class="col-sm-3 control-label no-padding-right" for="TaskTplModel_task_name">任务名称</label>

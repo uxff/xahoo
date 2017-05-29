@@ -173,7 +173,7 @@
                                                     打款
                                                 </a>
                                                 {/if}
-                                                <a href="fanghuadmin.php?r=PosterUserMoney/View&id={$objModel.haibao['id']}&withdrawid={$objModel['id']}" class="btn btn-xs btn-info">
+                                                <a href="backend.php?r=PosterUserMoney/View&id={$objModel.haibao['id']}&withdrawid={$objModel['id']}" class="btn btn-xs btn-info">
                                                     <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                     查看
                                                 </a>

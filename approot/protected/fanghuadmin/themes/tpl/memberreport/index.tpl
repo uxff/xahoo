@@ -82,7 +82,7 @@
             金额余额={$totalInfo.money_total} 金额获得={$totalInfo.money_gain} 金额提现={$totalInfo.money_withdraw}
             <!--
             <span class="pull-right">
-                <a href="fanghuadmin.php?r=memberReport/create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
+                <a href="backend.php?r=memberReport/create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
             </span>
             -->
         </div>
@@ -138,7 +138,7 @@
                     <!--
                     <td>
                         <div class="hidden-sm hidden-xs btn-group">
-                        <a href="fanghuadmin.php?r=memberReport/view&id={$objModel.$modelId}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                        <a href="backend.php?r=memberReport/view&id={$objModel.$modelId}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                         </div>
                     </td>
                     -->

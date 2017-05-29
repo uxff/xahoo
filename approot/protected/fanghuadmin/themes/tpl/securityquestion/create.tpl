@@ -1,6 +1,6 @@
 <div class="page-content-area">
     <div class="page-header">
-        <h1><a href="fanghuadmin.php?r=securityQuestion">SecurityQuestion</a>
+        <h1><a href="backend.php?r=securityQuestion">SecurityQuestion</a>
             <small><i class="ace-icon fa fa-angle-double-right"></i> 新增</small>
         </h1>
         <br/>
@@ -33,7 +33,7 @@
             {/if}
 
             <form class="form-horizontal" id="securityQuestion-form" role="form"
-                  action="fanghuadmin.php?r=securityQuestion/create" method="POST">
+                  action="backend.php?r=securityQuestion/create" method="POST">
                 <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right"
                            for="SecurityQuestion_question_text">密保问题内容</label>

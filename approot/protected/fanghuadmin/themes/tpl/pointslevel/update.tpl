@@ -1,6 +1,6 @@
 <div class="page-content-area">
         <div class="page-header">
-            <h1> <a href="fanghuadmin.php?r=pointsLevel">积分等级</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 编辑 </small> </h1><br />
+            <h1> <a href="backend.php?r=pointsLevel">积分等级</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 编辑 </small> </h1><br />
                 <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
         </div>
         <!-- /.page-header -->
@@ -19,7 +19,7 @@
                             </div>
                         {/if}
 
-                        <form class="form-horizontal" id="pointsLevel-form" role="form" action="fanghuadmin.php?r=pointsLevel/update&id={$model[$primaryKey]}" method="POST">
+                        <form class="form-horizontal" id="pointsLevel-form" role="form" action="backend.php?r=pointsLevel/update&id={$model[$primaryKey]}" method="POST">
                 <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="">等级</label>
                     <div class="col-sm-7">

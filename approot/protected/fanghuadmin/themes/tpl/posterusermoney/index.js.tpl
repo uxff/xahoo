@@ -16,7 +16,7 @@
                    content: '<p>请确认所选则的用户，提现金额是否都正确，审核通过后，请以红包发给用户</p>',
                    btn: ['审核通过', '审核不通过'],
                    yes: function(index, layero){
-                        var url = 'fanghuadmin.php?r=PosterUserMoney/EditStatus&id='+id+'&status='+3+'&pid='+pid+'&token='+$('#token').val();
+                        var url = 'backend.php?r=PosterUserMoney/EditStatus&id='+id+'&status='+3+'&pid='+pid+'&token='+$('#token').val();
                             $.ajax({
                                 type: 'POST',
                                 url: url,
@@ -39,7 +39,7 @@
                                 
                             })
                    },cancel: function(index){
-                         var url = 'fanghuadmin.php?r=PosterUserMoney/EditStatus&id='+id+'&status='+2+'&pid='+pid+'&token='+$('#token').val();
+                         var url = 'backend.php?r=PosterUserMoney/EditStatus&id='+id+'&status='+2+'&pid='+pid+'&token='+$('#token').val();
                              $.ajax({
                                 type: 'POST',
                                 url: url,
@@ -73,7 +73,7 @@
                    content: '<p>请确认线下已完成红包付款，您确认将这些用户的提现状态设置为“已打款”吗？</p>',
                    btn: ['确认', '取消'],
                    yes: function(index, layero){
-                        var url = 'fanghuadmin.php?r=PosterUserMoney/EditStatus&id='+id+'&status='+4+'&pid='+pid+'&money=' +money+ '&member_id=' + member_id+'&token='+$('#token').val();
+                        var url = 'backend.php?r=PosterUserMoney/EditStatus&id='+id+'&status='+4+'&pid='+pid+'&money=' +money+ '&member_id=' + member_id+'&token='+$('#token').val();
                             $.ajax({
                                 type: 'POST',
                                 url: url,
@@ -148,13 +148,13 @@
                    btn: ['审核通过', '关闭','不通过'],
                    yes: function(){
                          layer.msg('不要关闭窗口和刷新页面,请耐心等待', {icon: 16});
-                         var url = '/fanghuadmin.php?r=PosterUserMoney/MoreEditStatus';
+                         var url = '/backend.php?r=PosterUserMoney/MoreEditStatus';
                          poster.get_data(id_arr,3,pid_arr,money_arr,member_id_arr,url,'审核通过操作');
                    },cancel: function(){
                        
                 },
                 btn3 :  function(){
-                         var url = '/fanghuadmin.php?r=PosterUserMoney/MoreEditStatus';
+                         var url = '/backend.php?r=PosterUserMoney/MoreEditStatus';
                          poster.get_data(id_arr,2,pid_arr,money_arr,member_id_arr,url,'审核不通过操作');
                 }
              });
@@ -191,7 +191,7 @@
                    btn: ['确认', '取消'],
                    yes: function(index, layero){
                          layer.msg('不要关闭窗口和刷新页面,请耐心等待', {icon: 16});
-                         var url = '/fanghuadmin.php?r=PosterUserMoney/MoreEditStatus';
+                         var url = '/backend.php?r=PosterUserMoney/MoreEditStatus';
                          poster.get_data(id_arr,4,pid_arr,money_arr,member_id_arr,url,'付款');
                    }
              });

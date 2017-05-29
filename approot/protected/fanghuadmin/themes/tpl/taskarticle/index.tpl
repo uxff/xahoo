@@ -113,7 +113,7 @@
                             Showing {($pages.curPage-1)*$pages.pageSize+1} to {$pages.totalCount} of {$pages.totalCount} results
                         {/if}
                         <span class="pull-right">
-                                                        <a href="fanghuadmin.php?r=taskArticle/create"
+                                                        <a href="backend.php?r=taskArticle/create"
                                                            class="btn btn-xs btn-success"><i
                                                                     class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
                                                 </span>
@@ -157,13 +157,13 @@
                                     {/foreach}
                                     <td>
                                         <div class="hidden-sm hidden-xs btn-group">
-                                            <a href="fanghuadmin.php?r=taskArticle/view&id={$objModel.$modelId}"
+                                            <a href="backend.php?r=taskArticle/view&id={$objModel.$modelId}"
                                                class="btn btn-xs btn-info"> <i
                                                         class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
-                                            <a href="fanghuadmin.php?r=taskArticle/update&id={$objModel.$modelId}"
+                                            <a href="backend.php?r=taskArticle/update&id={$objModel.$modelId}"
                                                class="btn btn-xs btn-success"> <i
                                                         class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
-                                            <button onclick="delConfirm('fanghuadmin.php?r=taskArticle/delete&amp;id={$objModel.$modelId}');"
+                                            <button onclick="delConfirm('backend.php?r=taskArticle/delete&amp;id={$objModel.$modelId}');"
                                                     data-url="" class="btn btn-xs btn-danger"><i
                                                         class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                             </button>
@@ -176,19 +176,19 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                                     <li>
-                                                        <a href="fanghuadmin.php?r=taskArticle/view&id={$objModel.$modelId}"
+                                                        <a href="backend.php?r=taskArticle/view&id={$objModel.$modelId}"
                                                            class="tooltip-info" data-rel="tooltip" title="View"> <span
                                                                     class="blue"> <i
                                                                         class="ace-icon fa fa-search-plus bigger-120"></i> </span>
                                                         </a></li>
                                                     <li>
-                                                        <a href="fanghuadmin.php?r=taskArticle/update&id={$objModel.$modelId}"
+                                                        <a href="backend.php?r=taskArticle/update&id={$objModel.$modelId}"
                                                            class="tooltip-success" data-rel="tooltip" title="Edit">
                                                             <span class="green"> <i
                                                                         class="ace-icon fa fa-pencil-square-o bigger-120"></i> </span>
                                                         </a></li>
                                                     <li>
-                                                        <button onclick="delConfirm('fanghuadmin.php?r=taskArticle/delete&amp;id={$objModel.$modelId}');"
+                                                        <button onclick="delConfirm('backend.php?r=taskArticle/delete&amp;id={$objModel.$modelId}');"
                                                                 class="tooltip-error" data-rel="tooltip" title="Delete">
                                                             <span class="red"> <i
                                                                         class="ace-icon fa fa-trash-o bigger-120"></i> </span>

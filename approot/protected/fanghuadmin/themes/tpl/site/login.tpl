@@ -15,7 +15,7 @@
         <div class="login_cont" style="background:url({$resourcePath}/images/login/login_bg_fh.jpg) no-repeat center">
             <div class="main">
                 <div class="login_form">
-                    <form id="login-form" action="fanghuadmin.php?r=site/login" method="post">
+                    <form id="login-form" action="backend.php?r=site/login" method="post">
                         <h3>用户登录</h3>
                         <div>
                             <input type="text" name="LoginForm[username]" id="LoginForm_username" placeholder="用户名" tabindex="1"/>

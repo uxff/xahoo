@@ -71,20 +71,20 @@
                                                 -->
                                                 {if $loginUser == 'Guest'}
                                                     <li>
-                                                            <a href="fanghuadmin.php?r=site/login">
+                                                            <a href="backend.php?r=site/login">
                                                                     <i class="ace-icon fa fa-power-off"></i>
                                                                     登录系统
                                                             </a>
                                                     </li>
                                                 {else}
                                                     <li>
-                                                            <a href="fanghuadmin.php?r=AdminUser/UpdatePassword">
+                                                            <a href="backend.php?r=AdminUser/UpdatePassword">
                                                                     <i class="ace-icon fa fa-user"></i>
                                                                     修改密码
                                                             </a>
                                                     </li>
                                                     <li>
-                                                            <a href="fanghuadmin.php?r=site/logout">
+                                                            <a href="backend.php?r=site/logout">
                                                                     <i class="ace-icon fa fa-power-off"></i>
                                                                     退出登录
                                                             </a>

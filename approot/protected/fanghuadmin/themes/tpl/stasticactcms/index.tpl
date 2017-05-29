@@ -9,7 +9,7 @@
     <a href="#" onclick="$('#searchContainer').toggle();return false">检索条件</a><br />
     -->
     <div id="searchContainer" >
-        <form class="form-horizontal"  id="actcms-form" role="form" action="fanghuadmin.php?r=stasticactcms/index" method="GET">
+        <form class="form-horizontal"  id="actcms-form" role="form" action="backend.php?r=stasticactcms/index" method="GET">
             <input type="hidden" name="r" value="{$route}" />
             <div class="col-xs-12">
                 <br/>

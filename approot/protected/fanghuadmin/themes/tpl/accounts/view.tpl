@@ -42,7 +42,7 @@
                                     </form>
         <div class="clearfix form-actions">
           <div class="col-md-offset-5 col-md-6">
-            <a class="btn btn-info" href="fanghuadmin.php?r=Accounts"><i class="ace-icon fa fa-check bigger-110"></i>返回</a>
+            <a class="btn btn-info" href="backend.php?r=Accounts"><i class="ace-icon fa fa-check bigger-110"></i>返回</a>
           </div>
         </div>  
                                         <div class="dataTables_paginate">

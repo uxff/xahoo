@@ -1,7 +1,7 @@
 
 <div class="page-content-area">
         <div class="page-header">
-                                <h1> <a href="fanghuadmin.php?r=roleUser">用户角色管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
+                                <h1> <a href="backend.php?r=roleUser">用户角色管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
                 <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
         </div>
         <!-- /.page-header -->
@@ -27,7 +27,7 @@
                         </div>
                         {/if}
 
-                        <form class="form-horizontal"  id="roleUser-form" role="form" action="fanghuadmin.php?r=roleUser/create" method="POST">
+                        <form class="form-horizontal"  id="roleUser-form" role="form" action="backend.php?r=roleUser/create" method="POST">
                             <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="SysRoleUser_role_id">Role Id</label>
                     <div class="col-sm-7"><input type="text" id="SysRoleUser_role_id" name="SysRoleUser[role_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.role_id}" /></div>

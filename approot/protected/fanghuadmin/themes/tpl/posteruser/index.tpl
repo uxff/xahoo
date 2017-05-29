@@ -101,7 +101,7 @@
                                                                         <td>{$objModel['fans_second']}</td>                                                                         
                                                                         <td>
                                                                                 <div class="hidden-sm hidden-xs btn-group">
-                                                                                    <a href="fanghuadmin.php?r=PosterUser/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                                                                                    <a href="backend.php?r=PosterUser/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                                                                                 </div>
                                                                         </td>
                                                                 </tr>

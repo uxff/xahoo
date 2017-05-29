@@ -1,6 +1,6 @@
 <div class="page-content-area">
     <div class="page-header">
-        <h1><a href="fanghuadmin.php?r=pointRule">PointRule</a>
+        <h1><a href="backend.php?r=pointRule">PointRule</a>
             <small><i class="ace-icon fa fa-angle-double-right"></i> 新增</small>
         </h1>
         <br/>
@@ -32,7 +32,7 @@
                 </div>
             {/if}
 
-            <form class="form-horizontal" id="pointRule-form" role="form" action="fanghuadmin.php?r=pointRule/create"
+            <form class="form-horizontal" id="pointRule-form" role="form" action="backend.php?r=pointRule/create"
                   method="POST">
                 <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="PointRule_rule_name">积分规则名称</label>

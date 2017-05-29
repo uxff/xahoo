@@ -67,7 +67,7 @@
         <div class="">
                 共 {$pages.totalCount} 条查询结果：
                 <span class="pull-right">
-                        <a href="fanghuadmin.php?r=Poster/Create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增海报 </a>
+                        <a href="backend.php?r=Poster/Create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增海报 </a>
                 </span>
         </div>
     <form id="project-form" class="form-horizontal" method="POST" action="" role="form" style="">
@@ -148,9 +148,9 @@
                                             {if $objModel['poster_status'] == 2}
                                             <a href="" class="btn btn-xs btn-success" disabled="disabled"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
                                             {else}
-                                            <a href="fanghuadmin.php?r=Poster/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
+                                            <a href="backend.php?r=Poster/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
                                             {/if}
-                                            <a href="fanghuadmin.php?r=Poster/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                                            <a href="backend.php?r=Poster/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                                         </div>
                                         </td>
                                 </tr>

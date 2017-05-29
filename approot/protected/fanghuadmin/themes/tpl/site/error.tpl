@@ -223,7 +223,7 @@
                                                                                                 返回上一页
                                                                                         </a>
 
-                                                                                        <a href="fanghuadmin.php?r=site/login" class="btn btn-primary">
+                                                                                        <a href="backend.php?r=site/login" class="btn btn-primary">
                                                                                                 <i class="ace-icon fa fa-tachometer"></i>
                                                                                                 切换账号
                                                                                         </a>

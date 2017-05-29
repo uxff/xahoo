@@ -6,7 +6,7 @@
 </script>
 <script type="text/javascript">
     var zhff = {
-    "uploadImageUri" : "/fanghuadmin.php?r=upload/post",
+    "uploadImageUri" : "/backend.php?r=upload/post",
     "uploadFileUri" : "/ucenterpc.php?r=account/postFile",
     }
 </script>

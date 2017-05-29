@@ -55,7 +55,7 @@ jQuery(function ($) {
         $("#btn_export").click(function(event){
             //console.log(        );
             var params = $('#project-form').serialize();
-            //https://myfhadm.com/fanghuadmin.php?r=StasticActcms/Export&r=stasticActcms%2Findex&ArticleModel%5Btitle%5D=&condition%5Btime_start%5D=2016-05-03&condition%5Btime_end%5D=2016-05-03&r=stasticActcms/export
+            //https://myfhadm.com/backend.php?r=StasticActcms/Export&r=stasticActcms%2Findex&ArticleModel%5Btitle%5D=&condition%5Btime_start%5D=2016-05-03&condition%5Btime_end%5D=2016-05-03&r=stasticActcms/export
             // 最后必须强调一遍路由 可恶的yii
             this.href = $(this).attr('url') + '&' + params + '&r=PosterReport/Export';
             //event.preventDefault();

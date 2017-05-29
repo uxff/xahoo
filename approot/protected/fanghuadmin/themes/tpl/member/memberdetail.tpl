@@ -43,34 +43,34 @@
                             <td class="col-sm-2">贡献获取详情</td>
                             <th class="col-sm-2">积分</th>
                             <td class="col-sm-2">{$member_total.total_point}</td>
-                            <td class="col-sm-2"><a href="fanghuadmin.php?r=member/pointlog&id={$member_information.member_id}">积分获取详情</a></td>
+                            <td class="col-sm-2"><a href="backend.php?r=member/pointlog&id={$member_information.member_id}">积分获取详情</a></td>
                         </tr>
                         <tr>
                             <th class="col-sm-2">任务</th>
                             <td class="col-sm-2"></td>
                             <td class="col-sm-2">
-                                <a href="fanghuadmin.php?r=member/taskArticle&id={$member_information.member_id}">资讯任务</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="fanghuadmin.php?r=member/taskBuilding&id={$member_information.member_id}">楼盘任务</a>
+                                <a href="backend.php?r=member/taskArticle&id={$member_information.member_id}">资讯任务</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="backend.php?r=member/taskBuilding&id={$member_information.member_id}">楼盘任务</a>
                             </td>
                             <th class="col-sm-2">收藏</th>
                             <td class="col-sm-2"></td>
-                            <td class="col-sm-2"><a href="fanghuadmin.php?r=member/favorite&id={$member_information.member_id}">会员收藏的任务</a></td>
+                            <td class="col-sm-2"><a href="backend.php?r=member/favorite&id={$member_information.member_id}">会员收藏的任务</a></td>
                         </tr>
                         <tr>
                             <th class="col-sm-2">预约</th>
                             <td class="col-sm-2"></td>
-                            <td class="col-sm-2"><a href="fanghuadmin.php?r=member/appointment&id={$member_information.member_id}">查看会员预约</a></td>
+                            <td class="col-sm-2"><a href="backend.php?r=member/appointment&id={$member_information.member_id}">查看会员预约</a></td>
                             <th class="col-sm-2">佣金</th>
                             <td class="col-sm-2">{$member_total.total_reward}</td>
-                            <td class="col-sm-2"><a href="fanghuadmin.php?r=member/brokeragelog&id={$member_information.member_id}">会员佣金</a></td>
+                            <td class="col-sm-2"><a href="backend.php?r=member/brokeragelog&id={$member_information.member_id}">会员佣金</a></td>
                         </tr>
                         <tr>
                             <th class="col-sm-2">婚恋状态</th>
                             <td class="col-sm-2">{if $member_information.member_is_married == 0}未婚{else}已婚{/if}</td>
                             <td class="col-sm-2"></td>
                             <th class="col-sm-2">收货地址</th>
-                            <td class="col-sm-2"><a href="fanghuadmin.php?r=memberaddress/view&id={$member_information.default_address.id}">{$member_information.default_address.address}</a></td>
-                            <td class="col-sm-2"><a href="fanghuadmin.php?r=member/address&id={$member_information.member_id}">查看该会员所有收货地址</a></td>
+                            <td class="col-sm-2"><a href="backend.php?r=memberaddress/view&id={$member_information.default_address.id}">{$member_information.default_address.address}</a></td>
+                            <td class="col-sm-2"><a href="backend.php?r=member/address&id={$member_information.member_id}">查看该会员所有收货地址</a></td>
                         </tr>
                         <tr>
                             <th class="col-sm-2">会员身份证号</th>
@@ -78,7 +78,7 @@
                             <td class="col-sm-2">{if $member_information.member_identify_verified == 1}已验证{else}未验证{/if}</td>
                             <th class="col-sm-2">小伙伴</th>
                             <td class="col-sm-2">小伙伴数量</td>
-                            <td class="col-sm-2"><a href="fanghuadmin.php?r=member/relations&id={$member_information.member_id}">查看小伙伴</a></td>
+                            <td class="col-sm-2"><a href="backend.php?r=member/relations&id={$member_information.member_id}">查看小伙伴</a></td>
                         </tr>
                     </table>
                 </div><!-- /.col-xs-12 -->
