@@ -88,7 +88,7 @@ class ActivityLotteryController extends Controller
                 'member_name'   => $artObj['member_name'],
                 'member_mobile' => $artObj['member_mobile'],
                 'prize'         => $artObj['prize'],
-                'integral'      => $artObj['integral'],
+                'points'        => $artObj['points'],
                 'status'        => $status,
             );
         }

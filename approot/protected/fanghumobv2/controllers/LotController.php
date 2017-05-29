@@ -316,7 +316,7 @@ class LotController extends BaseController {
             $data2['member_name'] = $memberInfo->member_fullname;//Yii::app()->loginUser->getUserNick();//'aaaa';
             $data2['prize'] = $item['name'];
             $data2['product_id'] = $item['id'];
-            $data2['integral'] = self::POINTS_PER_BET;
+            $data2['points'] = self::POINTS_PER_BET;
             $data2['status'] = $hitStatus;
             $data2['create_time'] = date("Y-m-d H:i:s");
             $data2['last_modified'] = date("Y-m-d H:i:s");
