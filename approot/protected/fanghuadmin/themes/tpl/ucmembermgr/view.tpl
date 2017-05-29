@@ -28,7 +28,7 @@
                             <td class="bg-td">邮箱地址</td>
                             <td>{$objModel.member_email}</td>
                             <td class="bg-td">生日</td>
-                            <td>{$objModel.member_birthday}</td>
+                            <td>{if $objModel.member_id_number}{substr($objModel.member_id_number, 6, 8)}{else}-{/if}</td>
                         </tr>
                         <tr>
                             <td class="bg-td">邮寄地址</td>
@@ -59,10 +59,10 @@
                             <td>{$memberTotalInfo.points_total}</td>
                             <td class="bg-td">最后登录时间</td>
                             <td>
-                                {if $objModel.fh_last_login=='0000-00-00 00:00:00'}
+                                {if $objModel.last_login=='0000-00-00 00:00:00'}
                                     -
                                 {else}
-                                    {$objModel.fh_last_login}
+                                    {$objModel.last_login}
                                 {/if}
                             </td>
                             <td></td>

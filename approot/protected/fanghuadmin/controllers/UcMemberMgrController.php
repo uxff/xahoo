@@ -186,16 +186,17 @@ class UcMemberMgrController extends Controller
         }
         $mySearch = $model->mySearch($condition);
         $arrData = $mySearch['list'];
+        $arrList = OBJTool::convertModelToArray($arrData);
         $pages = $mySearch['pages'];
 
         $pointsModule = Yii::app()->getModule('points');
         // 对每条记录查询membertotal数据
         $arrTotalInfo = array();
-        foreach ($arrData as $key=>$objModel) {
-            $totalInfo = $pointsModule->getMemberTotalInfo($objModel->member_id);
+        foreach ($arrList as $key=>$objValue) {
+            $totalInfo = $pointsModule->getMemberTotalInfo($objValue['member_id']);
+            $arrList[$key]['totalInfo'] = $totalInfo->toArray();
             $arrTotalInfo[$key] = $totalInfo->toArray();
         }
-        //print_r($arrTotalInfo);exit;
 
         $arrAttributeLabel = $model->attributeLabels();
         unset($arrAttributeLabel['create_time']);
@@ -203,8 +204,10 @@ class UcMemberMgrController extends Controller
         $arrRender = array(
             'modelId' => 'member_id',
             'modelName' => 'UcMember',
+            'conditionLevel' => '',
             'arrAttributeLabels' => $arrAttributeLabel,
             'arrData' => $arrData,
+            'arrList' => $arrList,
             'pages' => $pages,
             'dataObj'=>$model,
             'searchForm' => $searchForm,
