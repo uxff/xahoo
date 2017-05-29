@@ -49,7 +49,7 @@ class FhMemberMoneyHistoryModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('accounts_id, member_id, money, last_modified', 'required'),
+                        array('accounts_id, member_id, money', 'required'),
                         array('accounts_id, type', 'numerical', 'integerOnly'=>true),
                         array('money', 'numerical'),
                         array('eid', 'length', 'max'=>16),

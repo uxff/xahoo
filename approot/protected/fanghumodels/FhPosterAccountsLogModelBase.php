@@ -48,7 +48,7 @@ class FhPosterAccountsLogModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('pid, username, userid, userflag, create_time, last_modified', 'required'),
+                        array('pid, username, userid, userflag', 'required'),
                         array('pid, userid', 'numerical', 'integerOnly'=>true),
                         array('username', 'length', 'max'=>40),
                         array('userflag', 'length', 'max'=>80),
