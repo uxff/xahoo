@@ -28,9 +28,6 @@
                         <div class="col-sm-7"> 
                         <select class="form-control" id="poster_project"  name="poster[project]" style="height:30px">
                                 <option value="" >请选择</option>
-                                {foreach from=$projectDatas key=i item=project}
-                                    <option value="{$project['project_id']}" {if $project_id == $project['project_id']} selected="selected"{/if}>{$project['project_name']}</option>
-                                {/foreach}
                             </select>
                         </div>
                     </div>                    
@@ -39,8 +36,8 @@
                         <div class="col-sm-7"> 
                         <select class="form-control" id="accounts_id"  name="poster[accounts_id]" style="height:30px">
                                 <option value="" >请选择</option>
-                                {foreach from=$accountsData key=i item=project}
-                                    <option value="{$project['id']}" {if $accounts_id == $project['id']} selected="selected"{/if}>{$project['accounts_name']}</option>
+                                {foreach from=$accountsData key=i item=accItem}
+                                    <option value="{$accItem['id']}" {if $accounts_id == $accItem['id']} selected="selected"{/if}>{$accItem['accounts_name']}</option>
                                 {/foreach}
                             </select>
                         </div>

@@ -17,7 +17,7 @@ class FhPosterModel extends FhPosterModelBase
          */
         public function relations() {
                 $curRelations = array(
-                    'project' => array(self::HAS_MANY, 'Project', '', 'on' => 'project.project_id  = t.project_id'),
+                    //'project' => array(self::HAS_MANY, 'Project', '', 'on' => 'project.project_id  = t.project_id'),
                     'accounts' => array(self::HAS_MANY, 'FhPosterAccountsModel', '', 'on' => 'accounts.id  = t.accounts_id'),
                 );
                 return array_merge(parent::relations(), $curRelations);
@@ -110,7 +110,7 @@ class FhPosterModel extends FhPosterModelBase
                 $pager->pageVar = 'page'; //修改分页参数，默认为page
                 $pager->params = array('type' => 'msg'); //分页中添加其他参数
                 $pager->applyLimit($criteria);
-                $list = $this->with('project','accounts')->findAll($criteria);
+                $list = $this->with('accounts')->findAll($criteria);
                 $pages = array(
                     'curPage' => $pager->currentPage+1,
                     'totalPage' => ceil($pager->itemCount/$pager->pageSize),

@@ -222,9 +222,9 @@ class NodeController extends Controller {
                 $pages = $mySearch['pages'];
 
                 $arrAttributeLabel = $model->attributeLabels();
-                unset($arrAttributeLabel['create_time']);
+                //unset($arrAttributeLabel['create_time']);
                 unset($arrAttributeLabel['sort']);
-                unset($arrAttributeLabel['icon']);
+                //unset($arrAttributeLabel['icon']);
                 //unset($arrAttributeLabel['last_modified']);
 
                 $level = array('1' => '分组', '2' => 'controller', '3' => 'action');

@@ -21,8 +21,8 @@ class PosterController extends Controller
         }
         $mySearch = $model->mySearch2($sql);
         $listData =  $this->convertModelToArray($mySearch['list']);
-        $projectData = Project::model()->findAll();
-        $projectDatas= $this->convertModelToArray($projectData);
+        //$projectData = Project::model()->findAll();
+        //$projectDatas= $this->convertModelToArray($projectData);
         $accounts = FhPosterAccountsModel::model()->findAll();
         $accountsData = $this->convertModelToArray($accounts);
         $pages = $mySearch['pages'];
@@ -30,7 +30,7 @@ class PosterController extends Controller
             'accountsData' => $accountsData,
             'listData'=>$listData,
             'pages' => $pages,
-            'projectDatas' => $projectDatas,
+            //'projectDatas' => $projectDatas,
             'time' => date("Y-m-d"),
             'accounts_id' => $_POST['poster']['accounts_id'],
             'project_id' => $_POST['poster']['project'],
@@ -42,11 +42,11 @@ class PosterController extends Controller
         $accounts = FhPosterAccountsModel::model()->findAll();
         $accountsData = $this->convertModelToArray($accounts);
         
-        $projectData = Project::model()->findAll();
-        $projectDatas= $this->convertModelToArray($projectData);
+        //$projectData = Project::model()->findAll();
+        //$projectDatas= $this->convertModelToArray($projectData);
         $arrRender = array(
             'accountsData' => $accountsData,
-            'projectDatas' =>$projectDatas,
+            //'projectDatas' =>$projectDatas,
             'banner_size_arr' =>'640*906',
         );
         $this->smartyRender('poster/create.tpl', $arrRender);
@@ -60,11 +60,11 @@ class PosterController extends Controller
         }
         $accounts = FhPosterAccountsModel::model()->findAll();
         $accountsData = $this->convertModelToArray($accounts);
-        $projectData = Project::model()->findAll();
-        $projectDatas= $this->convertModelToArray($projectData);
+        //$projectData = Project::model()->findAll();
+        //$projectDatas= $this->convertModelToArray($projectData);
         $arrRender = array(
             'poster' =>$datas,
-            'projectDatas' =>$projectDatas,
+            //'projectDatas' =>$projectDatas,
             'banner_size_arr' =>'640*906',
             'accountsData' => $accountsData,
         );
@@ -123,19 +123,19 @@ class PosterController extends Controller
                 if($update){
                     FhMemberHaibaoModel::updateWithdrawLimitByPoster($_GET['id']);
                     $desc = '';
-                    if($oldDatas['project_id'] != $post['project']){
-                        $oldproject = Project::model()->findByPk($oldDatas['project_id']);
-                        $oldprojects= $this->convertModelToArray($oldproject);
-                        $newproject = Project::model()->findByPk($post['project']);
-                        $newprojects= $this->convertModelToArray($newproject);
-                        $desc = '项目由&nbsp;'.$oldprojects['project_name'].'&nbsp;变更为&nbsp;'.$newprojects['project_name'].'<br/>';
-                    }  
+                    //if($oldDatas['project_id'] != $post['project']){
+                    //    $oldproject = Project::model()->findByPk($oldDatas['project_id']);
+                    //    $oldprojects= $this->convertModelToArray($oldproject);
+                    //    $newproject = Project::model()->findByPk($post['project']);
+                    //    $newprojects= $this->convertModelToArray($newproject);
+                    //    $desc = '项目由&nbsp;'.$oldprojects['project_name'].'&nbsp;变更为&nbsp;'.$newprojects['project_name'].'<br/>';
+                    //}  
                     if($oldDatas['accounts_id'] != $post['accounts_id']){
                         $oldaccounts = FhPosterAccountsModel::model()->findByPk($oldDatas['accounts_id']);
-                        $oldaccounts= $this->convertModelToArray($oldproject);
+                        $oldaccounts= $this->convertModelToArray($oldaccounts);
                         $newaccounts = FhPosterAccountsModel::model()->findByPk($post['accounts_id']);
-                        $newaccounts= $this->convertModelToArray($newproject);
-                        $desc = '公众号由&nbsp;'.$oldprojects['accounts_name'].'&nbsp;变更为&nbsp;'.$newprojects['accounts_name'].'<br/>';
+                        $newaccounts= $this->convertModelToArray($newaccounts);
+                        $desc = '公众号由&nbsp;'.$oldaccounts['accounts_name'].'&nbsp;变更为&nbsp;'.$newaccounts['accounts_name'].'<br/>';
                     }        
                     if($oldDatas['subscribe_rewards'] != $post['subscribe_rewards']){
                         $desc .= '首次关注奖励由&nbsp;'.$oldDatas['subscribe_rewards'].'&nbsp;变更为&nbsp;'.round($post['subscribe_rewards'],2).'<br/>';
