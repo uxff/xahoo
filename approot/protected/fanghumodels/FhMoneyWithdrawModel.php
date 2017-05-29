@@ -29,7 +29,7 @@ class FhMoneyWithdrawModel extends FhMoneyWithdrawModelBase
         public function relations() {
                 $curRelations = array(
                     'haibao' => array(self::HAS_ONE, 'FhMemberHaibaoModel', '', 'on' => 'haibao.member_id  = t.member_id'),
-                    'project' => array(self::HAS_ONE, 'Project', '', 'on' => 'project.project_id  = t.project_id'),
+                    //'project' => array(self::HAS_ONE, 'Project', '', 'on' => 'project.project_id  = t.project_id'),
                 );
                 return array_merge(parent::relations(), $curRelations);
         }
@@ -110,7 +110,7 @@ class FhMoneyWithdrawModel extends FhMoneyWithdrawModelBase
         {
                // @todo Please modify the following code to remove attributes that should not be searched.
                 $criteria = $this->getBaseCDbCriteria();
-                $criteria->with = ['project','haibao'];
+                $criteria->with = ['haibao'];
                 $criteria->order = 't.id desc';
                 //为$criteria新增设置
                 if (!empty($condition)) {

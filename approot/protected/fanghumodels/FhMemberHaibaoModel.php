@@ -17,7 +17,7 @@ class FhMemberHaibaoModel extends FhMemberHaibaoModelBase
          */
         public function relations() {
                 $curRelations = array(
-                    'project' => array(self::HAS_MANY, 'Project', '', 'on' => 'project.project_id  = t.project_id'),
+                    //'project' => array(self::HAS_MANY, 'Project', '', 'on' => 'project.project_id  = t.project_id'),
                     'total' => array(self::HAS_ONE, 'MemberTotalModel', '', 'on' => 'total.member_id  = t.member_id'),
                     'money' => array(self::HAS_MANY, 'FhMoneyWithdrawModel', '', 'on' => 'money.member_id  = t.member_id'),
                     'moneylog' => array(self::HAS_MANY, 'FhPosterMoneyLogModel', '', 'on' => 'moneylog.pid  = t.id'),
@@ -113,7 +113,7 @@ class FhMemberHaibaoModel extends FhMemberHaibaoModelBase
                 $pager->pageVar = 'page'; //修改分页参数，默认为page
                 $pager->params = array('type' => 'msg'); //分页中添加其他参数
                 $pager->applyLimit($criteria);
-                $list = $this->with('project','moneylog')->findAll($criteria);
+                $list = $this->with('moneylog')->findAll($criteria);
                 $pages = array(
                     'curPage' => $pager->currentPage+1,
                     'totalPage' => ceil($pager->itemCount/$pager->pageSize),
@@ -149,7 +149,7 @@ class FhMemberHaibaoModel extends FhMemberHaibaoModelBase
                 $pager->pageVar = 'page'; //修改分页参数，默认为page
                 $pager->params = array('type' => 'msg'); //分页中添加其他参数
                 $pager->applyLimit($criteria);
-                $list = $this->with('project')->findAll($criteria);
+                $list = $this->findAll($criteria);
                 $pages = array(
                     'curPage' => $pager->currentPage+1,
                     'totalPage' => ceil($pager->itemCount/$pager->pageSize),
