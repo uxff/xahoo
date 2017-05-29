@@ -39,13 +39,13 @@ class PosterReportController extends Controller
         }
         $mySearch = $model->mySearch3($condition);
         $listData =  $this->convertModelToArray($mySearch['list']);
-        $projectData = Project::model()->findAll();
-        $projectDatas= $this->convertModelToArray($projectData);
+        //$projectData = Project::model()->findAll();
+        //$projectDatas= $this->convertModelToArray($projectData);
         $pages = $mySearch['pages'];
         $arrRender = array(
             'listData'=>$listData,
             'pages' => $pages,
-            'projectDatas' => $projectDatas,
+            //'projectDatas' => $projectDatas,
             'project_id' => $_POST['poster']['project'],
             'type' => $_POST['poster']['type'],
             'name' => $_POST['poster']['name'],
@@ -84,7 +84,7 @@ class PosterReportController extends Controller
         $arrData = $artList['list'];
         //var_dump($artList);exit;
         foreach ($arrData as $k=>$artObj) {
-            $projectData = Project::model()->findByPk($artObj['project_id']);
+            //$projectData = Project::model()->findByPk($artObj['project_id']);
             if($artObj['is_jjr'] == '1'){
                 $is_jjr = '普通会员';
             }elseif($artObj['is_jjr'] == '2'){
@@ -93,7 +93,7 @@ class PosterReportController extends Controller
             $reportData[$k] = [
                 'id'            => $k+1,
                 'member_mobile'         => $artObj['member_mobile'],
-                'project'            => $projectData['project_name'],
+                //'project'            => $projectData['project_name'],
                 'member_fullname'            => $artObj['member_fullname'],
                 'wx_nickname'   => $artObj['wx_nickname'],
                 'is_jjr'   => $is_jjr,
@@ -141,7 +141,7 @@ class PosterReportController extends Controller
         $artList = FhMemberHaibaoModel::listArticle($startDay, $endDay, $order, $page, 1000, $condition);
         $arrData = $artList['list'];
         foreach ($arrData as $k=>$artObj) {
-            $projectData = Project::model()->findByPk($artObj['project_id']);
+            //$projectData = Project::model()->findByPk($artObj['project_id']);
             if($artObj['is_jjr'] == '1'){
                 $is_jjr = '普通会员';
             }elseif($artObj['is_jjr'] == '2'){
@@ -150,7 +150,7 @@ class PosterReportController extends Controller
             $reportData[$k] = array(
                 'id'            => $k+1,
                 'member_mobile'         => $artObj['member_mobile'],
-                'project'            => $projectData['project_name'],
+                //'project'            => $projectData['project_name'],
                 'member_fullname'            => $artObj['member_fullname'],
                 'wx_nickname'   => $artObj['wx_nickname'],
                 'is_jjr'   => $is_jjr,

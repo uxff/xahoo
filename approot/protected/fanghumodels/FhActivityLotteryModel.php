@@ -154,8 +154,8 @@ class FhActivityLotteryModel extends FhActivityLotteryModelBase
             }
             //var_dump($whereClouse);die;
             $list = Yii::app()->db->createCommand()
-                ->select('member_mobile, member_name, prize, integral, status, create_time')
-                ->from('fh_activity_lottery')
+                ->select('member_mobile, member_name, prize, points, status, create_time')
+                ->from('fh_activity_lottery_log')
                 ->where(implode(' and ', $whereClouse), $whereParams)
                 //->group('article_id')
                 ->order('create_time DESC')
@@ -165,7 +165,7 @@ class FhActivityLotteryModel extends FhActivityLotteryModelBase
 
             $count = Yii::app()->db->createCommand()
                 ->select('count(DISTINCT id) cnt')
-                ->from('fh_activity_lottery')
+                ->from('fh_activity_lottery_log')
                 ->where(implode(' and ', $whereClouse), $whereParams)
                 ->queryAll();
 
