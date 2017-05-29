@@ -196,7 +196,7 @@ class StasticArticleModel extends StasticArticleModelBase
             $ret = Yii::app()->UCenterDb->createCommand()
                 ->select('count(member_id) pv, count(member_id) uv')
                 ->from('uc_member')
-                ->where('fh_last_login>=:start_time and fh_last_login<=:end_time and member_from in ("2", "3")', [
+                ->where('last_login>=:start_time and last_login<=:end_time and member_from in ("2", "3")', [
                     ':start_time'   => $startTime,
                     ':end_time'     => $endTime,
                 ])

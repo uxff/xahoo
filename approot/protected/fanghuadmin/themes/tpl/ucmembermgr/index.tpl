@@ -29,7 +29,7 @@
                 -->
                 
                 <div class="form-group col-xs-3">
-                    <label class="col-xs-3 control-label no-padding-right" for="UcMember_fh_member_level">会员等级</label>
+                    <label class="col-xs-3 control-label no-padding-right" for="UcMember_member_level">会员等级</label>
                     <div class="col-xs-8">
                         <select class="form-control" id="member_level" name="UcMember[member_level]" style="width:120px;">   
                             <option value="" selected="selected">请选择</option> 
@@ -146,10 +146,10 @@
                     </td>
                     <td>{$objModel.create_time}</td>
                     <td>
-                        {if $objModel.fh_last_login=='0000-00-00 00:00:00'}
+                        {if $objModel.last_login=='0000-00-00 00:00:00'}
                             -
                         {else}
-                            {$objModel.fh_last_login}
+                            {$objModel.last_login}
                         {/if}
                     </td>
                     <td>

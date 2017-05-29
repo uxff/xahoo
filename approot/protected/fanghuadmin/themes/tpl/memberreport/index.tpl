@@ -134,7 +134,7 @@
                         {/if}
                     </td>
                     <td>{$objModel.create_time}</td>
-                    <td>{$objModel.fh_last_login}</td>
+                    <td>{$objModel.last_login}</td>
                     <!--
                     <td>
                         <div class="hidden-sm hidden-xs btn-group">
