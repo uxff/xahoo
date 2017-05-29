@@ -182,7 +182,7 @@ class UcMember extends UcMemberBase
         $limit = ' limit '.(($pageNo-1)*$pageSize).','.$pageSize;
         //$sql .= ' limit '.$limit;
 
-        $sqlCount = 'select count(u.member_id) cnt, sum(t.points_total) points_total, sum(t.points_gain) points_gain,sum(t.points_consume) points_consume,sum(t.money_total) money_total,sum(t.money_gain) money_gain,sum(t.money_withdraw) money_withdraw from xqsj_db.uc_member u left join fh_member_total t on t.member_id=u.member_id where u.member_mobile !=""';
+        $sqlCount = 'select count(u.member_id) cnt, sum(t.points_total) points_total, sum(t.points_gain) points_gain,sum(t.points_consume) points_consume,sum(t.money_total) money_total,sum(t.money_gain) money_gain,sum(t.money_withdraw) money_withdraw from uc_member u left join fh_member_total t on t.member_id=u.member_id where u.member_mobile !=""';
         
         $cnt = Yii::app()->db->createCommand($sqlCount.$where)
             ->queryAll();
