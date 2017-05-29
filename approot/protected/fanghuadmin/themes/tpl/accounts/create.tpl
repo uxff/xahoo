@@ -168,7 +168,7 @@ text-align:center;
         <div class="box_base poster_baseinfo clearfix">
           <div class="col-xs-12">
             <div class="form-group col-xs-6">
-              <label class="col-sm-3 control-label no-padding-right" for="EncodingAESKey">EncodingAESKey*</label>
+              <label class="col-sm-3 control-label no-padding-right" for="EncodingAESKey">EncodingAESKey</label>
               <div class="col-sm-8">
                 <input type="text" id="EncodingAESKey" name="poster[EncodingAESKey]" size="60"  class="col-xs-10 col-sm-12" placeholder="输入公众号的EncodingAESKey" value="{$poster.EncodingAESKey}" />
               </div>

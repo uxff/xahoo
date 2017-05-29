@@ -59,8 +59,10 @@ class AccountsController extends Controller
             $desc                       =   '新增公众号'.$data1['accounts_name'];
             if($modela->save()){
                 $insertLog = $this->InsertLog($modela->id,$desc);
-                $this->redirect(array('accounts/index'));        
+                //$this->redirect(array('accounts/index'));        
+                $this->jsonSuccess('操作成功', ['return_url'=>$this->createUrl('accounts/index')]);
             }
+            $this->jsonError('操作失败('.$modela->lastError().')');
     }
     public function actionUpdate(){
             $post = $_POST['poster'];
