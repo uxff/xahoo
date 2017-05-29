@@ -73,7 +73,8 @@ class UcMemberBase extends CActiveRecord
                     array('member_mobile, member_qq', 'length', 'max'=>16),
                     array('member_id_number, last_login_ip', 'length', 'max'=>20),
                     array('member_address, member_avatar', 'length', 'max'=>255),
-                    array('member_password, deal_password, signage', 'length', 'max'=>32),
+                    array('signage', 'length', 'max'=>32),
+                    array('member_password, deal_password', 'length', 'max'=>40),
                     array('create_time, last_login', 'safe'),
                                     // The following rule is used by search().
                     // @todo Please remove those attributes that should not be searched.

@@ -47,7 +47,6 @@ class UserController extends Controller {
 			$return_url = $this->createAbsoluteUrl('my/index');
 		}
 
-		
 		$arrMsgStack = Yii::app()->loginUser->getFlashes();
 		$isGuest = Yii::app()->loginUser->getIsGuest();
 
@@ -88,7 +87,7 @@ class UserController extends Controller {
 			$this->layout = "layouts/user.tpl";
 			$this->smartyRender('user/login.tpl', $arrRender);
 		} else {
-			echo '您已经登录';
+			//echo '您已经登录';
 			$this->redirect($return_url);
 		}
 	}
@@ -127,11 +126,10 @@ class UserController extends Controller {
                 'condition' => 'member_mobile="' . $username . '" OR member_email="' . $username . '"',
 			);
 			$objMember = UcMember::model()->find($arrSqlParams);
-			//$objMember = UcMember::model()->find($arrSqlParams);
 
 			if (empty($objMember)) {
 				//不存在当前用户 则返回错误信
-				$errMsg = '该账号尚未注册，请先注册';
+				$errMsg = '该用户尚未注册，请先注册';
 			//} elseif (AresValidator::isValidEmail($username) && ($objMember->is_email_actived == 0)) {
 			//	//当前用户未激活 则返回错误信
 			//	$errMsg = '邮箱尚未激活，请先去邮箱激活';
@@ -147,7 +145,6 @@ class UserController extends Controller {
 				//$this->redirect($this->createAbsoluteUrl('user/login', array('return_url' => $return_url)));
                 $return_url = $this->createAbsoluteUrl('user/login', array('return_url' => $return_url));
                 $this->jsonError('用户名或密码错误', $return_url);
-				exit;
 			}
 
 			// 授权验证该用户
@@ -179,6 +176,8 @@ class UserController extends Controller {
 
                 // 更新最后登录时间 
                 $objMember->last_login = date('Y-m-d H:i:s', time());
+                $objMember->last_login_ip = Tools::getUserHostAddress();
+                $objMember->login_times += 1;
                 if (!$objMember->save()) {
                     Yii::log(''.$objMember->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
                 }
@@ -493,7 +492,7 @@ class UserController extends Controller {
 			}
 		}
 	}
-
+/*
 	public function fangfullRegister($mobile,$mobile_about) {
 
 		//房否入数据
@@ -514,7 +513,7 @@ class UserController extends Controller {
 
 
 	}
-
+*/
 	/**
 	 * 邮箱注册 手机版不需要
 	 */
