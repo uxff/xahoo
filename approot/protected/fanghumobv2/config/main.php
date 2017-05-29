@@ -17,7 +17,7 @@ $config['controllerPath'] = $currentAppPath . '/controllers';
  * autoloading model and component classes
 */
 $config['components']['session']['cookieParams']['path'] = '/';
-$config['components']['session']['cookieParams']['domain'] = 'xahoo.lo';
+$config['components']['session']['cookieParams']['domain'] = getenv('SERVER_NAME');
 $config['components']['session']['cookieParams']['lifetime'] = 0;
 
 /*
@@ -112,8 +112,6 @@ $config['params']['baiduTrackingKey'] = '';
 $config['params']['pageSize'] = 10;
 // scroll page size
 $config['params']['scrollPageSize'] = 10;
-$config['params']['weichat']['AppId'] = 'wx7345a7e7764a9f88';
-$config['params']['weichat']['AppScret'] = '6cefcd603dd73561d14bafda788c8ace';
 // protocol 协议，允许值: auto|http|https online=https test=http dev=auto
 $config['params']['protocol'] = 'auto';
 
