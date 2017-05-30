@@ -203,4 +203,35 @@ class MtaskModule extends CWebModule
         );
         return $arrRet;
     }
+
+    /*
+        标记为已发放
+        @param $rule_id
+    */
+    public function markTaskInstAsRewarded(TaskInst $taskInst, $rewardStatus, $rewardPoints = 0, $rewardMoney = 0) {
+        if (!($taskInst instanceof TaskInst)) {
+            return false;
+        }
+        return $taskInst->markTaskRewarded($rewardStatus, $rewardPoints, $rewardMoney);
+    }
+    
+    /*
+        标记为已发放
+        @param $rule_id
+    */
+    public function markTaskAsRewarded($member_id, $taskTplId, $rewardStatus, $rewardPoints = 0, $rewardMoney = 0) {
+        $taskInst = $this->getTaskInst($member_id, $taskTplId);
+        if (!($taskInst instanceof TaskInst)) {
+            return false;
+        }
+        return $taskInst->markTaskRewarded($rewardStatus, $rewardPoints, $rewardMoney);
+    }
+    
+    /*
+        标记为已发放
+        @param $rule_id
+    */
+    public function getTaskInst($member_id, $taskTplId) {
+        return TaskInst::makeInstByTpl($member_id, $taskTplId);
+    }
 }

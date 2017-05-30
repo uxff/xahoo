@@ -163,21 +163,50 @@ class TaskInst
     }
 
     /*
-        任务是否派发
-        @param $member_id
-        @param $taskTplId
+        标记任务派发状态
+        @param $rewardStatus
+        @param $rewardPoints
+        @param $rewardMoney
     */
-    public function markTaskRewarded($rewardStatus) {
+    public function markTaskRewarded($rewardStatus, $rewardPoints = 0, $rewardMoney = 0) {
         //if ($this->_model->task_tpl->reward_type) {
         //    return $this->_model->reward_status &= MemberTaskModel::REWARD_STATUS_DONE_POITNS;
         //} elseif ($this->_model->task_tpl->reward_type_money) {
         //    return $this->_model->reward_status &= MemberTaskModel::REWARD_STATUS_DONE_MONEY;
         //}
-        if ($this->_model && ($this->_model->reward_status &= $rewardStatus)) {
-            if (!$this->_model->save()) {
-                Yii::log('save member task failed:'.$this->_model->lastError().' mid='.$this->_model->member_id.' taskTplId='.$this->_model->task_id, 'error', __METHOD__);
+        $ret = false;
+        try {
+            
+            if (!$this->_model) {
+                throw new CException('member task model not exist!');
             }
+
+            $this->_model->reward_status &= $rewardStatus;
+            if ($rewardStatus & MemberTaskModel::REWARD_STATUS_DONE_POITNS) {
+                $this->_model->task_tpl->points_total += $rewardPoints;
+                if ($this->_model->task_tpl->points_total > $this->_model->task_tpl->integral_upper) {
+                    throw new CException('points_total('.$this->_model->task_tpl->points_total.') is bigger than integral_upper('.$this->_model->task_tpl->integral_upper.')');
+                }
+            }
+
+            if ($rewardStatus & MemberTaskModel::REWARD_STATUS_DONE_MONEY) {
+                $this->_model->task_tpl->money_total += $rewardMoney;
+                if ($this->_model->task_tpl->money_total > $this->_model->task_tpl->money_upper) {
+                    throw new CException('money_total('.$this->_model->task_tpl->money_total.') is bigger than money_upper('.$this->_model->task_tpl->money_upper.')');
+                }
+            }
+
+            if (!$this->_model->task_tpl->save()) {
+                throw new CException('save task tpl failed:'.$this->_model->task_tpl->lastError());
+            }
+            if (!$this->_model->save()) {
+                throw new CException('save member task failed:'.$this->_model->lastError());
+            }
+            $ret = true;
+        } catch (CException $e) {
+            Yii::log($e->getMessage().' mid='.$this->_model->member_id.' taskTplId='.$this->_model->task_id, 'error', __METHOD__);
         }
+        return $ret;
     }
 
 }

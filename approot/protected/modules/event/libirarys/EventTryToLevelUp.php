@@ -18,6 +18,9 @@ class EventTryToLevelUp extends EventAbs {
     */
     public function process($member_id, $params) {
         $this->preProcess($member_id, $params);
+        
+        // no need try to level up, instead in pointsModule
+        return false;
         $event_key = $params['_event_tpl']['event_key'];
         
         $nextEvents = $params['_event_tpl']['event_next'];

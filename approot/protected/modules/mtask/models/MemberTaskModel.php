@@ -27,7 +27,7 @@ class MemberTaskModel extends MemberTaskModelBase
 
     // 奖励状态 按位与
     const REWARD_STATUS_NONE        = 0;    // 未派发奖励
-    const REWARD_STATUS_DONE_POITNS = 1;    // 已派发积分奖励
+    const REWARD_STATUS_DONE_POINTS = 1;    // 已派发积分奖励
     const REWARD_STATUS_DONE_MONEY  = 2;    // 已派发金额奖励
 
         /**
