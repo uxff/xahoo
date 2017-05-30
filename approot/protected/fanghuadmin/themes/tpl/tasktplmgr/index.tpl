@@ -169,12 +169,16 @@
                 <thead>
                     <tr>
                         <td>序号</td>
-                        <td>任务名称</td>
+                        <td style="width:360px">任务名称</td>
                         <td>积分</td>
                         <td>积分上限</td>
+                        <td>已发积分</td>
                         <td>金额</td>
                         <td>金额上限</td>
+                        <td>已发金额</td>
+                        <!--
                         <td>任务分类</td>
+                        -->
                         <td>任务状态</td>
                         <td>权重</td>
                         <td>添加人</td>
@@ -188,10 +192,13 @@
                     <tr>
                         <td>{$i+1}</td>
                         <td>{$objModel.task_name}</td>
-                        <td data="{$objModel.reward_type}">{$objModel.reward_points * 1}分</td>
-                        <td>{$objModel.integral_upper}分</td>
+                        <td data="{$objModel.reward_type}">{$objModel.reward_points * 1}</td>
+                        <td>{$objModel.integral_upper}</td>
+                        <td>{$objModel.points_total}</td>
                         <td>￥{number_format($objModel.reward_money,2)}</td>
                         <td>￥{$objModel.money_upper}</td>
+                        <td>{$objModel.money_total}</td>
+                        <!--
                         <td>
                             {if isset($arrActType[$objModel.act_type])}
                                 {$arrActType[$objModel.act_type]}
@@ -199,6 +206,7 @@
                                 -
                             {/if}
                         </td>
+                        -->
                         <td>
                             {if isset($arrStatus[$objModel.status])}
                                 {$arrStatus[$objModel.status]}
