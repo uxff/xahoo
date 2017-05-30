@@ -135,7 +135,7 @@ class PointsModule extends CWebModule
             return false;
         }
         
-        Yii::log('done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points, 'warning', __METHOD__);
+        Yii::log('done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points.'('.$points.')'.' flag='.$ruleInfo->flag, 'warning', __METHOD__);
         return $history_id;
     }
     /*
