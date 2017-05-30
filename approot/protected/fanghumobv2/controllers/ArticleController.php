@@ -265,7 +265,7 @@ class ArticleController extends BaseController {
 
             } else if ($route == 'lizhuan/show') {
                 // 记录分享 尝试完成任务
-                $eventParam['taskTplId'] = $id;
+                $eventParam['taskTplId'] = $task_id;
             } else {
                 Yii::log('cannot parse_str:'.$urlArr['query'].' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
             //    return $this->jsonError('分享失败，url参数不正确');
