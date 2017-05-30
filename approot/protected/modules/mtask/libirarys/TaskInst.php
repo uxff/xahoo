@@ -155,7 +155,7 @@ class TaskInst
     */
     public function isTaskRewarded() {
         if ($this->_model->task_tpl->reward_type) {
-            return $this->_model->reward_status & MemberTaskModel::REWARD_STATUS_DONE_POITNS;
+            return $this->_model->reward_status & MemberTaskModel::REWARD_STATUS_DONE_POINTS;
         } elseif ($this->_model->task_tpl->reward_type_money) {
             return $this->_model->reward_status & MemberTaskModel::REWARD_STATUS_DONE_MONEY;
         }
@@ -170,7 +170,7 @@ class TaskInst
     */
     public function markTaskRewarded($rewardStatus, $rewardPoints = 0, $rewardMoney = 0) {
         //if ($this->_model->task_tpl->reward_type) {
-        //    return $this->_model->reward_status &= MemberTaskModel::REWARD_STATUS_DONE_POITNS;
+        //    return $this->_model->reward_status &= MemberTaskModel::REWARD_STATUS_DONE_POINTS;
         //} elseif ($this->_model->task_tpl->reward_type_money) {
         //    return $this->_model->reward_status &= MemberTaskModel::REWARD_STATUS_DONE_MONEY;
         //}
@@ -182,16 +182,16 @@ class TaskInst
             }
 
             $this->_model->reward_status &= $rewardStatus;
-            if ($rewardStatus & MemberTaskModel::REWARD_STATUS_DONE_POITNS) {
+            if ($rewardStatus & MemberTaskModel::REWARD_STATUS_DONE_POINTS) {
                 $this->_model->task_tpl->points_total += $rewardPoints;
-                if ($this->_model->task_tpl->points_total > $this->_model->task_tpl->integral_upper) {
+                if ($this->_model->task_tpl->integral_upper > 0 && $this->_model->task_tpl->points_total > $this->_model->task_tpl->integral_upper) {
                     throw new CException('points_total('.$this->_model->task_tpl->points_total.') is bigger than integral_upper('.$this->_model->task_tpl->integral_upper.')');
                 }
             }
 
             if ($rewardStatus & MemberTaskModel::REWARD_STATUS_DONE_MONEY) {
                 $this->_model->task_tpl->money_total += $rewardMoney;
-                if ($this->_model->task_tpl->money_total > $this->_model->task_tpl->money_upper) {
+                if ($this->_model->task_tpl->money_upper > 0 && $this->_model->task_tpl->money_total > $this->_model->task_tpl->money_upper) {
                     throw new CException('money_total('.$this->_model->task_tpl->money_total.') is bigger than money_upper('.$this->_model->task_tpl->money_upper.')');
                 }
             }
