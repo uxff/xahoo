@@ -71,6 +71,14 @@ class EventShare extends EventAbs {
             Yii::log('already shared! mid='.$member_id.' aid='.$articleId.' platId='.$platId.' @'.__FILE__.':'.__LINE__,'warning',__METHOD__);
         }
         
+        $shareTitle = '分享';
+        if ($articleId) {
+            $articleModel = ArticleModel::model()->findByPk($articleId);
+            if ($articleModel) {
+                $shareTitle = '分享：' .$articleModel->title;
+            }
+        }
+
         // 给对应的任务进度+1
         //$taskTplId = (int)$params['taskTplId'];
         if ($taskTplId) {
@@ -78,6 +86,7 @@ class EventShare extends EventAbs {
             if ($taskInst) {
                 $taskInst->stepForward();
                 Yii::log('update his('.$member_id.') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                $shareTitle = '分享任务：'.$taskInst->getModel()->task_tpl->task_name;
                 //if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
                 //    // 发送任务完成事件
                 //    Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
@@ -95,7 +104,7 @@ class EventShare extends EventAbs {
         if ($ret) {
             if (!empty($this->model->use_rule_key)) {
                 // use_rule_key = share
-                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key, 0, '分享：'.$taskInst->getModel()->task_tpl->task_name);
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key, 0, $shareTitle);
             }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
