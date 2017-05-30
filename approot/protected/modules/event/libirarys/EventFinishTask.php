@@ -25,8 +25,8 @@ class EventFinishTask extends EventAbs {
         $ret = true;
 
         // 判断任务积分是否发放 按照任务规则
-        $taskModule = Yii::app()->getModule('mtask');
-        $taskModule = Yii::app()->getModule('points');
+        $taskModule   = Yii::app()->getModule('mtask');
+        $pointsModule = Yii::app()->getModule('points');
         // 完成任务只能发放一次积分
         // 查找rule_id发放积分
         $taskTplId = (int)$params['taskTplId'];
@@ -39,11 +39,11 @@ class EventFinishTask extends EventAbs {
             $ret = false;
         }
 
-        $rule_id = $taskInst->getModel()->task_tpl->rule_id;
-        $params['points_rule_key'] = $taskInst->getModel()->task_tpl->rule_id;
-        $params['points_rule_key_type'] = 'rule_id';
-
         if ($ret) {
+            $rule_id = $taskInst->getModel()->task_tpl->rule_id;
+            $params['points_rule_key'] = $taskInst->getModel()->task_tpl->rule_id;
+            $params['points_rule_key_type'] = 'rule_id';
+
             // 已完成可执行-> 
             // 判断派发积分还是奖励金额
             switch ($taskInst->getModel()->task_tpl->reward_type) {
@@ -94,7 +94,10 @@ class EventFinishTask extends EventAbs {
         // 按照条件 继续添加 points_change 事件
         if ($ret) {
             // use_rule_key = task_share
-            Yii::app()->getModule('points')->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_TASK_SHARE, $taskInst->getModel()->task_tpl->reward_points, '分享任务：'.$taskInst->getModel()->task_tpl->task_name);
+            $ruleModel = PointsRuleModel::model()->find('rule_id=:rule_id', [':rule_id' => $taskInst->getModel()->task_tpl->rule_id]);
+            if ($ruleModel && $ruleModel->rule_key == PointsRuleModel::RULE_KEY_TASK_SHARE) {
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_TASK_SHARE, $taskInst->getModel()->task_tpl->reward_points, '分享任务：'.$taskInst->getModel()->task_tpl->task_name);
+            }
 
             if (!empty($this->model->use_rule_key)) {
                 Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);

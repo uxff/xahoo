@@ -126,7 +126,12 @@ class PointsModule extends CWebModule
         // begin transaction
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $history_id = $this->execRuleForTransaction($member_id, $ruleInfo, $remark);
+            $totalModel = $this->getMemberTotalInfo($member_id);
+            if (!$totalModel) {
+                throw new CException('member total info cannot be created! mid='.$member_id);
+            }
+
+            $history_id = $this->execRuleForTransaction($totalModel, $ruleInfo, $remark);
 
             $transaction->commit();
         } catch (CException $e) {
@@ -134,7 +139,9 @@ class PointsModule extends CWebModule
             Yii::log(''.$e->getMessage(), 'error', __METHOD__);
             return false;
         }
-        
+
+        $this->tryToLevelUp($totalModel);
+
         Yii::log('done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points.'('.$points.')'.' flag='.$ruleInfo->flag, 'warning', __METHOD__);
         return $history_id;
     }
@@ -142,33 +149,22 @@ class PointsModule extends CWebModule
         执行积分
         提供给事务使用 会抛错
     */
-    public function execRuleForTransaction($member_id, PointsRuleModel $ruleInfo, $remark = '') {
-        
-        // 积分操作
-        $totalModel = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=1', array(':member_id'=>$member_id));
-        // 如果没有积分记录，创建积分记录
-        if (!$totalModel) {
-            $totalModel = new MemberTotalModel;
-            $totalModel->member_id      = $member_id;
-            $totalModel->accounts_id    = 1;// 公众号下的member_total
-            $totalModel->points_total   = 0;
-            $totalModel->points_gain    = 0;
-            //$ret = $totalModel->insert();
-            //if (!$ret) {
-            //    //echo __METHOD__ .' error:';print_r( $totalModel->getErrors());
-            //    throw new CException($totalModel->lastError());
-            //}
+    public function execRuleForTransaction(MemberTotalModel $totalModel, PointsRuleModel $ruleModel, $remark = '') {
+
+        $totalModel->points_total += $ruleModel->points;
+        if ($ruleModel->points >= 0) {
+            $totalModel->points_gain  += $ruleModel->points;
+        } else {
+            $totalModel->points_consume  += $ruleModel->points;
         }
-    
-        $totalModel->points_total += $ruleInfo->points;
-        $totalModel->points_gain  += $ruleInfo->points;
+
         $ret = $totalModel->save();
         if (!$ret) {
-            Yii::log('cannot save totalModel for member_id('.$member_id.'): '.$totalModel->lastError(), 'error', __METHOD__);
+            Yii::log('cannot save totalModel for member_id('.$totalModel->member_id.'): '.$totalModel->lastError(), 'error', __METHOD__);
             throw new CException($totalModel->lastError());
         }
 
-        return $history_id = $this->logRuleHistory($member_id, $ruleInfo, $remark);
+        return $history_id = $this->logRuleHistory($totalModel->member_id, $ruleModel, $remark);
     }
     
     /*
@@ -176,18 +172,18 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    protected function logRuleHistory($member_id, $ruleInfo, $remark = '') {
+    protected function logRuleHistory($member_id, $ruleModel, $remark = '') {
         $nowTimeStr = date('Y-m-d H:i:s', time());
         $pointsHistory = new MemberPointsHistoryModel;
         $pointsHistory->member_id = $member_id;
-        $pointsHistory->points = $ruleInfo->points;
-        $pointsHistory->type = $ruleInfo->points > 0 ? 1 : 2;
-        $pointsHistory->rule_id = $ruleInfo->rule_id;
+        $pointsHistory->points = $ruleModel->points;
+        $pointsHistory->type = $ruleModel->points > 0 ? 1 : 2;
+        $pointsHistory->rule_id = $ruleModel->rule_id;
         $pointsHistory->create_time = $nowTimeStr;
-        $pointsHistory->remark = $remark ? $remark : $ruleInfo->rule_name;
+        $pointsHistory->remark = $remark ? $remark : $ruleModel->rule_name;
         $ret = $pointsHistory->insert();
         if (!$ret) {
-            throw new CException($pointsHistory->getError());
+            throw new CException($pointsHistory->lastError());
         }
         return $pointsHistory->id;
     }
@@ -237,8 +233,8 @@ class PointsModule extends CWebModule
             $memberInfo->create_time = date('Y-m-d H:i:s');
             $ret = $memberInfo->insert();
             if (!$ret) {
-                //throw new CException($memberInfo->getError());
-                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', __METHOD__);
+                //throw new CException($memberInfo->lastError());
+                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->lastError(), 'error', __METHOD__);
             }
         }
         // 如果存在 缓存起来
@@ -276,8 +272,8 @@ class PointsModule extends CWebModule
             $memberInfo->create_time = date('Y-m-d H:i:s');
             $ret = $memberInfo->insert();
             if (!$ret) {
-                //throw new CException($memberInfo->getError());
-                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', __METHOD__);
+                //throw new CException($memberInfo->lastError());
+                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->lastError(), 'error', __METHOD__);
             } else {
                 Yii::log('no member_total record for mid='.$member_id.', try to add, done', 'warning', __METHOD__);
             }
@@ -292,7 +288,7 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $level_to_up default:0 0表示自然1级 >0表示升级到多少级
     */
-    public function levelUp($member_id, $level_to_up) {
+    public function levelUp($member_id, $level_to_up = 0) {
         $memberInfo = $this->getMemberTotalInfo($member_id);
         $level_to_up = (int)$level_to_up;
         if ($level_to_up == 0) {
@@ -304,9 +300,42 @@ class PointsModule extends CWebModule
         }
         $ret = $memberInfo->save();
         if (!$ret) {
-            Yii::log(''.$memberInfo->getError().' mid='.$member_id.' level_to_up='.$level_to_up, 'error', __METHOD__);
+            Yii::log(''.$memberInfo->lastError().' mid='.$member_id.' level_to_up='.$level_to_up, 'error', __METHOD__);
         }
         return $ret;
+    }
+    /*
+        尝试升级
+        // 积分余额和等级对应关系，由积分模块维护，其他模块不应干涉
+        @param $totalModel
+    */
+    public function tryToLevelUp(MemberTotalModel $totalModel) {
+        if (!($totalModel instanceof MemberTotalModel)) {
+            return false;
+        }
+        $originLevel = $totalModel->level;
+
+        $levelOfPoints = $this->calcLevelByPoints($totalModel->points_total);
+        try {
+            // 如果{member_total 记录的等级}比{按积分余额计算出的等级}低，则执行升级
+            while ($totalModel->level < $levelOfPoints) {
+                $totalModel->level = $totalModel->level+1;
+                $ret = $totalModel->save();
+                if (!$ret) {
+                    Yii::log(''.$totalModel->lastError().' mid='.$totalModel->member_id.' level='.$totalModel->level, 'error', __METHOD__);
+                }
+
+                // 执行升级奖励
+                $this->execRuleByRuleKey($totalModel->member_id, PointsRuleModel::RULE_KEY_LEVEL_UP);
+
+                Yii::log('aotu level up:'.' mid='.$totalModel->member_id.' level='.$totalModel->level, 'warning', __METHOD__);
+                $levelOfPoints = $this->calcLevelByPoints($totalModel->points_total);
+            }
+        } catch (CException $e) {
+            Yii::log(''.$e->getMessage().' mid='.$totalModel->member_id.' origin level='.$originLevel.' levelOfPoints='.$levelOfPoints.' level now='.$totalModel->level, 'error', __METHOD__);
+        }
+
+        return true;
     }
     /*
         获取等级信息
