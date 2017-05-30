@@ -64,18 +64,17 @@ class WechatController extends BaseController {
         $weObj = $this->weObj;
         $type = $weObj->getRev()->getRevType();
         $fromUser = $weObj->getRevFrom();
-        
-                
+
         file_put_contents('/tmp/fanghu_wechat_debug',var_export($weObj->getRevData(),true)."\n",FILE_APPEND);
         file_put_contents('/tmp/fanghu_wechat_debug',var_export($weObj->getRevFrom(),true)."\n",FILE_APPEND);
 
         switch($type) {
             case Wechat::MSGTYPE_TEXT:
-                $weObj->text("一乎百应，因友尽有！小乎已在此恭候您多时。注册 Xahoo ，轻松一点，转发并分享，赚超额积分。闲暇之余，分秒赚外快！")->reply();
+                $weObj->text("您的留言已收到，正在努力寻找答案。")->reply();
                 $revText = $weObj->getRevContent();
                 $this->processText($fromUser, $revText);
 
-                exit;
+                Yii::app()->end();
                 break;
             case Wechat::MSGTYPE_EVENT:
                 $this->processEvent();
@@ -144,7 +143,7 @@ class WechatController extends BaseController {
                             }else{
                                 $atime = $this->setTime($btime);
                                 $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"半山半岛海报转发领红包倒计时".$atime."，敬请关注！"]];
-                            }                            
+                            }
                             $weObj->sendCustomMessage($msg);
                             break;
                         }
@@ -160,7 +159,7 @@ class WechatController extends BaseController {
                         break;
                     case 'MENU_ONLINE_ADVICE':
                         // 在线咨询
-                        $msg = '亲您好，欢迎您开启Xahoo之旅，如果您对Xahoo感兴趣，或者有任何问题，请在输入框内随时回复及留言，小乎将及时与您取得联系，灰常感谢您对小乎的支持。';
+                        $msg = '亲您好，欢迎来到Xahoo，如果您对Xahoo有任何问题和建议，可随时留言，我们将及时与您取得联系，灰常感谢您对Xahoo的支持。';
                         $weObj->text($msg)->reply();
                         break;
                     default:
@@ -176,7 +175,7 @@ class WechatController extends BaseController {
     ——经纪人选择【个性海报】 
 ③将自己生成的海报转发到朋友圈，只要你的朋友识别你生成的海报右下角的二维码并关注，你就可以领取红包奖励！
 ④你的朋友继续生成自己的海报并转发，此海报二维码被其他人识别并关注，你和你的朋友都可以领取红包奖励！
-登岛看房详情<a href="https://m.xqshijie.com/HouseGroup/index.html?tpl=1">点这里</a>
+⑤本活动属于demo演示产品，活动中涉及的金额仅提供功能演示，不会实际发放。
 ';
                 //$weObj->text($msg)->reply();
                 $this->sendTextMessage($fromUser, $msg);
@@ -213,14 +212,15 @@ class WechatController extends BaseController {
                 // 转换地理位置 从经纬度转换到地址描述后保存
                 $locationInfo = GeoConvertor::LocationToAddr($data['Latitude'], $data['Longitude']);
                 Yii::log('LOCATION convert ret='.$locationInfo['result']['formatted_address'].' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+
                 // 将地理位置写在uc_member_bind_sns对应的openid上
                 $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and member_id=:member_id', [':openid'=>$fromUser]);
                 $formatted_address = GeoConvertor::GetAddress($locationInfo['result']['formatted_address']);
                 $snsModel->location_address = $formatted_address;
                 if (!$snsModel->save()) {
-                   Yii::log('数据存储失败！'.$snsModel->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                   Yii::log('save snsModel failed:'.$snsModel->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
                 }
-                Yii::log('SNSMODEL member_id='.$snsModel->member_id.' bind_id='.$snsModel->bind_id.' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('SNSMODEL member_id='.$snsModel->member_id.' bind_id='.$snsModel->bind_id.' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
                 break;
             default:
                 //Yii::log('a event from '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
