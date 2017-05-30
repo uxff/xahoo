@@ -18,12 +18,17 @@ class MemberTaskModel extends MemberTaskModelBase
 
     const STATUS_ACHIEVED = 1;
     const STATUS_FINISHED = 2;
-    const STATUS_ABORTED  = 3;
+    //const STATUS_AWARDED  = 3;
     static $ARR_STATUS = array(
         self::STATUS_ACHIEVED => '已领取',
         self::STATUS_FINISHED => '已完成',
-        self::STATUS_ABORTED  => '已放弃',
+        //self::STATUS_AWARDED  => '已放弃',
     );
+
+    // 奖励状态 按位与
+    const REWARD_STATUS_NONE        = 0;    // 未派发奖励
+    const REWARD_STATUS_DONE_POITNS = 1;    // 已派发积分奖励
+    const REWARD_STATUS_DONE_MONEY  = 2;    // 已派发金额奖励
 
         /**
          * @return array validation rules for model attributes.

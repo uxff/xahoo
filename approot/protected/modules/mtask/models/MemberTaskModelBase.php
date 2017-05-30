@@ -8,6 +8,7 @@
  * @property integer $task_id
  * @property string $member_id
  * @property integer $status
+ * @property integer $reward_status
  * @property string $create_time
  * @property string $last_modified
  * @property string $finish_time
@@ -55,13 +56,13 @@ class MemberTaskModelBase extends CActiveRecord
                 // will receive user inputs.
                 return array(
                         array('member_id, task_id, rule_id', 'required'),
-                        array('task_id, status, dispatch_id, is_delete, rule_id, step_count, step_need_count, view_count', 'numerical', 'integerOnly'=>true),
+                        array('task_id, reward_status, status, dispatch_id, is_delete, rule_id, step_count, step_need_count, view_count', 'numerical', 'integerOnly'=>true),
                         array('member_id', 'length', 'max'=>10),
                         array('remark', 'length', 'max'=>255),
                         array('create_time, finish_time', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, task_id, member_id, status, create_time, last_modified, finish_time, dispatch_id, view_count, is_delete, remark, rule_id, step_count, step_need_count', 'safe', 'on'=>'search'),
+                        array('id, task_id, member_id, status, reward_status, create_time, last_modified, finish_time, dispatch_id, view_count, is_delete, remark, rule_id, step_count, step_need_count', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -85,7 +86,8 @@ class MemberTaskModelBase extends CActiveRecord
                        'id' => '自增id',
                        'task_id' => '任务id',
                        'member_id' => '领取人id',
-                       'status' => '任务状态：1=已领取；2=已完成；3=主动放弃',
+                       'status' => '任务状态：1=已领取；2=已完成',
+                       'reward_status' => '奖励状态(位):0=未奖励;1=已积分奖励;2=已金额奖励;4=已实物奖励',
                        'create_time' => '创建时间',
                        'last_modified' => '最后修改时间',
                        'finish_time' => '完成时间',
@@ -109,6 +111,7 @@ class MemberTaskModelBase extends CActiveRecord
 				$criteria->compare('t.task_id',$this->task_id);
 				$criteria->compare('t.member_id',$this->member_id,true);
 				$criteria->compare('t.status',$this->status);
+				$criteria->compare('t.reward_status',$this->reward_status);
 				$criteria->compare('t.create_time',$this->create_time,true);
 				$criteria->compare('t.last_modified',$this->last_modified,true);
 				$criteria->compare('t.finish_time',$this->finish_time,true);

@@ -3,7 +3,7 @@
 /*
 * @author xuduorui
 * @date 2016-2-26  
-* @desc 事件处理类
+* @desc 事件处理类 普通资讯分享，派发分享积分；任务分享，触发尝试完成任务
 */
 
 class EventShare extends EventAbs {
@@ -34,8 +34,9 @@ class EventShare extends EventAbs {
         Yii::app()->getModule('mtask');
         // 分享规则
         // 一用户一文章 分享到1平台 奖励一次
-        $articleId  = $params['articleId']; //资讯id
+        $articleId  = (int)$params['articleId']; //资讯id
         $platId     = (int)$params['platId'];    //平台id
+        $taskTplId     = (int)$params['taskTplId'];    //平台id
         // member_id 可能是空
         if (!$member_id) {
             // 通过shareCode查询
@@ -43,14 +44,16 @@ class EventShare extends EventAbs {
             $member_id = $inviteCodeModel->member_id;
         }
         // 判断是否已共享
-        $shareLogModel = ShareLogModel::model()->find('article_id=:aid and member_id=:mid and plat_type=:platId', array(
+        $shareLogModel = ShareLogModel::model()->find('article_id=:aid and member_id=:mid and task_tpl_id=:tpl_id and plat_type=:platId', array(
             ':aid' => $articleId,
             ':platId' => $platId,
             ':mid' => $member_id,
+            ':tpl_id' => $taskTplId,
         ));
         if (!$shareLogModel) {
             $shareLogModel = new ShareLogModel;
             $shareLogModel->article_id = $articleId;
+            $shareLogModel->task_tpl_id = $taskTplId;
             $shareLogModel->member_id = $member_id;
             $shareLogModel->plat_type = $platId;
             $shareLogModel->visit_url = $params['visitUrl'];
@@ -69,12 +72,17 @@ class EventShare extends EventAbs {
         }
         
         // 给对应的任务进度+1
-        $taskTplId = (int)$params['taskTplId'];
+        //$taskTplId = (int)$params['taskTplId'];
         if ($taskTplId) {
             $taskInst = TaskInst::makeInstByTpl($member_id, $taskTplId);
             if ($taskInst) {
                 $taskInst->stepForward();
                 Yii::log('update his('.$member_id.') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
+                //    // 发送任务完成事件
+                //    Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+                //    $taskInst->markTaskRewarded();
+                //}
             }
         }
         

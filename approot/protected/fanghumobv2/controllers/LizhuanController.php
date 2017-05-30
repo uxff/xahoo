@@ -215,8 +215,8 @@ class LizhuanController extends BaseController {
 
         $selfUrl = Yii::app()->request->hostInfo. Yii::app()->request->url;
         $shareCallbackUrl = $this->createAbsoluteUrl('article/ajaxsharesuccess', array(
-            'url' => $selfUrl,
-            'task_id' => $taskTplId,
+            //'url' => $selfUrl,
+            //'task_id' => $taskTplId,
             'token' => Yii::app()->request->csrfToken,
             'accounts_id' => $accounts_id
         ));
