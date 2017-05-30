@@ -336,7 +336,9 @@ class MyController extends BaseController
                 $logModel->type = 2;
                 $logModel->content = '通过M站完善信息';
                 $logModel->create_time = date('Y-m-d H:i:s');
-                $logModel->save();
+                if (!$logModel->save()) {
+                    Yii::log('save MemberInfoLogModel error:'.$logModel->lastError(), 'error', __METHOD__);
+                }
             }
         }
         
