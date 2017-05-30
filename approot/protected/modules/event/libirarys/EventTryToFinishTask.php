@@ -18,7 +18,7 @@ class EventTryToFinishTask extends EventAbs {
     */
     public function process($member_id, $params) {
         $this->preProcess($member_id, $params);
-        
+        //return false;
         $nextEvents = $params['_event_tpl']['event_next'];
         $nextEvents = explode(',', $nextEvents);
         $ret = false;
