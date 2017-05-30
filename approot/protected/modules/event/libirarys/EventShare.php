@@ -36,7 +36,7 @@ class EventShare extends EventAbs {
         // 一用户一文章 分享到1平台 奖励一次
         $articleId  = (int)$params['articleId']; //资讯id
         $platId     = (int)$params['platId'];    //平台id
-        $taskTplId     = (int)$params['taskTplId'];    //平台id
+        $taskTplId  = (int)$params['taskTplId'];    //平台id
         // member_id 可能是空
         if (!$member_id) {
             // 通过shareCode查询
@@ -94,7 +94,8 @@ class EventShare extends EventAbs {
         // 按照条件 继续 下一个事件 points_change
         if ($ret) {
             if (!empty($this->model->use_rule_key)) {
-                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+                // use_rule_key = share
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key, 0, '分享：'.$taskInst->getModel()->task_tpl->task_name);
             }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
@@ -105,7 +106,9 @@ class EventShare extends EventAbs {
         }
         
         // 必然调用的事件
-        Yii::app()->getModule('event')->pushEvent($member_id, 'try_to_finish_task', $params);
+        if ($taskTplId) {
+            Yii::app()->getModule('event')->pushEvent($member_id, 'try_to_finish_task', $params);
+        }
         
         $this->afterProcess($member_id, $params);
         return true;

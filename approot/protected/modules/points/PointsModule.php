@@ -84,8 +84,8 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    public function execRuleByRuleId($member_id, $rule_id, $points = 0){
-        return $this->execRule($member_id, $rule_id, 'rule_id', $points);
+    public function execRuleByRuleId($member_id, $rule_id, $points = 0, $remark = ''){
+        return $this->execRule($member_id, $rule_id, 'rule_id', $points, $remark);
     }
 
     /*
@@ -93,8 +93,8 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    public function execRuleByRuleKey($member_id, $rule_key, $points = 0){
-        return $this->execRule($member_id, $rule_key, 'rule_key', $points);
+    public function execRuleByRuleKey($member_id, $rule_key, $points = 0, $remark = ''){
+        return $this->execRule($member_id, $rule_key, 'rule_key', $points, $remark);
     }
 
     /*
@@ -103,7 +103,7 @@ class PointsModule extends CWebModule
         @param $rule_id
         @param $points 如果自定义规则，需要传$points
     */
-    public function execRule($member_id, $rule_id, $keyType='rule_id') {
+    public function execRule($member_id, $rule_id, $keyType='rule_id', $points = 0, $remark = '') {
         if (empty($keyType)) {
              $keyType = 'rule_id';
         }
@@ -126,7 +126,7 @@ class PointsModule extends CWebModule
         // begin transaction
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $history_id = $this->execRuleForTransaction($member_id, $ruleInfo);
+            $history_id = $this->execRuleForTransaction($member_id, $ruleInfo, $remark);
 
             $transaction->commit();
         } catch (CException $e) {
@@ -145,7 +145,7 @@ class PointsModule extends CWebModule
         执行积分
         提供给事务使用 会抛错
     */
-    public function execRuleForTransaction($member_id, PointsRuleModel $ruleInfo) {
+    public function execRuleForTransaction($member_id, PointsRuleModel $ruleInfo, $remark = '') {
         
         // 积分操作
         $totalModel = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=1', array(':member_id'=>$member_id));
@@ -171,7 +171,7 @@ class PointsModule extends CWebModule
             throw new CException($totalModel->lastError());
         }
 
-        return $history_id = $this->logRuleHistory($member_id, $ruleInfo);
+        return $history_id = $this->logRuleHistory($member_id, $ruleInfo, $remark);
     }
     
     /*
