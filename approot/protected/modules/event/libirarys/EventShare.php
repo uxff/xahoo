@@ -86,7 +86,7 @@ class EventShare extends EventAbs {
             if ($taskInst) {
                 $taskInst->stepForward();
                 Yii::log('update his('.$member_id.') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-                $shareTitle = '分享任务：'.$taskInst->getModel()->task_tpl->task_name;
+                $shareTitle = '分享：'.$taskInst->getModel()->task_tpl->task_name;
                 //if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
                 //    // 发送任务完成事件
                 //    Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
