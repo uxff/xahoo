@@ -93,9 +93,11 @@ class EventFinishTask extends EventAbs {
         
         // 按照条件 继续添加 points_change 事件
         if ($ret) {
+            // use_rule_key = task_share
+            Yii::app()->getModule('points')->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_TASK_SHARE, $taskInst->getModel()->task_tpl->reward_points, '分享任务：'.$taskInst->getModel()->task_tpl->task_name);
+
             if (!empty($this->model->use_rule_key)) {
-                // use_rule_key = task_share
-                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key, $taskInst->getModel()->task_tpl->reward_points, '分享任务：'.$taskInst->getModel()->task_tpl->task_name);
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
             }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
