@@ -105,12 +105,12 @@ class PointsModule extends CWebModule
     */
     public function execRule($member_id, $rule_id, $keyType='rule_id', $points = 0, $remark = '') {
         if (empty($keyType)) {
-             $keyType = 'rule_id';
+            $keyType = 'rule_id';
         }
         $ruleInfo = PointsRuleModel::model()->find($keyType.'=:rid', array(':rid'=>$rule_id));
         if (!$ruleInfo) {
             //throw new CException('unknown rule_id: '.$rule_id);
-            Yii::log(__METHOD__ .': unknown '.$keyType.': '.$rule_id, 'error', __CLASS__);
+            Yii::log('unknown '.$keyType.': '.$rule_id, 'error', __METHOD__);
             return false;
         }
 
@@ -120,7 +120,7 @@ class PointsModule extends CWebModule
 
         if ($ruleInfo->points==0) {
             //throw new CException('unknown rule_id: '.$rule_id);
-            Yii::log(__METHOD__ .': points is zero, none to do. '.$keyType.': '.$rule_id, 'warning', __CLASS__);
+            Yii::log('points is zero, none to do. '.$keyType.': '.$rule_id, 'warning', __METHOD__);
             return false;
         }
         // begin transaction
@@ -131,14 +131,11 @@ class PointsModule extends CWebModule
             $transaction->commit();
         } catch (CException $e) {
             $transaction->rollback();
-            Yii::log(__METHOD__ .': '.$e->getMessage(), 'error', __CLASS__);
-            //throw $e;
-            //print_r($e->getMessage());
+            Yii::log(''.$e->getMessage(), 'error', __METHOD__);
             return false;
         }
         
-        Yii::log(__METHOD__ .': done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points, 'warning', __CLASS__);
-        //echo __METHOD__ .':';print_r(': member_id='.$member_id.' rule_id='.$rule_id.' rule_name='.$rulewarning->rule_name.' points='.$ruleInfo->points);
+        Yii::log('done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points, 'warning', __METHOD__);
         return $history_id;
     }
     /*
@@ -167,7 +164,7 @@ class PointsModule extends CWebModule
         $totalModel->points_gain  += $ruleInfo->points;
         $ret = $totalModel->save();
         if (!$ret) {
-            Yii::log(__METHOD__ .': cannot save totalModel for member_id('.$member_id.'): '.$totalModel->lastError(), 'error', __CLASS__);
+            Yii::log('cannot save totalModel for member_id('.$member_id.'): '.$totalModel->lastError(), 'error', __METHOD__);
             throw new CException($totalModel->lastError());
         }
 
@@ -232,7 +229,7 @@ class PointsModule extends CWebModule
         // 先查询
         $memberInfo = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id', array(':member_id'=>$member_id, ':accounts_id'=>$accounts_id));
         if (!$memberInfo) {
-            Yii::log(__METHOD__ .': no member_total record for mid='.$member_id.', try to add', 'warning', 'PointsModule');
+            Yii::log('no member_total record for mid='.$member_id.', try to add', 'warning', __METHOD__);
             // 不存在 尝试创建
             $memberInfo = new MemberTotalModel;
             $memberInfo->member_id   = $member_id;
@@ -241,7 +238,7 @@ class PointsModule extends CWebModule
             $ret = $memberInfo->insert();
             if (!$ret) {
                 //throw new CException($memberInfo->getError());
-                Yii::log(__METHOD__.': cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', 'PointsModule');
+                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', __METHOD__);
             }
         }
         // 如果存在 缓存起来
@@ -280,9 +277,9 @@ class PointsModule extends CWebModule
             $ret = $memberInfo->insert();
             if (!$ret) {
                 //throw new CException($memberInfo->getError());
-                Yii::log(__METHOD__ .': cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', 'PointsModule');
+                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', __METHOD__);
             } else {
-                Yii::log(__METHOD__ .': no member_total record for mid='.$member_id.', try to add, done', 'warning', 'PointsModule');
+                Yii::log('no member_total record for mid='.$member_id.', try to add, done', 'warning', __METHOD__);
             }
         }
         // 如果存在 缓存起来
@@ -303,11 +300,11 @@ class PointsModule extends CWebModule
         } elseif ($level_to_up > 0) {
             $memberInfo->level = $level_to_up;
         } else {
-            Yii::log(__METHOD__ .': param error: level_to_up='.$level_to_up.' mid='.$member_id, 'warning', 'PointsModule');
+            Yii::log('param error: level_to_up='.$level_to_up.' mid='.$member_id, 'warning', __METHOD__);
         }
         $ret = $memberInfo->save();
         if (!$ret) {
-            Yii::log(__METHOD__ .': '.$memberInfo->getError().' mid='.$member_id.' level_to_up='.$level_to_up, 'error', 'PointsModule');
+            Yii::log(''.$memberInfo->getError().' mid='.$member_id.' level_to_up='.$level_to_up, 'error', __METHOD__);
         }
         return $ret;
     }
