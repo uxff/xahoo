@@ -169,7 +169,6 @@ class TaskInst
         @param $rewardMoney
     */
     public function markTaskRewarded($rewardStatus, $rewardPoints = 0, $rewardMoney = 0) {
-        Yii::log('markTaskRewarded: rewardStatus='.$rewardStatus.' rewardPoints='.$rewardPoints, 'warning', __METHOD__);
         $ret = false;
         try {
             
@@ -177,8 +176,7 @@ class TaskInst
                 throw new CException('member task model not exist!');
             }
 
-            // $this->_model->reward_status 赋值 失败，待查找原因
-            $this->_model->reward_status = $this->_model->reward_status & $rewardStatus;
+            $this->_model->reward_status = intval($this->_model->reward_status) | $rewardStatus;
             if ($rewardStatus & MemberTaskModel::REWARD_STATUS_DONE_POINTS) {
                 $this->_model->task_tpl->points_total += $rewardPoints;
                 if ($this->_model->task_tpl->integral_upper > 0 && $this->_model->task_tpl->points_total > $this->_model->task_tpl->integral_upper) {
