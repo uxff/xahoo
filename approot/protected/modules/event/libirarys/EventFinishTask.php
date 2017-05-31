@@ -19,7 +19,7 @@ class EventFinishTask extends EventAbs {
     */
     public function process($member_id, $params) {
         $this->preProcess($member_id, $params);
-        
+return false;// 作废该事件
         $nextEvents = $params['_event_tpl']['event_next'];
         $nextEvents = explode(',', $nextEvents);
         $ret = true;
@@ -33,6 +33,7 @@ class EventFinishTask extends EventAbs {
         //if (!$taskTplId) {
         //    Yii::log('illegal task_id:'.$taskTplId.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
         //}
+        /*
         $taskInst = TaskInst::makeInstByTpl($member_id, $taskTplId);
         if (!$taskInst) {
             Yii::log('illegal task_id:'.$taskTplId.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
@@ -84,7 +85,7 @@ class EventFinishTask extends EventAbs {
                 default:
                     break;
             }
-        }
+        }*/
         
         // 封装下一个事件的参数
         $ruleKey = $params['points_rule_key'];
@@ -94,6 +95,7 @@ class EventFinishTask extends EventAbs {
         // 按照条件 继续添加 points_change 事件
         if ($ret) {
             // use_rule_key = task_share
+            /*
             $ruleModel = PointsRuleModel::model()->find('rule_id=:rule_id', [':rule_id' => $taskInst->getModel()->task_tpl->rule_id]);
             if ($ruleModel && $ruleModel->rule_key == PointsRuleModel::RULE_KEY_TASK_SHARE) {
                 Yii::app()->getModule('points')->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_TASK_SHARE, $taskInst->getModel()->task_tpl->reward_points, '分享任务：'.$taskInst->getModel()->task_tpl->task_name);
@@ -102,6 +104,7 @@ class EventFinishTask extends EventAbs {
             if (!empty($this->model->use_rule_key)) {
                 Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
             }
+            */
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

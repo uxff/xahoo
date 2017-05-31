@@ -31,6 +31,22 @@ class EventRegisterByInvite extends EventRegister {
         Yii::app()->getModule('friend')->makeFriendShip($member_id, $params['inviter']);
         // 初始化邀请码
         //Yii::app()->getModule('friend')->makeInviteCode($member_id);
+        // 如果有对应的任务
+        $taskTplModel = TaskTplModel::model()->find('task_type='.TaskTplModel::TASK_TYPE_INVITE);
+        if ($taskTplModel) {
+            $taskTplId = $taskTplModel->task_id;
+            $taskInst = TaskInst::makeInstByTpl($params['inviter'], $taskTplId);
+            if ($taskInst) {
+                $taskInst->stepForward();
+                Yii::log('update his('.$params['inviter'].') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //$shareTitle = '分享：'.$taskInst->getModel()->task_tpl->task_name;
+                if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
+                    // 奖励任务
+                    //$taskInst->markTaskRewarded();
+                    Yii::app()->getModule('mtask')->rewardTaskInst($params['inviter'], $taskTplId);
+                }
+            }
+        }
         
         // 封装下一个事件的参数
         $params['points_rule_key'] = $params['_event_tpl']['use_rule_key'];

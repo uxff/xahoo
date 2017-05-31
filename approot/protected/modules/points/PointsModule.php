@@ -114,11 +114,11 @@ class PointsModule extends CWebModule
             return false;
         }
 
-        if ($ruleInfo->flag == PointsRuleModel::FLAG_DYNAMIC) {
+        if ($ruleInfo->flag == PointsRuleModel::FLAG_DYNAMIC || $points > 0) {
             $ruleInfo->points = $points;
         }
 
-        if ($ruleInfo->points==0) {
+        if ($ruleInfo->points == 0) {
             //throw new CException('unknown rule_id: '.$rule_id);
             Yii::log('points is zero, none to do. '.$keyType.': '.$rule_id, 'warning', __METHOD__);
             return false;
@@ -140,9 +140,10 @@ class PointsModule extends CWebModule
             return false;
         }
 
+        Yii::log('done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points.'('.$points.')'.' flag='.$ruleInfo->flag, 'warning', __METHOD__);
+
         $this->tryToLevelUp($totalModel);
 
-        Yii::log('done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points.'('.$points.')'.' flag='.$ruleInfo->flag, 'warning', __METHOD__);
         return $history_id;
     }
     /*

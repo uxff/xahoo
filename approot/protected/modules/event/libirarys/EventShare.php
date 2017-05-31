@@ -79,22 +79,6 @@ class EventShare extends EventAbs {
             }
         }
 
-        // 给对应的任务进度+1
-        //$taskTplId = (int)$params['taskTplId'];
-        if ($taskTplId) {
-            $taskInst = TaskInst::makeInstByTpl($member_id, $taskTplId);
-            if ($taskInst) {
-                $taskInst->stepForward();
-                Yii::log('update his('.$member_id.') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-                $shareTitle = '分享：'.$taskInst->getModel()->task_tpl->task_name;
-                //if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
-                //    // 发送任务完成事件
-                //    Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
-                //    $taskInst->markTaskRewarded();
-                //}
-            }
-        }
-        
         // 封装下一个事件的参数
         $params['points_rule_key'] = $params['_event_tpl']['use_rule_key'];
         $params['pre_event_key'] = self::EVENT_KEY;
@@ -102,10 +86,12 @@ class EventShare extends EventAbs {
 
         // 按照条件 继续 下一个事件 points_change
         if ($ret) {
+            
             if (!empty($this->model->use_rule_key)) {
                 // use_rule_key = share
                 Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key, 0, $shareTitle);
             }
+            
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {
@@ -115,8 +101,26 @@ class EventShare extends EventAbs {
         }
         
         // 必然调用的事件
+        /*
         if ($taskTplId) {
             Yii::app()->getModule('event')->pushEvent($member_id, 'try_to_finish_task', $params);
+        }
+        */
+
+        // 给对应的任务进度+1
+        //$taskTplId = (int)$params['taskTplId'];
+        if ($taskTplId) {
+            $taskInst = TaskInst::makeInstByTpl($member_id, $taskTplId);
+            if ($taskInst) {
+                $taskInst->stepForward();
+                Yii::log('update his('.$member_id.') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //$shareTitle = '分享：'.$taskInst->getModel()->task_tpl->task_name;
+                if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
+                    // 奖励任务
+                    //$taskInst->markTaskRewarded();
+                    Yii::app()->getModule('mtask')->rewardTaskInst($member_id, $taskTplId);
+                }
+            }
         }
         
         $this->afterProcess($member_id, $params);

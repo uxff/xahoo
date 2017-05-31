@@ -57,34 +57,9 @@ class EventFillAvatar extends EventAbs {
         // 直接完成完善个人信息任务
         $isTaskFinished = $taskModule->finishTask($member_id, $taskTplModel->task_id);
 
-        if ($isTaskFinished && empty($taskPointsLog)) {
-            // 是否已经派发
-            $taskPointsLog = MemberPointsHistoryModel::model()->find('member_id=:mid and rule_id=:rule_id', array(
-                ':mid' => $member_id,
-                ':rule_id' => $taskRuleId,
-            ));
-
-            if ($taskPointsLog) {
-                Yii::log('he('.$member_id.') as already got task('.$taskRuleKey.') reward!', 'warning', __METHOD__);
-            } else {
-                try {
-                    //Yii::app()->db->beginTransaction();
-
-                    // 派发 并标记任务中心状态
-                    $pointsModule->execRuleByRuleKey($member_id, $taskRuleKey);
-
-                    // 按积分奖励
-                    $rewardStatus = MemberTaskModel::REWARD_STATUS_DONE_POINTS;
-                    // 标记为已派发奖励
-                    $taskModule->markTaskAsRewarded($member_id, $taskTplModel->task_id, $rewardStatus, $pointsRuleModel->points);
-
-                    //Yii::app()->db->commit();
-                } catch (CException $e) {
-                    //Yii::app()->db->rollback();
-                    Yii::log(''.$e->getMessage(), 'error', __METHOD__);
-                }
-            }
-
+        // 完成后派发奖励
+        if ($isTaskFinished) {
+            $taskModule->rewardTaskInst($member_id, $taskTplModel->task_id);
         }
 
         // 封装下一个事件的参数

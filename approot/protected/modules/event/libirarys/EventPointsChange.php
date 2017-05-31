@@ -20,7 +20,7 @@ class EventPointsChange extends EventAbs {
     */
     public function process($member_id, $params) {
         $this->preProcess($member_id, $params);
-        
+return false;// 作废该事件 积分改变事件由积分内部完成，甚至有事务耦合性，不能放在队列里。失败的设计。
         $nextEvents = $params['_event_tpl']['event_next'];
         $nextEvents = explode(',', $nextEvents);
         $ret = true;

@@ -154,10 +154,9 @@ class TaskInst
         @param $taskTplId
     */
     public function isTaskRewarded() {
-        if ($this->_model->task_tpl->reward_type) {
-            return $this->_model->reward_status & MemberTaskModel::REWARD_STATUS_DONE_POINTS;
-        } elseif ($this->_model->task_tpl->reward_type_money) {
-            return $this->_model->reward_status & MemberTaskModel::REWARD_STATUS_DONE_MONEY;
+        if ($this->_model->task_tpl->reward_type == ($this->_model->reward_status & MemberTaskModel::REWARD_STATUS_DONE_POINTS)
+         && $this->_model->task_tpl->reward_type_money == ($this->_model->reward_status & MemberTaskModel::REWARD_STATUS_DONE_MONEY)) {
+            return true;
         }
         return false;
     }
