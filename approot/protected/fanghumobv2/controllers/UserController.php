@@ -469,7 +469,7 @@ class UserController extends Controller {
 				} else {
 					// 授权成功，登录并保存会话信息
 					Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-					$errMsg = "恭喜您，注册成功！正在自动登录。";
+					$errMsg = "注册成功，正在自动登录。";
 					$this->jsonSuccess($errMsg, $return_url);
 				}
 				exit;
