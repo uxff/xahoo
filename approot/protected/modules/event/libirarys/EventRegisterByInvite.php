@@ -59,6 +59,10 @@ class EventRegisterByInvite extends EventRegister {
             if (!empty($this->model->use_rule_key)) {
                 Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
             }
+
+            // 给邀请者给予奖励
+            Yii::app()->getModule('points')->execRuleByRuleKey($params['inviter'], PointsRuleModel::RULE_KEY_FINISH_INVITE_FRIEND);
+
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {
