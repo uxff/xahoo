@@ -29,6 +29,7 @@ class EventRegisterByInvite extends EventRegister {
         Yii::app()->getModule('points')->initMemberTotalInfo($member_id);
         // 添加好友
         Yii::app()->getModule('friend')->makeFriendShip($member_id, $params['inviter']);
+        Yii::app()->getModule('mtask');
         // 初始化邀请码
         //Yii::app()->getModule('friend')->makeInviteCode($member_id);
         // 如果有对应的任务
