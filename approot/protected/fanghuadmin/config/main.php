@@ -22,8 +22,8 @@ $config['controllerPath'] = $appAdminPath.'/controllers';
  * session component
  * autoloading model and component classes
 */
-$config['components']['session']['cookieParams']['path'] = '/';
-$config['components']['session']['cookieParams']['domain'] = $_SERVER['SERVER_NAME'];//'fanghuadmin.xqshijie.com';
+$config['components']['session']['cookieParams']['path'] = '/backend';
+$config['components']['session']['cookieParams']['domain'] = getenv('SERVER_NAME');
 $config['components']['session']['cookieParams']['lifetime'] = 0;
 
 /*
