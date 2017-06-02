@@ -32,9 +32,9 @@ class EventFactory {
 
     static public function getEventClassMap() {
         static $eventClassMap = [
-            'check_in_nday'                => 'EventCheckInNday',
             'check_in'                     => 'EventCheckIn',
-            'try_to_check_in_nday'         => 'EventTryToCheckInNday',
+            //'check_in_nday'                => 'EventCheckInNday',
+            //'try_to_check_in_nday'         => 'EventTryToCheckInNday',
             'fill_avatar'                  => 'EventFillAvatar',
             'finish_invite_friend'         => 'EventFinishInviteFriend',
             //'finish_task'                  => 'EventFinishTask',

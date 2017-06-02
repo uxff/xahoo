@@ -39,7 +39,7 @@ class EventRegisterByInvite extends EventRegister {
             $taskInst = TaskInst::makeInstByTpl($params['inviter'], $taskTplId);
             if ($taskInst) {
                 $taskInst->stepForward();
-                Yii::log('update his('.$params['inviter'].') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('update his('.$params['inviter'].') task('.$taskTplId.') to '.$taskInst->getModel()->step_count.'/'.$taskInst->getModel()->step_need_count, 'warning', __METHOD__);
                 //$shareTitle = '分享：'.$taskInst->getModel()->task_tpl->task_name;
                 if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
                     // 奖励任务
@@ -57,6 +57,7 @@ class EventRegisterByInvite extends EventRegister {
         // 按照条件 继续 下一事件： points_change,try_to_finish_task,try_to_finish_invite_friend
         if ($ret) {
             if (!empty($this->model->use_rule_key)) {
+                // 必然执行 register_by_invite
                 Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
             }
 

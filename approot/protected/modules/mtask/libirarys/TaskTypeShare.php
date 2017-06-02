@@ -25,15 +25,7 @@ class TaskTypeShare extends TaskTypeAbs
     */
 	public function calcStep($instModel)
 	{
-        $this->_model = $instModel;
-        // 查询计算邀请数量
-        $inviteCodeModel = MemberInviteCodeModel::model()->with('who_use_me')->find('t.member_id='.$instModel->member_id);
-        if (!$inviteCodeModel) {
-            Yii::log(__METHOD__ .': member('.$instModel->member_id.') has no invite code?', 'error', 'TaskModule');
-            return false;
-        }
-        $successNum = count($inviteCodeModel->who_use_me);
-        return $successNum;
+        return $instModel->step_count;
 	}
     
 

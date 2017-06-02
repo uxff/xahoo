@@ -112,8 +112,10 @@ class TaskInst
         }
         $this->_model->step_count += 1;
         if ($this->_model->step_count >= $this->_model->step_need_count) {
-            $this->_model->finish_time = date('Y-m-d H:i:s', time());
-            $this->_model->status = MemberTaskModel::STATUS_FINISHED;
+            if ($this->isTaskFinished()) {
+                $this->_model->finish_time = date('Y-m-d H:i:s', time());
+                $this->_model->status = MemberTaskModel::STATUS_FINISHED;
+            }
         }
         $ret = $this->_model->save();
         if (!$ret) {
