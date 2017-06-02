@@ -1233,13 +1233,13 @@ class WechatController extends BaseController {
         $like = $_GET['like'] ? $_GET['like'] : '';
         $sql = 'select * from fh_member_haibao where member_mobile like "'.$like.'" limit '.$limit;
         $sql = 'SELECT s.bind_id bind_id,s.member_id s_member_id,s.member_mobile s_member_mobile,h.member_id h_member_id,h.member_mobile h_member_mobile,th.money_total th_total,ts.money_total ts_total
- FROM xqsj_db.uc_member_bind_sns s
+ FROM uc_member_bind_sns s
  LEFT JOIN fanghu_db.fh_member_haibao h on h.sns_bind_id=s.bind_id
  LEFT JOIN fanghu_db.fh_member_total th on th.member_id=h.member_id
  LEFT JOIN fanghu_db.fh_member_total ts on ts.member_id=s.member_id
  where s.member_id != h.member_id';
         $sql = 'SELECT s.bind_id bind_id,s.member_id s_member_id,s.member_mobile s_member_mobile,h.member_id h_member_id,h.member_mobile h_member_mobile
- FROM xqsj_db.uc_member_bind_sns s
+ FROM uc_member_bind_sns s
  LEFT JOIN fanghu_db.fh_member_haibao h on h.sns_bind_id=s.bind_id
  where s.member_id != h.member_id limit '.$limit*1 .'';
 
@@ -1248,7 +1248,7 @@ class WechatController extends BaseController {
         print_r($memberHaibaoList);exit;
         
         $sql = 'UPDATE fanghu_db.fh_member_haibao h
- LEFT JOIN xqsj_db.uc_member_bind_sns s on h.sns_bind_id=s.bind_id
+ LEFT JOIN uc_member_bind_sns s on h.sns_bind_id=s.bind_id
  set h.member_id = s.member_id,h.member_mobile = s.member_mobile
  where s.member_id != h.member_id 
 ;';
