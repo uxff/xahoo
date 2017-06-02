@@ -330,7 +330,7 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $startTime 'Y-m-d H:i:s'
     */
-    public function getCheckInLog($member_id, $startTime = "") {
+    public function getCheckInLog($member_id, $startTime = '') {
         $ruleKey = PointsRuleModel::RULE_KEY_CHECKIN;
         $startTime || ($startTime = date('Y-m-d 00:00:00', time()));
         $pointsLog = MemberPointsHistoryModel::model()->orderBy('t.create_time desc')->with('rule')->findAll('member_id=:mid and rule.rule_key=:ruleKey and t.create_time>=:startTime', array(
@@ -346,8 +346,8 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $startTime 'Y-m-d H:i:s'
     */
-    public function getCheckInNdayLog($member_id, $startTime) {
-        $ruleKey = 'check_in_nday';
+    public function getCheckInNdayLog($member_id, $startTime = '') {
+        $ruleKey = PointsRuleModel::RULE_KEY_CHECK_IN_NDAY;
         $startTime || ($startTime = date('Y-m-d 00:00:00', time()));
         $pointsLog = MemberPointsHistoryModel::model()->orderBy('t.create_time desc')->with('rule')->findAll('member_id=:mid and rule.rule_key=:ruleKey and t.create_time>=:startTime', array(
             ':mid' => $member_id,
@@ -356,6 +356,50 @@ class PointsModule extends CWebModule
         ));
 
         return $pointsLog;
+    }
+    /*
+        获取连续签到记录
+        @param $member_id
+        @param $startTime 'Y-m-d H:i:s'
+    */
+    public function checkIn($member_id) {
+        // 检查当天内是否已经获得该经验 
+        $checkInLog = $this->getCheckInLog($member_id);
+        if ($checkInLog) {
+            Yii::log('he('.$member_id.') has already got checkInLog today!', 'warning', __METHOD__);
+            return false;
+        }
+
+        if ($this->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_CHECKIN)) {
+            $this->tryToCheckInNday($member_id);
+            return true;
+        }
+
+        return false;
+    }
+    /*
+        获取连续签到记录
+        @param int $member_id
+        @param int $nday = 7 默认7天签到
+    */
+    public function tryToCheckInNday($member_id, $nday = 7) {
+        // 检查7天内是否已经获得该经验 
+        $startTime = date('Y-m-d 00:00:00', time()-86400*($nday-1));
+        $checkInNdayLog = $this->getCheckInNdayLog($member_id, $startTime);
+        if ($checkInNdayLog) {
+            Yii::log('he('.$member_id.') has already got checkInNdayLog today!', 'warning', __METHOD__);
+            return false;
+        }
+
+        // 检查7天内签到次数是否满足
+        $checkInLog = $this->getCheckInLog($member_id, $startTime);
+        if (count($checkInLog) >= $nday) {
+            if ($this->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_CHECK_IN_NDAY)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 	/*
         获取用户积分明细记录

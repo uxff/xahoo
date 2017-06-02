@@ -19,7 +19,7 @@ class EventTryToCheckInNday extends EventAbs {
     */
     public function process($member_id, $params) {
         $this->preProcess($member_id, $params);
-        
+return false;
         $nextEvents = $params['_event_tpl']['event_next'];
         $nextEvents = explode(',', $nextEvents);
         $ret = true;
@@ -32,7 +32,7 @@ class EventTryToCheckInNday extends EventAbs {
         // 查找上次完成连续7天签到的日期
         //$lastCheckInNdayDate = EventLogModel::model()->orderBy('t.create_time DESC')->find('event_key="'.EventPointsChange::EVENT_KEY.'" and pre_event_key="'.EventCheckInNday::EVENT_KEY.'" and sender_mid=:member_id', array(':member_id'=>$member_id));
         
-        $lastCheckInNdayDate = MemberPointsHistoryModel::model()->find('member_id=:mid and rule_id=1', [
+        $lastCheckInNdayDate = MemberPointsHistoryModel::model()->find('member_id=:mid and rule_id=2', [
             ':mid' => $member_id,
         ]);
         if ($lastCheckInNdayDate && $lastCheckInNdayDate->create_time >= $startDay) {
@@ -59,9 +59,11 @@ class EventTryToCheckInNday extends EventAbs {
 
         // 按照条件 允许下一个事件 check_in_nday
         if ($ret) {
+            /*
             if (!empty($this->model->use_rule_key)) {
                 Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
             }
+            */
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {
