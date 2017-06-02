@@ -257,31 +257,7 @@ class PointsModule extends CWebModule
         @param $member_id
     */
     public function getMemberTotalModel($member_id, $accounts_id = 1) {
-        return $this->initMemberTotalInfo($member_id, $accounts_id);
-    }
-    public function initMemberTotalInfo($member_id, $accounts_id = 1) {
-        if ($member_id==0) {
-            return null;
-        }
-        // 先查询
-        $memberInfo = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id', array(':member_id'=>$member_id, ':accounts_id'=>$accounts_id));
-        if (!$memberInfo) {
-            // 不存在 尝试创建
-            $memberInfo = new MemberTotalModel;
-            $memberInfo->member_id   = $member_id;
-            $memberInfo->accounts_id = $accounts_id;
-            $memberInfo->create_time = date('Y-m-d H:i:s');
-            $ret = $memberInfo->insert();
-            if (!$ret) {
-                //throw new CException($memberInfo->lastError());
-                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->lastError(), 'error', __METHOD__);
-            } else {
-                Yii::log('no member_total record for mid='.$member_id.', try to add, done', 'warning', __METHOD__);
-            }
-        }
-        // 如果存在 缓存起来
-        
-        return $memberInfo;
+        return $this->getMemberTotalInfo($member_id, $accounts_id);
     }
     /*
         升级
@@ -351,19 +327,11 @@ class PointsModule extends CWebModule
     }
     /*
         获取当天签到记录
-    */
-    public function getCheckInList($member_id) {
-        
-        $checkInList = EventLogModel::model()->find('event_key="'.EventPointsChange::EVENT_KEY.'" and pre_event_key="'.$event_id.'" and sender_mid=:member_id and create_time>="'.date('Y-m-d 00:00:00', $now).'"', array(':member_id'=>$member_id));
-
-    }
-    /*
-        获取当天签到记录
         @param $member_id
         @param $startTime 'Y-m-d H:i:s'
     */
     public function getCheckInLog($member_id, $startTime = "") {
-        $ruleKey = 'check_in';
+        $ruleKey = PointsRuleModel::RULE_KEY_CHECKIN;
         $startTime || ($startTime = date('Y-m-d 00:00:00', time()));
         $pointsLog = MemberPointsHistoryModel::model()->orderBy('t.create_time desc')->with('rule')->findAll('member_id=:mid and rule.rule_key=:ruleKey and t.create_time>=:startTime', array(
             ':mid' => $member_id,

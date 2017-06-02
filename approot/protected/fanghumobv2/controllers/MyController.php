@@ -546,7 +546,7 @@ class MyController extends BaseController
             if (empty($checkInLog)) {
                 Yii::app()->getModule('event')->pushEvent($member_id, 'check_in');
             } else {
-                Yii::log('already check in: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('already check in: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
             }
         } else {
             Yii::log('token error: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
