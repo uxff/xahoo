@@ -1323,13 +1323,13 @@ class WechatController extends BaseController {
         {
             "type":"view",
             "name":"我的奖励",
-            "url":"https://fanghu.xqshijie.com/index.php?r=wechat/authlogin&return_url=https%3A%2F%2Ffanghu.xqshijie.com%2Findex.php%3Fr%3DmyHaibao%2FmyReward%26accounts_id%3D2"
+            "url":"http://xahoo.xenith.top/index.php?r=wechat/authlogin&return_url=http%3A%2F%2Fxahoo.xenith.top%2Findex.php%3Fr%3DmyHaibao%2FmyReward%26accounts_id%3D2"
         }]
     },
     {
         "type":"view",
         "name":"积分任务",
-        "url":"https://fanghu.xqshijie.com/lizhuan/index.html"
+        "url":"http://xahoo.xenith.top/index.php?r=lizhuan/index"
     },
     {
         "name":"服务中心",
@@ -1337,76 +1337,18 @@ class WechatController extends BaseController {
         {
             "type":"view",
             "name":"注册好礼",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/register"
-        },
-        {
-            "type":"view",
-            "name":"玩转秘籍",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/memberrights"
+            "url":"http://xahoo.xenith.top/index.php?r=user/register"
         },
         {
             "type":"view",
             "name":"我的积分",
-            "url":"https://fanghu.xqshijie.com/index.php?r=myPoints/index"
-        },
-        {
-            "type":"view",
-            "name":"呼叫400",
-            "url":"http://s.ifengk.com/v-U6117YS77J"
+            "url":"http://xahoo.xenith.top/index.php?r=myPoints/index"
         },
         {
             "type":"click",
             "name":"在线咨询",
             "key":"MENU_ONLINE_ADVICE"
         }]
-    }]
-}';
-    }
-    /*
-        原有菜单
-    */
-    protected function getOldMenu() {
-        return $menu = '
-{
-    "button":[
-    {
-        "type":"view",
-        "name":"高分奖励",
-        "url":"https://fanghu.xqshijie.com/"
-    },
-    {
-        "type":"view",
-        "name":"积分任务",
-        "url":"https://fanghu.xqshijie.com/lizhuan/index.html"
-    },
-    {
-        "name":"服务中心",
-        "sub_button":[
-        {
-            "type":"view",
-            "name":"注册好礼",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/register"
-        },
-        {
-            "type":"view",
-            "name":"玩转秘籍",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/memberrights"
-        },
-        {
-            "type":"view",
-            "name":"我的积分",
-            "url":"https://fanghu.xqshijie.com/index.php?r=myPoints/index"
-        },
-        {
-            "type":"view",
-            "name":"呼叫400",
-            "url":"http://s.ifengk.com/v-U6117YS77J"
-        },
-        {
-            "type":"click",
-            "name":"在线咨询",
-            "key":"MENU_ONLINE_ADVICE"
-         }]
     }]
 }';
     }
