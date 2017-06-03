@@ -11,7 +11,7 @@ include_once __DIR__ . '/app.php';
  * 前后台域名
 */
 $config['params']['frontendDomain'] = 'xahoo.lo';
-$config['params']['backendDomain']  = 'admin.xahoo.lo';
+$config['params']['backendDomain']  = 'b.xahoo.lo';
 
 
 $config['basePath'] = $protectedPath;
@@ -22,7 +22,7 @@ $config['controllerPath'] = $appAdminPath.'/controllers';
  * session component
  * autoloading model and component classes
 */
-$config['components']['session']['cookieParams']['path'] = '/backend';
+$config['components']['session']['cookieParams']['path'] = '/';
 $config['components']['session']['cookieParams']['domain'] = getenv('SERVER_NAME');
 $config['components']['session']['cookieParams']['lifetime'] = 0;
 

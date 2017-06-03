@@ -16,7 +16,7 @@ $config['controllerPath'] = $currentAppPath . '/controllers';
  * session component
  * autoloading model and component classes
 */
-$config['components']['session']['cookieParams']['path'] = '/frontend';
+$config['components']['session']['cookieParams']['path'] = '/';
 $config['components']['session']['cookieParams']['domain'] = getenv('SERVER_NAME');
 $config['components']['session']['cookieParams']['lifetime'] = 0;
 
