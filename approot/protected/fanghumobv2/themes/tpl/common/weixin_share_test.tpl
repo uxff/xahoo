@@ -1,10 +1,3 @@
-{literal}
-<script>
-	_mwx=window._mwx||{};
-    _mwx.siteId=8000228;
-    _mwx.openId=''; //OpenID为微信提供的用户唯一标识,需要开发者传入，如果没有OpenID，去掉该代码即可。
-</script>
-{/literal}
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 	var paths = '{$resourcePath}',

@@ -21,8 +21,9 @@
 <!--内容区 end-->
 <section class="share-btn">
     <!-- 本期不做收藏
-    <a href="#" class="fl"><i class="iconfont">&#xe601;</i>立即收藏</a>
+    <a href="javascript:;" class="fl"><i class="iconfont">&#xe601;</i>立即收藏</a>
     -->
+    <a href="javascript:;" class="fl btn-share-callback"><i class="iconfont">&#xe603;</i>分享回调</a>
     <a href="javascript:;" class="fr"><i class="iconfont">&#xe603;</i>马上分享</a>
 </section>
 <!--
