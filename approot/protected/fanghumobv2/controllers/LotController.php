@@ -41,7 +41,7 @@ class LotController extends BaseController {
 
         // 抽奖次数
         if ($member_id) {
-            $this->myRemainBetTimes = self::TIMES_PER_DAY - $this->getBetTimesToday($member_id);
+            $this->myRemainBetTimes = self::TIMES_PER_DAY - $this->getBetTimesTodayNum($member_id);
         } else {
             $this->myRemainBetTimes = self::TIMES_PER_DAY;
         }
@@ -302,7 +302,8 @@ class LotController extends BaseController {
                         $this->errCode = self::ERR_DB;
                         throw new CException('rule key not exist:'.$extraInfo['rule_key']);
                     }
-                    if ($this->pointsModule->execRuleForTransaction($member_id, $ruleInfo)) {
+                    $totalModel = $this->pointsModule->getMemberTotalModel($member_id);
+                    if ($this->pointsModule->execRuleForTransaction($totalModel, $ruleInfo)) {
                         // 标记为已派奖 // 暂不标记
                         //$hitStatus =  FhActivityLotteryModel::STATUS_DISPATCHED;
                     }

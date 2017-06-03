@@ -12,7 +12,7 @@
     <div class="t-bg"></div>
     <div class="turnt">
         <div class="start">
-            <a href="#" class="start-btn"><img src="../../../../../resource/fanghu2.0/images/lottery/start.png"></a>
+            <a href="javascript:;" class="start-btn" bet-url="{yii_createurl c=lot a=ajaxbet}"><img src="../../../../../resource/fanghu2.0/images/lottery/start.png"></a>
         </div>
         <ul class="lot start-list" >
             <li><div class="lot_1"></div></li>
@@ -90,14 +90,15 @@
     </div>
     <div class="prize-content">
         <div class="pri-txt">
-            <p>一、活动时间：2016.9.28-2016.12.31</p>
+            <p>本网站属于功能演示网站，本页面仅涉及的实物奖品不会发放。以下为页面活动说明示例：</p>
+            <p>一、活动时间：2016.9.28-2018.12.31</p>
             <p>二、活动形式：</p>
             <p class="pri-txt-t"> 1、每次抽奖需要扣除200积分，扣除的积分不退还，每天最多抽奖三次；</p>
             <p class="pri-txt-t">2、本活动奖品为：iPhone6s、小米48英寸液晶电视、京东E卡、积分，每天奖品数量超过1万份。</p>
             <p>三、领取方式：</p>               
             <p class="pri-txt-t"> 1、中奖积分我们将直接发放到您的积分账户中，请在Xahoo中查看“我的”→“我的积分”；</p>
             <p class="pri-txt-t">2、京东E卡由专人通过手机短信的方式将京东E卡的账号和密码发送到您的手机上；</p>
-            <p class="pri-txt-t">3、小米48英寸液晶电视和iPhone6s需到新奇世界由山由谷或者御马坊项目案场领取奖品。</p>
+            <p class="pri-txt-t">3、小米48英寸液晶电视和iPhone6s需到联系客服领取奖品。</p>
             <p>四、最终解释权归Xahoo所有。</p>
             </p>
         </div>

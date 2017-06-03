@@ -55,7 +55,7 @@ class FhActivityLotteryModelBase extends CActiveRecord
                         array('member_id', 'length', 'max'=>10),
                         array('member_mobile, member_name', 'length', 'max'=>20),
                         array('prize', 'length', 'max'=>50),
-                        array('create_time', 'safe'),
+                        array('create_time, last_modified', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
                         array('id, member_id, member_mobile, member_name, prize, product_id, points, status, create_time, last_modified', 'safe', 'on'=>'search'),

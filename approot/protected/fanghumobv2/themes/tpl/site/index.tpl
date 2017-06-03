@@ -39,9 +39,9 @@
             </a>
         </li>
         <li>
-            <a href="{yii_createurl c=user a=memberrights}" class="nav-qy">
-                <p>会员权益说明</p>
-                <span>会员权益积分机制</span>
+            <a href="{yii_createurl c=lot a=index}" class="nav-qy">
+                <p>积分游戏</p>
+                <span>积分抽奖大转盘</span>
             </a>
         </li>
     </ul>
