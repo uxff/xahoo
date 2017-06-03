@@ -71,7 +71,8 @@ class SnsModule extends CWebModule
             $ucMember = new UcMember;
             $ucMember->member_from = $memberFrom;
             $ucMember->create_time = $ucMember->last_modified = date('Y-m-d H:i:s');
-            //$ucMember->member_nickname = 
+            $ucMember->member_fullname = $snsid;
+            $ucMember->member_mobile = 'NIL_FHTMPUSER';
             try {
                 if (!$ucMember->save()) {
                     throw new CException($ucMember->lastError());
