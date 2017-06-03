@@ -56,7 +56,7 @@ class AdminLoginForm extends CFormModel {
                 }
                 if ($this->_identity->errorCode === AdminUserIdentity::ERROR_NONE) {
                         $duration = $this->rememberMe ? 3600 * 24 * 30 : 0; // 30 days
-                        Yii::app()->admin->login($this->_identity, $duration);
+                        Yii::app()->memberadmin->login($this->_identity, $duration);
                         return true;
                 } else {
                         return false;
