@@ -139,7 +139,7 @@
                                                 <a href="javascript:;" onclick="return setStatus({$objModel['id']});" class="btn btn-xs btn-success" > 
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>设为有效 </a>
                                             {else if $objModel['poster_status'] == 2}
-                                                <a href="javascript:;" onclick="return setStatusTwo({$objModel['id']});" class="btn btn-xs btn-success" > 
+                                                <a href="javascript:;" onclick="return setStatusTwo({$objModel['id']});" class="btn btn-xs btn-danger" > 
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>设为无效 </a>
                                             {else}
                                                 <a href="javascript:;" class="btn btn-xs "  disabled="disabled">
@@ -148,7 +148,7 @@
                                             {if $objModel['poster_status'] == 2}
                                             <a href="" class="btn btn-xs btn-success" disabled="disabled"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
                                             {else}
-                                            <a href="backend.php?r=Poster/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
+                                            <a href="backend.php?r=Poster/Edit&id={$objModel['id']}" class="btn btn-xs btn-primary"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
                                             {/if}
                                             <a href="backend.php?r=Poster/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                                         </div>

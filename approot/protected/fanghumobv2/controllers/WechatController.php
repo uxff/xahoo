@@ -82,7 +82,7 @@ class WechatController extends BaseController {
             case Wechat::MSGTYPE_IMAGE:
                 break;
             default:
-                $weObj->text("我是小乎，有问题请留言！")->reply();
+                $weObj->text("我是Xahoo，有问题请留言！")->reply();
                 break;
         }
     }
@@ -107,8 +107,7 @@ class WechatController extends BaseController {
                         $this->forceFlush();
 
                         $arrStr = [
-                            //'middle' => "在别处是未来\n在中弘是现在",
-                            'middle' => "三亚·半山半岛\n0898-88839999",
+                            'middle' => "在云上思考\n繁华而且进步",
                         ];
                         $this->makeHaibao($fromUser, $arrStr, 1);
 
@@ -120,8 +119,7 @@ class WechatController extends BaseController {
                         $this->forceFlush();
                         if ($this->makeAccount($fromUser)) {
                             $arrStr = [
-                                //'middle' => "在别处是未来\n在中弘是现在",
-                                'middle' => "三亚·半山半岛\n0898-88839999",
+                                'middle' => "在云上思考\n繁华而且进步",
                             ];
                             $this->makeHaibao($fromUser, $arrStr);
                         }
@@ -136,16 +134,32 @@ class WechatController extends BaseController {
                         //$posterModel = $this->choicePosterByLocation($addr);
                         $posterModel = FhPosterModel::model()->GetPosterApi();
                         if (empty($posterModel)) {
+                            $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
+                            $weObj->sendCustomMessage($msg);
+                            break;
                             //倒计时
                             $btime = '2016-10-14 18:30:00';
                             if($btime < date('Y-m-d H:i:s')){
-                                $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
                             }else{
-                                $atime = $this->setTime($btime);
-                                $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"半山半岛海报转发领红包倒计时".$atime."，敬请关注！"]];
                             }
-                            $weObj->sendCustomMessage($msg);
-                            break;
+                        } else {
+                            // 如果有posterModel，但是尚未开始，则倒计时
+                            $posterStartTimestamp = strtotime($posterModel->valid_begintime);
+                            $timestampToStart = time() - $posterStartTimestamp;
+                            if ($timestampToStart>0) {
+                                // 尚未开始
+                                if ($timestampToStart < 3600*24) {
+                                    // 1 天内 回复倒计时消息
+                                    $atime = date('H小时i分s秒', $timestampToStart-3600*8);
+                                    $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"海报转发领红包倒计时".$atime."，敬请关注！"]];
+                                } else {
+                                    // 1 天内不开始 回复活动已结束
+                                    $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
+                                }
+                                $weObj->sendCustomMessage($msg);
+                                break;
+                            }
+                            // 活动已开始，正在进行中
                         }
 
                         $return_url = $this->createAbsoluteUrl('myHaibao/DiyHaibao');
