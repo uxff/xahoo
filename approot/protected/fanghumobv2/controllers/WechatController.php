@@ -107,7 +107,7 @@ class WechatController extends BaseController {
                         $this->forceFlush();
 
                         $arrStr = [
-                            'middle' => "在云上思考\n繁华而且进步",
+                            'middle' => "在云上思考\n繁华中进步",
                         ];
                         $this->makeHaibao($fromUser, $arrStr, 1);
 
@@ -119,7 +119,7 @@ class WechatController extends BaseController {
                         $this->forceFlush();
                         if ($this->makeAccount($fromUser)) {
                             $arrStr = [
-                                'middle' => "在云上思考\n繁华而且进步",
+                                'middle' => "在云上思考\n繁华中进步",
                             ];
                             $this->makeHaibao($fromUser, $arrStr);
                         }
