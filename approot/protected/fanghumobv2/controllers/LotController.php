@@ -199,7 +199,7 @@ class LotController extends BaseController {
         $startTime = date('Y-m-d 00:00:00', time());
         $ret = Yii::app()->db->createCommand()
             ->select('count(id) cnt')
-            ->from('fh_activity_lottery')
+            ->from('fh_activity_lottery_log')
             ->where('member_id=:mid and create_time>:startTime', [':mid'=>$member_id, ':startTime'=>$startTime])
             ->queryAll();
         return $ret[0]['cnt'];
@@ -370,7 +370,7 @@ class LotController extends BaseController {
         $sql = 'select member_mobile, prize ';
         $recentList = Yii::app()->db->createCommand()
             ->select('member_mobile, prize')
-            ->from('fh_activity_lottery')
+            ->from('fh_activity_lottery_log')
             ->where('status=2')
             ->order('id desc')
             ->limit(49)
@@ -412,7 +412,7 @@ class LotController extends BaseController {
     public function getMyWinList($member_id, $limit = 5) {
         $winList = Yii::app()->db->createCommand()
             ->select('a.product_id, a.prize, a.create_time, p.pic_url')
-            ->from('fh_activity_lottery a')
+            ->from('fh_activity_lottery_log a')
             ->leftJoin('fh_lot_product p', 'p.id=a.product_id')
             ->where('a.status=2 and a.member_id=:mid', [':mid'=>$member_id])
             ->order('a.id desc')
