@@ -860,10 +860,10 @@ class UserController extends Controller {
 			$objUserIdentity = new UserIdentity('', '');
 			$objUserIdentity->thirdPartLogin($member_id);
 			Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-			$this->redirect('fanghuv2.php?r=site/login');
+			$this->redirect('frontendmob.php?r=site/login');
 		} else {
 			//没有绑定则跳转到手机、邮箱录入页面
-			$this->redirect('fanghuv2.php?r=user/thirdPartLoginMobile&from=' . $from);
+			$this->redirect('frontendmob.php?r=user/thirdPartLoginMobile&from=' . $from);
 		}
 	}
 
@@ -968,7 +968,7 @@ class UserController extends Controller {
 			$objUserIdentity = new UserIdentity('', '');
 			$objUserIdentity->thirdPartLogin($member_id);
 			Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-			$this->redirect('fanghuv2.php?r=site/login');
+			$this->redirect('frontendmob.php?r=site/login');
 			//                        $this->redirect($this->createAbsoluteUrl('site/login'));
 		} else {
 			$this->smartyRender('errorview/404.tpl');
@@ -1247,7 +1247,7 @@ class UserController extends Controller {
 		} else {
             Yii::log('auto login error: sns no bind'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
 			//没有绑定则跳转到登陆页，登陆页会根据session，执行绑定
-			//$this->redirect('fanghuv2.php?r=user/thirdPartLoginMobile&from=' . $from);
+			//$this->redirect('frontendmob.php?r=user/thirdPartLoginMobile&from=' . $from);
             $this->redirect($this->createAbsoluteUrl('user/login', ['return_url'=>$return_url]));
 		}
 	}

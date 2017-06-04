@@ -39,14 +39,14 @@ define(function(require){
 	            layer.load(1);
 	            $.ajax({
 	                type: 'post',
-	                url: 'fanghuv2.php?r=WithdrawCash/GetCash&cash='+cash+'&project_id='+project_id+'&token='+token,
+	                url: 'index.php?r=WithdrawCash/GetCash&cash='+cash+'&project_id='+project_id+'&token='+token,
 	                dataType: 'json',
 	                success: function(data){
 	                	layer.close(1);
 	                	$(this).prop('disabled',0);
 	                    if(data.code == 0){
 	                        _this.message(data.msg);
-	                        setTimeout(function(){window.location.href = "fanghuv2.php?r=MyHaibao/MyReward"},3000);
+	                        setTimeout(function(){window.location.href = "index.php?r=MyHaibao/MyReward"},3000);
                             if (data.value.token != undefined) {
                                 $('#token').val(data.value.token);
                             }
