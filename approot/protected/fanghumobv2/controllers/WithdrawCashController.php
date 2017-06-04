@@ -89,7 +89,7 @@ class WithdrawCashController extends BaseController {
         $model->poster_id = $memberHaibao->poster->id;
         $model->withdraw_money = $cash;
         $model->status = 1;
-        $model->remit_time = '';
+        //$model->remit_time = '';
         $model->create_time = date('Y-m-d H:i:s');
         $model->last_modified = date('Y-m-d H:i:s');
         if($model->save()){
