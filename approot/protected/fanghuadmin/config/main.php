@@ -10,8 +10,8 @@ include_once __DIR__ . '/app.php';
 /*
  * 前后台域名
 */
-$config['params']['frontendDomain'] = 'xahoo.lo';
-$config['params']['backendDomain']  = 'b.xahoo.lo';
+$config['params']['frontendDomain'] = 'xahoo.xenith.top';
+$config['params']['backendDomain']  = 'b.xahoo.xenith.top';
 
 
 $config['basePath'] = $protectedPath;
@@ -33,7 +33,7 @@ $config['components']['session']['cookieParams']['lifetime'] = 0;
 $config['components']['db']['class'] = 'application.common.components.DbConnectionManager';
 $config['components']['db']['connectionString'] = 'mysql:host=127.0.0.1;dbname=xahoo';
 $config['components']['db']['emulatePrepare'] = true;
-$config['components']['db']['username'] = 'w';
+$config['components']['db']['username'] = 'www';
 $config['components']['db']['password'] = '123x456';
 $config['components']['db']['charset'] = 'utf8';
 $config['components']['db']['enableSlave'] = false; //从数据库启用
@@ -58,7 +58,7 @@ $config['components']['db']['slaves'][1]['charset'] = 'utf8';
 $config['components']['UCenterDb']['class'] = 'application.common.components.DbConnectionManager';
 $config['components']['UCenterDb']['connectionString'] = 'mysql:host=127.0.0.1;dbname=xahoo';
 $config['components']['UCenterDb']['emulatePrepare'] = true;
-$config['components']['UCenterDb']['username'] = 'w';
+$config['components']['UCenterDb']['username'] = 'www';
 $config['components']['UCenterDb']['password'] = '123x456';
 $config['components']['UCenterDb']['charset'] = 'utf8';
 $config['components']['UCenterDb']['enableSlave'] = false;
