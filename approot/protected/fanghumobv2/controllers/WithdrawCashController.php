@@ -110,8 +110,11 @@ class WithdrawCashController extends BaseController {
         $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $withdraw_data = FhMoneyWithdrawModel::model()->findBySql("select sum(withdraw_money) as withdraw_money from fh_money_withdraw where member_id =".$member_id." and accounts_id =".$accounts_id." and status in(1,3)");
         $withdraw_cash = $this->convertModelToArray($withdraw_data);
+        $last_cash = $total;
+        if (isset($withdraw_cash['withdraw_money']) && $withdraw_cash['withdraw_money']>0) {
+            $last_cash = $total - $withdraw_cash['withdraw_money'];
+        }
         //剩余提现金额
-        $last_cash = $total - $withdraw_cash['withdraw_money'];
         return $last_cash;
     }
     //提现记录
