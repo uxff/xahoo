@@ -63,7 +63,7 @@ class WithdrawCashController extends BaseController {
         $memberHaibao = FhMemberHaibaoModel::model()->with('poster')->find('t.member_id=:member_id and t.accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $memberTotal  = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $flag = false;
-        $project_id = isset($_GET['project_id']) ?(int)$_GET['project_id']:0;
+        //$project_id = isset($_GET['project_id']) ?(int)$_GET['project_id']:0;
         
 
         
@@ -86,7 +86,7 @@ class WithdrawCashController extends BaseController {
         $model = new FhMoneyWithdrawModel;
         $model->accounts_id = $accounts_id;
         $model->member_id = $member_id;
-        $model->project_id= $memberHaibao->poster->project_id;
+        $model->poster_id = $memberHaibao->poster->id;
         $model->withdraw_money = $cash;
         $model->status = 1;
         $model->remit_time = '';

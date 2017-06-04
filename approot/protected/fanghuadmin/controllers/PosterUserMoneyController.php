@@ -47,7 +47,6 @@ class PosterUserMoneyController extends Controller
             'project_id' => $_POST['poster']['project'],
             'status' => $_POST['poster']['status'],
             'is_jjr' => $_POST['poster']['is_jjr'],
-            'project_id' => $_POST['poster']['project'],
             'member_mobile' => $_POST['poster']['member_mobile'],
             'nickname' => $_POST['poster']['nickname'],
             'shNum' => $shNum,
