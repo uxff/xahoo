@@ -44,7 +44,7 @@ class WithdrawCashController extends BaseController {
     
     public function actionGetCash(){
         $member_id = Yii::app()->loginUser->getUserId();
-        $accounts_id = Yii::app()->params['accounts_id'];
+        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $token = $_GET['token'];
         $webToken = new WebToken;
         if (!$webToken->checkToken($token)) {
@@ -116,7 +116,7 @@ class WithdrawCashController extends BaseController {
     }
     //提现记录
     public function actionRecord(){
-        $accounts_id = Yii::app()->params['accounts_id'];
+        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $member_id = Yii::app()->loginUser->getUserId();
         $data = FhMoneyWithdrawModel::model()->findAll('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $recordData = $this->convertModelToArray($data);
