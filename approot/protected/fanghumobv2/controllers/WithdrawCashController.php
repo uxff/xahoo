@@ -60,7 +60,7 @@ class WithdrawCashController extends BaseController {
             $this->jsonError('您没有绑定手机号，还不能提现，请退出重新登录。');
         }
 
-        $memberHaibao = FhMemberHaibaoModel::model()->with('poster')->find('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
+        $memberHaibao = FhMemberHaibaoModel::model()->with('poster')->find('t.member_id=:member_id and t.accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $memberTotal  = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $flag = false;
         $project_id = isset($_GET['project_id']) ?(int)$_GET['project_id']:0;
