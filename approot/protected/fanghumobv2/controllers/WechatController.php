@@ -799,9 +799,9 @@ class WechatController extends BaseController {
                 break;
         }
         // 不符合地域规则 不给奖励
-        if ($memberPoster->is_addr_right==0) {
-            $rewardMoney = 0;
-        }
+        //if ($memberPoster->is_addr_right==0) {
+        //    $rewardMoney = 0;
+        //}
         $this->rewardMoney = $rewardMoney;
 
         // 个人奖励是否达到上限
