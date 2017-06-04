@@ -107,7 +107,7 @@ class WithdrawCashController extends BaseController {
         获取可提现金额
     */
     public function getRemainCash($member_id, $total) {
-        $accounts_id = Yii::app()->params['accounts_id'];
+        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $withdraw_data = FhMoneyWithdrawModel::model()->findBySql("select sum(withdraw_money) as withdraw_money from fh_money_withdraw where member_id =".$member_id." and accounts_id =".$accounts_id." and status in(1,3)");
         $withdraw_cash = $this->convertModelToArray($withdraw_data);
         //剩余提现金额
