@@ -60,7 +60,8 @@ class ArticleModelBase extends CActiveRecord
                 return array(
                         array('title, content, status, admin_id, admin_name', 'required'),
                         array('type, status, admin_id', 'numerical', 'integerOnly'=>true),
-                        array('title, outer_url, visit_url, surface_url, abstract, remark', 'length', 'max'=>255),
+                        array('title, outer_url, visit_url, surface_url, remark', 'length', 'max'=>255),
+                        array('abstract', 'length', 'max'=>500),
                         array('view_count, share_count, favor_count, comment_count', 'length', 'max'=>10),
                         array('admin_name', 'length', 'max'=>32),
                         array('create_time', 'safe'),
