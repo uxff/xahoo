@@ -62,7 +62,7 @@ CREATE TABLE `fh_article` (
   `content` mediumtext NOT NULL COMMENT '内容',
   `outer_url` varchar(255) NOT NULL DEFAULT '' COMMENT '使用外部链接',
   `visit_url` varchar(255) NOT NULL DEFAULT '' COMMENT '本文对外链接',
-  `surface_url` varchar(255) NOT NULL DEFAULT '' COMMENT '封面图',
+  `surface_url` varchar(500) NOT NULL DEFAULT '' COMMENT '封面图',
   `abstract` varchar(255) NOT NULL DEFAULT '' COMMENT '摘要',
   `status` tinyint(4) NOT NULL COMMENT '活动状态>1|未发布,2|已发布,3|已撤销',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
@@ -461,9 +461,6 @@ CREATE TABLE `fh_member_haibao_log` (
 --
 
 LOCK TABLES `fh_member_haibao_log` WRITE;
-/*!40000 ALTER TABLE `fh_member_haibao_log` DISABLE KEYS */;
-INSERT INTO `fh_member_haibao_log` VALUES (1,1,3,1,1,'2017-06-03 14:27:01','2017-06-03 14:27:01'),(2,1,3,1,1,'2017-06-03 14:27:06','2017-06-03 14:27:06'),(3,1,0,2,1,'2017-06-03 14:46:09','2017-06-03 14:46:09'),(4,1,6,3,1,'2017-06-03 14:54:58','2017-06-03 14:54:58'),(5,1,3,1,1,'2017-06-04 05:45:46','2017-06-04 05:45:46'),(6,1,3,1,1,'2017-06-04 05:45:51','2017-06-04 05:45:51'),(7,1,7,4,1,'2017-06-04 05:46:53','2017-06-04 05:46:53'),(8,1,8,5,1,'2017-06-04 06:20:57','2017-06-04 06:20:57');
-/*!40000 ALTER TABLE `fh_member_haibao_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
