@@ -11,7 +11,7 @@
     <div id="searchContainer" style="display: {if $searchForm}block;{else}none;{/if}">
     -->
     <div id="searchContainer">
-        <form class="form-horizontal"  id="taskTplMgr-form" role="form" action="fanghuadmin.php?r=taskTplMgr/index" method="GET">
+        <form class="form-horizontal"  id="taskTplMgr-form" role="form" action="backend.php?r=taskTplMgr/index" method="GET">
             <input type="hidden" name="r" value="{$route}" />
             <div class="col-xs-12">
                 <br/>
@@ -122,15 +122,15 @@
                     <div class="col-sm-2"> <span class="help-inline middle" id="TaskTplModel_flag_em_">  </span> </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label no-padding-right" for="TaskTplModel_author_id">创建人id</label>
-                    <div class="col-sm-7"><input type="text" id="TaskTplModel_author_id" name="TaskTplModel[author_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.author_id}" /></div>
-                    <div class="col-sm-2"> <span class="help-inline middle" id="TaskTplModel_author_id_em_">  </span> </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="TaskTplModel_admin_id">创建人id</label>
+                    <div class="col-sm-7"><input type="text" id="TaskTplModel_admin_id" name="TaskTplModel[admin_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.admin_id}" /></div>
+                    <div class="col-sm-2"> <span class="help-inline middle" id="TaskTplModel_admin_id_em_">  </span> </div>
                 </div>
                 -->
 
                 <div class="form-group col-xs-3">
-                    <label class="col-xs-3 control-label no-padding-right" for="TaskTplModel_author_name">创建人</label>
-                    <div class="col-xs-8"><input type="text" id="TaskTplModel_author_name" name="TaskTplModel[author_name]" size="60" maxlength="200" class="col-xs-12" value="{$dataObj.author_name}" /></div>
+                    <label class="col-xs-3 control-label no-padding-right" for="TaskTplModel_admin_name">创建人</label>
+                    <div class="col-xs-8"><input type="text" id="TaskTplModel_admin_name" name="TaskTplModel[admin_name]" size="60" maxlength="200" class="col-xs-12" value="{$dataObj.admin_name}" /></div>
                 </div>
                 <div class="form-group col-xs-3">
                     &nbsp;
@@ -161,7 +161,7 @@
                 共{$pages.totalCount}条记录，当前为第{($pages.curPage-1)*$pages.pageSize+1} 到{$pages.totalCount}条记录
             {/if}
             <span class="pull-right">
-                <a href="fanghuadmin.php?r=taskTplMgr/create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
+                <a href="backend.php?r=taskTplMgr/create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
             </span>
         </div>
         <div class="table-responsive">
@@ -169,12 +169,16 @@
                 <thead>
                     <tr>
                         <td>序号</td>
-                        <td>任务名称</td>
+                        <td style="width:360px">任务名称</td>
                         <td>积分</td>
                         <td>积分上限</td>
+                        <td>已发积分</td>
                         <td>金额</td>
                         <td>金额上限</td>
+                        <td>已发金额</td>
+                        <!--
                         <td>任务分类</td>
+                        -->
                         <td>任务状态</td>
                         <td>权重</td>
                         <td>添加人</td>
@@ -188,10 +192,13 @@
                     <tr>
                         <td>{$i+1}</td>
                         <td>{$objModel.task_name}</td>
-                        <td data="{$objModel.reward_type}">{$objModel.reward_points * 1}分</td>
-                        <td>{$objModel.integral_upper}分</td>
+                        <td data="{$objModel.reward_type}">{$objModel.reward_points * 1}</td>
+                        <td>{$objModel.integral_upper}</td>
+                        <td>{$objModel.points_total}</td>
                         <td>￥{number_format($objModel.reward_money,2)}</td>
                         <td>￥{$objModel.money_upper}</td>
+                        <td>{$objModel.money_total}</td>
+                        <!--
                         <td>
                             {if isset($arrActType[$objModel.act_type])}
                                 {$arrActType[$objModel.act_type]}
@@ -199,6 +206,7 @@
                                 -
                             {/if}
                         </td>
+                        -->
                         <td>
                             {if isset($arrStatus[$objModel.status])}
                                 {$arrStatus[$objModel.status]}
@@ -207,22 +215,22 @@
                             {/if}
                         </td>
                         <td>{$objModel.weight}</td>
-                        <td>{$objModel.author_name}</td>
+                        <td>{$objModel.admin_name}</td>
                         <td>{$objModel.create_time}</td>
                         <td>{$objModel.last_modified}</td>
                         <td>
                             <div class="hidden-sm hidden-xs btn-group">
-                                <a href="fanghuadmin.php?r=taskTplMgr/view&id={$objModel.$modelId}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
-                                <a href="fanghuadmin.php?r=taskTplMgr/update&id={$objModel.$modelId}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
-                                <button onclick="delConfirm('fanghuadmin.php?r=taskTplMgr/delete&amp;id={$objModel.$modelId}&token={$token}');" data-url="" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i>删除 </button>
+                                <a href="backend.php?r=taskTplMgr/view&id={$objModel.$modelId}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                                <a href="backend.php?r=taskTplMgr/update&id={$objModel.$modelId}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
+                                <button onclick="delConfirm('backend.php?r=taskTplMgr/delete&amp;id={$objModel.$modelId}&token={$token}');" data-url="" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i>删除 </button>
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline position-relative">
                                     <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto"> <i class="ace-icon fa fa-cog icon-only bigger-110"></i> </button>
                                     <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                        <li> <a href="fanghuadmin.php?r=taskTplMgr/view&id={$objModel.$modelId}" class="tooltip-info" data-rel="tooltip" title="View"> <span class="blue"> <i class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a> </li>
-                                        <li> <a href="fanghuadmin.php?r=taskTplMgr/update&id={$objModel.$modelId}" class="tooltip-success" data-rel="tooltip" title="Edit"> <span class="green"> <i class="ace-icon fa fa-pencil-square-o bigger-120"></i> </span> </a> </li>
-                                        <li> <button onclick="delConfirm('fanghuadmin.php?r=taskTplMgr/delete&amp;id={$objModel.$modelId}');" class="tooltip-error" data-rel="tooltip" title="Delete"> <span class="red"> <i class="ace-icon fa fa-trash-o bigger-120"></i> </span> </button> </li>
+                                        <li> <a href="backend.php?r=taskTplMgr/view&id={$objModel.$modelId}" class="tooltip-info" data-rel="tooltip" title="View"> <span class="blue"> <i class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a> </li>
+                                        <li> <a href="backend.php?r=taskTplMgr/update&id={$objModel.$modelId}" class="tooltip-success" data-rel="tooltip" title="Edit"> <span class="green"> <i class="ace-icon fa fa-pencil-square-o bigger-120"></i> </span> </a> </li>
+                                        <li> <button onclick="delConfirm('backend.php?r=taskTplMgr/delete&amp;id={$objModel.$modelId}');" class="tooltip-error" data-rel="tooltip" title="Delete"> <span class="red"> <i class="ace-icon fa fa-trash-o bigger-120"></i> </span> </button> </li>
                                     </ul>
                                 </div>
                             </div>

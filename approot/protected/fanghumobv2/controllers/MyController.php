@@ -25,7 +25,7 @@ class MyController extends BaseController
 
         $member_id = Yii::app()->loginUser->getUserId();
         $totalInfo = Yii::app()->getModule('points')->getMemberTotalInfo($member_id);
-        $memberInfo = Member::model()->findByPk($member_id);
+        $memberInfo = UcMember::model()->findByPk($member_id);
         $levelList = Yii::app()->getModule('points')->getLevelList();
 		$arrMsgStack = Yii::app()->loginUser->getFlashes();
 
@@ -44,7 +44,7 @@ class MyController extends BaseController
 			'gShowHeader' => false,
 			'gShowFooter' => false,
 			'return_url' => $return_url,
-			'pageTitle' =>'我的房乎',
+			'pageTitle' =>'我的',
 			'invite_code' => $invite_code,
             'logout_return_url' => $this->createAbsoluteUrl('site/index'),
             'memberInfo' => $memberInfo,
@@ -336,14 +336,16 @@ class MyController extends BaseController
                 $logModel->type = 2;
                 $logModel->content = '通过M站完善信息';
                 $logModel->create_time = date('Y-m-d H:i:s');
-                $logModel->save();
+                if (!$logModel->save()) {
+                    Yii::log('save MemberInfoLogModel error:'.$logModel->lastError(), 'error', __METHOD__);
+                }
             }
         }
         
         
         //Yii::app()->loginUser->setFlash('error', '保存成功');
         //$this->redirect($this->createAbsoluteUrl('my/index'));
-        $this->jsonSuccess('保存成功');
+        $this->jsonSuccess('保存成功', [], $this->createAbsoluteUrl('My/editprofile'));
     }
     /*
         上传头像照片
@@ -400,7 +402,7 @@ class MyController extends BaseController
         $arrRender = array(
 			'gShowHeader'	=> false,
 			'gShowFooter'	=> true,
-			'pageTitle'		=>'我的房乎',
+			'pageTitle'		=>'我的',
             'favorList'		=> $favorList,
         );
 		$this->layout = "layouts/default_v2.tpl";
@@ -544,7 +546,7 @@ class MyController extends BaseController
             if (empty($checkInLog)) {
                 Yii::app()->getModule('event')->pushEvent($member_id, 'check_in');
             } else {
-                Yii::log('already check in: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('already check in: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
             }
         } else {
             Yii::log('token error: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);

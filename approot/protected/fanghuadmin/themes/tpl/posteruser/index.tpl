@@ -30,18 +30,15 @@
                     <div class="form-group col-xs-3">
                         <label for="advert_last_modified" class="col-xs-4 control-label no-padding-right">所属项目</label>
                         <div class="col-xs-7">
-                        <select class="form-control" id="poster_project"  name="poster[project]" style="height:30px">
+                            <select class="form-control" id="poster_project"  name="poster[project]" style="height:30px">
                                 <option value="" >请选择</option>
-                                {foreach from=$projectDatas key=i item=project}
-                                    <option value="{$project['project_id']}" {if $project_id == $project['project_id']} selected="selected"{/if}>{$project['project_name']}</option>
-                                {/foreach}
                             </select>
                         </div>
                     </div>
                     <div class="form-group col-xs-3">
                         <label for="advert_last_modified" class="col-xs-4 control-label no-padding-right">会员类型</label>
                         <div class="col-xs-7">
-                               <select class="form-control" id="poster_project"  name="poster[type]" style="height:30px">
+                               <select class="form-control" id="poster_type"  name="poster[type]" style="height:30px">
                                 <option value="" >请选择</option>
                                 <option value="2"  {if $type == 2} selected="selected"{/if}>经纪人</option>
                                 <option value="1"  {if $type == 1} selected="selected"{/if}>普通会员</option>
@@ -89,7 +86,7 @@
                                                                 <tr>
                                                                         <td>{($pages.curPage-1)*$pages.pageSize+1+$i}</td>   
                                                                         <td title="openid: {$objModel.openid}">{$objModel['member_mobile']}</td>                                                                    
-                                                                        <td>{$objModel['project'][0]['project_name']}</td>
+                                                                        <td>{$objModel['project']}</td>
                                                                         <td>{$objModel['jjr_name']|default:'-'}</td>                                   
                                                                         <td>{$objModel['wx_nickname']}</td>   
                                                                         {if $objModel['is_jjr'] == 1}       
@@ -104,7 +101,7 @@
                                                                         <td>{$objModel['fans_second']}</td>                                                                         
                                                                         <td>
                                                                                 <div class="hidden-sm hidden-xs btn-group">
-                                                                                    <a href="fanghuadmin.php?r=PosterUser/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                                                                                    <a href="backend.php?r=PosterUser/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                                                                                 </div>
                                                                         </td>
                                                                 </tr>

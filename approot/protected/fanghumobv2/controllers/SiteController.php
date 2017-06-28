@@ -302,7 +302,13 @@ class SiteController extends BaseController {
 
     public function actionInvite() {
         $isGuest = Yii::app()->loginUser->getIsGuest();
+        Yii::app()->getModule('points');
+        // 从积分规则获取分值
+        $pointsRuleRegByInvite = PointsRuleModel::model()->find('rule_key="'.PointsRuleModel::RULE_KEY_REGISTER_BY_INVITE.'"');
+        $pointsRuleFinishInvite = PointsRuleModel::model()->find('rule_key="'.PointsRuleModel::RULE_KEY_FINISH_INVITE_FRIEND.'"');
+
         if ($isGuest) {
+            // 未登录 别人点开
             $member_id = 0;
             $inviteCode = $_GET['invite_code'];
             $this->layout = 'layouts/default_v2.tpl';
@@ -313,15 +319,16 @@ class SiteController extends BaseController {
                 'pageTitle' => '一呼百应',
                 'invite_code' => $inviteCode,
                 //'return_url' => $return_url, //$this->createAbsoluteUrl('user/register'),//,array('return_url'=>$return_url)
+                'points_reg_by_invite' => $pointsRuleRegByInvite->points,
             );
             $this->smartyRender('site/invite.tpl', $arrRender);
         } else {
+            // 已登录，自己打开
             $member_id = Yii::app()->loginUser->getUserId();
 
             $inviteCode = $_GET['invite_code'];
             if (!$inviteCode) {
                 $inviteCode = Yii::app()->getModule('friend')->getInviteCodeModel($member_id)->invite_code;
-                
             }
             //$invite_code = $invite_code_model->invite_code;
 
@@ -331,6 +338,8 @@ class SiteController extends BaseController {
                 'return_url' => $return_url,
                 'pageTitle' =>'邀请好友',
                 'invite_code' => $inviteCode,
+                'points_reg_by_invite' => $pointsRuleRegByInvite->points,
+                'points_finish_invite' => $pointsRuleFinishInvite->points,
             );
 
             $this->layout = "layouts/default_v2.tpl";

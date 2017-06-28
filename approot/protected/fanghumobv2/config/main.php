@@ -17,7 +17,7 @@ $config['controllerPath'] = $currentAppPath . '/controllers';
  * autoloading model and component classes
 */
 $config['components']['session']['cookieParams']['path'] = '/';
-$config['components']['session']['cookieParams']['domain'] = 'xahoo.lo';
+$config['components']['session']['cookieParams']['domain'] = getenv('SERVER_NAME');
 $config['components']['session']['cookieParams']['lifetime'] = 0;
 
 /*
@@ -27,7 +27,7 @@ $config['components']['session']['cookieParams']['lifetime'] = 0;
 $config['components']['db']['class'] = 'application.common.components.DbConnectionManager';
 $config['components']['db']['connectionString'] = 'mysql:host=127.0.0.1;dbname=xahoo';
 $config['components']['db']['emulatePrepare'] = true;
-$config['components']['db']['username'] = 'w';
+$config['components']['db']['username'] = 'www';
 $config['components']['db']['password'] = '123x456';
 $config['components']['db']['charset'] = 'utf8';
 $config['components']['db']['enableSlave'] = false; //从数据库启用
@@ -52,7 +52,7 @@ $config['components']['db']['slaves'][1]['charset'] = 'utf8';
 $config['components']['UCenterDb']['class'] = 'application.common.components.DbConnectionManager';
 $config['components']['UCenterDb']['connectionString'] = 'mysql:host=127.0.0.1;dbname=xahoo';
 $config['components']['UCenterDb']['emulatePrepare'] = true;
-$config['components']['UCenterDb']['username'] = 'w';
+$config['components']['UCenterDb']['username'] = 'www';
 $config['components']['UCenterDb']['password'] = '123x456';
 $config['components']['UCenterDb']['charset'] = 'utf8';
 $config['components']['UCenterDb']['enableSlave'] = false;
@@ -106,14 +106,12 @@ $config['params']['UCenterServerName'] = ($_SERVER['SERVER_POST']=='443'?'https:
 $config['params']['XqsjFQServerName'] = ($_SERVER['SERVER_POST']=='443'?'https://':'http://').$_SERVER['SERVER_NAME'].'/xqsjfq.php';
 // FangHu Server
 // Baidu Tracking
-$config['params']['FanghuServerName'] = ($_SERVER['SERVER_POST']=='443'?'https://':'http://').$_SERVER['SERVER_NAME'].'/fanghuv2.php';
+$config['params']['FanghuServerName'] = ($_SERVER['SERVER_POST']=='443'?'https://':'http://').$_SERVER['SERVER_NAME'].'/frontendmob.php';
 $config['params']['baiduTrackingKey'] = '';
 // page size
 $config['params']['pageSize'] = 10;
 // scroll page size
 $config['params']['scrollPageSize'] = 10;
-$config['params']['weichat']['AppId'] = 'wx7345a7e7764a9f88';
-$config['params']['weichat']['AppScret'] = '6cefcd603dd73561d14bafda788c8ace';
 // protocol 协议，允许值: auto|http|https online=https test=http dev=auto
 $config['params']['protocol'] = 'auto';
 

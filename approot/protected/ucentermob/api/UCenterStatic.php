@@ -62,7 +62,7 @@ class UCenterStatic extends CController{
 
                 $strSqlParams = 'member_id';
                 // 获取用户信息
-                $objUserProfile = Member::model()->findByPk($member_id);
+                $objUserProfile = UcMember::model()->findByPk($member_id);
                 $arrUserProfile = !empty($objUserProfile) ? $objUserProfile->attributes : array();
 
                 $userAvatar = !empty($arrUserProfile['member_avatar']) ? AresUtil::generateImageUrl($arrUserProfile['member_avatar']) : '';
@@ -123,7 +123,7 @@ class UCenterStatic extends CController{
          */
         public static function getUserInfo($signage) {
                 $signage = self::getString($signage);
-                $objUserInfo = Member::model()->find('signage="' . $signage . '"');
+                $objUserInfo = UcMember::model()->find('signage="' . $signage . '"');
                 $arrUserInfo = !empty($objUserInfo) ? $objUserInfo->attributes : array();
                 return $arrUserInfo;
         }
@@ -136,7 +136,7 @@ class UCenterStatic extends CController{
          */
         public static function getUserInfoByTel($tel) {
                 $tel = self::getString($tel);
-                $objUserInfo = Member::model()->find('member_mobile="' . $tel . '"');
+                $objUserInfo = UcMember::model()->find('member_mobile="' . $tel . '"');
                 $arrUserInfo = !empty($objUserInfo) ? $objUserInfo->attributes : array();
                 return $arrUserInfo;
         }

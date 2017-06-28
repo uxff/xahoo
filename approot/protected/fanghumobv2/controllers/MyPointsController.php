@@ -119,8 +119,7 @@ class MyPointsController extends BaseController
 		
     	if (!empty($list)) {
     		foreach($list as $k=>$v){
-				$date						= explode(" ",$v['last_modified']);
-				$list[$k]['last_modified']	= $date[0];
+				$list[$k]['last_modified']	= substr($v['last_modified'], 0, 16);
 				$list[$k]['points']			= $v['type'] == 1 ? "+".$v['points'] : "".$v['points'];
 				$list[$k]['remark']			= $v['remark'];
 				$list[$k]['class']			= $v['type'] == 1 ? "plus" : "minus";

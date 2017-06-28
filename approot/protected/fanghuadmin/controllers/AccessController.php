@@ -179,6 +179,18 @@ class AccessController extends Controller
      */
     public function actionIndex($keyword='', $pageNo=1, $pageSize=10) {
         $role_id = intval($_GET['roleid']);
+        if (!$role_id) {
+            $role_id = Yii::app()->memberadmin->getRole();
+        }
+        if ($role_id) {
+            //$this->redirect($this->createUrl('Access/index', ['role_id' => $role_id]));
+        } else {
+            //throw new CHttpException(404, 'Your request is not permit.');
+            //Yii::app()->errorHandler->setError('Your request is not permit.');
+            $this->assign('error', new CHttpException(404, 'Your request is not permit.'));
+            //$this->redirect($this->createUrl('Site/error'));
+            $this->smartyRender('site/error');
+        }
 
         //$model = new SysAccess;
         //$access = $model->getNodesByRoleId($role_id);
@@ -192,9 +204,13 @@ class AccessController extends Controller
 				$allNode[]=$val['node_id'];
 			}
 		}
+
+        $roleModel = SysRole::model()->findByPk($role_id);
+
         $arrRender = array(
         	'allNode' => $allNode,
             'role_id' => $role_id,
+            'roleModel' => $roleModel,
             'modelName' => 'SysAccess',
             'arrAttributeLabels' => $arrAttributeLabel,
             'arrData' => $arrData,

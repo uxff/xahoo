@@ -28,7 +28,7 @@ class EventRegister extends EventAbs {
         $ret = true;
 
         // 为用户初始化基本信息：积分
-        Yii::app()->getModule('points')->initMemberTotalInfo($member_id);
+        Yii::app()->getModule('points')->getMemberTotalInfo($member_id);
         // 初始化邀请码
         //Yii::app()->getModule('friend')->makeInviteCode($member_id);
         
@@ -39,6 +39,9 @@ class EventRegister extends EventAbs {
 
         // 按照条件 继续 下一个事件 points_change
         if ($ret) {
+            if (!empty($this->model->use_rule_key)) {
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+            }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

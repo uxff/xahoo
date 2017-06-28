@@ -1,7 +1,7 @@
 
 <div class="page-content-area">
         <div class="page-header">
-                <h1> <a href="fanghuadmin.php?r=pointsRule">积分规则</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
+                <h1> <a href="backend.php?r=pointsRule">积分规则</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
                 <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
         </div>
         <!-- /.page-header -->
@@ -27,7 +27,7 @@
                         </div>
                         {/if}
 
-                        <form class="form-horizontal"  id="pointsRule-form" role="form" action="fanghuadmin.php?r=pointsRule/create" method="POST">
+                        <form class="form-horizontal"  id="pointsRule-form" role="form" action="backend.php?r=pointsRule/create" method="POST">
                             <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="PointsRuleModel_rule_key">规则key</label>
                     <div class="col-sm-7"><input type="text" id="PointsRuleModel_rule_key" name="PointsRuleModel[rule_key]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.rule_key}" /></div>

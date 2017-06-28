@@ -13,7 +13,7 @@
 				<li><a href="{yii_createurl c=site a=aboutus}">关于我们</a></li>
 			</ul>
             {/if}
-			<p>copyright@2014-{$smarty.now|date_format:'%Y'} 津ICP备16004915号-3</p>
+			<p>copyright@2014-{$smarty.now|date_format:'%Y'} 京ICP备15028464号-4</p>
 		</footer>
-</div>
 {/if}
+</div>

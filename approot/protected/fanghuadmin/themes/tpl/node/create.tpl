@@ -1,7 +1,7 @@
 
 <div class="page-content-area">
         <div class="page-header">
-                <h1> <a href="fanghuadmin.php?r=node">节点管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
+                <h1> <a href="backend.php?r=node">节点管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
                 <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
         </div>
         <!-- /.page-header -->
@@ -27,7 +27,15 @@
                             </div>
                         {/if}
 
-                        <form class="form-horizontal"  id="node-form" role="form" action="fanghuadmin.php?r=node/create" method="POST">
+                        <form class="form-horizontal"  id="node-form" role="form" action="backend.php?r=node/create" method="POST">
+                                <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right" for="SysNode_pid">父级</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" value="{$parentNode['title']}({$parentNode['name']})" readonly/>
+                                            <input type="hidden" id="SysNode_pid" name="SysNode[pid]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$pid}" readonly />
+                                        </div>
+                                        <div class="col-sm-2"> <span class="help-inline middle" id="SysNode_pid_em_">  </span> </div>
+                                </div>
                                 <div class="form-group">
                                         <label class="col-sm-2 control-label no-padding-right" for="SysNode_url">URL</label>
                                         <div class="col-sm-7"><input type="text" id="SysNode_url" name="SysNode[url]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.url}" /></div>
@@ -60,10 +68,6 @@
                                         <div class="col-sm-2"> <span class="help-inline middle" id="SysNode_icon_em_">  </span> </div>
                                 </div>
                                 <div class="form-group">
-                                        <label class="col-sm-2 control-label no-padding-right" for="SysNode_pid">父级ID</label>
-                                        <div class="col-sm-7"><input type="text" id="SysNode_pid" name="SysNode[pid]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$pid}" readonly /></div>
-                                        <div class="col-sm-2"> <span class="help-inline middle" id="SysNode_pid_em_">  </span> </div>
-                                </div><div class="form-group">
                                         <label class="col-sm-2 control-label no-padding-right" for="SysNode_level">级别</label>
                                         <div class="col-sm-7"><select class="form-control" id="SysNode_level" name="SysNode[level]" style="width:120px;">   <option value="1"{if $dataObj.level eq "1"} selected="selected"{/if}>分组</option>   <option value="2"{if $dataObj.level eq "2"} selected="selected"{/if}>controller</option>   <option value="3"{if $dataObj.level eq "3"} selected="selected"{/if}>action</option></select></div>
                                         <div class="col-sm-2"> <span class="help-inline middle" id="SysNode_level_em_">  </span> </div>

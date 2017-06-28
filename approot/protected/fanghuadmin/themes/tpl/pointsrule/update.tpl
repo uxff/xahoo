@@ -1,6 +1,6 @@
 <div class="page-content-area">
         <div class="page-header">
-            <h1> <a href="fanghuadmin.php?r=pointsRule">积分规则</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 编辑 </small> </h1><br />
+            <h1> <a href="backend.php?r=pointsRule">积分规则</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 编辑 </small> </h1><br />
                 <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
         </div>
         <!-- /.page-header -->
@@ -19,7 +19,12 @@
                             </div>
                         {/if}
 
-                        <form class="form-horizontal" id="pointsRule-form" role="form" action="fanghuadmin.php?r=pointsRule/update&id={$model[$primaryKey]}" method="POST">
+                        <form class="form-horizontal" id="pointsRule-form" role="form" action="backend.php?r=pointsRule/update&id={$model[$primaryKey]}" method="POST">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="PointsRuleModel_rule_key">规则意义</label>
+                    <div class="col-sm-7"><input type="text" id="PointsRuleModel_rule_key" name="" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.rule_key}" readonly/></div>
+                    <div class="col-sm-2"> <span class="help-inline middle" id="PointsRuleModel_rule_key_em_">  </span> </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="PointsRuleModel_rule_name">规则名称</label>
                     <div class="col-sm-7"><input type="text" id="PointsRuleModel_rule_name" name="PointsRuleModel[rule_name]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.rule_name}" /></div>

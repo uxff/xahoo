@@ -44,7 +44,7 @@ class WithdrawCashController extends BaseController {
     
     public function actionGetCash(){
         $member_id = Yii::app()->loginUser->getUserId();
-        $accounts_id = Yii::app()->params['accounts_id'];
+        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $token = $_GET['token'];
         $webToken = new WebToken;
         if (!$webToken->checkToken($token)) {
@@ -60,10 +60,10 @@ class WithdrawCashController extends BaseController {
             $this->jsonError('您没有绑定手机号，还不能提现，请退出重新登录。');
         }
 
-        $memberHaibao = FhMemberHaibaoModel::model()->with('poster')->find('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
+        $memberHaibao = FhMemberHaibaoModel::model()->with('poster')->find('t.member_id=:member_id and t.accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $memberTotal  = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $flag = false;
-        $project_id = isset($_GET['project_id']) ?(int)$_GET['project_id']:0;
+        //$project_id = isset($_GET['project_id']) ?(int)$_GET['project_id']:0;
         
 
         
@@ -86,10 +86,10 @@ class WithdrawCashController extends BaseController {
         $model = new FhMoneyWithdrawModel;
         $model->accounts_id = $accounts_id;
         $model->member_id = $member_id;
-        $model->project_id= $memberHaibao->poster->project_id;
+        $model->poster_id = $memberHaibao->poster->id;
         $model->withdraw_money = $cash;
         $model->status = 1;
-        $model->remit_time = '';
+        //$model->remit_time = '';
         $model->create_time = date('Y-m-d H:i:s');
         $model->last_modified = date('Y-m-d H:i:s');
         if($model->save()){
@@ -107,16 +107,19 @@ class WithdrawCashController extends BaseController {
         获取可提现金额
     */
     public function getRemainCash($member_id, $total) {
-        $accounts_id = Yii::app()->params['accounts_id'];
+        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $withdraw_data = FhMoneyWithdrawModel::model()->findBySql("select sum(withdraw_money) as withdraw_money from fh_money_withdraw where member_id =".$member_id." and accounts_id =".$accounts_id." and status in(1,3)");
         $withdraw_cash = $this->convertModelToArray($withdraw_data);
+        $last_cash = $total;
+        if (isset($withdraw_cash['withdraw_money']) && $withdraw_cash['withdraw_money']>0) {
+            $last_cash = $total - $withdraw_cash['withdraw_money'];
+        }
         //剩余提现金额
-        $last_cash = $total - $withdraw_cash['withdraw_money'];
         return $last_cash;
     }
     //提现记录
     public function actionRecord(){
-        $accounts_id = Yii::app()->params['accounts_id'];
+        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $member_id = Yii::app()->loginUser->getUserId();
         $data = FhMoneyWithdrawModel::model()->findAll('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $recordData = $this->convertModelToArray($data);

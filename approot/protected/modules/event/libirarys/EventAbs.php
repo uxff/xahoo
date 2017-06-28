@@ -11,6 +11,9 @@ abstract class EventAbs {
     const EVENT_KEY_TEST = 'event_test';
     const EVENT_KEY_TEST_NEXT = 'event_test_next';
 
+    // 当前类对应的model
+    public $model;
+
     /*
     * 处理事件
     * 继承自 EventAbs::process

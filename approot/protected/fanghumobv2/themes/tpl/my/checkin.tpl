@@ -6,9 +6,15 @@
     <div class="check">
         <div class="check_jf">我的积分<br/><span>{$totalInfo.points_total*1}</span></div>
         <div class="check_box">
-            <a href="{yii_createurl c=my a=submitcheckin token=$csrfToken}">
-            <span class="check_tl">{if $isCheckedToday}已签到{else}签 到{/if}</span><br/><span class="hr"></span>
+        {if $isCheckedToday}
+            <a href="javascript:;">
+            <span class="check_tl">已签到</span><br/><span class="hr"></span>
             </a>
+        {else}
+            <a href="{yii_createurl c=my a=submitcheckin token=$csrfToken}">
+            <span class="check_tl">签 到</span><br/><span class="hr"></span>
+            </a>
+        {/if}
             <br/>
             <span class="check_des">连续{$theContinuedNum*1}天</span>
         </div>
@@ -19,6 +25,7 @@
             </div>
             {/foreach}
         </div>
+        <div class="day_list_des">坚持连续7天签到有好礼哦</div>
     </div>
     <div class="index-list">
         <h2>热门推荐</h2>

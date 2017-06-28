@@ -4,7 +4,7 @@
         <head>
                 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
                 <meta charset="utf-8" />
-                <title>404 Error Page - 房乎项目系统提示</title>
+                <title>404 Error Page - Xahoo项目系统提示</title>
 
                 <meta name="description" content="404 Error Page" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -66,7 +66,7 @@
                                         <a href="#" class="navbar-brand">
                                                 <small>
                                                         <i class="fa fa-leaf"></i>
-                                                        房乎项目系统提示
+                                                        Xahoo项目系统提示
                                                 </small>
                                         </a>
 
@@ -223,7 +223,7 @@
                                                                                                 返回上一页
                                                                                         </a>
 
-                                                                                        <a href="fanghuadmin.php?r=site/login" class="btn btn-primary">
+                                                                                        <a href="backend.php?r=site/login" class="btn btn-primary">
                                                                                                 <i class="ace-icon fa fa-tachometer"></i>
                                                                                                 切换账号
                                                                                         </a>
@@ -245,8 +245,8 @@
                                         <!-- #section:basics/footer -->
                                         <div class="footer-content">
                                                 <span class="bigger-120">
-                                                        <span class="blue bolder">房乎</span>
-                                                        Application &copy; 2014-2015
+                                                        <span class="blue bolder">Xahoo</span>
+                                                        Application &copy; 2014-2017
                                                 </span>
 
 

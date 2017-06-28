@@ -8,8 +8,8 @@ class PosterUserMoneyController extends Controller
         $mySearch = FhMoneyWithdrawModel::model()->mySearch2($_POST['poster']);
         //print_r($mySearch);exit;
         $listData =  $this->convertModelToArray($mySearch['list']);
-        $projectData = Project::model()->findAll();
-        $projectDatas= $this->convertModelToArray($projectData);
+        //$projectData = Project::model()->findAll();
+        //$projectDatas= $this->convertModelToArray($projectData);
         $total = 0;
         $shNum = 0;
         $dkNum = 0;
@@ -42,12 +42,11 @@ class PosterUserMoneyController extends Controller
             'num' =>$num,
             'listData'=>$listData,
             'total' => $total,
-            'projectDatas' => $projectDatas,
+            //'projectDatas' => $projectDatas,
             'time' => date("Y-m-d"),
             'project_id' => $_POST['poster']['project'],
             'status' => $_POST['poster']['status'],
             'is_jjr' => $_POST['poster']['is_jjr'],
-            'project_id' => $_POST['poster']['project'],
             'member_mobile' => $_POST['poster']['member_mobile'],
             'nickname' => $_POST['poster']['nickname'],
             'shNum' => $shNum,

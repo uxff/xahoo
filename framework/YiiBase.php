@@ -424,7 +424,7 @@ class YiiBase {
                         $count = 0;
                         foreach ($traces as $trace) {
                                 if (isset($trace['file'], $trace['line']) && strpos($trace['file'], YII_PATH) !== 0) {
-                                        $msg.="\nin " . $trace['file'] . ' (' . $trace['line'] . ')';
+                                        $msg.="\n#" . $trace['file'] . ':' . $trace['line'];
                                         if (++$count >= YII_TRACE_LEVEL)
                                                 break;
                                 }

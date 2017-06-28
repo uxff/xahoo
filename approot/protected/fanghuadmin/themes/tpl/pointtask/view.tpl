@@ -1,6 +1,6 @@
 <div class="page-content-area">
         <div class="page-header">
-                <h1> <a href="fanghuadmin.php?r=pointTask">PointTask</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 任务详情 </small> </h1>
+                <h1> <a href="backend.php?r=pointTask">PointTask</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 任务详情 </small> </h1>
         </div>
         <!-- /.page-header -->
 

@@ -1,7 +1,7 @@
 <?php
 
 $config['language'] = 'zh_cn';
-$config['name'] = '房乎网';
+$config['name'] = 'Xahoo';
 $config['preload'][] = 'log';
 $config['defaultController'] = 'site';
 
@@ -63,9 +63,17 @@ $config['params']['reg_sms_limit_ip']      = 5;
 $config['params']['reg_sms_limit_time']    = 3600 * 24;
 
 /*
-* 房乎微信公众号配置
+* fh微信公众号配置
 */
 $config['params']['fh_wechat_appid']        = 'wx829d7b12c00c4a97';
 $config['params']['fh_wechat_appsecret']    = 'd0eb0ee77de35361ee51fc41df85da60';
+$config['params']['fh_wechat_token']    = 'a2d5e9652971';
 
 $config['params']['third_login_sess_name']  = 'thirdauth';
+// fh
+$config['params']['weichat']['AppId'] = 'wx7345a7e7764a9f88';
+$config['params']['weichat']['AppScret'] = '6cefcd603dd73561d14bafda788c8ace';
+// test mp account
+$config['params']['weichat']['AppId'] = 'wx829d7b12c00c4a97';
+$config['params']['weichat']['AppScret'] = 'd0eb0ee77de35361ee51fc41df85da60';
+$config['params']['weichat']['token'] = 'a2d5e9652971';

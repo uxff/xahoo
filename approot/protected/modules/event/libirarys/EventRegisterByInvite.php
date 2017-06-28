@@ -26,11 +26,28 @@ class EventRegisterByInvite extends EventRegister {
         $ret = true;
 
         // 为用户初始化基本信息：积分
-        Yii::app()->getModule('points')->initMemberTotalInfo($member_id);
+        Yii::app()->getModule('points')->getMemberTotalInfo($member_id);
         // 添加好友
         Yii::app()->getModule('friend')->makeFriendShip($member_id, $params['inviter']);
+        Yii::app()->getModule('mtask');
         // 初始化邀请码
         //Yii::app()->getModule('friend')->makeInviteCode($member_id);
+        // 如果有对应的任务
+        $taskTplModel = TaskTplModel::model()->find('task_type='.TaskTplModel::TASK_TYPE_INVITE);
+        if ($taskTplModel) {
+            $taskTplId = $taskTplModel->task_id;
+            $taskInst = TaskInst::makeInstByTpl($params['inviter'], $taskTplId);
+            if ($taskInst) {
+                $taskInst->stepForward();
+                Yii::log('update his('.$params['inviter'].') task('.$taskTplId.') to '.$taskInst->getModel()->step_count.'/'.$taskInst->getModel()->step_need_count, 'warning', __METHOD__);
+                //$shareTitle = '分享：'.$taskInst->getModel()->task_tpl->task_name;
+                if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
+                    // 奖励任务
+                    //$taskInst->markTaskRewarded();
+                    Yii::app()->getModule('mtask')->rewardTaskInst($params['inviter'], $taskTplId);
+                }
+            }
+        }
         
         // 封装下一个事件的参数
         $params['points_rule_key'] = $params['_event_tpl']['use_rule_key'];
@@ -39,6 +56,14 @@ class EventRegisterByInvite extends EventRegister {
 
         // 按照条件 继续 下一事件： points_change,try_to_finish_task,try_to_finish_invite_friend
         if ($ret) {
+            if (!empty($this->model->use_rule_key)) {
+                // 必然执行 register_by_invite
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+            }
+
+            // 给邀请者给予奖励
+            Yii::app()->getModule('points')->execRuleByRuleKey($params['inviter'], PointsRuleModel::RULE_KEY_FINISH_INVITE_FRIEND);
+
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

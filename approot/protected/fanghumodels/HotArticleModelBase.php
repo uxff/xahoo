@@ -15,8 +15,8 @@
  * @property string $surface_url
  * @property string $create_time
  * @property string $last_modified
- * @property integer $author_id
- * @property string $author_name
+ * @property integer $admin_id
+ * @property string $admin_name
  */
 class HotArticleModelBase extends CActiveRecord
 {
@@ -53,15 +53,15 @@ class HotArticleModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('title, act_type, status, url, surface_url, author_id, author_name', 'required'),
-                        array('act_type, status, is_local_url, weight, author_id', 'numerical', 'integerOnly'=>true),
+                        array('title, act_type, status, url, surface_url, admin_id, admin_name', 'required'),
+                        array('act_type, status, is_local_url, weight, admin_id', 'numerical', 'integerOnly'=>true),
                         array('title, url, surface_url', 'length', 'max'=>255),
                         array('tips', 'length', 'max'=>60),
-                        array('author_name', 'length', 'max'=>32),
+                        array('admin_name', 'length', 'max'=>32),
                         array('create_time', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, title, tips, act_type, status, url, is_local_url, weight, surface_url, create_time, last_modified, author_id, author_name', 'safe', 'on'=>'search'),
+                        array('id, title, tips, act_type, status, url, is_local_url, weight, surface_url, create_time, last_modified, admin_id, admin_name', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -93,8 +93,8 @@ class HotArticleModelBase extends CActiveRecord
                        'surface_url' => '封面图',
                        'create_time' => '创建时间',
                        'last_modified' => '最后更新时间',
-                       'author_id' => '创建人id',
-                       'author_name' => '创建人',
+                       'admin_id' => '创建人id',
+                       'admin_name' => '创建人',
                );
         }
        /**
@@ -113,10 +113,10 @@ class HotArticleModelBase extends CActiveRecord
                        //'is_local_url' => '是否本服务器url',
                        //'weight' => '权重:越小排序越前',
                        //'surface_url' => '封面图',
-                       'author_name' => '添加人',
+                       'admin_name' => '添加人',
                        'create_time' => '添加时间',
                        'last_modified' => '最后更新时间',
-                       //'author_id' => '创建人id',
+                       //'admin_id' => '创建人id',
                );
         }
         /**
@@ -137,8 +137,8 @@ class HotArticleModelBase extends CActiveRecord
 				$criteria->compare('t.surface_url',$this->surface_url,true);
 				$criteria->compare('t.create_time',$this->create_time,true);
 				$criteria->compare('t.last_modified',$this->last_modified,true);
-				$criteria->compare('t.author_id',$this->author_id);
-				$criteria->compare('t.author_name',$this->author_name,true);
+				$criteria->compare('t.admin_id',$this->admin_id);
+				$criteria->compare('t.admin_name',$this->admin_name,true);
                 return $criteria;
          }
 

@@ -55,7 +55,7 @@ class EventLogModelBase extends CActiveRecord
                         array('event_key, pre_event_key', 'length', 'max'=>32),
                         array('sender_mid', 'length', 'max'=>10),
                         array('params', 'length', 'max'=>1024),
-                        array('create_time', 'safe'),
+                        array('create_time, last_modified', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
                         array('id, event_id, event_key, sender_mid, params, create_time, last_modified, status, pre_event_id, pre_event_key', 'safe', 'on'=>'search'),

@@ -107,9 +107,9 @@
                 
                 </a>
             </li>
-            <li class="index-tpl-li-pos">赚积分、赚佣金尽在房乎</li>
+            <li class="index-tpl-li-pos">赚积分、赚佣金尽在Xahoo</li>
             <div class="index-float-none-xia" >
-            	<p class="index-mg-t15">房乎 </p>
+            	<p class="index-mg-t15">Xahoo </p>
             </div>
         </ul>
          

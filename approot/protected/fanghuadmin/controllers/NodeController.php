@@ -78,17 +78,22 @@ class NodeController extends Controller {
                 $this->endWidget();
                 $js = '';
                 Yii::app()->getClientScript()->render($js, 1);
-                //鎶ラ敊淇℃伅澶勭悊
+                //
                 $this->smarty->assign("errormsgs", CHtml::errorSummary($model));
+                $parentNode = SysNode::model()->findByPk($pid);
+                if ($parentNode) {
+                    $parentNode->loadParent();
+                }
                 //render data
                 $arrRender = array(
+                    'parentNode' => $parentNode ? $parentNode->toArray() : null,
                     'pid' => $pid,
                     'modelName' => 'SysNode',
                     'attributes' => $model->getAttributes(),
                     'attributeLabels' => $arrAttributeLabels,
                     'FormElements' => $model->FormElements,
                     'action' => 'Create',
-                    'errormsgs' => CHtml::errorSummary($model, '<i class="ace-icon fa fa-times"></i>璇锋洿姝ｄ互涓嬮敊璇�'), //鎶ラ敊淇℃伅澶勭悊
+                    'errormsgs' => CHtml::errorSummary($model, '<i class="ace-icon fa fa-times"></i>错误'), //
                     'jsShell' => $js,
                     'dataObj' => $model,
                 );
@@ -134,7 +139,7 @@ class NodeController extends Controller {
                     'attributeLabels' => $arrAttributeLabels,
                     'FormElements' => $model->FormElements,
                     'action' => 'Update',
-                    'errormsgs' => CHtml::errorSummary($updateModel, '<i class="ace-icon fa fa-times"></i>璇锋洿姝ｄ互涓嬮敊璇�'), //鎶ラ敊淇℃伅澶勭悊
+                    'errormsgs' => CHtml::errorSummary($updateModel, '<i class="ace-icon fa fa-times"></i>错误'), //
                     'jsShell' => $js,
                     'model' => $updateModel,
                     'dataObj' => $updateModel,
@@ -217,9 +222,9 @@ class NodeController extends Controller {
                 $pages = $mySearch['pages'];
 
                 $arrAttributeLabel = $model->attributeLabels();
-                unset($arrAttributeLabel['create_time']);
+                //unset($arrAttributeLabel['create_time']);
                 unset($arrAttributeLabel['sort']);
-                unset($arrAttributeLabel['icon']);
+                //unset($arrAttributeLabel['icon']);
                 //unset($arrAttributeLabel['last_modified']);
 
                 $level = array('1' => '分组', '2' => 'controller', '3' => 'action');

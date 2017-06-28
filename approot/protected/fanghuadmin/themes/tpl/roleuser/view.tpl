@@ -1,6 +1,6 @@
 <div class="page-content-area">
     <div class="page-header">
-        <h1> <a href="fanghuadmin.php?r=roleUser">用户角色管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
+        <h1> <a href="backend.php?r=roleUser">用户角色管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
     </div>
     <!-- /.page-header -->
 

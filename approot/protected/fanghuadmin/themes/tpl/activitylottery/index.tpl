@@ -77,7 +77,7 @@
                                                                         <td>{$objModel['member_name']}</td>                                                                   
                                                                         <td>{$objModel['member_mobile']}</td>                                                                   
                                                                         <td>{$objModel['prize']}</td>                          
-                                                                        <td>{$objModel['integral']}</td>   
+                                                                        <td>{$objModel['points']}</td>   
                                                                         {if $objModel['status'] == 1}       
                                                                             <td>未中奖</td>                                                                          
                                                                         {else if $objModel['status']  == 2}

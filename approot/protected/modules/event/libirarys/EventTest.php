@@ -29,6 +29,9 @@ class EventTest extends EventAbs {
         
         if ($ret) {
             unset($params['event_next']);
+            if (!empty($this->model->use_rule_key)) {
+                Yii::app()->getModule('points')->execRuleByRuleKey($member_id, $this->model->use_rule_key);
+            }
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

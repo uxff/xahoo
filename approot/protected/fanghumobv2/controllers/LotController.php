@@ -41,7 +41,7 @@ class LotController extends BaseController {
 
         // 抽奖次数
         if ($member_id) {
-            $this->myRemainBetTimes = self::TIMES_PER_DAY - $this->getBetTimesToday($member_id);
+            $this->myRemainBetTimes = self::TIMES_PER_DAY - $this->getBetTimesTodayNum($member_id);
         } else {
             $this->myRemainBetTimes = self::TIMES_PER_DAY;
         }
@@ -199,7 +199,7 @@ class LotController extends BaseController {
         $startTime = date('Y-m-d 00:00:00', time());
         $ret = Yii::app()->db->createCommand()
             ->select('count(id) cnt')
-            ->from('fh_activity_lottery')
+            ->from('fh_activity_lottery_log')
             ->where('member_id=:mid and create_time>:startTime', [':mid'=>$member_id, ':startTime'=>$startTime])
             ->queryAll();
         return $ret[0]['cnt'];
@@ -302,7 +302,8 @@ class LotController extends BaseController {
                         $this->errCode = self::ERR_DB;
                         throw new CException('rule key not exist:'.$extraInfo['rule_key']);
                     }
-                    if ($this->pointsModule->execRuleForTransaction($member_id, $ruleInfo)) {
+                    $totalModel = $this->pointsModule->getMemberTotalModel($member_id);
+                    if ($this->pointsModule->execRuleForTransaction($totalModel, $ruleInfo)) {
                         // 标记为已派奖 // 暂不标记
                         //$hitStatus =  FhActivityLotteryModel::STATUS_DISPATCHED;
                     }
@@ -316,7 +317,7 @@ class LotController extends BaseController {
             $data2['member_name'] = $memberInfo->member_fullname;//Yii::app()->loginUser->getUserNick();//'aaaa';
             $data2['prize'] = $item['name'];
             $data2['product_id'] = $item['id'];
-            $data2['integral'] = self::POINTS_PER_BET;
+            $data2['points'] = self::POINTS_PER_BET;
             $data2['status'] = $hitStatus;
             $data2['create_time'] = date("Y-m-d H:i:s");
             $data2['last_modified'] = date("Y-m-d H:i:s");
@@ -370,7 +371,7 @@ class LotController extends BaseController {
         $sql = 'select member_mobile, prize ';
         $recentList = Yii::app()->db->createCommand()
             ->select('member_mobile, prize')
-            ->from('fh_activity_lottery')
+            ->from('fh_activity_lottery_log')
             ->where('status=2')
             ->order('id desc')
             ->limit(49)
@@ -412,7 +413,7 @@ class LotController extends BaseController {
     public function getMyWinList($member_id, $limit = 5) {
         $winList = Yii::app()->db->createCommand()
             ->select('a.product_id, a.prize, a.create_time, p.pic_url')
-            ->from('fh_activity_lottery a')
+            ->from('fh_activity_lottery_log a')
             ->leftJoin('fh_lot_product p', 'p.id=a.product_id')
             ->where('a.status=2 and a.member_id=:mid', [':mid'=>$member_id])
             ->order('a.id desc')

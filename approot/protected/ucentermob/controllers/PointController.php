@@ -49,7 +49,7 @@ class PointController extends Controller {
                     'ProfileUrl' => $this->createAbsoluteUrl('profile/index',$urlParams), //在新奇世界个人中心赚积分
                     'XqsjZCServerUrl' => $this->createXqsjZCServerUrl(''), //在众筹网赚积分
                     'XqsjFQServerUrl' => $this->createXqsjFQServerUrl(''), //在分权频道赚积分
-                    'FanghuUrl' => $this->createFanghuUrl(''), //在房乎网赚积分
+                    'FanghuUrl' => $this->createFanghuUrl(''), //在fh网赚积分
                     'return_url' => $this->createAbsoluteUrl('point/index'),
                     'headerTitle' => '积分规则',
                 );

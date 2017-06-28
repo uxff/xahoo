@@ -4,7 +4,7 @@
                     <a href="{$fanghuUrl}" class="media clearfix">
 
                         <div class="media-body clearfix">
-                            <h4>房乎</h4>
+                            <h4>Xahoo</h4>
                             <i class="icon-angle-right"></i>
                             <i class="badge">{$fanghu_total}</i>
                         </div>

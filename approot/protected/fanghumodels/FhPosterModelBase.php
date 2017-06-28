@@ -63,7 +63,7 @@ class FhPosterModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('project_id, accounts_id, direct_fans_rewards, indirect_fans_rewards, project_bonus_ceiling, project_fans_ceiling, lowest_withdraw_sum, highest_withdraw_sum, valid_begintime, valid_endtime, photo_url, create_time, last_modified', 'required'),
+                        array('accounts_id, direct_fans_rewards, indirect_fans_rewards, project_bonus_ceiling, project_fans_ceiling, lowest_withdraw_sum, highest_withdraw_sum, valid_begintime, valid_endtime, photo_url', 'required'),
                         array('project_id, accounts_id, project_fans_ceiling, poster_status, direct_fans_num, indirect_fans_num', 'numerical', 'integerOnly'=>true),
                         array('direct_fans_rewards, indirect_fans_rewards, subscribe_rewards, lowest_withdraw_sum, highest_withdraw_sum', 'length', 'max'=>9),
                         array('project_bonus_ceiling, direct_fans_rewarded, indirect_fans_rewarded, all_rewarded', 'length', 'max'=>11),

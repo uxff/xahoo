@@ -108,7 +108,7 @@ class WechatRedpack {
             'min_value'=>$money, //最小红包金额
             'max_value'=>$money, //最大红包金额
             'total_num'=>'1', //红包发送总人数
-            'wishing'=>$this->wishing,//'房乎海报·中弘由山由谷项目', //红包祝福语 128
+            'wishing'=>$this->wishing,//'海报·中弘由山由谷项目', //红包祝福语 128
             'client_ip'=>$this->client_ip, //调用接口的机器ip地址 15
             'act_name'=>$this->act_name, //活动名称 32
             'remark'=>$this->remark, //备注 256

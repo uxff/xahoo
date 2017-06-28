@@ -9,7 +9,7 @@
     <a href="#" onclick="$('#searchContainer').toggle();return false">检索条件</a><br />
     -->
     <div id="searchContainer" >
-        <form class="form-horizontal"  id="actcms-form" role="form" action="fanghuadmin.php?r=stasticactcms/index" method="GET">
+        <form class="form-horizontal"  id="actcms-form" role="form" action="backend.php?r=stasticactcms/index" method="GET">
             <input type="hidden" name="r" value="{$route}" />
             <div class="col-xs-12">
                 <br/>
@@ -92,9 +92,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_author_id">创建人id</label>
-                    <div class="col-sm-7"><input type="text" id="ArticleModel_author_id" name="ArticleModel[author_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.author_id}" /></div>
-                    <div class="col-sm-2"> <span class="help-inline middle" id="ArticleModel_author_id_em_">  </span> </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_admin_id">创建人id</label>
+                    <div class="col-sm-7"><input type="text" id="ArticleModel_admin_id" name="ArticleModel[admin_id]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.admin_id}" /></div>
+                    <div class="col-sm-2"> <span class="help-inline middle" id="ArticleModel_admin_id_em_">  </span> </div>
                 </div>
                 -->
 

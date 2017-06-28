@@ -223,7 +223,7 @@
                             Showing {($pages.curPage-1)*$pages.pageSize+1} to {$pages.totalCount} of {$pages.totalCount} results
                         {/if}
                         <span class="pull-right">
-                                                        <a href="fanghuadmin.php?r=member/create"
+                                                        <a href="backend.php?r=member/create"
                                                            class="btn btn-xs btn-success"><i
                                                                     class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
                                                 </span>
@@ -275,13 +275,13 @@
                                     {/foreach}
                                     <td>
                                         <div class="hidden-sm hidden-xs btn-group">
-                                            <a href="fanghuadmin.php?r=member/update&id={$objModel.$modelId}"
+                                            <a href="backend.php?r=member/update&id={$objModel.$modelId}"
                                                class="btn btn-xs btn-success"> <i
                                                         class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
-                                            <a href="fanghuadmin.php?r=member/detail&id={$objModel.$modelId}"
+                                            <a href="backend.php?r=member/detail&id={$objModel.$modelId}"
                                                class="btn btn-xs btn-success"> <i
                                                         class="ace-icon fa fa-search-plus bigger-120"></i>查看会员详情</a>
-                                            <button onclick="delConfirm('fanghuadmin.php?r=member/delete&id={$objModel.$modelId}');"
+                                            <button onclick="delConfirm('backend.php?r=member/delete&id={$objModel.$modelId}');"
                                                     data-url="" class="btn btn-xs btn-danger"><i
                                                         class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                             </button>
@@ -294,13 +294,13 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                                     <li>
-                                                        <a href="fanghuadmin.php?r=member/update&id={$objModel.$modelId}"
+                                                        <a href="backend.php?r=member/update&id={$objModel.$modelId}"
                                                            class="tooltip-success" data-rel="tooltip" title="Edit">
                                                             <span class="green"> <i
                                                                         class="ace-icon fa fa-pencil-square-o bigger-120"></i> </span>
                                                         </a></li>
                                                     <li>
-                                                        <button onclick="delConfirm('fanghuadmin.php?r=member/delete&id={$objModel.$modelId}');"
+                                                        <button onclick="delConfirm('backend.php?r=member/delete&id={$objModel.$modelId}');"
                                                                 class="tooltip-error" data-rel="tooltip" title="Delete">
                                                             <span class="red"> <i
                                                                         class="ace-icon fa fa-trash-o bigger-120"></i> </span>

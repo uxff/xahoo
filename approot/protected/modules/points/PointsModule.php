@@ -84,8 +84,8 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    public function execRuleByRuleId($member_id, $rule_id){
-        return $this->execRule($member_id, $rule_id, 'rule_id');
+    public function execRuleByRuleId($member_id, $rule_id, $points = 0, $remark = ''){
+        return $this->execRule($member_id, $rule_id, 'rule_id', $points, $remark);
     }
 
     /*
@@ -93,76 +93,79 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    public function execRuleByRuleKey($member_id, $rule_key){
-        return $this->execRule($member_id, $rule_id, 'rule_key');
+    public function execRuleByRuleKey($member_id, $rule_key, $points = 0, $remark = ''){
+        return $this->execRule($member_id, $rule_key, 'rule_key', $points, $remark);
     }
 
     /*
         【核心功能】执行积分规则
         @param $member_id
         @param $rule_id
+        @param $points 如果自定义规则，需要传$points
     */
-    public function execRule($member_id, $rule_id, $keyType='rule_id') {
-        $ruleInfo = PointsRuleModel::model()->find($keyType.'="'.$rule_id.'"');
+    public function execRule($member_id, $rule_id, $keyType='rule_id', $points = 0, $remark = '') {
+        if (empty($keyType)) {
+            $keyType = 'rule_id';
+        }
+        $ruleInfo = PointsRuleModel::model()->find($keyType.'=:rid', array(':rid'=>$rule_id));
         if (!$ruleInfo) {
             //throw new CException('unknown rule_id: '.$rule_id);
-            Yii::log(__METHOD__ .': unknown '.$keyType.': '.$rule_id, 'error', __CLASS__);
+            Yii::log('unknown '.$keyType.': '.$rule_id, 'error', __METHOD__);
             return false;
         }
-        if ($ruleInfo->points==0) {
+
+        if ($ruleInfo->flag == PointsRuleModel::FLAG_DYNAMIC || $points > 0) {
+            $ruleInfo->points = $points;
+        }
+
+        if ($ruleInfo->points == 0) {
             //throw new CException('unknown rule_id: '.$rule_id);
-            Yii::log(__METHOD__ .': points is zero, none to do. '.$keyType.': '.$rule_id, 'warning', __CLASS__);
+            Yii::log('points is zero, none to do. '.$keyType.': '.$rule_id, 'warning', __METHOD__);
             return false;
         }
         // begin transaction
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $history_id = $this->execRuleForTransaction($member_id, $ruleInfo);
+            $totalModel = $this->getMemberTotalInfo($member_id);
+            if (!$totalModel) {
+                throw new CException('member total info cannot be created! mid='.$member_id);
+            }
+
+            $history_id = $this->execRuleForTransaction($totalModel, $ruleInfo, $remark);
 
             $transaction->commit();
         } catch (CException $e) {
             $transaction->rollback();
-            Yii::log(__METHOD__ .': '.$e->getMessage(), 'error', __CLASS__);
-            //throw $e;
-            //print_r($e->getMessage());
+            Yii::log(''.$e->getMessage(), 'error', __METHOD__);
             return false;
         }
-        
-        Yii::log(__METHOD__ .': done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points, 'warning', __CLASS__);
-        //echo __METHOD__ .':';print_r(': member_id='.$member_id.' rule_id='.$rule_id.' rule_name='.$rulewarning->rule_name.' points='.$ruleInfo->points);
+
+        Yii::log('done: mid='.$member_id.' rule_id='.$rule_id.' rule_key='.$ruleInfo->rule_key.' points='.$ruleInfo->points.'('.$points.')'.' flag='.$ruleInfo->flag, 'warning', __METHOD__);
+
+        $this->tryToLevelUp($totalModel);
+
         return $history_id;
     }
     /*
         执行积分
         提供给事务使用 会抛错
     */
-    public function execRuleForTransaction($member_id, $ruleInfo) {
-        
-        // 积分操作
-        $totalModel = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=1', array(':member_id'=>$member_id));
-        // 如果没有积分记录，创建积分记录
-        if (!$totalModel) {
-            $totalModel = new MemberTotalModel;
-            $totalModel->member_id      = $member_id;
-            $totalModel->accounts_id    = 1;//房乎公众号下的member_total
-            $totalModel->points_total   = 0;
-            $totalModel->points_gain    = 0;
-            //$ret = $totalModel->insert();
-            //if (!$ret) {
-            //    //echo __METHOD__ .' error:';print_r( $totalModel->getErrors());
-            //    throw new CException($totalModel->lastError());
-            //}
+    public function execRuleForTransaction(MemberTotalModel $totalModel, PointsRuleModel $ruleModel, $remark = '') {
+
+        $totalModel->points_total += $ruleModel->points;
+        if ($ruleModel->points >= 0) {
+            $totalModel->points_gain  += $ruleModel->points;
+        } else {
+            $totalModel->points_consume  += $ruleModel->points;
         }
-    
-        $totalModel->points_total += $ruleInfo->points;
-        $totalModel->points_gain  += $ruleInfo->points;
+
         $ret = $totalModel->save();
         if (!$ret) {
-            Yii::log(__METHOD__ .': cannot save totalModel for member_id('.$member_id.'): '.$totalModel->lastError(), 'error', __CLASS__);
+            Yii::log('cannot save totalModel for member_id('.$totalModel->member_id.'): '.$totalModel->lastError(), 'error', __METHOD__);
             throw new CException($totalModel->lastError());
         }
 
-        return $history_id = $this->logRuleHistory($member_id, $ruleInfo);
+        return $history_id = $this->logRuleHistory($totalModel->member_id, $ruleModel, $remark);
     }
     
     /*
@@ -170,18 +173,18 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $rule_id
     */
-    protected function logRuleHistory($member_id, $ruleInfo, $remark = '') {
+    protected function logRuleHistory($member_id, $ruleModel, $remark = '') {
         $nowTimeStr = date('Y-m-d H:i:s', time());
         $pointsHistory = new MemberPointsHistoryModel;
         $pointsHistory->member_id = $member_id;
-        $pointsHistory->points = $ruleInfo->points;
-        $pointsHistory->type = $ruleInfo->points > 0 ? 1 : 2;
-        $pointsHistory->rule_id = $ruleInfo->rule_id;
+        $pointsHistory->points = $ruleModel->points;
+        $pointsHistory->type = $ruleModel->points > 0 ? 1 : 2;
+        $pointsHistory->rule_id = $ruleModel->rule_id;
         $pointsHistory->create_time = $nowTimeStr;
-        $pointsHistory->remark = $remark ? $remark : $ruleInfo->rule_name;
+        $pointsHistory->remark = $remark ? $remark : $ruleModel->rule_name;
         $ret = $pointsHistory->insert();
         if (!$ret) {
-            throw new CException($pointsHistory->getError());
+            throw new CException($pointsHistory->lastError());
         }
         return $pointsHistory->id;
     }
@@ -223,7 +226,7 @@ class PointsModule extends CWebModule
         // 先查询
         $memberInfo = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id', array(':member_id'=>$member_id, ':accounts_id'=>$accounts_id));
         if (!$memberInfo) {
-            Yii::log(__METHOD__ .': no member_total record for mid='.$member_id.', try to add', 'warning', 'PointsModule');
+            Yii::log('no member_total record for mid='.$member_id.', try to add', 'warning', __METHOD__);
             // 不存在 尝试创建
             $memberInfo = new MemberTotalModel;
             $memberInfo->member_id   = $member_id;
@@ -231,8 +234,8 @@ class PointsModule extends CWebModule
             $memberInfo->create_time = date('Y-m-d H:i:s');
             $ret = $memberInfo->insert();
             if (!$ret) {
-                //throw new CException($memberInfo->getError());
-                Yii::log(__METHOD__.': cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', 'PointsModule');
+                //throw new CException($memberInfo->lastError());
+                Yii::log('cannot add member_total for mid='.$member_id.': '.$memberInfo->lastError(), 'error', __METHOD__);
             }
         }
         // 如果存在 缓存起来
@@ -254,31 +257,7 @@ class PointsModule extends CWebModule
         @param $member_id
     */
     public function getMemberTotalModel($member_id, $accounts_id = 1) {
-        return $this->initMemberTotalInfo($member_id, $accounts_id);
-    }
-    public function initMemberTotalInfo($member_id, $accounts_id = 1) {
-        if ($member_id==0) {
-            return null;
-        }
-        // 先查询
-        $memberInfo = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id', array(':member_id'=>$member_id, ':accounts_id'=>$accounts_id));
-        if (!$memberInfo) {
-            // 不存在 尝试创建
-            $memberInfo = new MemberTotalModel;
-            $memberInfo->member_id   = $member_id;
-            $memberInfo->accounts_id = $accounts_id;
-            $memberInfo->create_time = date('Y-m-d H:i:s');
-            $ret = $memberInfo->insert();
-            if (!$ret) {
-                //throw new CException($memberInfo->getError());
-                Yii::log(__METHOD__ .': cannot add member_total for mid='.$member_id.': '.$memberInfo->getError(), 'error', 'PointsModule');
-            } else {
-                Yii::log(__METHOD__ .': no member_total record for mid='.$member_id.', try to add, done', 'warning', 'PointsModule');
-            }
-        }
-        // 如果存在 缓存起来
-        
-        return $memberInfo;
+        return $this->getMemberTotalInfo($member_id, $accounts_id);
     }
     /*
         升级
@@ -286,7 +265,7 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $level_to_up default:0 0表示自然1级 >0表示升级到多少级
     */
-    public function levelUp($member_id, $level_to_up) {
+    public function levelUp($member_id, $level_to_up = 0) {
         $memberInfo = $this->getMemberTotalInfo($member_id);
         $level_to_up = (int)$level_to_up;
         if ($level_to_up == 0) {
@@ -294,13 +273,46 @@ class PointsModule extends CWebModule
         } elseif ($level_to_up > 0) {
             $memberInfo->level = $level_to_up;
         } else {
-            Yii::log(__METHOD__ .': param error: level_to_up='.$level_to_up.' mid='.$member_id, 'warning', 'PointsModule');
+            Yii::log('param error: level_to_up='.$level_to_up.' mid='.$member_id, 'warning', __METHOD__);
         }
         $ret = $memberInfo->save();
         if (!$ret) {
-            Yii::log(__METHOD__ .': '.$memberInfo->getError().' mid='.$member_id.' level_to_up='.$level_to_up, 'error', 'PointsModule');
+            Yii::log(''.$memberInfo->lastError().' mid='.$member_id.' level_to_up='.$level_to_up, 'error', __METHOD__);
         }
         return $ret;
+    }
+    /*
+        尝试升级
+        // 积分余额和等级对应关系，由积分模块维护，其他模块不应干涉
+        @param $totalModel
+    */
+    public function tryToLevelUp(MemberTotalModel $totalModel) {
+        if (!($totalModel instanceof MemberTotalModel)) {
+            return false;
+        }
+        $originLevel = $totalModel->level;
+
+        $levelOfPoints = $this->calcLevelByPoints($totalModel->points_total);
+        try {
+            // 如果{member_total 记录的等级}比{按积分余额计算出的等级}低，则执行升级
+            while ($totalModel->level < $levelOfPoints) {
+                $totalModel->level = $totalModel->level+1;
+                $ret = $totalModel->save();
+                if (!$ret) {
+                    Yii::log(''.$totalModel->lastError().' mid='.$totalModel->member_id.' level='.$totalModel->level, 'error', __METHOD__);
+                }
+
+                // 执行升级奖励
+                $this->execRuleByRuleKey($totalModel->member_id, PointsRuleModel::RULE_KEY_LEVEL_UP);
+
+                Yii::log('aotu level up:'.' mid='.$totalModel->member_id.' level='.$totalModel->level, 'warning', __METHOD__);
+                $levelOfPoints = $this->calcLevelByPoints($totalModel->points_total);
+            }
+        } catch (CException $e) {
+            Yii::log(''.$e->getMessage().' mid='.$totalModel->member_id.' origin level='.$originLevel.' levelOfPoints='.$levelOfPoints.' level now='.$totalModel->level, 'error', __METHOD__);
+        }
+
+        return true;
     }
     /*
         获取等级信息
@@ -315,19 +327,11 @@ class PointsModule extends CWebModule
     }
     /*
         获取当天签到记录
-    */
-    public function getCheckInList($member_id) {
-        
-        $checkInList = EventLogModel::model()->find('event_key="'.EventPointsChange::EVENT_KEY.'" and pre_event_key="'.$event_id.'" and sender_mid=:member_id and create_time>="'.date('Y-m-d 00:00:00', $now).'"', array(':member_id'=>$member_id));
-
-    }
-    /*
-        获取当天签到记录
         @param $member_id
         @param $startTime 'Y-m-d H:i:s'
     */
-    public function getCheckInLog($member_id, $startTime = "") {
-        $ruleKey = 'check_in';
+    public function getCheckInLog($member_id, $startTime = '') {
+        $ruleKey = PointsRuleModel::RULE_KEY_CHECKIN;
         $startTime || ($startTime = date('Y-m-d 00:00:00', time()));
         $pointsLog = MemberPointsHistoryModel::model()->orderBy('t.create_time desc')->with('rule')->findAll('member_id=:mid and rule.rule_key=:ruleKey and t.create_time>=:startTime', array(
             ':mid' => $member_id,
@@ -342,8 +346,8 @@ class PointsModule extends CWebModule
         @param $member_id
         @param $startTime 'Y-m-d H:i:s'
     */
-    public function getCheckInNdayLog($member_id, $startTime) {
-        $ruleKey = 'check_in_nday';
+    public function getCheckInNdayLog($member_id, $startTime = '') {
+        $ruleKey = PointsRuleModel::RULE_KEY_CHECK_IN_NDAY;
         $startTime || ($startTime = date('Y-m-d 00:00:00', time()));
         $pointsLog = MemberPointsHistoryModel::model()->orderBy('t.create_time desc')->with('rule')->findAll('member_id=:mid and rule.rule_key=:ruleKey and t.create_time>=:startTime', array(
             ':mid' => $member_id,
@@ -352,6 +356,50 @@ class PointsModule extends CWebModule
         ));
 
         return $pointsLog;
+    }
+    /*
+        获取连续签到记录
+        @param $member_id
+        @param $startTime 'Y-m-d H:i:s'
+    */
+    public function checkIn($member_id) {
+        // 检查当天内是否已经获得该经验 
+        $checkInLog = $this->getCheckInLog($member_id);
+        if ($checkInLog) {
+            Yii::log('he('.$member_id.') has already got checkInLog today!', 'warning', __METHOD__);
+            return false;
+        }
+
+        if ($this->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_CHECKIN)) {
+            $this->tryToCheckInNday($member_id);
+            return true;
+        }
+
+        return false;
+    }
+    /*
+        获取连续签到记录
+        @param int $member_id
+        @param int $nday = 7 默认7天签到
+    */
+    public function tryToCheckInNday($member_id, $nday = 7) {
+        // 检查7天内是否已经获得该经验 
+        $startTime = date('Y-m-d 00:00:00', time()-86400*($nday-1));
+        $checkInNdayLog = $this->getCheckInNdayLog($member_id, $startTime);
+        if ($checkInNdayLog) {
+            Yii::log('he('.$member_id.') has already got checkInNdayLog today!', 'warning', __METHOD__);
+            return false;
+        }
+
+        // 检查7天内签到次数是否满足
+        $checkInLog = $this->getCheckInLog($member_id, $startTime);
+        if (count($checkInLog) >= $nday) {
+            if ($this->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_CHECK_IN_NDAY)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 	/*
         获取用户积分明细记录

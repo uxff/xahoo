@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="resource/thirdvendor/aceadmin1.3.1/css/webuploader.css">
 <div class="page-content-area">
     <div class="page-header">
-        <h1><a href="fanghuadmin.php?r=taskArticle">TaskArticle</a>
+        <h1><a href="backend.php?r=taskArticle">TaskArticle</a>
             <small><i class="ace-icon fa fa-angle-double-right"></i> 新增</small>
         </h1>
         <br/>
@@ -34,7 +34,7 @@
             {/if}
 
             <form class="form-horizontal" id="taskArticle-form" role="form"
-                  action="fanghuadmin.php?r=taskArticle/create" method="POST">
+                  action="backend.php?r=taskArticle/create" method="POST">
                 <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="TaskArticle_task_title">任务标题</label>
 

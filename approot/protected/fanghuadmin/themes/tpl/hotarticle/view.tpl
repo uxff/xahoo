@@ -1,6 +1,6 @@
 <div class="page-content-area">
     <div class="page-header">
-        <h1> <a href="fanghuadmin.php?r=hotArticle">热门推荐</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
+        <h1> <a href="backend.php?r=hotArticle">热门推荐</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
     </div>
     <!-- /.page-header -->
 
@@ -49,7 +49,7 @@
                                 </tr>
                                 <tr>
                                     <td>添加人</td>
-                                    <td>{$objModel.author_name}</td>
+                                    <td>{$objModel.admin_name}</td>
                                 </tr>
                                 <tr>
                                     <td>添加事件</td>

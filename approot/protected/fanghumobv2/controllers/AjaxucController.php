@@ -25,7 +25,7 @@ class AjaxucController extends Controller {
                                 $arrSqlParams = array(
                                     'condition' => 'member_mobile=' . $mobile,
                                 );
-                                $total = Member::model()->count($arrSqlParams);
+                                $total = UcMember::model()->count($arrSqlParams);
                                 if ($total > 0) {
                                         $code = 1;
                                         $message = '该手机号已存在';

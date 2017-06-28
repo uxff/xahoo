@@ -1,7 +1,22 @@
 <?php
 class PointsRuleModel extends PointsRuleModelBase
 {
-	
+        const FLAG_STATIC  = 1; //普通静态规则
+        const FLAG_DYNAMIC = 2; //动态规则
+
+        const RULE_ID_FOR_TASK = 10; //任务的rule_id
+
+        const RULE_KEY_CHECKIN              = 'check_in';
+        const RULE_KEY_CHECK_IN_NDAY        = 'check_in_nday';
+        const RULE_KEY_FILL_AVATAR          = 'fill_avatar';
+        const RULE_KEY_FINISH_INVITE_FRIEND = 'finish_invite_friend';
+        const RULE_KEY_LEVEL_UP             = 'level_up';
+        const RULE_KEY_REGISTER_BY_INVITE   = 'register_by_invite';
+        const RULE_KEY_REGISTER             = 'register';
+        const RULE_KEY_SHARE_CLICKED        = 'share_clicked';
+        const RULE_KEY_SHARE                = 'share';
+        const RULE_KEY_TASK_SHARE           = 'task_share';
+
         /**
          * @return array validation rules for model attributes.
          */

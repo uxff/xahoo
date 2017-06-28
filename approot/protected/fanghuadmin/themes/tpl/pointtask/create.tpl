@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="resource/thirdvendor/aceadmin1.3.1/css/webuploader.css">
 <div class="page-content-area">
     <div class="page-header">
-        <h1><a href="fanghuadmin.php?r=pointTask">PointTask</a>
+        <h1><a href="backend.php?r=pointTask">PointTask</a>
             <small><i class="ace-icon fa fa-angle-double-right"></i> 新增</small>
         </h1>
         <br/>
@@ -33,7 +33,7 @@
                 </div>
             {/if}
 
-            <form class="form-horizontal" id="pointTask-form" role="form" action="fanghuadmin.php?r=pointTask/create"
+            <form class="form-horizontal" id="pointTask-form" role="form" action="backend.php?r=pointTask/create"
                   method="POST">
                 <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="PointTask_task_title">任务标题</label>

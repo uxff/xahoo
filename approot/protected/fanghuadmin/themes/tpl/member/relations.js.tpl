@@ -15,7 +15,7 @@
     <script>
         function getData(id){
             $.ajax({
-                url     :       'fanghuadmin.php?r=member/getrelations&id='+id,
+                url     :       'backend.php?r=member/getrelations&id='+id,
                 type    :       'post',
                 success :       function(data){
                     var obj = JSON.parse(data);

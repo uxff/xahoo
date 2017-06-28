@@ -53,8 +53,8 @@ class ActcmsController extends Controller
                     //unset($_POST['ArticleModel']['outer_url']);
                     $model->outer_url = '';
                 }
-                $model->author_id = Yii::app()->memberadmin->id;
-                $model->author_name = Yii::app()->memberadmin->name;
+                $model->admin_id = Yii::app()->memberadmin->id;
+                $model->admin_name = Yii::app()->memberadmin->name;
 
                 // 查出第一张图片为封面图
                 $imgpreg = '<img.*?src="(.*?)">';

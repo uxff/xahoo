@@ -28,9 +28,6 @@
                         <div class="col-sm-7"> 
                         <select class="form-control" id="poster_project"  name="poster[project]" style="height:30px">
                                 <option value="" >请选择</option>
-                                {foreach from=$projectDatas key=i item=project}
-                                    <option value="{$project['project_id']}" {if $project_id == $project['project_id']} selected="selected"{/if}>{$project['project_name']}</option>
-                                {/foreach}
                             </select>
                         </div>
                     </div>                    
@@ -39,8 +36,8 @@
                         <div class="col-sm-7"> 
                         <select class="form-control" id="accounts_id"  name="poster[accounts_id]" style="height:30px">
                                 <option value="" >请选择</option>
-                                {foreach from=$accountsData key=i item=project}
-                                    <option value="{$project['id']}" {if $accounts_id == $project['id']} selected="selected"{/if}>{$project['accounts_name']}</option>
+                                {foreach from=$accountsData key=i item=accItem}
+                                    <option value="{$accItem['id']}" {if $accounts_id == $accItem['id']} selected="selected"{/if}>{$accItem['accounts_name']}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -70,7 +67,7 @@
         <div class="">
                 共 {$pages.totalCount} 条查询结果：
                 <span class="pull-right">
-                        <a href="fanghuadmin.php?r=Poster/Create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增海报 </a>
+                        <a href="backend.php?r=Poster/Create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增海报 </a>
                 </span>
         </div>
     <form id="project-form" class="form-horizontal" method="POST" action="" role="form" style="">
@@ -142,7 +139,7 @@
                                                 <a href="javascript:;" onclick="return setStatus({$objModel['id']});" class="btn btn-xs btn-success" > 
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>设为有效 </a>
                                             {else if $objModel['poster_status'] == 2}
-                                                <a href="javascript:;" onclick="return setStatusTwo({$objModel['id']});" class="btn btn-xs btn-success" > 
+                                                <a href="javascript:;" onclick="return setStatusTwo({$objModel['id']});" class="btn btn-xs btn-danger" > 
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>设为无效 </a>
                                             {else}
                                                 <a href="javascript:;" class="btn btn-xs "  disabled="disabled">
@@ -151,9 +148,9 @@
                                             {if $objModel['poster_status'] == 2}
                                             <a href="" class="btn btn-xs btn-success" disabled="disabled"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
                                             {else}
-                                            <a href="fanghuadmin.php?r=Poster/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
+                                            <a href="backend.php?r=Poster/Edit&id={$objModel['id']}" class="btn btn-xs btn-primary"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
                                             {/if}
-                                            <a href="fanghuadmin.php?r=Poster/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                                            <a href="backend.php?r=Poster/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                                         </div>
                                         </td>
                                 </tr>

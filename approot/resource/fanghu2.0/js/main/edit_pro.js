@@ -45,7 +45,9 @@ define(function(require){
 						success: function (res) {
 							if(res.code == 0){
 								layer.msg('保存成功');
-								window.location.href = 'fanghuv2.php?r=my/index';
+                                if (res.returnurl != undefined) {
+                                    window.location.href = res.returnurl;
+                                }
 							}
 						}
 					});

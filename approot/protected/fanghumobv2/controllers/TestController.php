@@ -109,7 +109,7 @@ class TestController extends Controller {
         $arrRender = array(
 			'gShowHeader' => false,
 			'gShowFooter' => true,
-			'pageTitle' =>'我的房乎',
+			'pageTitle' =>'我的Xahoo',
         );
 		$this->layout = "layouts/default_v2.tpl";
 		$this->smartyRender('test/weixin.tpl',$arrRender);

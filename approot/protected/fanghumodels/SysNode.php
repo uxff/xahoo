@@ -17,6 +17,7 @@ class SysNode extends SysNodeBase {
          */
         public function relations() {
                 $curRelations = array(
+                    'parent' => array(self::HAS_ONE, 'SysNode', '', 'on' => 't.pid = parent.id'),
                 );
                 return array_merge(parent::relations(), $curRelations);
         }
@@ -88,4 +89,12 @@ class SysNode extends SysNodeBase {
                 return parent::model($className);
         }
 
+        public function loadParent() {
+            if ($this->pid != 0) {
+                if ($this->parent) {
+                    return $this->parent->loadParent();
+                }
+                return $this->parent = SysNode::model()->with('parent')->findByPk($this->pid);
+            }
+        }
 }

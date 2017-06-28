@@ -29,53 +29,37 @@ class EventFillAvatar extends EventAbs {
         $myPreEventId  = $params['pre_event_id'];
         $taskRuleKey   = self::TASK_RULE_KEY;//$params['_event_tpl']['use_rule_key'];
 
-        $pointsModule = Yii::app()->getModule('points');
-        $pointsRuleModel = PointsRuleModel::model()->find('rule_key=:rule_key', array(':rule_key'=>$taskRuleKey));
-        $taskRuleId = $pointsRuleModel->rule_id;
-        // isTaskFinished
-        $taskModule = Yii::app()->getModule('mtask');
-        $taskTplModel = $taskModule->getTaskTplByRule($taskRuleId);
-        //echo 'taskTplModel=';print_r($taskTplModel);
-        //$isTaskFinished = $taskModule->isTaskFinished($member_id, $taskTplModel->task_id);
-        $isTaskFinished = $taskModule->finishTask($member_id, $taskTplModel->task_id);
-        
-        //$taskModule->isTaskFinished($member_id, $taskRuleKey);
-        //Yii::log(__METHOD__ .': going to invoke isTaskFinished('.$member_id.','.$taskRuleKey.')='.$isTaskFinished, 'warning', 'EventModule');
-        
-        $params['pre_event_key'] = self::EVENT_KEY;
-        $params['pre_event_id'] = $params['_event_tpl']['event_id'];
-        if ($isTaskFinished) {
-            // 是否已奖励任务积分
-            $taskPointsLog = MemberPointsHistoryModel::model()->find('member_id=:mid and rule_id=:rule_id', array(
-                ':mid' => $member_id,
-                ':rule_id' => $taskRuleId,
-            ));
-            if ($taskPointsLog) {
-                $ret = false;
-                Yii::log('he('.$member_id.') as already got task('.$taskRuleKey.') reward!'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-            } else {
-                $ret = true;
-            }
-            
-            $params['taskTplId'] = $taskTplModel->task_id;
-            if ($ret) {
-                // 完善任务的事件有多项 但是完成积分增加 和完成任务 只有一项
-                Yii::app()->getModule('event')->pushEvent($member_id, 'finish_task', $params);
-            }
-        }
+        $taskModule     = Yii::app()->getModule('mtask');
+        $pointsModule   = Yii::app()->getModule('points');
 
         // 是否已奖励普通积分
-        $pointsRuleModel = PointsRuleModel::model()->find('rule_key=:rule_key', array(':rule_key'=>$params['_event_tpl']['use_rule_key']));
-        $pointsLog = MemberPointsHistoryModel::model()->with('rule')->find('member_id=:mid and rule.rule_id=:rule_id', array(
+        //$pointsRuleModel = PointsRuleModel::model()->find('rule_key=:rule_key', array(':rule_key'=>PointsRuleModel::RULE_KEY_FILL_AVATAR));
+        $pointsLog = MemberPointsHistoryModel::model()->with('rule')->find('member_id=:mid and rule.rule_key=:rule_key', array(
             ':mid' => $member_id,
-            ':rule_id' => $pointsRuleModel->rule_id,
+            ':rule_key' => PointsRuleModel::RULE_KEY_FILL_AVATAR,
         ));
 
         if ($pointsLog) {
             $ret = false;
-            Yii::log('he('.$member_id.') as already got points('.$params['_event_tpl']['use_rule_key'].') reward!'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('he('.$member_id.') as already got points('.PointsRuleModel::RULE_KEY_FILL_AVATAR.') reward!', 'warning', __METHOD__);
         } else {
             $ret = true;
+            Yii::app()->getModule('points')->execRuleByRuleKey($member_id, PointsRuleModel::RULE_KEY_FILL_AVATAR);
+        }
+
+        // 尝试完成任务积分奖励
+        $pointsRuleModel = PointsRuleModel::model()->find('rule_key=:rule_key', array(':rule_key'=>$taskRuleKey));
+        $taskRuleId = $pointsRuleModel->rule_id;
+
+        // isTaskFinished
+        $taskTplModel = $taskModule->getTaskTplByRule($taskRuleId);
+
+        // 直接完成完善个人信息任务
+        $isTaskFinished = $taskModule->finishTask($member_id, $taskTplModel->task_id);
+
+        // 完成后派发奖励
+        if ($isTaskFinished) {
+            $taskModule->rewardTaskInst($member_id, $taskTplModel->task_id);
         }
 
         // 封装下一个事件的参数
@@ -87,6 +71,8 @@ class EventFillAvatar extends EventAbs {
 
         // 按照条件 继续 下一个事件 points_change
         if ($ret) {
+            //if (!empty($this->model->use_rule_key)) {
+            //}
             if (!empty($nextEvents))
             foreach ($nextEvents as $nextEvent) {
                 if ($nextEvent != '') {

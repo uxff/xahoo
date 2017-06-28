@@ -8,7 +8,7 @@
                 <div class="roundimg">
                         <img src="" data-src="holder.js/130x130/auto/sky" alt="">
                 </div>
-                <p>邀请更多小伙伴加入房乎，</p>
+                <p>邀请更多小伙伴加入Xahoo，</p>
                 <p class="clearfix">他们所赚的佣金您也可以提成哦！<a class="link orange" href="{$EarnUrl}">我能赚多少？</a></p>
 
                 <a class="btn-ora" href="{$friendinviteUrl}"><i class="h-icon-tjuser"></i> 推荐新伙伴</a>

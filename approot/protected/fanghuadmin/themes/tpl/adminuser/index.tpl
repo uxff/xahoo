@@ -53,7 +53,7 @@
                             Showing {($pages.curPage-1)*$pages.pageSize+1} to {$pages.totalCount} of {$pages.totalCount} results
                         {/if}
                         <span class="pull-right">
-                            <a href="fanghuadmin.php?r=adminUser/create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
+                            <a href="backend.php?r=adminUser/create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增 </a>
                         </span>
                     </div>
                     <div class="table-responsive">
@@ -90,17 +90,17 @@
                                         {/foreach}
                                         <td>{$objModel.role.0.name}</td>
                                         <td><div class="hidden-sm hidden-xs btn-group">
-                                                <a href="fanghuadmin.php?r=adminUser/view&id={$objModel.$modelId}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
-                                                <a href="fanghuadmin.php?r=adminUser/update&id={$objModel.$modelId}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
-                                                <button onclick="delConfirm('fanghuadmin.php?r=adminUser/delete&amp;id={$objModel.$modelId}');" data-url="" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i>删除 </button>
+                                                <a href="backend.php?r=adminUser/view&id={$objModel.$modelId}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                                                <a href="backend.php?r=adminUser/update&id={$objModel.$modelId}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
+                                                <button onclick="delConfirm('backend.php?r=adminUser/delete&amp;id={$objModel.$modelId}');" data-url="" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i>删除 </button>
                                             </div>
                                             <div class="hidden-md hidden-lg">
                                                 <div class="inline position-relative">
                                                     <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto"> <i class="ace-icon fa fa-cog icon-only bigger-110"></i> </button>
                                                     <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                        <li> <a href="fanghuadmin.php?r=adminUser/view&id={$objModel.$modelId}" class="tooltip-info" data-rel="tooltip" title="View"> <span class="blue"> <i class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a> </li>
-                                                        <li> <a href="fanghuadmin.php?r=adminUser/update&id={$objModel.$modelId}" class="tooltip-success" data-rel="tooltip" title="Edit"> <span class="green"> <i class="ace-icon fa fa-pencil-square-o bigger-120"></i> </span> </a> </li>
-                                                        <li> <button onclick="delConfirm('fanghuadmin.php?r=adminUser/delete&amp;id={$objModel.$modelId}');" class="tooltip-error" data-rel="tooltip" title="Delete"> <span class="red"> <i class="ace-icon fa fa-trash-o bigger-120"></i> </span> </button> </li>
+                                                        <li> <a href="backend.php?r=adminUser/view&id={$objModel.$modelId}" class="tooltip-info" data-rel="tooltip" title="View"> <span class="blue"> <i class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a> </li>
+                                                        <li> <a href="backend.php?r=adminUser/update&id={$objModel.$modelId}" class="tooltip-success" data-rel="tooltip" title="Edit"> <span class="green"> <i class="ace-icon fa fa-pencil-square-o bigger-120"></i> </span> </a> </li>
+                                                        <li> <button onclick="delConfirm('backend.php?r=adminUser/delete&amp;id={$objModel.$modelId}');" class="tooltip-error" data-rel="tooltip" title="Delete"> <span class="red"> <i class="ace-icon fa fa-trash-o bigger-120"></i> </span> </button> </li>
                                                     </ul>
                                                 </div>
                                             </div></td>

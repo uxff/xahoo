@@ -23,7 +23,7 @@
             </a></li>
             {*
             <li><a href="{$fhRewardIndexUrl}">
-                <h3>我在房乎<span class="h-right grey999">小伙伴数目：{$myFHBuddyCount}</span></h3>
+                <h3>我在Xahoo<span class="h-right grey999">小伙伴数目：{$myFHBuddyCount}</span></h3>
                 <div class="myassnum2">{$myFHAccountTotal}</div>
                 <p class="grey999">认筹资产总值</p>
             </a></li>

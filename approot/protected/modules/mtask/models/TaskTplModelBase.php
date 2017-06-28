@@ -62,9 +62,9 @@ class TaskTplModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('task_name, surface_url, act_type, integral_upper, money_upper, last_modified, admin_id, admin_name', 'required'),
-                        array('task_type, act_type, reward_type, reward_type_money, integral_upper, money_upper, reward_points, rule_id, step_need_count, weight, status, flag, admin_id', 'numerical', 'integerOnly'=>true),
-                        array('reward_money', 'numerical'),
+                        array('task_name, admin_id, admin_name', 'required'),
+                        array('task_type, act_type, reward_type, reward_type_money, integral_upper, reward_points, points_total, rule_id, step_need_count, weight, status, flag, admin_id', 'numerical', 'integerOnly'=>true),
+                        array('reward_money, money_upper, money_total', 'numerical'),
                         array('task_name', 'length', 'max'=>40),
                         array('task_desc, surface_url', 'length', 'max'=>1024),
                         array('task_url', 'length', 'max'=>255),
@@ -104,6 +104,8 @@ class TaskTplModelBase extends CActiveRecord
                        'reward_type_money' => '奖励类型',
                        'integral_upper' => '积分上限',
                        'money_upper' => '金额上限',
+                       'points_total' => '已派发积分',
+                       'money_total' => '已派发金额',
                        'reward_points' => '积分分值',
                        'reward_money' => '奖励金额',
                        'rule_id' => '积分规则id',
@@ -135,6 +137,8 @@ class TaskTplModelBase extends CActiveRecord
 				$criteria->compare('t.reward_type_money',$this->reward_type_money);
 				$criteria->compare('t.integral_upper',$this->integral_upper);
 				$criteria->compare('t.money_upper',$this->money_upper);
+				$criteria->compare('t.points_total',$this->points_total);
+				$criteria->compare('t.money_total',$this->money_total);
 				$criteria->compare('t.reward_points',$this->reward_points);
 				$criteria->compare('t.reward_money',$this->reward_money);
 				$criteria->compare('t.rule_id',$this->rule_id);

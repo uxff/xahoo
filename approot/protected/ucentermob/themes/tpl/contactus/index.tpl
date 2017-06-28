@@ -37,7 +37,7 @@
         </div>-->
         <div class="h-container2 mg-b10 clearfix">
                 <div class="pd-l10 pd-10">
-                        <h4 class="h4-fs-index"><span class="orange">房乎</span>事业部-客户服务热线</h4>
+                        <h4 class="h4-fs-index"><span class="orange">Xahoo</span>事业部-客户服务热线</h4>
                         <p class="h-fs12 pd-b15 grey999">可处理会员账号相关问题</p>
                         <a href="tel:400-958-1000">
                             <dl class="h-contnt-dl h-content-first">
@@ -47,7 +47,7 @@
                         </a>
                         <dl class="h-contnt-dl">
                                 <dt><img src="{$resourcePath}/images/fanghuqrcode.jpg" width="50" id="imgalert3"></dt>
-                                <dd>微信服务号：房乎</dd>
+                                <dd>微信服务号：Xahoo</dd>
                         </dl>
                 </div>
         </div>

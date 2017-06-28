@@ -57,8 +57,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'surface_url',
 		'create_time',
 		'last_modified',
-		'author_id',
-		'author_name',
+		'admin_id',
+		'admin_name',
 		*/
 		array(
 			'class'=>'CButtonColumn',

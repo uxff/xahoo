@@ -7,6 +7,7 @@
  * @property string $id
  * @property string $member_id
  * @property integer $article_id
+ * @property integer $task_tpl_id
  * @property string $article_url
  * @property integer $plat_type
  * @property string $use_invite_code
@@ -50,14 +51,14 @@ class ShareLogModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('member_id, article_id, plat_type, use_invite_code, visit_url', 'required'),
-                        array('article_id, plat_type', 'numerical', 'integerOnly'=>true),
+                        array('member_id, plat_type, use_invite_code, visit_url', 'required'),
+                        array('article_id, task_tpl_id, plat_type', 'numerical', 'integerOnly'=>true),
                         array('member_id, use_invite_code, view_count', 'length', 'max'=>10),
                         array('article_url, visit_url', 'length', 'max'=>255),
                         array('create_time', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, member_id, article_id, article_url, plat_type, use_invite_code, visit_url, view_count, create_time, last_modified', 'safe', 'on'=>'search'),
+                        array('id, member_id, article_id, task_tpl_id, article_url, plat_type, use_invite_code, visit_url, view_count, create_time, last_modified', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -81,6 +82,7 @@ class ShareLogModelBase extends CActiveRecord
                        'id' => '自增id',
                        'member_id' => '分享者的用户id',
                        'article_id' => '文章id',
+                       'task_tpl_id' => '任务模板id',
                        'article_url' => '文章地址',
                        'plat_type' => '分享平台',
                        'use_invite_code' => '使用的邀请码',
@@ -100,6 +102,7 @@ class ShareLogModelBase extends CActiveRecord
        				$criteria->compare('t.id',$this->id,true);
 				$criteria->compare('t.member_id',$this->member_id,true);
 				$criteria->compare('t.article_id',$this->article_id);
+				$criteria->compare('t.task_tpl_id',$this->task_tpl_id);
 				$criteria->compare('t.article_url',$this->article_url,true);
 				$criteria->compare('t.plat_type',$this->plat_type);
 				$criteria->compare('t.use_invite_code',$this->use_invite_code,true);

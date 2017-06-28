@@ -1,3 +1,3 @@
 {if $gShowHeader}
-        <header class="list-header">立赚</header>
+        <header class="list-header">任务</header>
 {/if}

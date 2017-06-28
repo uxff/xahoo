@@ -20,7 +20,7 @@ class WechatController extends BaseController {
         $openid = isset($_GET['openid'])?$_GET['openid']:'';
         Yii::app()->params['accounts_id'] = 1;//表fh_poster_accounts主键
         $value = array(
-            'token'=>'fanghu', 
+            'token'=>Yii::app()->params['fh_wechat_token'], 
             'appid' => Yii::app()->params['fh_wechat_appid'], 
             'appsecret' => Yii::app()->params['fh_wechat_appsecret'], 
             'EncodingAESKey' => Yii::app()->params['EncodingAESKey'], 
@@ -54,7 +54,7 @@ class WechatController extends BaseController {
     }
     public function actionIndex() {
         if (isset($_GET["echostr"])) {
-            $this->weObj->valid();
+            return $this->weObj->valid();
         }
         // 交给处理器
         $this->process();
@@ -64,18 +64,17 @@ class WechatController extends BaseController {
         $weObj = $this->weObj;
         $type = $weObj->getRev()->getRevType();
         $fromUser = $weObj->getRevFrom();
-        
-                
+
         file_put_contents('/tmp/fanghu_wechat_debug',var_export($weObj->getRevData(),true)."\n",FILE_APPEND);
         file_put_contents('/tmp/fanghu_wechat_debug',var_export($weObj->getRevFrom(),true)."\n",FILE_APPEND);
 
         switch($type) {
             case Wechat::MSGTYPE_TEXT:
-                $weObj->text("一乎百应，因友尽有！小乎已在此恭候您多时。注册房乎，轻松一点，转发并分享，赚超额积分。闲暇之余，分秒赚外快！")->reply();
+                $weObj->text("您的留言已收到，正在努力寻找答案。")->reply();
                 $revText = $weObj->getRevContent();
                 $this->processText($fromUser, $revText);
 
-                exit;
+                Yii::app()->end();
                 break;
             case Wechat::MSGTYPE_EVENT:
                 $this->processEvent();
@@ -83,7 +82,7 @@ class WechatController extends BaseController {
             case Wechat::MSGTYPE_IMAGE:
                 break;
             default:
-                $weObj->text("我是小乎，有问题请留言！")->reply();
+                $weObj->text("我是Xahoo，有问题请留言！")->reply();
                 break;
         }
     }
@@ -108,8 +107,7 @@ class WechatController extends BaseController {
                         $this->forceFlush();
 
                         $arrStr = [
-                            //'middle' => "在别处是未来\n在中弘是现在",
-                            'middle' => "三亚·半山半岛\n0898-88839999",
+                            'middle' => "在云上思考\n繁华中进步",
                         ];
                         $this->makeHaibao($fromUser, $arrStr, 1);
 
@@ -121,8 +119,7 @@ class WechatController extends BaseController {
                         $this->forceFlush();
                         if ($this->makeAccount($fromUser)) {
                             $arrStr = [
-                                //'middle' => "在别处是未来\n在中弘是现在",
-                                'middle' => "三亚·半山半岛\n0898-88839999",
+                                'middle' => "在云上思考\n繁华中进步",
                             ];
                             $this->makeHaibao($fromUser, $arrStr);
                         }
@@ -137,16 +134,32 @@ class WechatController extends BaseController {
                         //$posterModel = $this->choicePosterByLocation($addr);
                         $posterModel = FhPosterModel::model()->GetPosterApi();
                         if (empty($posterModel)) {
+                            $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
+                            $weObj->sendCustomMessage($msg);
+                            break;
                             //倒计时
                             $btime = '2016-10-14 18:30:00';
                             if($btime < date('Y-m-d H:i:s')){
-                                $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
                             }else{
-                                $atime = $this->setTime($btime);
-                                $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"半山半岛海报转发领红包倒计时".$atime."，敬请关注！"]];
-                            }                            
-                            $weObj->sendCustomMessage($msg);
-                            break;
+                            }
+                        } else {
+                            // 如果有posterModel，但是尚未开始，则倒计时
+                            $posterStartTimestamp = strtotime($posterModel->valid_begintime);
+                            $timestampToStart = time() - $posterStartTimestamp;
+                            if ($timestampToStart>0) {
+                                // 尚未开始
+                                if ($timestampToStart < 3600*24) {
+                                    // 1 天内 回复倒计时消息
+                                    $atime = date('H小时i分s秒', $timestampToStart-3600*8);
+                                    $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"海报转发领红包倒计时".$atime."，敬请关注！"]];
+                                } else {
+                                    // 1 天内不开始 回复活动已结束
+                                    $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
+                                }
+                                $weObj->sendCustomMessage($msg);
+                                break;
+                            }
+                            // 活动已开始，正在进行中
                         }
 
                         $return_url = $this->createAbsoluteUrl('myHaibao/DiyHaibao');
@@ -160,7 +173,7 @@ class WechatController extends BaseController {
                         break;
                     case 'MENU_ONLINE_ADVICE':
                         // 在线咨询
-                        $msg = '亲您好，欢迎您开启房乎之旅，如果您对房乎感兴趣，或者有任何问题，请在输入框内随时回复及留言，小乎将及时与您取得联系，灰常感谢您对小乎的支持。';
+                        $msg = '亲您好，欢迎来到Xahoo，如果您对Xahoo有任何问题和建议，可随时留言，我们将及时与您取得联系，灰常感谢您对Xahoo的支持。';
                         $weObj->text($msg)->reply();
                         break;
                     default:
@@ -171,12 +184,12 @@ class WechatController extends BaseController {
 
             case Wechat::EVENT_SUBSCRIBE:
                 $msg = '【转发海报领红包活动】开始啦！
-①关注房乎就领关注红包！
+①关注Xahoo就领关注红包！
 ②点击【生成海报】菜单——普通用户选择【项目海报】
     ——经纪人选择【个性海报】 
 ③将自己生成的海报转发到朋友圈，只要你的朋友识别你生成的海报右下角的二维码并关注，你就可以领取红包奖励！
 ④你的朋友继续生成自己的海报并转发，此海报二维码被其他人识别并关注，你和你的朋友都可以领取红包奖励！
-登岛看房详情<a href="https://m.xqshijie.com/HouseGroup/index.html?tpl=1">点这里</a>
+⑤本活动属于demo演示产品，活动中涉及的金额仅提供功能演示，不会实际发放。
 ';
                 //$weObj->text($msg)->reply();
                 $this->sendTextMessage($fromUser, $msg);
@@ -213,14 +226,15 @@ class WechatController extends BaseController {
                 // 转换地理位置 从经纬度转换到地址描述后保存
                 $locationInfo = GeoConvertor::LocationToAddr($data['Latitude'], $data['Longitude']);
                 Yii::log('LOCATION convert ret='.$locationInfo['result']['formatted_address'].' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+
                 // 将地理位置写在uc_member_bind_sns对应的openid上
                 $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and member_id=:member_id', [':openid'=>$fromUser]);
                 $formatted_address = GeoConvertor::GetAddress($locationInfo['result']['formatted_address']);
                 $snsModel->location_address = $formatted_address;
                 if (!$snsModel->save()) {
-                   Yii::log('数据存储失败！'.$snsModel->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                   Yii::log('save snsModel failed:'.$snsModel->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
                 }
-                Yii::log('SNSMODEL member_id='.$snsModel->member_id.' bind_id='.$snsModel->bind_id.' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('SNSMODEL member_id='.$snsModel->member_id.' bind_id='.$snsModel->bind_id.' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
                 break;
             default:
                 //Yii::log('a event from '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
@@ -612,7 +626,7 @@ class WechatController extends BaseController {
         $jjrInfo = ['jjr_name'=>"经纪人某\n15011111111",'jjr_type'=>1];
         $arrStr = [
             'middle' => "经纪人某\n15011111111",
-            //'under'  => "欢迎生成房乎海报，",
+            //'under'  => "欢迎生成Xahoo海报，",
         ];
         $this->makeHaibao($openid, $arrStr);
         echo 'done';
@@ -785,9 +799,9 @@ class WechatController extends BaseController {
                 break;
         }
         // 不符合地域规则 不给奖励
-        if ($memberPoster->is_addr_right==0) {
-            $rewardMoney = 0;
-        }
+        //if ($memberPoster->is_addr_right==0) {
+        //    $rewardMoney = 0;
+        //}
         $this->rewardMoney = $rewardMoney;
 
         // 个人奖励是否达到上限
@@ -1188,7 +1202,7 @@ class WechatController extends BaseController {
                 throw new CException('already got reward: '.$histKey);
             }
             
-            $this->dispatchMoneyToMember($member_id, 3, '关注房乎公众号奖励');
+            $this->dispatchMoneyToMember($member_id, 3, '关注Xahoo公众号奖励');
 
             $trans->commit();
             $ret = true;
@@ -1233,13 +1247,13 @@ class WechatController extends BaseController {
         $like = $_GET['like'] ? $_GET['like'] : '';
         $sql = 'select * from fh_member_haibao where member_mobile like "'.$like.'" limit '.$limit;
         $sql = 'SELECT s.bind_id bind_id,s.member_id s_member_id,s.member_mobile s_member_mobile,h.member_id h_member_id,h.member_mobile h_member_mobile,th.money_total th_total,ts.money_total ts_total
- FROM xqsj_db.uc_member_bind_sns s
+ FROM uc_member_bind_sns s
  LEFT JOIN fanghu_db.fh_member_haibao h on h.sns_bind_id=s.bind_id
  LEFT JOIN fanghu_db.fh_member_total th on th.member_id=h.member_id
  LEFT JOIN fanghu_db.fh_member_total ts on ts.member_id=s.member_id
  where s.member_id != h.member_id';
         $sql = 'SELECT s.bind_id bind_id,s.member_id s_member_id,s.member_mobile s_member_mobile,h.member_id h_member_id,h.member_mobile h_member_mobile
- FROM xqsj_db.uc_member_bind_sns s
+ FROM uc_member_bind_sns s
  LEFT JOIN fanghu_db.fh_member_haibao h on h.sns_bind_id=s.bind_id
  where s.member_id != h.member_id limit '.$limit*1 .'';
 
@@ -1248,7 +1262,7 @@ class WechatController extends BaseController {
         print_r($memberHaibaoList);exit;
         
         $sql = 'UPDATE fanghu_db.fh_member_haibao h
- LEFT JOIN xqsj_db.uc_member_bind_sns s on h.sns_bind_id=s.bind_id
+ LEFT JOIN uc_member_bind_sns s on h.sns_bind_id=s.bind_id
  set h.member_id = s.member_id,h.member_mobile = s.member_mobile
  where s.member_id != h.member_id 
 ;';
@@ -1323,13 +1337,13 @@ class WechatController extends BaseController {
         {
             "type":"view",
             "name":"我的奖励",
-            "url":"https://fanghu.xqshijie.com/index.php?r=wechat/authlogin&return_url=https%3A%2F%2Ffanghu.xqshijie.com%2Findex.php%3Fr%3DmyHaibao%2FmyReward%26accounts_id%3D2"
+            "url":"http://xahoo.xenith.top/index.php?r=wechat/authlogin&return_url=http%3A%2F%2Fxahoo.xenith.top%2Findex.php%3Fr%3DmyHaibao%2FmyReward%26accounts_id%3D2"
         }]
     },
     {
         "type":"view",
-        "name":"立赚",
-        "url":"https://fanghu.xqshijie.com/lizhuan/index.html"
+        "name":"积分任务",
+        "url":"http://xahoo.xenith.top/index.php?r=lizhuan/index"
     },
     {
         "name":"服务中心",
@@ -1337,76 +1351,18 @@ class WechatController extends BaseController {
         {
             "type":"view",
             "name":"注册好礼",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/register"
-        },
-        {
-            "type":"view",
-            "name":"玩转秘籍",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/memberrights"
+            "url":"http://xahoo.xenith.top/index.php?r=user/register"
         },
         {
             "type":"view",
             "name":"我的积分",
-            "url":"https://fanghu.xqshijie.com/index.php?r=myPoints/index"
-        },
-        {
-            "type":"view",
-            "name":"呼叫400",
-            "url":"http://s.ifengk.com/v-U6117YS77J"
+            "url":"http://xahoo.xenith.top/index.php?r=myPoints/index"
         },
         {
             "type":"click",
             "name":"在线咨询",
             "key":"MENU_ONLINE_ADVICE"
         }]
-    }]
-}';
-    }
-    /*
-        原有菜单
-    */
-    protected function getOldMenu() {
-        return $menu = '
-{
-    "button":[
-    {
-        "type":"view",
-        "name":"高分奖励",
-        "url":"https://fanghu.xqshijie.com/"
-    },
-    {
-        "type":"view",
-        "name":"立赚",
-        "url":"https://fanghu.xqshijie.com/lizhuan/index.html"
-    },
-    {
-        "name":"服务中心",
-        "sub_button":[
-        {
-            "type":"view",
-            "name":"注册好礼",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/register"
-        },
-        {
-            "type":"view",
-            "name":"玩转秘籍",
-            "url":"https://fanghu.xqshijie.com/index.php?r=user/memberrights"
-        },
-        {
-            "type":"view",
-            "name":"我的积分",
-            "url":"https://fanghu.xqshijie.com/index.php?r=myPoints/index"
-        },
-        {
-            "type":"view",
-            "name":"呼叫400",
-            "url":"http://s.ifengk.com/v-U6117YS77J"
-        },
-        {
-            "type":"click",
-            "name":"在线咨询",
-            "key":"MENU_ONLINE_ADVICE"
-         }]
     }]
 }';
     }

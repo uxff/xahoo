@@ -7,8 +7,8 @@
  */
 class EmailDataService extends BaseDataService {
 
-    const MAIL_WEBSITE_SHORT_NAME = '房乎';
-    const MAIL_WEBSITE_FULL_NAME = '房乎网';
+    const MAIL_WEBSITE_SHORT_NAME = 'Xahoo';
+    const MAIL_WEBSITE_FULL_NAME = 'Xahoo';
 
     /**
      * 使用AresMailer发送邮件

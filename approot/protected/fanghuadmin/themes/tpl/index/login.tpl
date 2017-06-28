@@ -65,7 +65,7 @@
 
                 <div class="space-6"></div>
 
-                <form id="login-form" action="fanghuadmin.php?r=index/login" method="post">
+                <form id="login-form" action="backend.php?r=index/login" method="post">
                     <fieldset>
                         <label class="block clearfix">
                                                                                                                 <span class="block input-icon input-icon-right">

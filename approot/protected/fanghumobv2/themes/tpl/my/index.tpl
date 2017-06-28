@@ -57,7 +57,7 @@
         </a>
     </div>
     <div class="mine_cont">
-        <a href="tel:400-900-0979" class="mine_item"><span class="iconfont left_icon">&#xe60a;</span>联系我们<span class="right_icon iconfont">&#xe600;</span></a>
+        <a href="tel:400 0000 0000" class="mine_item"><span class="iconfont left_icon">&#xe60a;</span>联系我们<span class="right_icon iconfont">&#xe600;</span></a>
         <a href="{yii_createurl c=site a=aboutus}" class="mine_item"><span class="iconfont left_icon">&#xe60c;</span>关于我们<span class="right_icon iconfont">&#xe600;</span></a>
     </div>
     <div class="btn-link">
@@ -68,7 +68,7 @@
     <nav class="footer-nav">
         <ul>
             <li><a href="{yii_createurl c=site a=index}"><i class="iconfont index-iconfont">&#xe602;</i>首页</a></li>
-            <li><a href="{yii_createurl c=lizhuan a=index}"><i class="iconfont index-iconfont">&#xe606;</i>立赚</a></li>
+            <li><a href="{yii_createurl c=lizhuan a=index}"><i class="iconfont index-iconfont">&#xe606;</i>任务</a></li>
             <li class="active"><a href="javasrcipt:;"><i class="iconfont index-iconfont">&#xe610;</i>我的</a></li>
         </ul>
     </nav>

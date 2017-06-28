@@ -5,7 +5,7 @@
 <script type="text/javascript" src="{$resourceBasePath}/webuploader/js/webuploader.js"></script>
 
 <script>
-var upUrl = '/fanghuadmin.php?r=picstorage/uploadpic&used_type=2';
+var upUrl = '/backend.php?r=picstorage/uploadpic&used_type=2';
 {literal}
 (function( $ ){
     // 当domReady的时候开始初始化
@@ -632,7 +632,7 @@ function deletePic(imgId) {
 var sign = '';
 $.ajax({
     type: 'POST',
-    url: 'fanghuadmin.php?r=picstorage/deletepic&pic_storage_id='+imgId+'&sign='+sign,
+    url: 'backend.php?r=picstorage/deletepic&pic_storage_id='+imgId+'&sign='+sign,
     data: {},
     dataType: 'json',
     success: function(data) {

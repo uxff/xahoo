@@ -16,7 +16,7 @@
                         </a>
                         <a href="{yii_createurl c=task a=index}">
                                 <i class="h-icon-money"></i><br/>
-                                立赚
+                                任务
                         </a>
                         <a href="{yii_createurl c=member a=index}">
                                 <i class="h-icon-user"></i><br/>

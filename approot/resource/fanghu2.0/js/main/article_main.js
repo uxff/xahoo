@@ -35,6 +35,23 @@ define(function(require){
 //					layer.msg('出现错误请重试');
 //				}
 //			});
-		})
+		});
+
+        // 手动分享回调 正式环境应注释
+        $('.btn-share-callback').on('click', function(){
+            $.ajax({
+                type:"post",
+                url:shareCallbackUrl+'&play_type=2',
+                dataType:'json',
+                success:function(res){
+                    if(res.code ==0){
+                        layer.msg('手动分享：'+res.msg);
+                    }
+                },
+                error:function(err){
+                    layer.msg('手动分享出现错误，请重试！');
+                }
+            });
+        });
 	})
 })

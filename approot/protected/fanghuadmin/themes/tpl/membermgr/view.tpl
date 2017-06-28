@@ -1,7 +1,7 @@
 
 <div class="page-content-area">
     <div class="page-header">
-        <h1> <a href="fanghuadmin.php?r=memberMgr">会员列表</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
+        <h1> <a href="backend.php?r=memberMgr">会员列表</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
     </div>
     <!-- /.page-header -->
 		<div id="myTabContent" class="tab-content">
@@ -106,7 +106,7 @@
 					
                     <div class="clearfix form-actions">
                         <div class="col-md-offset-5 col-md-4">
-							<a href="fanghuadmin.php?r=memberMgr">
+							<a href="backend.php?r=memberMgr">
 								<button class="btn btn-info" type="button"> 返回
 								</button>
 							</a>

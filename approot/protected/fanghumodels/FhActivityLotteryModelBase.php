@@ -10,7 +10,7 @@
  * @property string $member_name
  * @property string $prize
  * @property integer $product_id
- * @property integer $integral
+ * @property integer $points
  * @property integer $status
  * @property string $create_time
  * @property string $last_modified
@@ -22,7 +22,7 @@ class FhActivityLotteryModelBase extends CActiveRecord
 	 */
         public function tableName()
         {
-                return 'fh_activity_lottery';
+                return 'fh_activity_lottery_log';
         }
         public function init() {
                 $this->ares_register_behaviors();
@@ -50,15 +50,15 @@ class FhActivityLotteryModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('member_id, member_mobile, integral', 'required'),
-                        array('product_id, integral, status', 'numerical', 'integerOnly'=>true),
+                        array('member_id, member_mobile, points', 'required'),
+                        array('product_id, points, status', 'numerical', 'integerOnly'=>true),
                         array('member_id', 'length', 'max'=>10),
                         array('member_mobile, member_name', 'length', 'max'=>20),
                         array('prize', 'length', 'max'=>50),
-                        array('create_time', 'safe'),
+                        array('create_time, last_modified', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, member_id, member_mobile, member_name, prize, product_id, integral, status, create_time, last_modified', 'safe', 'on'=>'search'),
+                        array('id, member_id, member_mobile, member_name, prize, product_id, points, status, create_time, last_modified', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -85,7 +85,7 @@ class FhActivityLotteryModelBase extends CActiveRecord
                        'member_name' => '用户昵称',
                        'prize' => '奖品',
                        'product_id' => '奖品id',
-                       'integral' => '消耗积分',
+                       'points' => '消耗积分',
                        'status' => '中奖状态',
                        'create_time' => '抽奖时间',
                        'last_modified' => '最后修改时间',
@@ -104,7 +104,7 @@ class FhActivityLotteryModelBase extends CActiveRecord
 				$criteria->compare('t.member_name',$this->member_name,true);
 				$criteria->compare('t.prize',$this->prize,true);
 				$criteria->compare('t.product_id',$this->product_id);
-				$criteria->compare('t.integral',$this->integral);
+				$criteria->compare('t.points',$this->points);
 				$criteria->compare('t.status',$this->status);
 				$criteria->compare('t.create_time',$this->create_time,true);
 				$criteria->compare('t.last_modified',$this->last_modified,true);

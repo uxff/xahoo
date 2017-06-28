@@ -6,7 +6,7 @@
     function setStatus(id){
         $.ajax({
             type: 'POST',
-            url: 'fanghuadmin.php?r=Poster/SetStatus&id='+id,
+            url: 'backend.php?r=Poster/SetStatus&id='+id,
             dataType: 'json',
             success: function (data){
                 if(data == true){
@@ -18,7 +18,7 @@
     function setStatusTwo(id){
         $.ajax({
             type: 'POST',
-            url: 'fanghuadmin.php?r=Poster/SetStatusTwo&id='+id,
+            url: 'backend.php?r=Poster/SetStatusTwo&id='+id,
             dataType: 'json',
             success: function (data){
                 if(data == true){

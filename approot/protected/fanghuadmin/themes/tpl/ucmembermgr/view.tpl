@@ -1,7 +1,7 @@
 
 <div class="page-content-area">
     <div class="page-header">
-        <h1> <a href="fanghuadmin.php?r=ucMemberMgr">会员列表</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
+        <h1> <a href="backend.php?r=ucMemberMgr">会员列表</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
     </div>
     <!-- /.page-header -->
 		<div id="myTabContent" class="tab-content">
@@ -28,7 +28,7 @@
                             <td class="bg-td">邮箱地址</td>
                             <td>{$objModel.member_email}</td>
                             <td class="bg-td">生日</td>
-                            <td>{$objModel.member_birthday}</td>
+                            <td>{if $objModel.member_id_number}{substr($objModel.member_id_number, 6, 8)}{else}-{/if}</td>
                         </tr>
                         <tr>
                             <td class="bg-td">邮寄地址</td>
@@ -59,10 +59,10 @@
                             <td>{$memberTotalInfo.points_total}</td>
                             <td class="bg-td">最后登录时间</td>
                             <td>
-                                {if $objModel.fh_last_login=='0000-00-00 00:00:00'}
+                                {if $objModel.last_login=='0000-00-00 00:00:00'}
                                     -
                                 {else}
-                                    {$objModel.fh_last_login}
+                                    {$objModel.last_login}
                                 {/if}
                             </td>
                             <td></td>
@@ -112,7 +112,7 @@
 					
                     <div class="clearfix form-actions">
                         <div class="col-md-offset-5 col-md-4">
-							<a href="fanghuadmin.php?r=ucMemberMgr">
+							<a href="backend.php?r=ucMemberMgr">
 								<button class="btn btn-info" type="button"> 返回
 								</button>
 							</a>

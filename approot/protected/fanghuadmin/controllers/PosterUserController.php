@@ -24,13 +24,13 @@ class PosterUserController extends Controller
         }
         $mySearch = $model->mySearch2($sql);
         $listData =  $this->convertModelToArray($mySearch['list']);
-        $projectData = Project::model()->findAll();
-        $projectDatas= $this->convertModelToArray($projectData);
+        //$projectData = Project::model()->findAll();
+        //$projectDatas= $this->convertModelToArray($projectData);
         $pages = $mySearch['pages'];
         $arrRender = array(
             'listData'=>$listData,
             'pages' => $pages,
-            'projectDatas' => $projectDatas,
+            //'projectDatas' => $projectDatas,
             'project_id' => $_POST['poster']['project'],
             'type' => $_POST['poster']['type'],
             'name' => $_POST['poster']['name'],

@@ -11,7 +11,7 @@
                 <div class="col-xs-12"> 
                         <!-- PAGE CONTENT BEGINS -->
 
-                        <form class="form-horizontal" id="adminUser-form" role="form" action="fanghuadmin.php?r=adminuser/updatepassword" method="POST" onsubmit="return checkSubmit()">
+                        <form class="form-horizontal" id="adminUser-form" role="form" action="backend.php?r=adminuser/updatepassword" method="POST" onsubmit="return checkSubmit()">
                 <div class="form-group">
                     <label class="col-sm-2 control-label no-padding-right" for="SysAdminUser_account">用户名</label>
                     <div class="col-sm-7"><input type="text" id="SysAdminUser_account" name="SysAdminUser[account]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.account}" readonly /></div>
@@ -75,7 +75,7 @@
     }
 {if $cResult == 1}
     if(confirm('密码修改成功，请使用新密码重新登录系统')){
-        location.href='./fanghuadmin.php?r=site/logout';
+        location.href='./backend.php?r=site/logout';
     }
     {/if}
 

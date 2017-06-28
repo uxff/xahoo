@@ -10,7 +10,7 @@ $protectedPath = dirname($currentAppPath);
 $arrConfig = array(
     'language' => 'zh_CN',
     'basePath' => $protectedPath,
-    'name' => '房乎网',
+    'name' => 'Xahoo',
     // preloading 'log' component
     'preload' => array('log'),
     'controllerPath' => $currentAppPath . '/controllers',

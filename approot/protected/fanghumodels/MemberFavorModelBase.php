@@ -47,7 +47,7 @@ class MemberFavorModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('member_id, article_id, article_url, status, last_modified', 'required'),
+                        array('member_id, article_id, article_url, status', 'required'),
                         array('status', 'numerical', 'integerOnly'=>true),
                         array('member_id, article_id', 'length', 'max'=>10),
                         array('article_url', 'length', 'max'=>255),

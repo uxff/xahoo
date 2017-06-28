@@ -28,10 +28,10 @@
 
 <div class="row">
 <div class="col-xs-12">
-<div class="table-header">角色的权限设置 <span class="pull-right"><a href="#"
+<div class="table-header">[{$roleModel.name}]角色的权限设置 <span class="pull-right"><a href="#"
 	class="btn btn-xs btn-success">确定</a></span></div>
 <div>
-<form action="fanghuadmin.php?r=access/update&roleid={$role_id}" method="post">
+<form action="backend.php?r=access/update&roleid={$role_id}" method="post">
 <div id="sample-table-2_wrapper" class="form-inline no-footer">
 <table id="sample-table-1"
 	class="table table-striped table-bordered table-hover dataTable">

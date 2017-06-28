@@ -36,12 +36,12 @@
             alert('请输入公众号的AppSecret');
             return false;
         }
-        if(EncodingAESKey == ''){
-            alert('请输入公众号的EncodingAESKey');
-            return false;
-        }
+        //if(EncodingAESKey == ''){
+        //    alert('请输入公众号的EncodingAESKey');
+        //    return false;
+        //}
     }
-				
+
 
 </script>
 {/literal}

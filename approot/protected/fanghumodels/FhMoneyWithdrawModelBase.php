@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'fh_money_withdraw':
  * @property string $id
  * @property string $member_id
- * @property integer $project_id
+ * @property integer $poster_id
  * @property double $withdraw_money
  * @property integer $status
  * @property string $remit_time
@@ -49,13 +49,13 @@ class FhMoneyWithdrawModelBase extends CActiveRecord
                 // will receive user inputs.
                 return array(
                         array('member_id, withdraw_money', 'required'),
-                        array('project_id, status', 'numerical', 'integerOnly'=>true),
+                        array('poster_id, status', 'numerical', 'integerOnly'=>true),
                         array('withdraw_money', 'numerical'),
                         array('member_id', 'length', 'max'=>20),
                         array('remit_time, create_time', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, member_id, project_id, withdraw_money, status, remit_time, create_time, last_modified', 'safe', 'on'=>'search'),
+                        array('id, member_id, poster_id, withdraw_money, status, remit_time, create_time, last_modified', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -78,7 +78,7 @@ class FhMoneyWithdrawModelBase extends CActiveRecord
 
                        'id' => '自增id',
                        'member_id' => '会员id',
-                       'project_id' => '项目id',
+                       'poster_id' => '海报模板id',
                        'withdraw_money' => '提现金额',
                        'status' => '状态',
                        'remit_time' => '打款时间',
@@ -95,7 +95,7 @@ class FhMoneyWithdrawModelBase extends CActiveRecord
 
        				$criteria->compare('t.id',$this->id,true);
 				$criteria->compare('t.member_id',$this->member_id,true);
-				$criteria->compare('t.project_id',$this->project_id);
+				$criteria->compare('t.poster_id',$this->poster_id);
 				$criteria->compare('t.withdraw_money',$this->withdraw_money);
 				$criteria->compare('t.status',$this->status);
 				$criteria->compare('t.remit_time',$this->remit_time,true);

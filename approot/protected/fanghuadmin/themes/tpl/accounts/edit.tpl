@@ -111,7 +111,7 @@ text-align:center;
 
 <div class="page-content-area">
   <div class="page-header">
-    <h1> <a href="fanghuadmin.php?r=poster">海报管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i>编辑公众号 </small> </h1>
+    <h1> <a href="backend.php?r=poster">海报管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i>编辑公众号 </small> </h1>
     {*
     <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
     *} </div>
@@ -119,7 +119,7 @@ text-align:center;
   
   <div class="row">
     <div class="col-xs-12"> 
-      <form class="form-horizontal"  id="poster_form" role="form" onsubmit="return check_form_two();" action="fanghuadmin.php?r=Accounts/update&id={$accountsData['id']}" method="POST"  autocomplete="off">
+      <form class="form-horizontal"  id="poster_form" role="form" onsubmit="return check_form_two();" action="backend.php?r=Accounts/update&id={$accountsData['id']}" method="POST"  autocomplete="off">
         <br /><br />        
         <div class="box_base poster_baseinfo clearfix">
           <div class="col-xs-12">
@@ -168,7 +168,7 @@ text-align:center;
         <div class="box_base poster_baseinfo clearfix">
           <div class="col-xs-12">
             <div class="form-group col-xs-6">
-              <label class="col-sm-3 control-label no-padding-right" for="EncodingAESKey">EncodingAESKey*</label>
+              <label class="col-sm-3 control-label no-padding-right" for="EncodingAESKey">EncodingAESKey</label>
               <div class="col-sm-8">
                 <input type="text" id="EncodingAESKey" name="poster[EncodingAESKey]" size="60"  class="col-xs-10 col-sm-12" placeholder="输入公众号的EncodingAESKey" value="{$accountsData['EncodingAESKey']}" />
               </div>

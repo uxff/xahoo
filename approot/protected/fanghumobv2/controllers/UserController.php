@@ -47,7 +47,6 @@ class UserController extends Controller {
 			$return_url = $this->createAbsoluteUrl('my/index');
 		}
 
-		
 		$arrMsgStack = Yii::app()->loginUser->getFlashes();
 		$isGuest = Yii::app()->loginUser->getIsGuest();
 
@@ -88,7 +87,7 @@ class UserController extends Controller {
 			$this->layout = "layouts/user.tpl";
 			$this->smartyRender('user/login.tpl', $arrRender);
 		} else {
-			echo '您已经登录';
+			//echo '您已经登录';
 			$this->redirect($return_url);
 		}
 	}
@@ -126,12 +125,11 @@ class UserController extends Controller {
 			$arrSqlParams = array(
                 'condition' => 'member_mobile="' . $username . '" OR member_email="' . $username . '"',
 			);
-			$objMember = Member::model()->find($arrSqlParams);
-			//$objMember = Member::model()->find($arrSqlParams);
+			$objMember = UcMember::model()->find($arrSqlParams);
 
 			if (empty($objMember)) {
 				//不存在当前用户 则返回错误信
-				$errMsg = '该账号尚未注册，请先注册';
+				$errMsg = '该用户尚未注册，请先注册';
 			//} elseif (AresValidator::isValidEmail($username) && ($objMember->is_email_actived == 0)) {
 			//	//当前用户未激活 则返回错误信
 			//	$errMsg = '邮箱尚未激活，请先去邮箱激活';
@@ -147,7 +145,6 @@ class UserController extends Controller {
 				//$this->redirect($this->createAbsoluteUrl('user/login', array('return_url' => $return_url)));
                 $return_url = $this->createAbsoluteUrl('user/login', array('return_url' => $return_url));
                 $this->jsonError('用户名或密码错误', $return_url);
-				exit;
 			}
 
 			// 授权验证该用户
@@ -179,6 +176,8 @@ class UserController extends Controller {
 
                 // 更新最后登录时间 
                 $objMember->last_login = date('Y-m-d H:i:s', time());
+                $objMember->last_login_ip = Tools::getUserHostAddress();
+                $objMember->login_times += 1;
                 if (!$objMember->save()) {
                     Yii::log(''.$objMember->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
                 }
@@ -294,7 +293,7 @@ class UserController extends Controller {
             $arrSqlParams = array(
                 'condition' => 'member_mobile="' . $username . '"',
             );
-            $checkObj = Member::model()->find('member_mobile=:mob', [':mob'=>$username]);
+            $checkObj = UcMember::model()->find('member_mobile=:mob', [':mob'=>$username]);
             $checkArr = is_object($checkObj) ? $this->convertModelToArray($checkObj) : array();
 
             if ($checkObj) { 
@@ -307,15 +306,15 @@ class UserController extends Controller {
                 $checkFanghuMember = Member::model()->find($arrSqlParams);
                 if (!$checkFanghuMember) {
                     Yii::log('mobile not exist in fanghu:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-                    // 房乎本地没有，同步过来
+                    // fh 本地没有，同步过来
                     $fanghuMember = Member::cloneUcMember($checkObj);
                     $fanghuMember->member_from = $inviteCodeModel ? Member::MEMBER_FROM_XQSJ_TO_FANGHU_INVITE : Member::MEMBER_FROM_XQSJ_TO_FANGHU_REG;
                     if (!$fanghuMember->save()) {
                         Yii::log('clone xqsj member to fanghu member failed:'.$fanghuMember->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
-                        $errMsg = '账号已在新奇世界注册过了，但是同步到房乎失败，请重新提交注册';
+                        $errMsg = '账号已在新奇世界注册过了，但是同步到 fh 失败，请重新提交注册';
                     } else {
                         Yii::log('sync exist xqsj member to fanghu:'.$username.$fanghuMember->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-                        $errMsg = '账号已在新奇世界注册过了，并成功同步到房乎，请直接用新奇世界账号登录';
+                        $errMsg = '账号已在新奇世界注册过了，并成功同步到 fh ，请直接用新奇世界账号登录';
                     }
                 } else {
                     Yii::log('mobile exist in fanghu:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
@@ -325,7 +324,7 @@ class UserController extends Controller {
         }
         
         if (empty($errMsg)) {
-			$member = new Member();
+			$member = new UcMember();
 			//登录名
 			if (AresValidator::isValidChineseMobile($username)) {
 
@@ -345,15 +344,15 @@ class UserController extends Controller {
 				}
 				$member->member_mobile = $username;
 				//$member->is_mobile_actived = 1;
-                // 注册来源 房乎注册
-				$member->member_from = $inviteCodeModel ? Member::MEMBER_FROM_FANGHU_INVITE : Member::MEMBER_FROM_FANGHU_REG;
+                // 注册来源 fh 注册
+				$member->member_from = $inviteCodeModel ? UcMember::MEMBER_FROM_FANGHU_INVITE : UcMember::MEMBER_FROM_FANGHU_REG;
 			}
 
 			$parent_id = 0;
 			$is_invite = 0;
 
 			if (!empty($signage)) {
-				$objMember = Member::model()->find("signage=:signage", array(":signage" => $signage));
+				$objMember = UcMember::model()->find("signage=:signage", array(":signage" => $signage));
 				if (!empty($objMember)) {
 					$is_invite = 1;
 					//$member->member_from = 2; //来源邀请
@@ -374,7 +373,7 @@ class UserController extends Controller {
                 Yii::log('new xqsj member created:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
 				$member_id = $member->member_id;
 
-                // 同步记录房乎用户库
+                // 同步记录 fh 用户库
                 /*
                 $fanghuMember = Member::cloneUcMember($member);
                 if (!$fanghuMember->save()) {
@@ -470,7 +469,7 @@ class UserController extends Controller {
 				} else {
 					// 授权成功，登录并保存会话信息
 					Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-					$errMsg = "恭喜您，注册成功！";
+					$errMsg = "注册成功，正在自动登录。";
 					$this->jsonSuccess($errMsg, $return_url);
 				}
 				exit;
@@ -493,7 +492,7 @@ class UserController extends Controller {
 			}
 		}
 	}
-
+/*
 	public function fangfullRegister($mobile,$mobile_about) {
 
 		//房否入数据
@@ -514,7 +513,7 @@ class UserController extends Controller {
 
 
 	}
-
+*/
 	/**
 	 * 邮箱注册 手机版不需要
 	 */
@@ -691,7 +690,7 @@ class UserController extends Controller {
 			$errMsg = '所有项都不能为空';
 		} else {
 			//查找到对应的customer
-			$objMember = Member::model()->find('member_mobile=:member_mobile', array('member_mobile' => $username));
+			$objMember = UcMember::model()->find('member_mobile=:member_mobile', array('member_mobile' => $username));
 
 			if (!AresValidator::isValidChineseMobile($username)) {
 				$errMsg = '请输入正确的手机号';
@@ -861,10 +860,10 @@ class UserController extends Controller {
 			$objUserIdentity = new UserIdentity('', '');
 			$objUserIdentity->thirdPartLogin($member_id);
 			Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-			$this->redirect('fanghuv2.php?r=site/login');
+			$this->redirect('frontendmob.php?r=site/login');
 		} else {
 			//没有绑定则跳转到手机、邮箱录入页面
-			$this->redirect('fanghuv2.php?r=user/thirdPartLoginMobile&from=' . $from);
+			$this->redirect('frontendmob.php?r=user/thirdPartLoginMobile&from=' . $from);
 		}
 	}
 
@@ -910,7 +909,7 @@ class UserController extends Controller {
 		$member_id = '';
 		if (!$result) {    //用户手机号没有被注册的情况
 			//为用户创建新帐号及帐号相关联信息
-			$member = new Member();
+			$member = new UcMember();
 			//判断当前用户是否通过邀请来到本平台
 			$cookie = Yii::app()->request->getCookies();
 			if (!empty($cookie['signage']->value)) {
@@ -950,7 +949,7 @@ class UserController extends Controller {
 			}
 		} else {
 			//查询已经存在会员信息
-			$member_info = Member::model()->findByAttributes(array('member_mobile' => $this->getString($_POST['member_mobile'])));
+			$member_info = UcMember::model()->findByAttributes(array('member_mobile' => $this->getString($_POST['member_mobile'])));
 			$member_id = $member_info->member_id;
 		}
 
@@ -969,7 +968,7 @@ class UserController extends Controller {
 			$objUserIdentity = new UserIdentity('', '');
 			$objUserIdentity->thirdPartLogin($member_id);
 			Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-			$this->redirect('fanghuv2.php?r=site/login');
+			$this->redirect('frontendmob.php?r=site/login');
 			//                        $this->redirect($this->createAbsoluteUrl('site/login'));
 		} else {
 			$this->smartyRender('errorview/404.tpl');
@@ -992,7 +991,7 @@ class UserController extends Controller {
 	 * 验证手机号码已经注册
 	 */
 	private function verifyMobile($mobile) {
-		$member = Member::model()->findByAttributes(array('member_mobile' => $mobile));
+		$member = UcMember::model()->findByAttributes(array('member_mobile' => $mobile));
 		if ($member) {
 			return true;
 		} else {
@@ -1205,7 +1204,7 @@ class UserController extends Controller {
     }
     /*
         公众号中OAuth登陆
-            只有当session中设置了房乎公众号的 所以只能从wechat/authlogin跳转至此
+            只有当session中设置了 fh 公众号的 所以只能从wechat/authlogin跳转至此
             只要已绑定的可以登录
     */
 	public function actionWxautologin() {
@@ -1248,7 +1247,7 @@ class UserController extends Controller {
 		} else {
             Yii::log('auto login error: sns no bind'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
 			//没有绑定则跳转到登陆页，登陆页会根据session，执行绑定
-			//$this->redirect('fanghuv2.php?r=user/thirdPartLoginMobile&from=' . $from);
+			//$this->redirect('frontendmob.php?r=user/thirdPartLoginMobile&from=' . $from);
             $this->redirect($this->createAbsoluteUrl('user/login', ['return_url'=>$return_url]));
 		}
 	}
@@ -1268,7 +1267,7 @@ class UserController extends Controller {
 
         $this->checkLogin(Yii::app()->request->hostInfo.Yii::app()->request->url);
         $member_id = Yii::app()->loginUser->getUserId();
-        $objMember = Member::model()->findByPk($member_id);
+        $objMember = UcMember::model()->findByPk($member_id);
         $ret = $this->checkAndBindThirdPart($member_id, $objMember->member_mobile);
         
         $arrRender=array(

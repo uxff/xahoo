@@ -49,7 +49,7 @@ class FhPosterAccountsModelBase extends CActiveRecord
                 // NOTE: you should only define rules for those attributes that
                 // will receive user inputs.
                 return array(
-                        array('accounts_name, token, appid, appsecret, EncodingAESKey, create_time, last_modified', 'required'),
+                        array('accounts_name, token, appid, appsecret, create_time', 'required'),
                         array('status', 'numerical', 'integerOnly'=>true),
                         array('accounts_name, token', 'length', 'max'=>80),
                         array('appid', 'length', 'max'=>100),

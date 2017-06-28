@@ -19,6 +19,8 @@ class ArticleController extends BaseController {
         $isGuest = Yii::app()->loginUser->getIsGuest();
         $accounts_id    = isset($_GET['accounts_id'])?$_GET['accounts_id']:1;
         $shareCode = $_GET['share_code'];
+        $showHeader = intval($_GET['noheader'])==1 ? false : true;
+
         if ($isGuest) {
             $member_id = 0;
             $signage = '';
@@ -33,51 +35,44 @@ class ArticleController extends BaseController {
                 $this->redirect(Yii::app()->request->hostInfo.Yii::app()->request->url.'&share_code='.$myShareCode);
             }
         }
-        $taskTplId = (int)$_GET['task_id'];
-        Yii::app()->getModule('mtask');
 
         $articleModel = ArticleModel::model()->findByPk($id);
         if (!$articleModel) {
-            return $this->showError();
+            return $this->showError('该文章不存在');
         } elseif ($articleModel->status != ArticleModel::STATUS_PUBLISHED) {
-            return $this->showError();
+            return $this->showError('该页面已被删除，如有需要请联系管理员');
         }
         
         $this->logVisit($id, $member_id);
 
-        //$shareCode = $_GET['share_code'];
-        if ($shareCode && $shareCode!=$myShareCode) {
-            $taskTplId  = (int)$_GET['task_id'];
+        if ($shareCode && $myShareCode && $shareCode!=$myShareCode) {
             $platId     = (int)$_GET['plat_type'];
             $platId     = $platId ? $platId : 2;
-            $this->shareClicked($id, $shareCode, $taskTplId, $platId);
+            $this->shareClicked($id, $shareCode, 0, $platId);
         }
-
-        $taskTplModel = TaskTplModel::model()->findByPk($taskTplId);
 
 		//$inviteCodeModel = Yii::app()->getModule('friend')->getInviteCodeModel($member_id);
         $protocol = Yii::app()->request->getIsSecureConnection() ? "https://" : "http://";
         
-        $defaultArticleSurfaceUrl = $taskTplModel ? $taskTplModel->surface_url :(
-            $protocol.$_SERVER['HTTP_HOST'].'/resource/fanghu2.0/images/index/index_banner.jpg');
+        $defaultArticleSurfaceUrl = $protocol.$_SERVER['HTTP_HOST'].'/resource/fanghu2.0/images/index/index_banner.jpg';
         $defaultArticleSurfaceUrl = strncmp($defaultArticleSurfaceUrl, $protocol, 4)==0 ? $defaultArticleSurfaceUrl : $protocol.$_SERVER['HTTP_HOST'].$defaultArticleSurfaceUrl;
 
         $csrfToken = Yii::app()->request->csrfToken;
         $shareCallbackUrl = $this->createAbsoluteUrl('article/ajaxsharesuccess', array(
-            'url'=>($articleModel->visit_url) .'&'. http_build_query(array(
-                        'task_id' => $taskTplId,
-                        'share_code' => $shareCode,
-                        'plat_type' => 2,
-                        'accounts_id'=>$accounts_id
-                        )),
+            //'url'=>($articleModel->visit_url) .'&'. http_build_query(array(
+            //            //'task_id' => $taskTplId,
+            //            'share_code' => $shareCode,
+            //            'plat_type' => 2,
+            //            'accounts_id'=>$accounts_id
+            //            )),
             'token' => Yii::app()->request->csrfToken,
         ));
 
-        $visitUrl = $this->_createArticleUrl($id, $shareCode, $taskTplId);
+        $visitUrl = $this->_createArticleUrl($id, $shareCode);
 
         $arrRender = array(
-            'gShowHeader' => false,
-            'gShowFooter' => true,
+            'gShowHeader' => $showHeader,
+            'gShowFooter' => $showHeader,
             //'signage' => $signage,
             'logout_return_url' => $this->createAbsoluteUrl("article/index"),
             'articleModel' => $articleModel,
@@ -98,11 +93,10 @@ class ArticleController extends BaseController {
     /*
         
     */
-    protected function _createArticleUrl($id, $shareCode, $taskTplId=0) {
+    protected function _createArticleUrl($id, $shareCode) {
         $url = $this->createAbsoluteUrl('article/show', array(
             'id' => $id,
             'sign' => ArticleModel::makeSign($id),
-            'task_id' => $taskTplId,
             'share_code' => $shareCode,
         ));
         return $url;
@@ -152,7 +146,7 @@ class ArticleController extends BaseController {
     /*
         分享被点击
     */
-    public function shareClicked($id, $shareCode, $taskTplId, $platId = 2) {
+    public function shareClicked($id, $shareCode, $taskTplId = 0, $platId = 2) {
         // 查询 shareCode
         $shareCodeModel = MemberInviteCodeModel::model()->find('invite_code=:code', array(':code'=>$shareCode));
         if (!$shareCodeModel) {
@@ -160,12 +154,12 @@ class ArticleController extends BaseController {
             return false;
         }
         // 查询文章的分享记录
-        $shareLog = ShareLogModel::model()->find('article_id=:aid and use_invite_code=:share_code and plat_type=:plat_type', [
+        $shareLog = ShareLogModel::model()->find('article_id=:aid and plat_type=:plat_type and use_invite_code=:share_code', [
             ':aid'          => $id,
             ':share_code'   => $shareCode,
             ':plat_type'    => $platId,
         ]);
-        // 
+        // 进入shareClicked,确保已经有sharelog
         if (!$shareLog) {
             Yii::log('aid('.$id.') not shared by:'.$shareCode.'('.$shareCodeModel->member_id.') @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
             return false;
@@ -219,68 +213,65 @@ class ArticleController extends BaseController {
             $member_id = Yii::app()->loginUser->getUserId();
         }
 
-        $task_id        = $_REQUEST['task_id'];
+        //$task_id        = $_REQUEST['task_id'];
         $accounts_id    = isset($_REQUEST['accounts_id'])?$_REQUEST['accounts_id']:1;
-        $shareUrl       = $_REQUEST['url'];
+        $shareUrl       = $_SERVER['HTTP_REFERER'];//$_REQUEST['url'];
         $platId         = (int)$_REQUEST['plat_type'];
         $urlArr         = parse_url($shareUrl);
         $requestToken   = $_REQUEST['token'];
         $shareCode      = $_REQUEST['share_code'];
+
         if (!$requestToken) {
             return $this->jsonError('请求失败，请稍后再试', array('_msg'=>'empty token'));
         }
         else if ($requestToken != Yii::app()->request->csrfToken) {
             return $this->jsonError('请求失败，请稍后再试', array('_msg'=>'token illegal'));
         }
-        elseif (isset($urlArr['query'])) {            
+
+        if (isset($urlArr['query'])) {
             //更新金额奖励
-            Yii::app()->getModule('mtask');
-            $task_data = TaskTplModel::model()->findByPk($task_id);            
-            $membertotalModel = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id', array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
-            if (!$membertotalModel) {
-                $membertotalModel = new MemberTotalModel;
-                $membertotalModel->member_id      = $member_id;
-                $membertotalModel->accounts_id    = $accounts_id;//房乎公众号ID
-                $membertotalModel->points_total   = 0;
-                $membertotalModel->points_gain    = 0;
-                $membertotalModel->money_total    = $task_data->reward_money;
-            }else{
-               $membertotalModel->money_total    += $task_data->reward_money; 
-            }            
-            $res = $membertotalModel->save();
-            if (!$ret) {
-                Yii::log('CALLBACK_err:'.'taskid->'.$task_id.'memberid->'.$member_id.'accountid->'.$accounts_id.'reward_money->'.$task_data->reward_money.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-            }
+            //Yii::app()->getModule('mtask');
+            //$task_data = TaskTplModel::model()->findByPk($task_id);
+            //$membertotalModel = MemberTotalModel::model()->find('member_id=:member_id and accounts_id=:accounts_id', array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
+            //if (!$membertotalModel) {
+            //    $membertotalModel = new MemberTotalModel;
+            //    $membertotalModel->member_id      = $member_id;
+            //    $membertotalModel->accounts_id    = $accounts_id;//fh公众号ID
+            //    $membertotalModel->points_total   = 0;
+            //    $membertotalModel->points_gain    = 0;
+            //    $membertotalModel->money_total    = $task_data->reward_money;
+            //}else{
+            //    $membertotalModel->money_total    += $task_data->reward_money; 
+            //}            
+            //$res = $membertotalModel->save();
+            //if (!$ret) {
+            //    Yii::log('CALLBACK err:'.'taskid->'.$task_id.'memberid->'.$member_id.'accountid->'.$accounts_id.'reward_money->'.$task_data->reward_money.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            //}
             //$member_up = MemberTotalModel::model()->updateAll(['money_total'=>new CDbExpression('money_total+'.$task_data->reward_money)],'accounts_id=:accounts_id AND member_id=:member_id',[':accounts_id'=>$accounts_id,':member_id'=>$member_id]);
             
             $paramArr = parse_str($urlArr['query']);
-            //if ($id) {
-                // 记录分享 增加积分
-                $eventParam = array(
-                    'articleId'=>$id,
-                    'platId' => $plat_type,
-                    'shareCode'=>$share_code,
-                    'visitUrl' => $shareUrl,
-                    'articleUrl' => $shareUrl,
-                    'taskTplId' => $task_id,
-                );
-                Yii::app()->getModule('event')->pushEvent($member_id, 'share', $eventParam);
+            $route = strtolower($r);
+            // 记录分享 增加积分
+            $eventParam = array(
+                //'articleId'=>$id,
+                'platId' => $plat_type,
+                'shareCode'=> $share_code,
+                'visitUrl' => $shareUrl,
+                'articleUrl' => $shareUrl,
+                //'taskTplId' => $task_id,
+            );
+            if ($route == 'article/show') {
+                $eventParam['articleId'] = $id;
 
-                // 尝试完成任务
-                //$eventParam = array(
-                //    'articleId'=>$id,
-                //    'platId' => $plat_type,
-                //    'shareCode'=>$share_code,
-                //    'visitUrl' => $shareUrl,
-                //    'articleUrl' => $shareUrl,
-                //    'taskTplId' => $task_id,
-                //);
-                //Yii::app()->getModule('event')->pushEvent($member_id, 'try_to_finish_task', $eventParam);
-                Yii::log('share url:'.$shareUrl.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
-            //} else {
-            //    Yii::log('cannot parse_str:'.$urlArr['query'].' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            } else if ($route == 'lizhuan/show') {
+                // 记录分享 尝试完成任务
+                $eventParam['taskTplId'] = $task_id;
+            } else {
+                Yii::log('cannot parse_str:'.$urlArr['query'].' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
             //    return $this->jsonError('分享失败，url参数不正确');
-            //}
+            }
+            Yii::app()->getModule('event')->pushEvent($member_id, 'share', $eventParam);
+            Yii::log('share url:'.$shareUrl.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
         } else {
             Yii::log('cannot parse_url:'.$shareUrl.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
             return $this->jsonError('分享失败，不是合法的url地址');
@@ -290,11 +281,12 @@ class ArticleController extends BaseController {
     /*
         文章不存在
     */
-    protected function showError() {
+    protected function showError($error = '') {
         $arrRender = array(
             'gShowHeader' => true,
             'gShowFooter' => true,
             'refer' => $_SERVER['REQUEST_URL'],
+            'error' => $error,
         );
         $this->layout = 'layouts/default_v2.tpl';
         $this->smartyRender('errorview/404.tpl', $arrRender);

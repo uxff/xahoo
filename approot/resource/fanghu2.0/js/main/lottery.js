@@ -30,6 +30,7 @@ var Swiper = require('../lib/swiper/swiper-3.3.0.jquery.min.js');
           order : [2,5,3,6,4,1,7,0], //对应奖品顺序
           win : 0, //中奖号码
           msg : '', // 中奖后提示信息
+          betUrl : '', // 提交抽奖的url
           init : function () {
              var _this = lottery;
                  _this.cycle = 0;
@@ -38,13 +39,14 @@ var Swiper = require('../lib/swiper/swiper-3.3.0.jquery.min.js');
                  _this.end = Math.floor(Math.random() * 8) + 1;
                  _this.num = Math.floor(Math.random() * 5) + 5;
                  _this.btn.one('click', _this.go);
+                 _this.betUrl = _this.btn.attr('bet-url');
           },
           go : function (e) {
             e.preventDefault();
              var _this = lottery;
                  
                  //ajax这里请求获取奖级
-                  var url = '/fanghuv2.php?r=lot/ajaxbet';
+                  var url = _this.betUrl;
                      $.ajax({
                           url: url,
                           type: 'post',
