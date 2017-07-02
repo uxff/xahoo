@@ -5,7 +5,7 @@ import "time"
 type ArticleEntity struct {
 	Id            int       `json:"id"         xorm:"pk autoincr"`
 	Title         string    `json:"title"      xorm:"not null"`
-	Atype         int       `json:"type"        xorm:"not null"`
+	Type          int       `json:"type"        xorm:"not null"`
 	Content       string    `json:"content"     xorm:"not null"`
 	Outer_url     string    `json:"outer_url"   xorm:"not null default ''"`
 	Visit_url     string    `json:"visit_url"   xorm:"not null default ''"`
@@ -22,6 +22,11 @@ type ArticleEntity struct {
 	Admin_id      int       `json:"admin_id"   xorm:"not null"`
 	Admin_name    string    `json:"admin_name" xorm:"not null default ''"`
 }
+
+func (this *ArticleEntity) TableName() string {
+	return "fh_article"
+}
+
 type Feed struct {
 	Id         int64     `json:"feed_id"             xorm:"pk autoincr"`        // primary key
 	Name       string    `json:"feed_name"           xorm:"notnull"`            // name of feed

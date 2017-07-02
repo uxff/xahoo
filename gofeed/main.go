@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
+	//"os"
 
-	feedreader "./feedreader"
+	//feedreader "./feedreader"
 	model "./model"
 )
 
@@ -21,8 +21,9 @@ func main() {
 	//global.Init1()
 	//global.Init2()
 	// after this, its test model
-	feed, items := model.FetchUrl(*url)
+	feed, items, e := model.FetchUrl(*url)
 	succNum := model.SaveArticles(items)
+        fmt.Println("feed ", succNum, "lines", "feed=", feed, "e=", e)
 	/*
 		// after this, its test feedreader.Fetch
 		feed, err := feedreader.Fetch(*url)
