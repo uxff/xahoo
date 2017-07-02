@@ -2,7 +2,7 @@ package model
 
 import xorm "github.com/go-xorm/xorm"
 import core "github.com/go-xorm/core"
-import _ "github.com/mattn/go-sqlite3"
+//import _ "github.com/mattn/go-sqlite3"
 import h "github.com/m3ng9i/go-utils/http"
 //import "crypto/md5"
 import "time"
@@ -120,8 +120,8 @@ func SaveArticles(items []*ArticleEntity) (succNum int) {
         selectedEngine := "mysql"
         if selectedEngine == "mysql" {
 		Orm, err = xorm.NewEngine("mysql", "www:123x456@tcp(127.0.0.1:3306)/xahoo?charset=utf8")
-	} else if selectedEngine == "sqlite3" {
-		Orm, err = xorm.NewEngine("sqlite3", OrmDB)
+	//} else if selectedEngine == "sqlite3" {
+	//	Orm, err = xorm.NewEngine("sqlite3", OrmDB)
 	}
 	if err != nil {
 		fmt.Println("orm init error:", err)
