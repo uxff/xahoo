@@ -6,6 +6,7 @@ import (
 	"os"
 
 	feedreader "./feedreader"
+	model "./model"
 )
 
 func main() {
@@ -15,15 +16,25 @@ func main() {
 		fmt.Println("url cannot be null")
 		return
 	}
-	feed, err := feedreader.Fetch(*url)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-	} else {
-		fmt.Println("feed title: ", feed.Title)
+	// set db
+	//global.PathDB = ""
+	//global.Init1()
+	//global.Init2()
+	// after this, its test model
+	feed, items := model.FetchUrl(*url)
+	succNum := model.SaveArticles(items)
+	/*
+		// after this, its test feedreader.Fetch
+		feed, err := feedreader.Fetch(*url)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+		} else {
+			fmt.Println("feed title: ", feed.Title)
 
-		fmt.Printf("There are %d item(s) in the feed\n", len(feed.Items))
-		for _, i := range feed.Items {
-			fmt.Println(i)
+			fmt.Printf("There are %d item(s) in the feed\n", len(feed.Items))
+			for _, i := range feed.Items {
+				fmt.Println(i)
+			}
 		}
-	}
+	*/
 }
