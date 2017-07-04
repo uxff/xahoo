@@ -2,8 +2,10 @@ package model
 
 import xorm "github.com/go-xorm/xorm"
 import core "github.com/go-xorm/core"
+
 //import _ "github.com/mattn/go-sqlite3"
 import h "github.com/m3ng9i/go-utils/http"
+
 //import "crypto/md5"
 import "time"
 import _ "github.com/go-sql-driver/mysql"
@@ -21,9 +23,9 @@ var NormalFetcher *h.Fetcher
 func FetchUrl(url string) (feed *Feed, items []*ArticleEntity, err error) {
 
 	headers := make(map[string]string)
-	headers["User-Agent"] = "Gofeed: xahoo"//fmt.Sprintf("QReader %s (%s)", Version.Version, Github)
+	headers["User-Agent"] = "Gofeed: xahoo" //fmt.Sprintf("QReader %s (%s)", Version.Version, Github)
 
-        NormalFetcher = h.NewFetcher(nil, headers)
+	NormalFetcher = h.NewFetcher(nil, headers)
 
 	//msgNormally := fmt.Sprintf("[FETCH] Fetch feed '%s' normally", url)
 	//msgProxy := fmt.Sprintf("[FETCH] Fetch feed '%s' behind proxy", url)
@@ -96,16 +98,20 @@ func assembleFeed(fd *feedreader.Feed) (feed *Feed, items []*ArticleEntity) {
 		item.Content = i.Content
 		item.Create_time = now
 		item.Last_modified = now
-/*
-		item.Last_modified = i.PubDate
-		if item.Last_modified.IsZero() {
-			item.Last_modified = i.Updated
+		if len(i.ImgLinks) > 0 {
+			item.Surface_url = *i.ImgLinks[0]
 		}
-		h := md5.New()
-		fmt.Fprint(h, item.Content)
-		//item.Hash = fmt.Sprintf("%x", h.Sum(nil))
 
-*/
+		/*
+			item.Last_modified = i.PubDate
+			if item.Last_modified.IsZero() {
+				item.Last_modified = i.Updated
+			}
+			h := md5.New()
+			fmt.Fprint(h, item.Content)
+			//item.Hash = fmt.Sprintf("%x", h.Sum(nil))
+
+		*/
 		items = append(items, item)
 	}
 
@@ -117,20 +123,17 @@ func SaveArticles(items []*ArticleEntity) (succNum int) {
 	succNum = 0
 
 	OrmDB = "gofeed"
-        selectedEngine := "mysql"
-        if selectedEngine == "mysql" {
+	selectedEngine := "mysql"
+	if selectedEngine == "mysql" {
 		Orm, err = xorm.NewEngine("mysql", "www:123x456@tcp(127.0.0.1:3306)/xahoo?charset=utf8")
-	//} else if selectedEngine == "sqlite3" {
-	//	Orm, err = xorm.NewEngine("sqlite3", OrmDB)
+		//} else if selectedEngine == "sqlite3" {
+		//	Orm, err = xorm.NewEngine("sqlite3", OrmDB)
 	}
 	if err != nil {
 		fmt.Println("orm init error:", err)
 		return
 	}
 	Orm.SetMapper(core.SameMapper{})
-
-
-
 
 	//session := Orm.NewSession()
 	for _, item := range items {
@@ -139,7 +142,7 @@ func SaveArticles(items []*ArticleEntity) (succNum int) {
 			fmt.Println("insert error:", e)
 			continue
 		}
-                fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
+		fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
 		succNum++
 	}
 	return
