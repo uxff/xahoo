@@ -21,6 +21,7 @@ func main() {
 		http://www.ftchinese.com/rss/feed
 	*/
 	var url *string = flag.String("url", "", "feed url")
+	var doSave *bool = flag.Bool("dosave", true, "do save or debug")
 	flag.Parse()
 	if url == nil || len(*url) == 0 {
 		fmt.Println("url cannot be null")
@@ -29,9 +30,13 @@ func main() {
 
 	//testReg()
 	//return
+
 	// after this, its test model
 	feed, items, e := model.FetchUrl(*url)
-	succNum := len(items) //model.SaveArticles(items)
+	succNum := len(items) //
+	if *doSave {
+		succNum = model.SaveArticles(items)
+	}
 	fmt.Println("feed items=", succNum, "lines", "feed=", feed, "e=", e)
 	/*
 		// after this, its test feedreader.Fetch
