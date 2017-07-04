@@ -364,13 +364,13 @@ func ParseString(xmldata string, feedlink string) (feed *Feed, err error) {
 	for i, _ := range feed.Items {
 		if feed.Items[i] != nil {
 			// find image links from html or content
-			//regStr := `/<\s*img\s+*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i`
 			//regStr := `<img\s*src\s*=\s*['\"]([^'\"]+)['\"][^>]*>`
 			imgRegStr := `(?i)<img\b[^<>]*?\bsrc\s*=\s*['\"]([^'\"]+)['\"][^>]*>`
 			imgRegObj := regexp.MustCompile(imgRegStr)
 			imgLinks := imgRegObj.FindAllStringSubmatch(feed.Items[i].Content, -1)
 			//fmt.Println("content:", feed.Items[i].Content)
 			attrRegStr := `(?i)(height|width)\s*=\s*['\"]([^'\"]+)['\"][^>]*`
+
 			//fmt.Println("matched images:", imgLinks)
 			for _, imgLink := range imgLinks {
 				fmt.Println("matched a img:", imgLink[1])
@@ -378,6 +378,7 @@ func ParseString(xmldata string, feedlink string) (feed *Feed, err error) {
 				attrRegObj := regexp.MustCompile(attrRegStr)
 				attrRets := attrRegObj.FindAllStringSubmatch(imgLink[0], -1)
 				attrVal := 10000
+
 				for _, attrElem := range attrRets {
 					//fmt.Println("		the attr:", attrElem)
 					if len(attrElem) > 2 {

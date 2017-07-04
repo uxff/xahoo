@@ -55,7 +55,7 @@ func testReg() {
 	//regStr := `<img\s*src\s*=\s*['\"]([^'\"]+)['\"][^>]*>`
 	imgRegStr := `(?i)<img\b[^<>]*?\bsrc\s*=\s*['\"]([^'\"]+)['\"][^>]*>` //ok
 	//regStr := `<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?height\s*=\s*(\'|\")(.*?)\\1[^>]*?width\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>` // failed
-	//regStr := `(?i)<\s*img\s+[^>]*?src\s*=\s*['\"]([^'\"].*?)['\"][^>]*?(height|width)\s*=\s*['\"][^'\"].*?['\"][^>])?(width\s*=\s*['\"][^'\"].*?['\"][^>])?\s*>` // failed
+	//regStr := `(?i)<\s*img\s+[^>]*?src\s*=\s*['\"]([^'\"].*?)['\"][^>]*?(height|width)\s*=\s*['\"][^'\"].*?['\"][^>])?(width\s*=\s*['\"][^'\"].*?['\"][^>])?\s*>` // ok,failed,failed
 	imgRegObj := regexp.MustCompile(imgRegStr)
 	imgLinks := imgRegObj.FindAllStringSubmatch(content, -1)
 	fmt.Println("content:", content, "MATCHED:", len(imgLinks))
