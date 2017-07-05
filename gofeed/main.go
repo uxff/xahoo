@@ -20,6 +20,7 @@ func main() {
 		http://tech.163.com/special/000944OI/headlines.xml  // 网易科技 // 垃圾广告多
 		http://www.ftchinese.com/rss/feed
 		http://www.scipark.net/feed/
+        http://feed.williamlong.info/                       // 月光博客
 	*/
 	var url *string = flag.String("url", "", "feed url")
 	var doSave *bool = flag.Bool("dosave", true, "do save or debug")
