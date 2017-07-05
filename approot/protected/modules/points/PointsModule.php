@@ -13,7 +13,7 @@ class PointsModule extends CWebModule
             'application.common.extensions.*',
             'application.ucentermob.api.*',
             'application.ucentermodels.*',
-            'application.fanghumodels.*',
+            'application.xahoomodels.*',
             'points.libirarys.*',
 			'points.controllers.*',
 			'points.models.*',

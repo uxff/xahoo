@@ -13,7 +13,7 @@ class FhmoneyModule extends CWebModule
             'application.common.extensions.*',
             'application.ucentermob.api.*',
             'application.ucentermodels.*',
-            'application.fanghumodels.*',
+            'application.xahoomodels.*',
             'fhmoney.libirarys.*',
 			'fhmoney.controllers.*',
 			'fhmoney.models.*',

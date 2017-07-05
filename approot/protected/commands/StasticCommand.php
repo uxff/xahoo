@@ -9,7 +9,7 @@ class StasticCommand  extends CConsoleCommand
     public function init() {
         Yii::import('application.common.extensions.*');
         Yii::import('application.common.components.*');
-        Yii::import('application.fanghumodels.*');
+        Yii::import('application.xahoomodels.*');
     }
     
     public function actionIndex($dur = -1) {

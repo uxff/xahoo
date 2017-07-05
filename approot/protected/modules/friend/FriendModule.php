@@ -11,7 +11,7 @@ class FriendModule extends CWebModule
             'application.common.extensions.*',
             'application.ucentermob.api.*',
             'application.ucentermodels.*',
-            'application.fanghumodels.*',
+            'application.xahoomodels.*',
             'friend.libirarys.*',
 			'friend.controllers.*',
 			'friend.models.*',

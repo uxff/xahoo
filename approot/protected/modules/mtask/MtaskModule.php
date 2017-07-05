@@ -11,7 +11,7 @@ class MtaskModule extends CWebModule
             'application.common.extensions.*',
             'application.ucentermob.api.*',
             'application.ucentermodels.*',
-            'application.fanghumodels.*',
+            'application.xahoomodels.*',
             'mtask.libirarys.*',
 			'mtask.controllers.*',
 			'mtask.models.*',

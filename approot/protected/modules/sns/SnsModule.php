@@ -12,7 +12,7 @@ class SnsModule extends CWebModule
             'application.common.extensions.wechatlib.*',
             'application.ucentermob.api.*',
             'application.ucentermodels.*',
-            'application.fanghumodels.*',
+            'application.xahoomodels.*',
             'sns.libirarys.*',
 			'sns.controllers.*',
 			'sns.models.*',
