@@ -1,6 +1,6 @@
 
 <!--coolie-->
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/edit.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/edit.css" />
 <!--/coolie-->
 <section class="task-list">
     <div class="check">

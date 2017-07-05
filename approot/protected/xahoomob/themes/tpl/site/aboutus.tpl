@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/member.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/member.css" />
 <section class="member">
     <h1 class="active">网站介绍</h1>
     <p>

@@ -1,4 +1,4 @@
-		<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/cash.css" />
+		<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/cash.css" />
 		<section class="form-box cash-box">
 			<ul>
 				<li>
@@ -18,4 +18,4 @@
 		</section>
 		<section class="cash-pop"></section>
 	</body>
-	<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js" data-config="../../conf/coolie-config.js" data-main="../main/cash_main.js"></script>
+	<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js" data-config="../../conf/coolie-config.js" data-main="../main/cash_main.js"></script>

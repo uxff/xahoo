@@ -54,7 +54,7 @@ class ArticleController extends BaseController {
 		//$inviteCodeModel = Yii::app()->getModule('friend')->getInviteCodeModel($member_id);
         $protocol = Yii::app()->request->getIsSecureConnection() ? "https://" : "http://";
         
-        $defaultArticleSurfaceUrl = $protocol.$_SERVER['HTTP_HOST'].'/resource/fanghu2.0/images/index/index_banner.jpg';
+        $defaultArticleSurfaceUrl = $protocol.$_SERVER['HTTP_HOST'].'/resource/xahoo3.0/images/index/index_banner.jpg';
         $defaultArticleSurfaceUrl = strncmp($defaultArticleSurfaceUrl, $protocol, 4)==0 ? $defaultArticleSurfaceUrl : $protocol.$_SERVER['HTTP_HOST'].$defaultArticleSurfaceUrl;
 
         $csrfToken = Yii::app()->request->csrfToken;

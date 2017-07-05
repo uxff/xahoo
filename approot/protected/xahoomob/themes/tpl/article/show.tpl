@@ -1,5 +1,5 @@
 <!--coolie-->
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/detaile.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/detaile.css" />
 <!--/coolie-->
 {literal}
 <style type="text/css">
@@ -32,4 +32,4 @@
     <a href="{$shareCallbackUrl}">马上分享</a>
 -->
 {include file="../common/weixin_share.tpl"}
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/article_main.js"></script>
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/article_main.js"></script>

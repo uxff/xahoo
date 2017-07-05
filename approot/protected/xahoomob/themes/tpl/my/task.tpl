@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/list.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/list.css" />
     <section class="task-list">
         {if !empty($myTaskListAll['list'])}
         <div class="tab my-list-tab">
@@ -101,7 +101,7 @@
             {/if}
         </div>
     </section>
-    <script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+    <script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
         data-config="../../conf/coolie-config.js"
         data-main="../main/list_main.js"></script>
 <script>

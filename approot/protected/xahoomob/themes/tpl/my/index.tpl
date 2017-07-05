@@ -1,10 +1,10 @@
 <!--/coolie-->
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/mine.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/mine.css" />
 <!--/coolie-->
 <header class="list-header">{$pageTitle}</header>
 <section class="task-list">
     <div class="mine_top">
-        <img src="../../../../../resource/fanghu2.0/images/integral/mine_bg.jpg" alt="">
+        <img src="../../../../../resource/xahoo3.0/images/integral/mine_bg.jpg" alt="">
         <div class="mine_top_con">
             <div class="fl">
                 <div class="mine_icon">
@@ -12,7 +12,7 @@
                     {if !empty($memberInfo.member_avatar)}
                         <img src="{$memberInfo.member_avatar}" alt="" coolieignore>
                     {else}
-                        <img src="../../../../../resource/fanghu2.0/images/integral/friend_icon.png" alt="">
+                        <img src="../../../../../resource/xahoo3.0/images/integral/friend_icon.png" alt="">
                     {/if}
                     </a>
                 </div>

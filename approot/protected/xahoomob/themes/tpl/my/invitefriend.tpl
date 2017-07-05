@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/integral.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/integral.css" />
 <section class="task-list">
 	<div class="invite_friend_banner">
 		<p class="invite_code">{$invite_code}</p>
@@ -11,4 +11,4 @@
 	</div>
 </section>
 {include file="../site/weixin_firend.tpl"}
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/invitefirend_main.js"></script>
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/invitefirend_main.js"></script>

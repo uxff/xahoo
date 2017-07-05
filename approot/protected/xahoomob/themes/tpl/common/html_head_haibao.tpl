@@ -4,7 +4,7 @@
 	<meta name="format-detection" content="telephone=no" />
     <title>{$pageTitle}</title>
     <!--coolie-->
-    <link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/base.css" />
+    <link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/base.css" />
     <!--/coolie-->
     {literal}
     <script>

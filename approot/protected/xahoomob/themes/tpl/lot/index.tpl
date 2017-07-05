@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/lottery.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/lottery.css" />
 <header class="header"><a href="{yii_createurl c=site a=index}" class="fl"><i class="iconfont"></i></a>积分抽奖</header>
 <header class="index-header"></header>
 
@@ -12,7 +12,7 @@
     <div class="t-bg"></div>
     <div class="turnt">
         <div class="start">
-            <a href="javascript:;" class="start-btn" bet-url="{yii_createurl c=lot a=ajaxbet}"><img src="../../../../../resource/fanghu2.0/images/lottery/start.png"></a>
+            <a href="javascript:;" class="start-btn" bet-url="{yii_createurl c=lot a=ajaxbet}"><img src="../../../../../resource/xahoo3.0/images/lottery/start.png"></a>
         </div>
         <ul class="lot start-list" >
             <li><div class="lot_1"></div></li>
@@ -24,7 +24,7 @@
             <li><div class="lot_7"></div></li>
             <li><div class="lot_8"></div></li>
         </ul>
-        <div class="txt-h"><img src="../../../../../resource/fanghu2.0/images/lottery/zi.png"></div>
+        <div class="txt-h"><img src="../../../../../resource/xahoo3.0/images/lottery/zi.png"></div>
     </div>
     {if empty($myWinList)}
     <div class="myprize" style="display:none">
@@ -119,6 +119,6 @@
 </footer><br><br-->
 
 
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
     data-config="../../conf/coolie-config.js"
     data-main="../main/lottery.js"></script>

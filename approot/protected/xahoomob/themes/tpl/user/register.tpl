@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/reg.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/reg.css" />
 	<section class="tab">
     	<a href="{yii_createurl c=user a=login return_url=$return_url}" class="off active">登录</a>
         <a href="{yii_createurl c=user a=register return_url=$return_url}" class="on">注册</a>
@@ -93,4 +93,4 @@
 	<p>2、因本协议而产生的一切争议平台方将与您通过友好协商解决。协商不成的，任何一方均有权向平台方所在地人民法院提起诉讼。</p>
 		</div>
 	</section>
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/reg_main.js"></script>
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/reg_main.js"></script>

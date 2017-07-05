@@ -1,5 +1,5 @@
 <!--coolie-->
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/list.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/list.css" />
 <!--/coolie-->
 	<section class="task-list" style="padding-top:0;">
 		<div class="tab">
@@ -14,7 +14,7 @@
 						<li>
 							<a href="{yii_createurl c=lizhuan a=joinTask taskTplId=$taskTplObj.task_id accounts_id=$accounts_id}">
 								<div class="task_img">
-									<img data-original="{$taskTplObj.surface_url}" coolieignore src="../../../../../resource/fanghu2.0/images/integral/bg.png"/>
+									<img data-original="{$taskTplObj.surface_url}" coolieignore src="../../../../../resource/xahoo3.0/images/integral/bg.png"/>
 								</div>
 								<div class="fl task-info">
 									<h3>{$taskTplObj.task_name}</h3>
@@ -45,7 +45,7 @@
 						<li>
 							<a href="{$taskInstObj.task_tpl.task_url}&task_id={$taskTplObj.task_id}&share_code={$shareCode}">
 								<div class="task_img">
-									<img data-original="{$taskInstObj.task_tpl.surface_url}" coolieignore src="../../../../../resource/fanghu2.0/images/integral/bg.png"/>
+									<img data-original="{$taskInstObj.task_tpl.surface_url}" coolieignore src="../../../../../resource/xahoo3.0/images/integral/bg.png"/>
 								</div>
 								<div class="fl task-info task-over">
 									<h3>{$taskInstObj.task_tpl.task_name}</h3>
@@ -65,7 +65,7 @@
 	    </div>
 	</section>
 
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js" data-config="../../conf/coolie-config.js" data-main="../main/list_main.js"></script>
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js" data-config="../../conf/coolie-config.js" data-main="../main/list_main.js"></script>
 <script>
 	var url = '{yii_createurl c=lizhuan a=AjaxGetTaskTplList accounts_id=$accounts_id}';
 </script>

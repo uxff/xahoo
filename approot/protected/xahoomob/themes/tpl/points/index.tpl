@@ -1,4 +1,4 @@
-		<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/integral.css" />
+		<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/integral.css" />
 		<div class="container">		
 			<section class="task-list">
 				<div class="integral_top">
@@ -42,7 +42,7 @@
 				{/if}
 			</section>
 		</div>
-		<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+		<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
 			data-config="../../conf/coolie-config.js"
 			data-main="../main/index_main.js"></script>
 		

@@ -1,10 +1,10 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/login.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/login.css" />
 <section class="poster-login">
     <div class="pic">
         {if $snsInfo}
         <img class="user" src="{$snsInfo.headimgurl}" style="width:140px;height:140px" coolieignore>
         {else}
-        <img class="user" src="../../../../../resource/fanghu2.0/images/poster/user_head.jpg" >
+        <img class="user" src="../../../../../resource/xahoo3.0/images/poster/user_head.jpg" >
         {/if}
     </div>
     <div class="input-box">
@@ -33,7 +33,7 @@
 </section>
 
 {include file="../site/weixin_firend.tpl"}
-<script  src="../../../../../resource/fanghu2.0/js/lib/validation/q.validation.js"></script>
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+<script  src="../../../../../resource/xahoo3.0/js/lib/validation/q.validation.js"></script>
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
         data-config="../../conf/coolie-config.js"
         data-main="../main/poster_login.js"></script>

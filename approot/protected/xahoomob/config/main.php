@@ -88,7 +88,7 @@ $config['components']['cache']['serializer'] = false;
 */
 // this is used in contact page
 $config['params']['adminEmail'] = 'webmaster@example.com';
-$config['params']['resourcePath'] = '/resource/fanghu2.0';
+$config['params']['resourcePath'] = '/resource/xahoo3.0';
 $config['params']['resourceThirdVendorPath'] = '/resource/thirdvendor';
 $config['params']['tplPath'] = '/xahoomob/dist';
 $config['params']['uploadPic']['basePath'] = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'upload';

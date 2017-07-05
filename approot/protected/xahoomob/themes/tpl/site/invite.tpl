@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/integral.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/integral.css" />
 <section class="">
     <div class="invite_reg_banner">
-        <img src="../../../../../resource/fanghu2.0/images/integral/invite_1.jpg" alt="">
+        <img src="../../../../../resource/xahoo3.0/images/integral/invite_1.jpg" alt="">
     </div>
     <div class="invite_reg_info">
         <p>现在注册送<span><strong>{$points_reg_by_invite}</strong>积分</span>哦！</p>

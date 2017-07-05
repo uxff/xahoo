@@ -168,7 +168,7 @@ $arrConfig = array(
         // this is used in contact page
         'adminEmail' => 'webmaster@example.com',
         // this is used for fe resoure
-        'resourcePath' => '/resource/fanghu2.0',
+        'resourcePath' => '/resource/xahoo3.0',
         'resourceThirdVendorPath' => '/resource/thirdvendor',
         // this is used for view template
         'tplPath' => '/fanghumobv2/dist',

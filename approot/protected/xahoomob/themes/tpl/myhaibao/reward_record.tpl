@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/record.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/record.css" />
 <section class="record">
 {foreach from=$listData key=lk item=lv}
 	<div class="record_item">

@@ -1,5 +1,5 @@
 <!--coolie-->
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/index.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/index.css" />
 <!--/coolie-->
 <header class="index-header">
 <!--首页header特殊-->
@@ -18,7 +18,7 @@
         {else}
             <div class="swiper-slide index-banner">
             	<a href="/">
-            		<img src="../../../../../resource/fanghu2.0/images/index/index_banner.jpg"/>	
+            		<img src="../../../../../resource/xahoo3.0/images/index/index_banner.jpg"/>	
             	</a>
             </div>
         {/if}
@@ -68,7 +68,7 @@
         {foreach from=$hotArtModels key=k item=hotArtModel}
         <li>
             <a href="{$hotArtModel.url}">
-            	<img data-original="{$hotArtModel.surface_url}" coolieignore src="../../../../../resource/fanghu2.0/images/integral/bg_big.png" />
+            	<img data-original="{$hotArtModel.surface_url}" coolieignore src="../../../../../resource/xahoo3.0/images/integral/bg_big.png" />
             </a>
             {if empty($hotArtModel.tips)}
             <p >{$hotArtModel.title}</p>
@@ -89,4 +89,4 @@
         </ul>
     </nav>
 </footer>
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/index_main.js"></script>
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"  data-config="../../conf/coolie-config.js"  data-main="../main/index_main.js"></script>

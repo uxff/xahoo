@@ -1,5 +1,5 @@
 <!--coolie-->
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/reg.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/reg.css" />
 <!--/coolie-->
 <section class="tab">
         <a href="{yii_createurl c=user a=login return_url=$return_url}" class="on active">登录</a>
@@ -23,6 +23,6 @@
         <button class="btn lot-btn">登录</button>
         <a href="{yii_createurl c=user a=forgetMobile return_url=$return_url}">忘记密码？</a>
 </section>
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
     data-config="../../conf/coolie-config.js"
     data-main="../main/login_main.js"></script>

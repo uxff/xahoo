@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/activity_rule.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/activity_rule.css" />
 <section class="activity">
 	<div class="activity_banner">
-		<img src="../../../../../resource/fanghu2.0/images/article/activity_banner.jpg" alt=""/>
+		<img src="../../../../../resource/xahoo3.0/images/article/activity_banner.jpg" alt=""/>
 	</div>
 	<div class="activity_info">
 		<ul class="activity_box">
@@ -16,6 +16,6 @@
 		</ul>
 	</div>
 	<div class="activity_logo">
-		<img src="../../../../../resource/fanghu2.0/images/article/xqshijie_logo.png" alt=""/>
+		<img src="../../../../../resource/xahoo3.0/images/article/xqshijie_logo.png" alt=""/>
 	</div>
 </section>

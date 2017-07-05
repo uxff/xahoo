@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/reg.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/reg.css" />
 <form onsubmit="return false" id="form" method="post" name="frm" >
     <input type="hidden" name="return_url" id="return_url" value="{$return_url}" />
     <input type="hidden" name="token" id="token" value="{$token}" />
@@ -30,6 +30,6 @@
         <button class="btn lot-btn" type="button">确定</button>
     </section>
 </form>
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
     data-config="../../conf/coolie-config.js"
     data-main="../main/forget_password.js"></script>

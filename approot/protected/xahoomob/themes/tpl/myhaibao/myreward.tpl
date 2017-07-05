@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/myreward.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/myreward.css" />
 <div class="myreward-money">
 	<span class="ye">余额</span>
 	<span class="money">
@@ -73,6 +73,6 @@
 {/if}
 </div>
 <section class="cash-pop"></section>
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
         data-config="../../conf/coolie-config.js"
         data-main="../main/myreward_main.js"></script>

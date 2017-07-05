@@ -1,6 +1,6 @@
 <!--coolie-->
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/css/edit.css" />
-<link rel="stylesheet" href="../../../../../resource/fanghu2.0/js/lib/webuploader/webuploader.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/edit.css" />
+<link rel="stylesheet" href="../../../../../resource/xahoo3.0/js/lib/webuploader/webuploader.css" />
 <!--/coolie-->
     <section class="task-list">
         <a class="replace" href="javasrcipt:;">
@@ -61,10 +61,10 @@
     </section>
 <input type="hidden" id="imgUri" value="{$resourcePath}"></input>
 <!--coolie-->
-<script type="text/javascript" src="../../../../../resource/fanghu2.0/js/lib/jquery/jquery-1.10.1.min.js" ></script>
-<script src="../../../../../resource/fanghu2.0/js/lib/webuploader/webuploader.html5only.min.js"></script>
-<script type="text/javascript" src="../../../../../resource/fanghu2.0/js/module/uploader.js" ></script>
+<script type="text/javascript" src="../../../../../resource/xahoo3.0/js/lib/jquery/jquery-1.10.1.min.js" ></script>
+<script src="../../../../../resource/xahoo3.0/js/lib/webuploader/webuploader.html5only.min.js"></script>
+<script type="text/javascript" src="../../../../../resource/xahoo3.0/js/module/uploader.js" ></script>
 <!--/coolie-->
-<script coolie src="../../../../../resource/fanghu2.0/js/lib/coolie/coolie.min.js"
+<script coolie src="../../../../../resource/xahoo3.0/js/lib/coolie/coolie.min.js"
 	data-config="../../conf/coolie-config.js"
 	data-main="../main/edit_pro.js"></script>
