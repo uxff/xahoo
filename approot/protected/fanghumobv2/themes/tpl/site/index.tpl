@@ -70,8 +70,12 @@
             <a href="{$hotArtModel.url}">
             	<img data-original="{$hotArtModel.surface_url}" coolieignore src="../../../../../resource/fanghu2.0/images/integral/bg_big.png" />
             </a>
+            {if empty($hotArtModel.tips)}
+            <p >{$hotArtModel.title}</p>
+            {else}
             <p class="fl">{$hotArtModel.title}</p>
             <span class="fr"><font>{$hotArtModel.tips}</font></span>
+            {/if}
         </li>
         {/foreach}
     </ul>
