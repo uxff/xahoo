@@ -27,6 +27,26 @@ func (this *ArticleEntity) TableName() string {
 	return "fh_article"
 }
 
+type HotArticleEntity struct {
+	Id		int	`json:"id"		xorm:"pk autoincr"`
+	Title		string	`json:"title"		xorm:"not null"`
+	Tips		string	`json:"tips"		xorm:"not null default ''"`
+	Act_type        int     `json:"act_type"        xorm:"not null default '0'"`
+	Status        int       `json:"status"      xorm:"not null default '0'"`
+	Surface_url   string    `json:"surface_url" xorm:"not null default ''"`
+	Url		string	`json:"url"		xorm:"not null default ''"`
+	Is_local_url	int	`json:"is_local_url"	xorm:"not null default '1'"`
+	Weight		int	`json:"weight"		xorm:"not null default '1'"`
+	Create_time   time.Time `json:"create_time"   xorm:"not null"`
+	Last_modified time.Time `json:"last_modified" xorm:"not null"`
+	Admin_id      int       `json:"admin_id"   xorm:"not null"`
+	Admin_name    string    `json:"admin_name" xorm:"not null default ''"`
+}
+
+func (this *HotArticleEntity) TableName() string {
+	return "fh_hot_article"
+}
+
 type Feed struct {
 	Id         int64     `json:"feed_id"             xorm:"pk autoincr"`        // primary key
 	Name       string    `json:"feed_name"           xorm:"notnull"`            // name of feed

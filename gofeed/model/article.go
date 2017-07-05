@@ -86,6 +86,7 @@ func assembleFeed(fd *feedreader.Feed) (feed *Feed, items []*ArticleEntity) {
 	feed.LastFetch = now
 
 	for _, i := range fd.Items {
+		// save as article
 		var item = new(ArticleEntity)
 
 		if i.Author != nil {
@@ -96,8 +97,10 @@ func assembleFeed(fd *feedreader.Feed) (feed *Feed, items []*ArticleEntity) {
 		//item.Guid = i.Guid
 		item.Title = i.Title
 		item.Content = i.Content
+		item.Abstract = i.Content
 		item.Create_time = now
 		item.Last_modified = now
+		item.Status = 2
 		if len(i.ImgLinks) > 0 {
 			item.Surface_url = *i.ImgLinks[0]
 		}
@@ -143,7 +146,30 @@ func SaveArticles(items []*ArticleEntity) (succNum int) {
 			continue
 		}
 		fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
+
+		// save as hot article, so show
+		hotItem := new(HotArticleEntity)
+		hotItem.Title = item.Title
+		hotItem.Is_local_url = 1
+		hotItem.Status = 2
+		hotItem.Surface_url = item.Surface_url
+		hotItem.Create_time = item.Create_time
+		hotItem.Last_modified = item.Last_modified
+		hotItem.Admin_id = item.Admin_id
+		hotItem.Admin_name = item.Admin_name + "(gohead)"
+		hotItem.Url = MakeArticleUrl(item)
+
+		num, e = Orm.Insert(hotItem)
+
 		succNum++
 	}
 	return
 }
+
+func MakeArticleUrl(a *ArticleEntity) string {
+	//strings.a.Id
+	sign := "ignorethisstrings"
+	str := "http://xahoo.xenith.top/index.php?r=article/show&id="+fmt.Sprintf("%d", a.Id) + "&sign=" + sign
+	return str
+}
+
