@@ -673,7 +673,7 @@ class UserController extends Controller {
 			$objUserIdentity = new UserIdentity('', '');
 			$objUserIdentity->thirdPartLogin($member_id);
 			Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-			$this->redirect('fanghu.php?r=site/login');
+			$this->redirect('index.php?r=site/login');
 		} else {
 			//没有绑定则跳转到手机、邮箱录入页面
 			$this->redirect('ucenter.php?r=user/thirdPartLoginMobile&from=' . $from);
@@ -781,7 +781,7 @@ class UserController extends Controller {
 			$objUserIdentity = new UserIdentity('', '');
 			$objUserIdentity->thirdPartLogin($member_id);
 			Yii::app()->loginUser->loginAndSaveStates($objUserIdentity);
-			$this->redirect('fanghu.php?r=site/login');
+			$this->redirect('index.php?r=site/login');
 			//                        $this->redirect($this->createAbsoluteUrl('site/login'));
 		} else {
 			$this->smartyRender('errorview/404.tpl');

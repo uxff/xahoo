@@ -11,7 +11,7 @@ class EventModule extends CWebModule
             'application.common.extensions.*',
             'application.ucentermob.api.*',
             'application.ucentermodels.*',
-            'application.fanghumodels.*',
+            'application.xahoomodels.*',
             'event.libirarys.*',
 			'event.controllers.*',
 			'event.models.*',

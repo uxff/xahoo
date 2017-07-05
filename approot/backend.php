@@ -2,12 +2,12 @@
 ini_set('display_error','off');
 //error_reporting(0);
 // load envoronment
-$env_config = dirname(__FILE__).'/protected/fanghuadmin/config/environment.php';
+$env_config = dirname(__FILE__).'/protected/xahooadmin/config/environment.php';
 require_once($env_config);
 
 // change the following paths if necessary
 $yii = dirname(__FILE__) . '/../framework/yii.php';
-$config = dirname(__FILE__) . '/protected/fanghuadmin/config/main.php';
+$config = dirname(__FILE__) . '/protected/xahooadmin/config/main.php';
 
 
 // show config file not found
