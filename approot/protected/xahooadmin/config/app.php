@@ -12,16 +12,16 @@ $config['import'][] = 'application.common.vendor.Smarty.sysplugins.*';
 $config['import'][] = 'application.common.extensions.*';
 $config['import'][] = 'application.common.components.*';
 $config['import'][] = 'application.fanghumodels.*';
-$config['import'][] = 'application.fanghuadmin.models.*';
-$config['import'][] = 'application.fanghuadmin.components.*';
-$config['import'][] = 'application.fanghuadmin.controllers.*';
+$config['import'][] = 'application.xahooadmin.models.*';
+$config['import'][] = 'application.xahooadmin.components.*';
+$config['import'][] = 'application.xahooadmin.controllers.*';
 $config['import'][] = 'application.common.extensions.wechatlib.*';
 $config['import'][] = 'application.common.extensions.util.*';
 /*
  * loginUser component
  * autoloading model and component classes
 */
-$config['components']['memberadmin']['class'] = 'application.fanghuadmin.components.MemberAdminUser';
+$config['components']['memberadmin']['class'] = 'application.xahooadmin.components.MemberAdminUser';
 $config['components']['memberadmin']['stateKeyPrefix'] = 'memberadmin';
 $config['components']['memberadmin']['guestName'] = 'Guest';
 $config['components']['memberadmin']['allowAutoLogin'] = true;
@@ -29,7 +29,7 @@ $config['components']['memberadmin']['allowAutoLogin'] = true;
  * rbac component
  * autoloading model and component classes
 */
-$config['components']['rbac']['class'] = 'application.fanghuadmin.components.RBAC';
+$config['components']['rbac']['class'] = 'application.xahooadmin.components.RBAC';
 
 $config['components']['smarty']['class'] = 'application.common.extensions.CSmarty';
 $config['components']['errorHandler']['errorAction'] = 'site/error';
@@ -68,14 +68,14 @@ $config['modules'][] = 'phpExcel';
 $config['params']['adminEmail'] = 'webmaster@example.com';
 $config['params']['resourcePath'] = 'resource/thirdvendor/aceadmin1.3.1';
 $config['params']['resourceBasePath'] = '/resource/thirdvendor';
-$config['params']['tplPath'] = '/fanghuadmin';
+$config['params']['tplPath'] = '/xahooadmin';
 $config['params']['uploadPic']['basePath'] = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'upload';
 $config['params']['uploadPic']['webPath'] = '/upload/';
 $config['params']['LOG_PATH'] = 'logs';
 $config['params']['LOG_NAME'] = 'backend.log';
 $config['params']['LOG_LEVEL'] = '2';
 $config['params']['LOG_MAIL'] = 'monitor@none.com';
-$config['params']['giiPath']['model'] = 'application.fanghuadmin.models';
+$config['params']['giiPath']['model'] = 'application.xahooadmin.models';
 // page size
 $config['params']['pageSize'] = 10;
 
