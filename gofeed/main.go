@@ -19,6 +19,7 @@ func main() {
 		http://tech.qq.com/web/webnews/rss_11.xml			// 腾讯互联网
 		http://tech.163.com/special/000944OI/headlines.xml  // 网易科技 // 垃圾广告多
 		http://www.ftchinese.com/rss/feed
+		http://www.scipark.net/feed/
 	*/
 	var url *string = flag.String("url", "", "feed url")
 	var doSave *bool = flag.Bool("dosave", true, "do save or debug")
@@ -33,11 +34,11 @@ func main() {
 
 	// after this, its test model
 	feed, items, e := model.FetchUrl(*url)
-	succNum := len(items) //
+	succNum := 0 //len(items) //
 	if *doSave {
 		succNum = model.SaveArticles(items)
 	}
-	fmt.Println("feed items=", succNum, "lines", "feed=", feed, "e=", e)
+	fmt.Println("feed len(items)=", len(items), "save success:", succNum, "lines", "feed=", feed, "e=", e)
 	/*
 		// after this, its test feedreader.Fetch
 		feed, err := feedreader.Fetch(*url)

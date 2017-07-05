@@ -41,7 +41,7 @@ func FetchUrl(url string) (feed *Feed, items []*ArticleEntity, err error) {
 		}
 	*/
 	feed, items, err = fetchFeed(url, NormalFetcher)
-	if err == nil {
+	if err != nil {
 		fmt.Println("feed error:", err)
 		return
 	}
@@ -140,12 +140,12 @@ func SaveArticles(items []*ArticleEntity) (succNum int) {
 
 	//session := Orm.NewSession()
 	for _, item := range items {
-		num, e := Orm.Insert(item)
+		_, e := Orm.Insert(item)
 		if e != nil {
-			fmt.Println("insert error:", e)
+			fmt.Println("insert Article error:", e)
 			continue
 		}
-		fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
+		//fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
 
 		// save as hot article, so show
 		hotItem := new(HotArticleEntity)
@@ -159,7 +159,11 @@ func SaveArticles(items []*ArticleEntity) (succNum int) {
 		hotItem.Admin_name = item.Admin_name + "(gohead)"
 		hotItem.Url = MakeArticleUrl(item)
 
-		num, e = Orm.Insert(hotItem)
+		_, e = Orm.Insert(hotItem)
+		if e != nil {
+			fmt.Println("insert hotArticle error:", e)
+			continue
+		}
 
 		succNum++
 	}
