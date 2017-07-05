@@ -90,7 +90,7 @@ $config['components']['cache']['serializer'] = false;
 $config['params']['adminEmail'] = 'webmaster@example.com';
 $config['params']['resourcePath'] = '/resource/fanghu2.0';
 $config['params']['resourceThirdVendorPath'] = '/resource/thirdvendor';
-$config['params']['tplPath'] = '/fanghumobv2/dist';
+$config['params']['tplPath'] = '/xahoomob/dist';
 $config['params']['uploadPic']['basePath'] = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'upload';
 $config['params']['uploadPic']['webPath'] = '/upload/';
 // 上传用户头像的子目录
@@ -117,8 +117,8 @@ $config['params']['protocol'] = 'auto';
 
 // 前端构建目录
 // for online
-//$config['params']['tplPath'] = '/fanghumobv2/dist';
+//$config['params']['tplPath'] = '/xahoomob/dist';
 // for dev
-$config['params']['tplPath'] = '/fanghumobv2';
+$config['params']['tplPath'] = '/xahoomob';
 
 return $config;
