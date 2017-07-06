@@ -373,7 +373,7 @@ func ParseString(xmldata string, feedlink string) (feed *Feed, err error) {
 
 			//fmt.Println("matched images:", imgLinks)
 			for _, imgLink := range imgLinks {
-				fmt.Println("matched a img:", imgLink[1])
+				//fmt.Println("matched a img:", imgLink[1])
 				// 过滤广告图片 图片长或宽不足10的视为广告图片
 				attrRegObj := regexp.MustCompile(attrRegStr)
 				attrRets := attrRegObj.FindAllStringSubmatch(imgLink[0], -1)
