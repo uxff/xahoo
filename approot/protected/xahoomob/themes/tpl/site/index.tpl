@@ -4,7 +4,7 @@
 <header class="index-header">
 <!--首页header特殊-->
 </header>
-<section class="banner" >
+<section class="banner" style="display:none">
     <div class="swiper-container">
         <div class="swiper-wrapper" id="big_swiper">
         {if $bannerModel}
@@ -30,7 +30,7 @@
         <input type="hidden" id="banner_pic_circle_sec" value="{$bannerModel.circle_sec*1000}">
     </div>
 </section>
-<section class="index-nav">
+<section class="index-nav" style="display:none">
     <ul>
         <li>
             <a href="{yii_createurl c=my a=checkin}">
@@ -46,7 +46,7 @@
         </li>
     </ul>
 </section>
-<section class="sm-banner" >
+<section class="sm-banner" style="display:none">
     <div class="sm-swiper-container">
         <div class="swiper-wrapper sm-swiper-wrapper">
             {foreach from=$actPicsModel.pics key=picsId item=picObj}
