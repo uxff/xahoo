@@ -182,8 +182,8 @@ html,body{
 	bottom: 0;
 	width: 100%;
 	max-width: 750px;
-	padding: 1.666rem .833rem;
-	height: 7.083rem;
+	padding: 0.6rem .833rem;
+	height: 3.483rem;
 	background: #4a4a4a;
 	color: #fff;
 	text-align: center;
@@ -191,7 +191,7 @@ html,body{
 }
 .footer>ul{
 	overflow: hidden;
-	margin: 0 auto 1.25rem;
+	margin: 0 auto 0.4rem;
 	width: 100%;
 	font-size:0;
 }
