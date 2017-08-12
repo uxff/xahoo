@@ -9,7 +9,7 @@
 
 <!--内容区 start-->
 {if $iframeUrl}
-<section class="task-list" style="padding: 0 0 11.624rem;">
+<section class="task-list" style="padding: 0 0 3.4624rem;">
 <iframe src="{$iframeUrl}" style="width:100%;min-height:800px;color:" border="0" frameborder="no">
 </iframe>
 </section>
@@ -20,7 +20,7 @@
 {/if}
 <!--内容区 end-->
 {if $gShowFooter}
-<section class="share-btn">
+<section class="share-btn" style="display:none">
     <!-- 本期不做收藏
     <a href="#" class="fl"><i class="iconfont">&#xe601;</i>立即收藏</a>
     -->
