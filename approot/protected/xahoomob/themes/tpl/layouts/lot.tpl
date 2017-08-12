@@ -36,6 +36,7 @@
     {include file="$NACHO_PAGE_TPL_FILE"}
     <!-- /section:basics/content.page_content_area -->
 
+<!--
     <footer class="footer_lot">
         {if $gIsGuest}
         <ul>
@@ -52,6 +53,7 @@
         {/if}
         <p>copyright@2014-{$smarty.now|date_format:'%Y'} 津ICP备16004915号-3</p>
     </footer>
+-->
 
     <!-- #section:basics/footer.tracking_js -->
     {include file="../common/footer_tracking.tpl"}
