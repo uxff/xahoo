@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="../../../../../resource/xahoo3.0/css/lottery.css" />
-<header class="header"><a href="{yii_createurl c=site a=index}" class="fl"><i class="iconfont"></i></a>积分抽奖</header>
+<header class="header"><a href="javascript:history.go(-1);" class="fl"><i class="iconfont"></i></a>积分抽奖</header>
 <header class="index-header"></header>
 
 <section class="lottery-box" >

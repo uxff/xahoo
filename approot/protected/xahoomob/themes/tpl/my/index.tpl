@@ -47,6 +47,10 @@
             <span class="iconfont left_icon">&#xe607;</span>我的好友
             <span class="right_icon iconfont">&#xe600;</span>
         </a>
+        <a href="{yii_createurl c=lot a=index}" class="mine_item">
+            <span class="iconfont left_icon">&#xe606;</span>积分抽奖
+            <span class="right_icon iconfont">&#xe600;</span>
+        </a>
         <a href="{yii_createurl c=site a=invite invite_code=$invite_code}" class="mine_item">
             <span class="iconfont left_icon">&#xe60f;</span>邀请好友
             <span class="right_icon iconfont">&#xe600;</span><i class="icon_info">邀请好友享更多优惠</i>
@@ -68,7 +72,7 @@
     <nav class="footer-nav">
         <ul>
             <li><a href="{yii_createurl c=site a=index}"><i class="iconfont index-iconfont">&#xe602;</i>首页</a></li>
-            <li><a href="{yii_createurl c=lizhuan a=index}"><i class="iconfont index-iconfont">&#xe606;</i>任务</a></li>
+            <li><a href="{yii_createurl c=lizhuan a=index}"><i class="iconfont index-iconfont">&#xe608;</i>任务</a></li>
             <li class="active"><a href="javasrcipt:;"><i class="iconfont index-iconfont">&#xe610;</i>我的</a></li>
         </ul>
     </nav>
