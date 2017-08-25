@@ -5,14 +5,14 @@
 <title>登录</title>
 <link rel="stylesheet" href="{$resourcePath}/css/login/fh_login.css" />
 </head>
-<body class="login-layout light-login">
+<body class="login-layout light-login" style="background:url({$resourcePath}/images/login/sea_background_01.jpg) no-repeat center">
     <!--new div start-->
     <div class="login_box">
         <div class="login_top">
             <a href="javascript:;"><img src="{$resourcePath}/images/login/login_logo_fh.png" alt=""></a>
             <div class="login_title">后台管理系统</div>
         </div>
-        <div class="login_cont" style="background:url({$resourcePath}/images/login/login_bg_fh.jpg) no-repeat center">
+        <div class="login_cont">
             <div class="main">
                 <div class="login_form">
                     <form id="login-form" action="backend.php?r=site/login" method="post">
