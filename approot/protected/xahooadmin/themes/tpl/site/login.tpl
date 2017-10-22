@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="login_bottom">
-            <p>Copyright ©2016xqshijie.com. All Rights Reserved. 天津活力营销顾问有限公司 版权所有 津ICP备16004915号-3</p>
+            <p>Copyright ©2016 xahoo.xenith.top. All Rights Reserved. Xahoo 版权所有</p>
         </div>
     </div>	
 </body>
