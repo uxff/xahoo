@@ -24,6 +24,7 @@ class AccountsController extends Controller
             'listData'      =>  $listData,
             'pages'         =>  $pages,
             'accounts_name' =>  $_POST['poster']['accounts_name'],
+            'mpurlPrefix'   =>  ($_SERVER['SERVER_PORT']=='443'?'https://':'http://').Yii::app()->params['frontendDomain'].'/index.php?r=wechat/index',
         );
         $this->smartyRender('accounts/index.tpl', $arrRender);
     }
