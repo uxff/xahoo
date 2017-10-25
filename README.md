@@ -9,5 +9,14 @@ Xahoo网站是一个demo网站，用于展示一套会员经营系统。包括�
 
 测试账号(10个)： 15011111120-15011111129 a123456
 
+后台展示地址： http://b.xahoo.xenith.top/
 
+## crontab 
+```
+# 定时爬取资讯
+1 8 * * * /data/wwwroot/xahoo/gofeed/main -url http://www.ftchinese.com/rss/feed >/dev/null 2>&1
+# 定时统计资讯数据
+1 10 * * * /usr/local/php/bin/php /data/wwwroot/xahoo/approot/protected/commands/console.php stastic stasticArticle --dur=-1  >/dev/null 2>&1
+```
+### 定时
 

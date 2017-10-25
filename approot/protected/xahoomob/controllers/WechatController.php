@@ -5,7 +5,9 @@
  * xuduorui
  */
 class WechatController extends BaseController {
-    public $weObj;
+    protected $weObj;
+    protected $wechatOptions;
+    protected $mpid;
     protected $directRewardPer;
     protected $indirectRewardPer;
     protected $upstreamModel;
@@ -16,44 +18,34 @@ class WechatController extends BaseController {
         Yii::import('application.common.extensions.wechatlib.*');
         Yii::import('application.common.extensions.util.*');
         Yii::app()->getModule('points');
-        //判断公众号
-        $openid = isset($_GET['openid'])?$_GET['openid']:'';
-        Yii::app()->params['accounts_id'] = 1;//表fh_poster_accounts主键
-        $value = array(
-            'token'=>Yii::app()->params['fh_wechat_token'], 
-            'appid' => Yii::app()->params['fh_wechat_appid'], 
-            'appsecret' => Yii::app()->params['fh_wechat_appsecret'], 
-            'EncodingAESKey' => Yii::app()->params['EncodingAESKey'], 
-        );
-        if($openid){
-            $sns_data = UcMemberBindSns::model()->find('sns_id=:sns_id',array(':sns_id'=>$openid));
-            $sns_data = $this->convertModelToArray($sns_data);
-            if($sns_data){
-                $sns_appid= $sns_data['sns_appid'];//获取到APPID
-                $accounts_data = FhPosterAccountsModel::model()->find('appid=:appid',array(':appid'=>$sns_appid));
-                $accounts_data = $this->convertModelToArray($accounts_data);//获取到公众号信息
-                $value = array(
+    }
+
+    protected function getAccountOptions($mpid) {
+        $accounts_data = FhPosterAccountsModel::model()->find('id=:id',array(':id'=>$mpid));
+        if ($accounts_data) {
+            $accounts_data = $accounts_data->toArray();
+        }
+        $this->wechatOptions = [
                     'token'=>$accounts_data['token'], 
                     'appid' => $accounts_data['appid'], 
                     'appsecret' => $accounts_data['appsecret'],  
                     'EncodingAESKey' => $accounts_data['EncodingAESKey'],  
-                );                 
-                Yii::app()->params['appid'] = $accounts_data['appid'];
-                Yii::app()->params['accounts_id'] = $accounts_data['id'];
-            }
-        }
-        $options = array(
-            'token'=>$value['token'], //填写你设定的key
-            'encodingaeskey'=>$value['EncodingAESKey'], //填写加密用的EncodingAESKey，如接口为明文模式可忽略k1fkSbcCjeucm7AEFfL4NczHSBTWayTqgoH8oGQfqA5
-            'appid' => $value['appid'], //'wx829d7b12c00c4a97',
-            'appsecret' => $value['appsecret'], //'d0eb0ee77de35361ee51fc41df85da60',
-        );
-        
-        $this->weObj = new Wechat($options);
-        //$this->weObj->valid();//明文或兼容模式可以在接口验证通过后注释此句，但加密模式一定不能注释，否则会验证失败
+        ];
+
+        return $this->wechatOptions;
     }
+
     public function actionIndex() {
-        if (isset($_GET["echostr"])) {
+        // 通过mpid参数来选择公众号
+        $this->mpid = 1;
+        if (isset($_GET['mpid'])) {
+            $this->mpid = intval($_GET['mpid']);
+        }
+
+        $wechatOptions = $this->getAccountOptions($this->mpid);
+        $this->weObj = new Wechat($wechatOptions);
+
+        if (isset($_GET['echostr'])) {
             return $this->weObj->valid();
         }
         // 交给处理器
@@ -65,8 +57,8 @@ class WechatController extends BaseController {
         $type = $weObj->getRev()->getRevType();
         $fromUser = $weObj->getRevFrom();
 
-        file_put_contents('/tmp/fanghu_wechat_debug',var_export($weObj->getRevData(),true)."\n",FILE_APPEND);
-        file_put_contents('/tmp/fanghu_wechat_debug',var_export($weObj->getRevFrom(),true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xahoo_wechat_debug',var_export($weObj->getRevData(),true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xahoo_wechat_debug',var_export($weObj->getRevFrom(),true)."\n",FILE_APPEND);
 
         switch($type) {
             case Wechat::MSGTYPE_TEXT:
@@ -990,7 +982,7 @@ class WechatController extends BaseController {
     public function actionSetmenu() {
         $key = $_POST['key'];
         $token = $_POST['token'];
-        $rightToken = '15001100749';
+        $rightToken = '010115001100749';
         $rightKey = 'xdr';
         if ($rightKey == $key && $rightToken == $token) {
             //获取不同公众号的menu

@@ -61,8 +61,8 @@
                                     <th style="width: 200px;">公众号名称</th>
                                     <th style="width: 120px;">公众号token</th>
                                     <th style="width: 200px;">APPID</th>
-                                    <th style="width: 200px;">APPSecret</th>
                                     <th style="width: 200px;">EncodingAESKey</th>
+                                    <th style="width: 200px;">mp配置服务器地址</th>
                                     <th style="width: 180px;">最后更新时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -74,9 +74,9 @@
                                         <td>{($pages.curPage-1)*$pages.pageSize+1+$i}</td>                                                                 
                                         <td>{$objModel['accounts_name']}</td>
                                         <td>{$objModel['token']}</td>     
-                                        <td>{$objModel['appid']}</td>      
-                                        <td>{$objModel['appsecret']}</td>   
+                                        <td data-appid='{$objModel.appid}' data-appsecret='{$objModel.appsecret}'>{$objModel['appid']}</td>      
                                         <td>{$objModel['EncodingAESKey']}</td>   
+                                        <td>{$mpurlPrefix}&amp;mpid={$objModel.id}</td>   
                                         <td>{$objModel['last_modified']}</td>                                                                          
                                         <td>
                                         <div class="hidden-sm hidden-xs btn-group">
