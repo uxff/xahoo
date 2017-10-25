@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: dongjicheng@xqshijie.cn
+ * User: coderdjc@xqshijie.cn
  * Date: 16-09-13
  **/
 

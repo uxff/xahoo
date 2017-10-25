@@ -1,7 +1,7 @@
 <?php
 /**
  * event 模块
- * xuduorui@qq.com
+ * coderxx@qq.com
  */
 class EventModule extends CWebModule
 {

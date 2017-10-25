@@ -1,7 +1,7 @@
 <?php
 /**
  * money 模块
- * xuduorui@qq.com
+ * coderxx@qq.com
  */
 class FhmoneyModule extends CWebModule
 {

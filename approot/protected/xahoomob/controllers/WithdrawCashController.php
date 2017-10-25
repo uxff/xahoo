@@ -1,7 +1,7 @@
 <?php
 /**
  * 提现
- * dongjicheng@xqshijie.cn
+ * coderdjc@xqshijie.cn
  * //可提现剩余金额计算：累计最高提款金额（FhMemberHaibaoModel->withdraw_max） - 已提现金额 （FhMemberHaibaoModel->withdraw_money） - 已提申请的待审批、审批通过金额（FhMoneyWithdrawModel->withdraw_money）
  */
 class WithdrawCashController extends BaseController {

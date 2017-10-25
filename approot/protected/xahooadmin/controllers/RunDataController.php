@@ -1,6 +1,6 @@
 <?php
 /**
- * User: dongjicheng@xqshijie.cn
+ * User: coderdjc@xqshijie.cn
  * Date: 2016-09-05
  */
 

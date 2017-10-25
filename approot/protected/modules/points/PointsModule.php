@@ -1,7 +1,7 @@
 <?php
 /**
  * points 模块
- * xuduorui@qq.com
+ * coderxx@qq.com
  */
 class PointsModule extends CWebModule
 {

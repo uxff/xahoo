@@ -178,7 +178,7 @@ class BaseSendSMS extends MobileModule
         $objMailer = new AresMailer();
         $objMailer->clearLayout(); //不使用layout
         $objMailer->setTo( "devxqsj@qianjins.com" );
-        //$objMailer->setTo( "dingyucong@qianjins.com" );//用于测试
+        //$objMailer->setTo( "coderdyc@qianjins.com" );//用于测试
         $objMailer->setSubject( $subject );
         $objMailer->setBody($body);
         $sendemailresult=$objMailer->send();
@@ -295,7 +295,7 @@ class BaseSendSMS extends MobileModule
                     //发送邮件通知
                     $objMailer = new AresMailer();
                     $objMailer->clearLayout(); //不使用layout
-                    $objMailer->setTo( "dingyucong@qianjins.com" );
+                    $objMailer->setTo( "coderdyc@qianjins.com" );
                     $objMailer->setSubject( 'send '.$smsinfo->smstpl.' code' );
                     $objMailer->setBody( $smsinfo->sms_message );
                     $sendemailresult=$objMailer->send();
