@@ -2,7 +2,7 @@
 /**
  * 微信
  * 与微信服务器对接
- * xuduorui
+ * coderxx
  */
 class WechatController extends BaseController {
     protected $weObj;

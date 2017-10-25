@@ -1,4 +1,4 @@
-	//add by dingyucong
+	//add by coderdyc
 	function uploadFile(opts){
 		this.options = $.extend({
         //uploader = WebUploader.create({

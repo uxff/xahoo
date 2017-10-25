@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by xdr.
- * Author: xuduorui@qq.com
+ * Author: coderxx@qq.com
  * Date: 16-3-8
  * Time: 11:04
  */

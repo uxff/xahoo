@@ -1,7 +1,7 @@
 <?php
 /**
  * task 模块
- * xuduorui@qq.com
+ * coderxx@qq.com
  */
 class TaskTypeShare extends TaskTypeAbs
 {

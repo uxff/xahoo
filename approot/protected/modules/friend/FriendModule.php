@@ -1,7 +1,7 @@
 <?php
 /**
  * friend 模块
- * xuduorui@qq.com
+ * coderxx@qq.com
  */
 class FriendModule extends CWebModule
 {

@@ -1,7 +1,7 @@
 <?php
 /**
 * 房否相关自动脚本
-* dingyucong@qianjins.com
+* coderdyc@qianjins.com
 * 2015-12-23
 */
 class chargeCommand  extends CConsoleCommand 
@@ -240,7 +240,7 @@ class chargeCommand  extends CConsoleCommand
                     //发送邮件通知
                     $objMailer = new AresMailer();
                     $objMailer->clearLayout(); //不使用layout
-                    $objMailer->setTo( "dingyucong@qianjins.com" );
+                    $objMailer->setTo( "coderdyc@qianjins.com" );
                     $objMailer->setSubject( 'send '.$smsinfo->smstpl.' code' );
                     $objMailer->setBody( $smsinfo->sms_message );
                     $sendemailresult=$objMailer->send();

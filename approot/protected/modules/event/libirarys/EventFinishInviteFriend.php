@@ -1,7 +1,7 @@
 <?php
 
 /*
-* @author xuduorui
+* @author coderxx
 * @date 2016-2-26  
 * @desc 事件处理类
 */

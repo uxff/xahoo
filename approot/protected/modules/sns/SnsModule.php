@@ -1,7 +1,7 @@
 <?php
 /**
  * Sns 模块
- * author: xuduorui@qq.com
+ * author: coderxx@qq.com
  * 描述  : 主要涉及第三方登录时账号创建和管理
  */
 class SnsModule extends CWebModule

@@ -1,7 +1,7 @@
 <?php
 /**
 * 房否相关自动脚本
-* dingyucong@qianjins.com
+* coderdyc@qianjins.com
 * 2015-12-23
 */
 class mobileCommand  extends CConsoleCommand 

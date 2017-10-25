@@ -64,7 +64,7 @@ class UserIdentity extends CUserIdentity {
         /**
          * Authenticates a customer. for Fanghu
          * implement parent same function
-         * @author: xuduorui
+         * @author: coderxx
          * @return boolean whether authentication succeeds.
          */
         public function authenticateFanghu() {

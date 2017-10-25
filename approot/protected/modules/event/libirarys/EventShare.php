@@ -1,7 +1,7 @@
 <?php
 
 /*
-* @author xuduorui
+* @author coderxx
 * @date 2016-2-26  
 * @desc 事件处理类 普通资讯分享，派发分享积分；任务分享，触发尝试完成任务
 */
