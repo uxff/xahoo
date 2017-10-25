@@ -1,7 +1,7 @@
 <?php
 /**
 * 
-* xuduorui@qianjins.com
+* coderxx@qianjins.com
 * 2015-11-03
 */
 class ContractCommand  extends CConsoleCommand 

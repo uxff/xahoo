@@ -1,7 +1,7 @@
 <?php
 /**
 * 
-* xuduorui@xqshijie.cn
+* coderxx@xqshijie.cn
 * 2016-01-26
 */
 class JdWorkOrderCommand  extends CConsoleCommand 
