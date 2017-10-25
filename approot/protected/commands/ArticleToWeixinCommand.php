@@ -51,8 +51,8 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         // 验证是否可用
         //$serverIp = $this->weObj->getServerIp();
         //print_r($serverIp);
-        $menu = $this->weObj->getMenu();
-        print_r($menu);
+        //$menu = $this->weObj->getMenu();
+        //print_r($menu);
 
         //$this->actionSyncArticle((int)$dur);
     }
@@ -71,14 +71,84 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
         foreach ($artList as $artObj) {
             // 每个文章的在线区间
-            $arrRange = ArticleOperLogModel::queryRange($artObj->id);
+            //$imgUrls = preg_match_all('', $artObj->content)
+            $theNewContent = $this->replaceImgTag($artObj->content);
+
+            // 准备缩略图
+            $articles = [[
+                'thumb_media_id' => '',
+                'author' => '', // null
+                'title' => '',
+                'content_source_url' => '', // null
+                'content' => '',
+                'digest' => '', // null
+                'show_cover_pic' => '',// null
+            ]];
 
             // 每个文章要搜索里面的图片 上传到mp
-            // 然后将替换图片地址后的整个html上传到mp
+            $mediaInfo = $this->weObj->uploadArticles($articles);
+
             // 将media_id保存，等待发送mp消息使用
+            // 然后将替换图片地址后的整个html上传到mp
             // 群发只能用media_id发送
             // 单发可回复图文消息,带上url
+
+
+            $this->saveMedia($mediaInfo['media_id'], 'NEWS', $this->mpid);
+
+            // 准备群发
+            $massSendParam = [
+                'filter' => ['is_to_all' => true, 'group_id' => 0],
+                // mpnews | voice | image | mpvideo => array( "media_id"=>"MediaId")
+                'msgtype' => ['mpnews' => $mediaInfo['media_id']],
+            ];
+            $res = $this->sendGroupMassMessage($massSendParam);
         }
         echo "done\n";
     }
+
+    // 处理html中的img为微信的
+    protected function replaceImgTag($html) {
+        $str &= $html;
+        $reg = '/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i';
+        preg_match_all($reg,$str,$mat);
+        for($i=0;$i<count($mat[0]);$i++){
+            echo 'MATCHED 0====>'.$mat[0][$i].' 1====>'.$mat[2][$i]."\n";
+            $targetUrl = $this->uploadImg($mat[2][$i]);
+            $str = str_replace($mat[2][$i], $targetUrl, $str);
+        }
+        return $str;
+    }
+
+    protected function uploadImg($imgUrl) {
+
+        $localFile = $this->downloadImg($imgUrl);
+
+        $data = ['media' => new CURLFile($localFile)];
+        $res = $this->weObj->uploadImg($data);
+        $newImgUrl = $res['url'];
+        return $newImgUrl;
+    }
+
+    protected function downloadImg($url) {
+
+        $path = $this->getPicRuntimePath().'mpimg_'.date('YmdHis').'_'.substr(md5(mt_rand()), 0, 8).'.jpg';
+        Http::curldownload($url, $path);
+
+        //Yii::log('保存一个图片('.$url.')到本地:'.$path, 'warning', __METHOD__);
+        return $path;
+
+    }
+    public function getPicRuntimePath() {
+        $dir = Yii::app()->runtimePath.'/mppic/';
+        if (!file_exists($dir)) {
+            if (@mkdir($dir, 0777, true)) {
+                Yii::log('mkdir(runtimePath='.$dir.') success', 'warning', __METHOD__);
+            } else {
+                Yii::log('mkdir(runtimePath='.$dir.') error', 'error', __METHOD__);
+            }
+        }
+        return $dir;
+    }
+
 }
