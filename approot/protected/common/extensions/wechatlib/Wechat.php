@@ -52,6 +52,7 @@ class Wechat
 	const MSGTYPE_NEWS = 'news';
 	const MSGTYPE_VOICE = 'voice';
 	const MSGTYPE_VIDEO = 'video';
+	const MSGTYPE_SHORTVIDEO = 'shortvideo';
 	const EVENT_SUBSCRIBE = 'subscribe';       //订阅
 	const EVENT_UNSUBSCRIBE = 'unsubscribe';   //取消订阅
 	const EVENT_SCAN = 'SCAN';                 //扫描带参数二维码
@@ -73,11 +74,15 @@ class Wechat
 	const EVENT_CARD_NOTPASS = 'card_not_pass_check';   //卡券 - 审核未通过
 	const EVENT_CARD_USER_GET = 'user_get_card';        //卡券 - 用户领取卡券
 	const EVENT_CARD_USER_DEL = 'user_del_card';        //卡券 - 用户删除卡券
+	const EVENT_MERCHANT_ORDER = 'merchant_order';        //微信小店 - 订单付款通知
 	const API_URL_PREFIX = 'https://api.weixin.qq.com/cgi-bin';
 	const AUTH_URL = '/token?grant_type=client_credential&';
 	const MENU_CREATE_URL = '/menu/create?';
 	const MENU_GET_URL = '/menu/get?';
 	const MENU_DELETE_URL = '/menu/delete?';
+	const MENU_ADDCONDITIONAL_URL = '/menu/addconditional?';
+	const MENU_DELCONDITIONAL_URL = '/menu/delconditional?';
+	const MENU_TRYMATCH_URL = '/menu/trymatch?';
 	const GET_TICKET_URL = '/ticket/getticket?';
 	const CALLBACKSERVER_GET_URL = '/getcallbackip?';
 	const QRCODE_CREATE_URL='/qrcode/create?';
@@ -87,6 +92,7 @@ class Wechat
 	const SHORT_URL='/shorturl?';
 	const USER_GET_URL='/user/get?';
 	const USER_INFO_URL='/user/info?';
+	const USERS_INFO_URL='/user/info/batchget?';
 	const USER_UPDATEREMARK_URL='/user/info/updateremark?';
 	const GROUP_GET_URL='/groups/get?';
 	const USER_GROUP_URL='/groups/getid?';
@@ -97,8 +103,8 @@ class Wechat
 	const CUSTOM_SEND_URL='/message/custom/send?';
 	const MEDIA_UPLOADNEWS_URL = '/media/uploadnews?';
 	const MASS_SEND_URL = '/message/mass/send?';
-	const TEMPLATE_SET_INDUSTRY_URL = '/message/template/api_set_industry?';
-	const TEMPLATE_ADD_TPL_URL = '/message/template/api_add_template?';
+	const TEMPLATE_SET_INDUSTRY_URL = '/template/api_set_industry?';
+	const TEMPLATE_ADD_TPL_URL = '/template/api_add_template?';
 	const TEMPLATE_SEND_URL = '/message/template/send?';
 	const MASS_SEND_GROUP_URL = '/message/mass/sendall?';
 	const MASS_DELETE_URL = '/message/mass/delete?';
@@ -106,6 +112,7 @@ class Wechat
 	const MASS_QUERY_URL = '/message/mass/get?';
 	const UPLOAD_MEDIA_URL = 'http://file.api.weixin.qq.com/cgi-bin';
 	const MEDIA_UPLOAD_URL = '/media/upload?';
+	const MEDIA_UPLOADIMG_URL = '/media/uploadimg?';//图片上传接口
 	const MEDIA_GET_URL = '/media/get?';
 	const MEDIA_VIDEO_UPLOAD = '/media/uploadvideo?';
     const MEDIA_FOREVER_UPLOAD_URL = '/material/add_material?';
@@ -142,7 +149,8 @@ class Wechat
 	const CARD_DELETE                     = '/card/delete?';
 	const CARD_UPDATE                     = '/card/update?';
 	const CARD_GET                        = '/card/get?';
-	const CARD_BATCHGET                   = '/card/batchget?';
+        const CARD_USER_GETCARDLIST         = '/card/user/getcardlist?';
+        const CARD_BATCHGET                   = '/card/batchget?';
 	const CARD_MODIFY_STOCK               = '/card/modifystock?';
 	const CARD_LOCATION_BATCHADD          = '/card/location/batchadd?';
 	const CARD_LOCATION_BATCHGET          = '/card/location/batchget?';
@@ -154,6 +162,7 @@ class Wechat
 	const CARD_CODE_UPDATE                = '/card/code/update?';
 	const CARD_CODE_UNAVAILABLE           = '/card/code/unavailable?';
 	const CARD_TESTWHILELIST_SET          = '/card/testwhitelist/set?';
+	const CARD_MEETINGCARD_UPDATEUSER      = '/card/meetingticket/updateuser?';    //更新会议门票
 	const CARD_MEMBERCARD_ACTIVATE        = '/card/membercard/activate?';      //激活会员卡
 	const CARD_MEMBERCARD_UPDATEUSER      = '/card/membercard/updateuser?';    //更新会员卡
 	const CARD_MOVIETICKET_UPDATEUSER     = '/card/movieticket/updateuser?';   //更新电影票(未加方法)
@@ -202,7 +211,11 @@ class Wechat
 	const SHAKEAROUND_USER_GETSHAKEINFO = '/shakearound/user/getshakeinfo?';//获取摇周边的设备及用户信息
 	const SHAKEAROUND_STATISTICS_DEVICE = '/shakearound/statistics/device?';//以设备为维度的数据统计接口
     const SHAKEAROUND_STATISTICS_PAGE = '/shakearound/statistics/page?';//以页面为维度的数据统计接口
-
+	///微信小店相关接口
+	const MERCHANT_ORDER_GETBYID = '/merchant/order/getbyid?';//根据订单ID获取订单详情
+	const MERCHANT_ORDER_GETBYFILTER = '/merchant/order/getbyfilter?';//根据订单状态/创建时间获取订单详情
+	const MERCHANT_ORDER_SETDELIVERY = '/merchant/order/setdelivery?';//设置订单发货信息
+	const MERCHANT_ORDER_CLOSE = '/merchant/order/close?';//关闭订单
 	private $token;
 	private $encodingAesKey;
 	private $encrypt_type;
@@ -210,6 +223,7 @@ class Wechat
 	private $appsecret;
 	private $access_token;
 	private $jsapi_ticket;
+	private $api_ticket;
 	private $user_token;
 	private $partnerid;
 	private $partnerkey;
@@ -223,7 +237,6 @@ class Wechat
 	public $errCode = 40001;
 	public $errMsg = "no access";
 	public $logcallback;
-
 	public function __construct($options)
 	{
 		$this->token = isset($options['token'])?$options['token']:'';
@@ -233,7 +246,6 @@ class Wechat
 		$this->debug = isset($options['debug'])?$options['debug']:false;
 		$this->logcallback = isset($options['logcallback'])?$options['logcallback']:false;
 	}
-
 	/**
 	 * For weixin server validation
 	 */
@@ -243,20 +255,17 @@ class Wechat
 	    $signature = isset($_GET["msg_signature"])?$_GET["msg_signature"]:$signature; //如果存在加密验证则用加密验证段
         $timestamp = isset($_GET["timestamp"])?$_GET["timestamp"]:'';
         $nonce = isset($_GET["nonce"])?$_GET["nonce"]:'';
-
 		$token = $this->token;
 		$tmpArr = array($token, $timestamp, $nonce,$str);
 		sort($tmpArr, SORT_STRING);
 		$tmpStr = implode( $tmpArr );
 		$tmpStr = sha1( $tmpStr );
-
 		if( $tmpStr == $signature ){
 			return true;
 		}else{
 			return false;
 		}
 	}
-
 	/**
 	 * For weixin server validation
 	 * @param bool $return 是否返回
@@ -300,7 +309,6 @@ class Wechat
         			die('no access');
         	}
         }
-
         if (!$this->checkSignature($encryptStr)) {
         	if ($return)
         		return false;
@@ -309,194 +317,6 @@ class Wechat
         }
         return true;
     }
-
-
-/// 发红包相关代码
-public function sendRedPack($openid, $money)
-{
-/*
-$arrInfo = array(
-        'nonce_str'=>'',//随机字符串,32位
-        'mch_billno'=>'',// 商户订单号 28位
-        'mch_id'=>'', // 商户号
-        'sub_mch_id'=>'', //子商户号(选填)
-        'wxappid'=>'', //商户appid
-        'nick_name'=>'', //红包提供方名
-        'send_name'=>'', //红包发送者名称
-        're_openid'=>'', //接收红包的用户
-        'total_amount'=>'', //付款金额
-        'min_value'=>'', //最小红包金额
-        'max_value'=>'', //最大红包金额
-        'total_num'=>'', //红包发送总人数
-        'wishing'=>'', //红包祝福语 128
-        'client_ip'=>'', //调用接口的机器ip地址 15
-        'act_name'=>'', //活动名称 32
-        'remark'=>'', //备注 256
-        'logo_imgurl'=>'', //商户logo 选填 128
-        'share_content'=>'', //分享文案 选填 256
-        'share_url'=>'', //分享链接 选填 128
-        'share_imgurl'=>'', //分享图片url 选填 128
-        'sign'=>'', //签名
-        );
-*/
-
-
-// 密钥  k1fkSbcCjeucm7AEFfL4NczHSBTWayTqgoH8oGQfqA5
-$privatekey = 'k1fkSbcCjeucm7AEFfL4NczHSBTWayTqgoH8oGQfqA5';
-$privatekey = '1111111111aaaaaaaaaaeeeeeeeeeeee';
-
-$nonce_str = $this->generateNonceStr();
-$arrInfo = array(
-        'nonce_str'=>$nonce_str,//随机字符串,32位//'ljeUjFDR8QMRuuZe',//
-        'mch_billno'=>'fhhb'.date('YmdHis').sprintf('%03d', rand(0,999)),// 商户订单号 28位
-        'mch_id'=>'1241495602 ', // 商户号
-        //'sub_mch_id'=>'', //子商户号(选填)
-        'wxappid'=>'wx7345a7e7764a9f88', //公众号(服务号)appid
-        'nick_name'=>'北京中弘网络营销', //红包提供方名
-        'send_name'=>'房乎海报', //红包发送者名称
-        're_openid'=>$openid, //接收红包的用户
-        'total_amount'=>$money, //付款金额,单位分
-        'min_value'=>$money, //最小红包金额
-        'max_value'=>$money, //最大红包金额
-        'total_num'=>'1', //红包发送总人数
-        'wishing'=>'房乎海报·中弘由山由谷项目', //红包祝福语 128
-        'client_ip'=>'192.168.1.1', //调用接口的机器ip地址 15
-        'act_name'=>'中弘由山由谷项目', //活动名称 32
-        'remark'=>'感谢为房乎海报做宣传', //备注 256
-        //'logo_imgurl'=>'', //商户logo 选填 128
-        //'share_content'=>'', //分享文案 选填 256
-        //'share_url'=>'', //分享链接 选填 128
-        //'share_imgurl'=>'', //分享图片url 选填 128
-        //'sign'=>'', //签名,算出签名之后补全
-        );
-
-/*
-签名的算法
-第一步，设所有发送或者接收到的数据为集合M，将集合M内非空参数值的参数按照参数名ASCII码从小到大排序（字典序），使用URL键值对的格式（即key1=value1&key2=value2…）拼接成字符串stringA>。
-特别注意以下重要规则：
-　◆　参数名ASCII码从小到大排序（字典序）；
-　◆　如果参数的值为空不参与签名；
-　◆　参数名区分大小写；
-　◆　验证调用返回或微信主动通知签名时，传送的sign参数不参与签名，将生成的签名与该sign值作校验。
-　◆　微信接口可能增加字段，验证签名时必须支持增加的扩展字段
-第二步，在stringA最后拼接上key=(API密钥的值)得到stringSignTemp字符串，并对stringSignTemp>进行MD5运算，再将得到的字符串所有字符转换为大写，得到sign值signValue。
-*/
-
-$stringA = $this->formatQueryParaMap($arrInfo);
-file_put_contents('/tmp/fanghu_wechat_debug',var_export($stringA,true),FILE_APPEND);
-$stringA = $stringA."&key=".trim($privatekey);
-file_put_contents('/tmp/fanghu_wechat_debug',var_export($stringA,true),FILE_APPEND);
-$sign = strtoupper(md5($stringA));
-$arrInfo['sign'] = $sign;
-file_put_contents('/tmp/fanghu_wechat_debug',var_export($arrInfo,true),FILE_APPEND);
-
-$redPackUrl = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
-$postXml = $this->arrayToXml($arrInfo);
-file_put_contents('/tmp/fanghu_wechat_debug',var_export($postXml,true),FILE_APPEND);
-$data = $this->postRedPack($redPackUrl,$postXml);
-file_put_contents('/tmp/fanghu_wechat_debug',var_export($data,true),FILE_APPEND);
-/*
-<xml>
-    <sign></sign>
-    <mch_billno></mch_billno>
-    <mch_id></mch_id>
-    <wxappid></wxappid>
-    <nick_name></nick_name>
-    <send_name></send_name>
-    <re_openid></re_openid>
-    <total_amount></total_amount>
-    <min_value></min_value>
-    <max_value></max_value>
-    <total_num></total_num>
-    <wishing></wishing>
-    <client_ip></client_ip>
-    <act_name></act_name>
-    <act_id></act_id>
-    <remark></remark>
-    <logo_imgurl></logo_imgurl>
-    <share_content></share_content>
-    <share_url></share_url>
-    <share_imgurl></share_imgurl>
-    <nonce_str></nonce_str>
-</xml>
-*/
-}
-
-function postRedPack($url, $vars, $second=30,$aHeader=array())
-{
-        $ch = curl_init();
-        //超时时间
-        curl_setopt($ch,CURLOPT_TIMEOUT,$second);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
-        //这里设置代理，如果有的话
-        curl_setopt($ch,CURLOPT_URL,$url);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,false);
-
-        //cert 与 key 分别属于两个.pem文件
-        curl_setopt($ch,CURLOPT_SSLCERT,dirname(__FILE__).'/cert/apiclient_cert.pem');
-        curl_setopt($ch,CURLOPT_SSLKEY,dirname(__FILE__).'/cert/apiclient_key.pem');
-        curl_setopt($ch,CURLOPT_CAINFO,dirname(__FILE__).'/cert/rootca.pem');
-
-
-        if( count($aHeader) >= 1 ){
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
-        }
-
-        curl_setopt($ch,CURLOPT_POST, 1);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$vars);
-        $data = curl_exec($ch);
-        if($data){
-                curl_close($ch);
-                return $data;
-        }
-        else {
-                $error = curl_errno($ch);
-                curl_close($ch);
-                return false;
-        }
-}
-
-function arrayToXml($arr)
-{
-        $xml = "<xml>";
-        foreach ($arr as $key=>$val)
-        {
-                 if (is_numeric($val))
-                 {
-                        $xml.="<".trim($key).">".trim($val)."</".$key.">";
-
-                 }
-                 else{
-                        $xml.="<".trim($key)."><![CDATA[".trim($val)."]]></".$key.">";
-                        //$xml.="<".$key.">".$val."</".$key.">";
-                 }
-        }
-        $xml.="</xml>";
-        return $xml;
-}
-function formatQueryParaMap($paraMap, $urlencode=false){
-        $buff = "";
-        ksort($paraMap);
-        foreach ($paraMap as $k => $v){
-                if (!empty($v) && "sign" != $k) {
-                    if($urlencode){
-                           $v = urlencode(trim($v));
-                        }
-                        $buff .= trim($k) . "=" . trim($v) . "&";
-                }
-        }
-        $reqPar;
-        if (strlen($buff) > 0) {
-                $reqPar = substr($buff, 0, strlen($buff)-1);
-        }
-        return $reqPar;
-}
-
-
-
-/// end 发红包
-
 	/**
 	 * 设置发送消息
 	 * @param array $msg 消息数组
@@ -515,7 +335,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
     			return $this->_msg;
     		}
     }
-
     /**
      * 设置消息的星标标志，官方已取消对此功能的支持
      */
@@ -523,7 +342,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
     		$this->_funcflag = $flag;
     		return $this;
     }
-
     /**
      * 日志记录，可被重载。
      * @param mixed $log 输入日志
@@ -535,7 +353,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
     			return call_user_func($this->logcallback,$log);
     		}
     }
-
     /**
      * 获取微信服务器发来的信息
      */
@@ -550,7 +367,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return $this;
 	}
-
 	/**
 	 * 获取微信服务器发来的信息
 	 */
@@ -558,7 +374,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	{
 		return $this->_receive;
 	}
-
 	/**
 	 * 获取消息发送者
 	 */
@@ -568,7 +383,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			return false;
 	}
-
 	/**
 	 * 获取消息接受者
 	 */
@@ -578,7 +392,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			return false;
 	}
-
 	/**
 	 * 获取接收消息的类型
 	 */
@@ -588,7 +401,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			return false;
 	}
-
 	/**
 	 * 获取消息ID
 	 */
@@ -598,7 +410,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			return false;
 	}
-
 	/**
 	 * 获取消息发送时间
 	 */
@@ -608,7 +419,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			return false;
 	}
-
 	/**
 	 * 获取接收消息内容正文
 	 */
@@ -620,7 +430,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			return false;
 	}
-
 	/**
 	 * 获取接收消息图片
 	 */
@@ -633,7 +442,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			return false;
 	}
-
 	/**
 	 * 获取接收消息链接
 	 */
@@ -647,7 +455,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	 * 获取接收地理位置
 	 */
@@ -662,7 +469,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	 * 获取上报地理位置事件
 	 */
@@ -676,7 +482,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	 * 获取接收事件推送
 	 */
@@ -693,7 +498,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			return false;
 		}
 	}
-
 	/**
 	 * 获取自定义菜单的扫码推事件信息
 	 *
@@ -722,7 +526,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			return false;
 		}
 	}
-
 	/**
 	 * 获取自定义菜单的图片发送事件信息
 	 *
@@ -766,7 +569,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			return false;
 		}
 	}
-
 	/**
 	 * 获取自定义菜单的地理位置选择器事件推送
 	 *
@@ -804,7 +606,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	        return false;
 	    }
 	}
-
 	/**
 	 * 获取接收语音推送
 	 */
@@ -817,7 +618,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	 * 获取接收视频推送
 	 */
@@ -830,7 +630,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	 * 获取接收TICKET
 	 */
@@ -840,7 +639,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	* 获取二维码的场景值
 	*/
@@ -851,7 +649,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			return false;
 		}
 	}
-
 	/**
 	* 获取主动推送的消息ID
 	* 经过验证，这个和普通的消息MsgId不一样
@@ -863,7 +660,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	* 获取模板消息发送状态
 	*/
@@ -873,7 +669,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	* 获取群发或模板消息发送结果
 	* 当Event为 MASSSENDJOBFINISH 或 TEMPLATESENDJOBFINISH，即高级群发/模板消息
@@ -883,7 +678,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			$array['Status'] = $this->_receive['Status'];
 		if (isset($this->_receive['MsgID'])) //发送的消息id
 			$array['MsgID'] = $this->_receive['MsgID'];
-
 		//以下仅当群发消息时才会有的事件内容
 		if (isset($this->_receive['TotalCount']))     //分组或openid列表内粉丝数量
 			$array['TotalCount'] = $this->_receive['TotalCount'];
@@ -899,7 +693,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		    return false;
 		}
 	}
-
 	/**
 	 * 获取多客服会话状态推送事件 - 接入会话
 	 * 当Event为 kfcreatesession 即接入会话
@@ -911,7 +704,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		} else
 			return false;
 	}
-
 	/**
 	 * 获取多客服会话状态推送事件 - 关闭会话
 	 * 当Event为 kfclosesession 即关闭会话
@@ -923,7 +715,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    } else
 	        return false;
 	}
-
 	/**
 	 * 获取多客服会话状态推送事件 - 转接会话
 	 * 当Event为 kfswitchsession 即转接会话
@@ -944,7 +735,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	        return false;
 	    }
 	}
-
 	/**
 	 * 获取卡券事件推送 - 卡卷审核是否通过
 	 * 当Event为 card_pass_check(审核通过) 或 card_not_pass_check(未通过)
@@ -956,7 +746,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    else
 	        return false;
 	}
-
 	/**
 	 * 获取卡券事件推送 - 领取卡券
 	 * 当Event为 user_get_card(用户领取卡券)
@@ -967,6 +756,7 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	        $array['CardId'] = $this->_receive['CardId'];
 	    if (isset($this->_receive['IsGiveByFriend']))    //是否为转赠，1 代表是，0 代表否。
 	        $array['IsGiveByFriend'] = $this->_receive['IsGiveByFriend'];
+	        $array['OldUserCardCode'] = $this->_receive['OldUserCardCode'];
 	    if (isset($this->_receive['UserCardCode']) && !empty($this->_receive['UserCardCode'])) //code 序列号。自定义 code 及非自定义 code的卡券被领取后都支持事件推送。
 	        $array['UserCardCode'] = $this->_receive['UserCardCode'];
 	    if (isset($array) && count($array) > 0) {
@@ -975,7 +765,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	        return false;
 	    }
 	}
-
 	/**
 	 * 获取卡券事件推送 - 删除卡券
 	 * 当Event为 user_del_card(用户删除卡券)
@@ -992,12 +781,21 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	        return false;
 	    }
 	}
-
+	/**
+	 * 获取订单ID - 订单付款通知
+	 * 当Event为 merchant_order(订单付款通知)
+	 * @return orderId|boolean
+	 */
+	public function getRevOrderId(){
+		if (isset($this->_receive['OrderId']))     //订单 ID
+			return $this->_receive['OrderId'];
+		else
+			return false;
+	}
 	public static function xmlSafeStr($str)
 	{
 		return '<![CDATA['.preg_replace("/[\\x00-\\x08\\x0b-\\x0c\\x0e-\\x1f]/",'',$str).']]>';
 	}
-
 	/**
 	 * 数据XML编码
 	 * @param mixed $data 数据
@@ -1014,7 +812,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return $xml;
 	}
-
 	/**
 	 * XML编码
 	 * @param mixed $data 数据
@@ -1040,7 +837,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    $xml   .= "</{$root}>";
 	    return $xml;
 	}
-
 	/**
 	 * 过滤文字回复\r\n换行符
 	 * @param string $text
@@ -1050,7 +846,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		if (!$this->_text_filter) return $text;
 		return str_replace("\r\n", "\n", $text);
 	}
-
 	/**
 	 * 设置回复消息
 	 * Example: $obj->text('hello')->reply();
@@ -1089,7 +884,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->Message($msg);
 		return $this;
 	}
-
 	/**
 	 * 设置回复消息
 	 * Example: $obj->voice('media_id')->reply();
@@ -1109,7 +903,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->Message($msg);
 		return $this;
 	}
-
 	/**
 	 * 设置回复消息
 	 * Example: $obj->video('media_id','title','description')->reply();
@@ -1133,7 +926,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->Message($msg);
 		return $this;
 	}
-
 	/**
 	 * 设置回复音乐
 	 * @param string $title
@@ -1163,7 +955,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->Message($msg);
 		return $this;
 	}
-
 	/**
 	 * 设置回复图文
 	 * @param array $newsData
@@ -1182,7 +973,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	{
 		$FuncFlag = $this->_funcflag ? 1 : 0;
 		$count = count($newsData);
-
 		$msg = array(
 			'ToUserName' => $this->getRevFrom(),
 			'FromUserName'=>$this->getRevTo(),
@@ -1195,7 +985,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->Message($msg);
 		return $this;
 	}
-
 	/**
 	 *
 	 * 回复微信服务器, 此函数支持链式操作
@@ -1235,7 +1024,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		else
 			echo $xmldata;
 	}
-
     /**
      * xml格式加密，仅请求为加密方式时再用
      */
@@ -1250,7 +1038,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 </xml>";
 	    return sprintf($format, $encrypt, $signature, $timestamp, $nonce);
 	}
-
 	/**
 	 * GET 请求
 	 * @param string $url
@@ -1273,7 +1060,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			return false;
 		}
 	}
-
 	/**
 	 * POST 请求
 	 * @param string $url
@@ -1288,7 +1074,24 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($oCurl, CURLOPT_SSLVERSION, 1); //CURL_SSLVERSION_TLSv1
 		}
-		if (is_string($param) || $post_file) {
+	        if (PHP_VERSION_ID >= 50500 && class_exists('\CURLFile')) {
+	            	$is_curlFile = true;
+	        } else {
+	        	$is_curlFile = false;
+	            	if (defined('CURLOPT_SAFE_UPLOAD')) {
+	                	curl_setopt($oCurl, CURLOPT_SAFE_UPLOAD, false);
+	            	}
+	        }
+		if (is_string($param)) {
+	            	$strPOST = $param;
+	        }elseif($post_file) {
+	            	if($is_curlFile) {
+		                foreach ($param as $key => $val) {
+		                    	if (substr($val, 0, 1) == '@') {
+		                        	$param[$key] = new \CURLFile(realpath(substr($val,1)));
+		                    	}
+		                }
+	            	}
 			$strPOST = $param;
 		} else {
 			$aPOST = array();
@@ -1310,7 +1113,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			return false;
 		}
 	}
-
 	/**
 	 * 设置缓存，按需重载
 	 * @param string $cachename
@@ -1322,7 +1124,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		//TODO: set cache implementation
 		return false;
 	}
-
 	/**
 	 * 获取缓存，按需重载
 	 * @param string $cachename
@@ -1332,7 +1133,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		//TODO: get cache implementation
 		return false;
 	}
-
 	/**
 	 * 清除缓存，按需重载
 	 * @param string $cachename
@@ -1342,7 +1142,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		//TODO: remove cache implementation
 		return false;
 	}
-
 	/**
 	 * 获取access_token
 	 * @param string $appid 如在类初始化时已提供，则可为空
@@ -1358,13 +1157,11 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		    $this->access_token=$token;
 		    return $this->access_token;
 		}
-
 		$authname = 'wechat_access_token'.$appid;
 		if ($rs = $this->getCache($authname))  {
 			$this->access_token = $rs;
 			return $rs;
 		}
-
 		$result = $this->http_get(self::API_URL_PREFIX.self::AUTH_URL.'appid='.$appid.'&secret='.$appsecret);
 		if ($result)
 		{
@@ -1381,7 +1178,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 删除验证数据
 	 * @param string $appid
@@ -1393,7 +1189,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->removeCache($authname);
 		return true;
 	}
-
 	/**
 	 * 删除JSAPI授权TICKET
 	 * @param string $appid 用于多个appid时使用
@@ -1405,7 +1200,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->removeCache($authname);
 		return true;
 	}
-
 	/**
 	 * 获取JSAPI授权TICKET
 	 * @param string $appid 用于多个appid时使用,可空
@@ -1439,8 +1233,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
-
 	/**
 	 * 获取JsApi使用签名
 	 * @param string $url 网页的URL，自动处理#及其后面部分
@@ -1466,20 +1258,50 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    if (!$sign)
 	        return false;
 	    $signPackage = array(
-	            "appid"     => $this->appid,
-	            "noncestr"  => $noncestr,
+	            "appId"     => $this->appid,
+	            "nonceStr"  => $noncestr,
 	            "timestamp" => $timestamp,
 	            "url"       => $url,
 	            "signature" => $sign
 	    );
 	    return $signPackage;
 	}
-
+    /**
+     * 获取卡券签名cardSign
+     * @param string $card_type 卡券的类型，不可为空，官方jssdk文档说这个值可空，但签名验证工具又必填这个值，官方文档到处是坑，
+     * @param string $card_id 卡券的ID，可空
+     * @param string $location_id 卡券的适用门店ID，可空
+     * @param string $timestamp 当前时间戳 (为空则自动生成)
+     * @param string $noncestr 随机串 (为空则自动生成)
+     * @param string $appid 用于多个appid时使用,可空
+     * @return array|bool 返回签名字串
+     */
+    public function getCardSign($card_type='',$card_id='',$code='',$location_id='',$timestamp=0, $noncestr='', $appid=''){
+        if (!$this->api_ticket && !$this->getJsCardTicket($appid)) return false;
+        if (!$timestamp)
+            $timestamp = time();
+        if (!$noncestr)
+            $noncestr = $this->generateNonceStr();
+        $arrdata = array("api_ticket" => $this->api_ticket,"app_id" => $this->appid,"card_id" => $card_id,"code" => $code,"card_type" => $card_type,"location_id" => $location_id,"timestamp" => $timestamp, "noncestr" => $noncestr );
+        $sign = $this->getTicketSignature($arrdata);
+        if (!$sign)
+            return false;
+        $signPackage = array(
+            "cardType"     => $card_type,
+            "cardId"       => $card_id,
+            "shopId"       => $location_id,         //location_id就是shopId
+            "nonceStr"  => $noncestr,
+            "timestamp" => $timestamp,
+            "cardSign" => $sign
+        );
+        return $signPackage;
+    }
 	/**
 	 * 微信api不支持中文转义的json结构
 	 * @param array $arr
 	 */
 	static function json_encode($arr) {
+		if (count($arr) == 0) return "[]";
 		$parts = array ();
 		$is_list = false;
 		//Find out if the given array is a numerical array
@@ -1522,7 +1344,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 			return '[' . $json . ']'; //Return numerical JSON
 		return '{' . $json . '}'; //Return associative JSON
 	}
-
 	/**
 	 * 获取签名
 	 * @param array $arrdata 签名数组
@@ -1543,7 +1364,55 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$Sign = $method($paramstring);
 		return $Sign;
 	}
-
+	/**
+	 * 获取微信卡券api_ticket
+	 * @param string $appid 用于多个appid时使用,可空
+	 * @param string $api_ticket 手动指定api_ticket，非必要情况不建议用
+	 */
+	public function getJsCardTicket($appid='',$api_ticket=''){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		if (!$appid) $appid = $this->appid;
+		if ($api_ticket) { //手动指定token，优先使用
+		    $this->api_ticket = $api_ticket;
+		    return $this->api_ticket;
+		}
+		$authname = 'wechat_api_ticket_wxcard'.$appid;
+		if ($rs = $this->getCache($authname))  {
+			$this->api_ticket = $rs;
+			return $rs;
+		}
+		$result = $this->http_get(self::API_URL_PREFIX.self::GET_TICKET_URL.'access_token='.$this->access_token.'&type=wx_card');
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (!$json || !empty($json['errcode'])) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			$this->api_ticket = $json['ticket'];
+			$expire = $json['expires_in'] ? intval($json['expires_in'])-100 : 3600;
+			$this->setCache($authname,$this->api_ticket,$expire);
+			return $this->api_ticket;
+		}
+		return false;
+	}
+	/**
+	 * 获取微信卡券签名
+	 * @param array $arrdata 签名数组
+	 * @param string $method 签名方法
+	 * @return boolean|string 签名值
+	 */
+	public function getTicketSignature($arrdata,$method="sha1") {
+		if (!function_exists($method)) return false;
+		$newArray = array();
+		foreach($arrdata as $key => $value)
+		{
+			array_push($newArray,(string)$value);
+		}
+		sort($newArray,SORT_STRING);
+		return $method(implode($newArray));
+	}
 	/**
 	 * 生成随机字串
 	 * @param number $length 长度，默认为16，最长为32字节
@@ -1559,7 +1428,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return $str;
 	}
-
 	/**
 	 * 获取微信服务器IP地址列表
 	 * @return array('127.0.0.1','127.0.0.1')
@@ -1579,7 +1447,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 创建菜单(认证后的订阅号可用)
 	 * @param array $data 菜单数组数据
@@ -1648,7 +1515,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取菜单(认证后的订阅号可用)
 	 * @return array('menu'=>array(....s))
@@ -1668,7 +1534,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 删除菜单(认证后的订阅号可用)
 	 * @return boolean
@@ -1688,7 +1553,69 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
+	/**
+	 * 创建个性化菜单(认证后的订阅号可用)
+	 * @param array $data
+	 * @return bool
+	 *
+	 */
+	public function addconditionalMenu($data){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		$result = $this->http_post(self::API_URL_PREFIX.self::MENU_ADDCONDITIONAL_URL.'access_token='.$this->access_token,self::json_encode($data));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (!$json || !empty($json['errcode'])) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 删除个性化菜单(认证后的订阅号可用)
+	 * @param $data {"menuid":"208379533"}
+	 *
+	 * @return bool
+	 */
+	public function delconditionalMenu($data){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		$result = $this->http_post(self::API_URL_PREFIX.self::MENU_DELCONDITIONAL_URL.'access_token='.$this->access_token,self::json_encode($data));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (!$json || !empty($json['errcode'])) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 测试个性化菜单匹配结果(认证后的订阅号可用)
+	 * @param $data {"user_id":"weixin"} user_id可以是粉丝的OpenID，也可以是粉丝的微信号
+	 *
+	 * @return bool|array('button'=>array(....s))
+	 */
+	public function trymatchMenu($data){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		$result = $this->http_post(self::API_URL_PREFIX.self::MENU_TRYMATCH_URL.'access_token='.$this->access_token,self::json_encode($data));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (!$json || !empty($json['errcode'])) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return $json;
+		}
+		return false;
+	}
 	/**
 	 * 上传临时素材，有效期为3天(认证后的订阅号可用)
 	 * 注意：上传大文件时可能需要先调用 set_time_limit(0) 避免超时
@@ -1714,7 +1641,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取临时素材(认证后的订阅号可用)
 	 * @param string $media_id 媒体文件id
@@ -1741,8 +1667,30 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
-
+	/**
+	 * 上传图片，本接口所上传的图片不占用公众号的素材库中图片数量的5000个的限制。图片仅支持jpg/png格式，大小必须在1MB以下。 (认证后的订阅号可用)
+	 * 注意：上传大文件时可能需要先调用 set_time_limit(0) 避免超时
+	 * 注意：数组的键值任意，但文件名前必须加@，使用单引号以避免本地路径斜杠被转义      
+	 * @param array $data {"media":'@Path\filename.jpg'}
+	 * 
+	 * @return boolean|array
+	 */
+	public function uploadImg($data){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		//原先的上传多媒体文件接口使用 self::UPLOAD_MEDIA_URL 前缀
+		$result = $this->http_post(self::API_URL_PREFIX.self::MEDIA_UPLOADIMG_URL.'access_token='.$this->access_token,$data,true);
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (!$json || !empty($json['errcode'])) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return $json;
+		}
+		return false;
+	}
     /**
      * 上传永久素材(认证后的订阅号可用)
      * 新增的永久素材也可以在公众平台官网素材管理模块中看到
@@ -1774,7 +1722,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 上传永久图文素材(认证后的订阅号可用)
      * 新增的永久素材也可以在公众平台官网素材管理模块中看到
@@ -1796,7 +1743,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 修改永久图文素材(认证后的订阅号可用)
      * 永久素材也可以在公众平台官网素材管理模块中看到
@@ -1822,7 +1768,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 获取永久素材(认证后的订阅号可用)
      * 返回图文消息数组或二进制数据，失败返回false
@@ -1841,18 +1786,21 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         {
             if (is_string($result)) {
                 $json = json_decode($result,true);
-                if (isset($json['errcode'])) {
-                    $this->errCode = $json['errcode'];
-                    $this->errMsg = $json['errmsg'];
-                    return false;
+                if ($json) {
+                    if (isset($json['errcode'])) {
+                        $this->errCode = $json['errcode'];
+                        $this->errMsg = $json['errmsg'];
+                        return false;
+                    }
+                    return $json;
+                } else {
+                    return $result;
                 }
-                return $json;
             }
             return $result;
         }
         return false;
     }
-
     /**
      * 删除永久素材(认证后的订阅号可用)
      * @param string $media_id 媒体文件id
@@ -1874,7 +1822,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 获取永久素材列表(认证后的订阅号可用)
      * @param string $type 素材的类型,图片（image）、视频（video）、语音 （voice）、图文（news）
@@ -1908,7 +1855,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 获取永久素材总数(认证后的订阅号可用)
      * @return boolean|array
@@ -1935,7 +1881,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
 	/**
 	 * 上传图文消息素材，用于群发(认证后的订阅号可用)
 	 * @param array $data 消息结构{"articles":[{...}]}
@@ -1956,7 +1901,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 上传视频素材(认证后的订阅号可用)
 	 * @param array $data 消息结构
@@ -1987,7 +1931,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 高级群发消息, 根据OpenID列表群发图文消息(订阅号不可用)
 	 * 	注意：视频需要在调用uploadMedia()方法后，再使用 uploadMpVideo() 方法生成，
@@ -2020,7 +1963,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 高级群发消息, 根据群组id群发图文消息(认证后的订阅号可用)
 	 * 	注意：视频需要在调用uploadMedia()方法后，再使用 uploadMpVideo() 方法生成，
@@ -2053,7 +1995,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 高级群发消息, 删除群发图文消息(认证后的订阅号可用)
 	 * @param int $msg_id 消息id
@@ -2074,7 +2015,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 高级群发消息, 预览群发消息(认证后的订阅号可用)
 	 * 	注意：视频需要在调用uploadMedia()方法后，再使用 uploadMpVideo() 方法生成，
@@ -2104,7 +2044,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 高级群发消息, 查询群发消息发送状态(认证后的订阅号可用)
 	 * @param int $msg_id 消息id
@@ -2129,28 +2068,48 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 创建二维码ticket
 	 * @param int|string $scene_id 自定义追踪id,临时二维码只能用数值型
-	 * @param int $type 0:临时二维码；1:永久二维码(此时expire参数无效)；2:永久二维码(此时expire参数无效)
-	 * @param int $expire 临时二维码有效期，最大为1800秒
-	 * @return array('ticket'=>'qrcode字串','expire_seconds'=>1800,'url'=>'二维码图片解析后的地址')
+	 * @param int $type 0:临时二维码；1:数值型永久二维码(此时expire参数无效)；2:字符串型永久二维码(此时expire参数无效)
+	 * @param int $expire 临时二维码有效期，最大为604800秒
+	 * @return array('ticket'=>'qrcode字串','expire_seconds'=>604800,'url'=>'二维码图片解析后的地址')
 	 */
-	public function getQRCode($scene_id,$type=0,$expire=1800){
+	public function getQRCode($scene_id,$type=0,$expire=604800){
 		if (!$this->access_token && !$this->checkAuth()) return false;
-		$type = ($type && is_string($scene_id))?2:$type;
+		if (!isset($scene_id)) return false;
+		switch ($type) {
+			case '0':
+				if (!is_numeric($scene_id))
+					return false;
+				$action_name = 'QR_SCENE';
+				$action_info = array('scene'=>(array('scene_id'=>$scene_id)));
+				break;
+			case '1':
+				if (!is_numeric($scene_id))
+					return false;
+				$action_name = 'QR_LIMIT_SCENE';
+				$action_info = array('scene'=>(array('scene_id'=>$scene_id)));
+				break;
+			case '2':
+				if (!is_string($scene_id))
+					return false;
+				$action_name = 'QR_LIMIT_STR_SCENE';
+				$action_info = array('scene'=>(array('scene_str'=>$scene_id)));
+				break;
+			default:
+				return false;
+		}
 		$data = array(
-			'action_name'=>$type?($type == 2?"QR_LIMIT_STR_SCENE":"QR_LIMIT_SCENE"):"QR_SCENE",
-			'expire_seconds'=>$expire,
-			'action_info'=>array('scene'=>($type == 2?array('scene_str'=>$scene_id):array('scene_id'=>$scene_id)))
+			'action_name'    => $action_name,
+			'expire_seconds' => $expire,
+			'action_info'    => $action_info
 		);
-		if ($type == 1) {
+		if ($type) {
 			unset($data['expire_seconds']);
 		}
 		$result = $this->http_post(self::API_URL_PREFIX.self::QRCODE_CREATE_URL.'access_token='.$this->access_token,self::json_encode($data));
-		if ($result)
-		{
+		if ($result) {
 			$json = json_decode($result,true);
 			if (!$json || !empty($json['errcode'])) {
 				$this->errCode = $json['errcode'];
@@ -2161,7 +2120,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取二维码图片
 	 * @param string $ticket 传入由getQRCode方法生成的ticket参数
@@ -2170,7 +2128,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	public function getQRUrl($ticket) {
 		return self::QRCODE_IMG_URL.urlencode($ticket);
 	}
-
 	/**
 	 * 长链接转短链接接口
 	 * @param string $long_url 传入要转换的长url
@@ -2195,7 +2152,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 获取统计数据
 	 * @param string $type  数据分类(user|article|upstreammsg|interface)分别为(用户分析|图文分析|消息分析|接口分析)
@@ -2225,7 +2181,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 批量获取关注用户列表
 	 * @param unknown $next_openid
@@ -2245,16 +2200,16 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取关注者详细信息
 	 * @param string $openid
+	 * @param string $lang 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
 	 * @return array {subscribe,openid,nickname,sex,city,province,country,language,headimgurl,subscribe_time,[unionid]}
 	 * 注意：unionid字段 只有在用户将公众号绑定到微信开放平台账号后，才会出现。建议调用前用isset()检测一下
 	 */
-	public function getUserInfo($openid){
+	public function getUserInfo($openid, $lang = 'zh_CN'){
 		if (!$this->access_token && !$this->checkAuth()) return false;
-		$result = $this->http_get(self::API_URL_PREFIX.self::USER_INFO_URL.'access_token='.$this->access_token.'&openid='.$openid);
+		$result = $this->http_get(self::API_URL_PREFIX.self::USER_INFO_URL.'access_token='.$this->access_token.'&openid='.$openid.'&lang='.$lang);
 		if ($result)
 		{
 			$json = json_decode($result,true);
@@ -2267,7 +2222,27 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
+	/**
+	 * 批量获取关注者详细信息
+	 * @param array $openids user_list{{'openid:xxxxxx'},{},{}}
+	 * @return array user_info_list{subscribe,openid,nickname,sex,city,province,country,language,headimgurl,subscribe_time,[unionid]}{}{}...
+	 * 注意：unionid字段 只有在用户将公众号绑定到微信开放平台账号后，才会出现。建议调用前用isset()检测一下
+	 */
+	public function getUsersInfo($openids){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		$result = $this->http_post(self::API_URL_PREFIX.self::USERS_INFO_URL.'access_token='.$this->access_token,json_encode($openids));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (isset($json['errcode'])) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return $json;
+		}
+		return false;
+	}
 	/**
 	 * 设置用户备注名
 	 * @param string $openid
@@ -2293,7 +2268,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 获取用户分组列表
 	 * @return boolean|array
@@ -2313,7 +2287,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取用户所在分组
 	 * @param string $openid
@@ -2337,7 +2310,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 新增自定分组
 	 * @param string $name 分组名称
@@ -2361,7 +2333,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 更改分组名称
 	 * @param int $groupid 分组id
@@ -2386,7 +2357,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 移动用户分组
 	 * @param int $groupid 分组id
@@ -2412,7 +2382,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 批量移动用户分组
 	 * @param int $groupid 分组id
@@ -2438,7 +2407,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 发送客服消息
 	 * @param array $data 消息结构{"touser":"OPENID","msgtype":"news","news":{...}}
@@ -2459,7 +2427,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * oauth 授权跳转接口
 	 * @param string $callback 回调URI
@@ -2468,7 +2435,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	public function getOauthRedirect($callback,$state='',$scope='snsapi_userinfo'){
 		return self::OAUTH_PREFIX.self::OAUTH_AUTHORIZE_URL.'appid='.$this->appid.'&redirect_uri='.urlencode($callback).'&response_type=code&scope='.$scope.'&state='.$state.'#wechat_redirect';
 	}
-
 	/**
 	 * 通过code获取Access Token
 	 * @return array {access_token,expires_in,refresh_token,openid,scope}
@@ -2490,7 +2456,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 刷新access token并续期
 	 * @param string $refresh_token
@@ -2511,7 +2476,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取授权后的用户资料
 	 * @param string $access_token
@@ -2533,7 +2497,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 检验授权凭证是否有效
 	 * @param string $access_token
@@ -2554,7 +2517,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 模板消息 设置所属行业
 	 * @param int $id1  公众号模板消息所属行业编号，参看官方开发文档 行业代码
@@ -2577,7 +2539,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 模板消息 添加消息模板
 	 * 成功返回消息模板的调用id
@@ -2599,7 +2560,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 发送模板消息
 	 * @param array $data 消息结构
@@ -2643,7 +2603,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取多客服会话记录
 	 * @param array $data 数据结构{"starttime":123456789,"endtime":987654321,"openid":"OPENID","pagesize":10,"pageindex":1,}
@@ -2664,7 +2623,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 转发多客服消息
 	 * Example: $obj->transfer_customer_service($customer_account)->reply();
@@ -2684,7 +2642,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		$this->Message($msg);
 		return $this;
 	}
-
 	/**
 	 * 获取多客服客服基本信息
 	 *
@@ -2705,7 +2662,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 获取多客服在线客服接待信息
 	 *
@@ -2736,7 +2692,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 创建指定多客服会话
 	 * @tutorial 当用户已被其他客服接待或指定客服不在线则会失败
@@ -2769,7 +2724,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 关闭指定多客服会话
 	 * @tutorial 当用户被其他客服接待时则会失败
@@ -2802,7 +2756,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 获取用户会话状态
 	 * @param string $openid           //用户openid
@@ -2829,7 +2782,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 获取指定客服的会话列表
 	 * @param string $openid           //用户openid
@@ -2862,7 +2814,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 获取未接入会话列表
 	 * @param string $openid           //用户openid
@@ -2898,7 +2849,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 添加客服账号
 	 *
@@ -2932,7 +2882,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 		}
 		return false;
 	}
-
 	/**
 	 * 修改客服账号信息
 	 *
@@ -2966,7 +2915,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 删除客服账号
 	 *
@@ -2993,7 +2941,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 上传客服头像
 	 *
@@ -3021,7 +2968,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
 	/**
 	 * 语义理解接口
 	 * @param String $uid      用户唯一id（非开发者id），用户区分公众号下的不同用户（建议填入用户openid）
@@ -3063,7 +3009,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 	    }
 	    return false;
 	}
-
     /**
      * 创建卡券
      * @param Array $data      卡券数据
@@ -3083,7 +3028,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 更改卡券信息
      * 调用该接口更新信息后会重新送审，卡券状态变更为待审核。已被用户领取的卡券会实时更新票面信息。
@@ -3104,7 +3048,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 删除卡券
      * 允许商户删除任意一类卡券。删除卡券后，该卡券对应已生成的领取用二维码、添加到卡包 JS API 均会失效。
@@ -3129,7 +3072,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 查询卡券详情
      * @param string $card_id
@@ -3152,7 +3094,39 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
+    /**
+     * 获取用户已领取卡券接口
+     * @param string $openid
+     * @param string $card_id
+     * @return boolean|array    返回数组信息比较复杂，请参看卡券接口文档
+     * 成功返回结果
+     *  {
+     * "errcode":0,
+     * "errmsg":"ok",
+     * "card_list": [
+     * {"code": "xxx1434079154", "card_id": "xxxxxxxxxx"},
+     * {"code": "xxx1434079155", "card_id": "xxxxxxxxxx"}
+     * ]
+     * }
+     */
+    public function getUserCardList($openid,$card_id) {
+        $data = array(
+            'openid' => $openid,
+            'card_id' => $card_id
+        );
+        if (!$this->access_token && !$this->checkAuth()) return false;
+        $result = $this->http_post(self::API_BASE_URL_PREFIX . self::CARD_USER_GETCARDLIST . 'access_token=' . $this->access_token, self::json_encode($data));
+        if ($result) {
+            $json = json_decode($result, true);
+            if (!$json || !empty($json['errcode'])) {
+                $this->errCode = $json['errcode'];
+                $this->errMsg  = $json['errmsg'];
+                return false;
+            }
+            return $json;
+        }
+        return false;
+    }
     /**
      * 获取颜色列表
 	 * 获得卡券的最新颜色列表，用于创建卡券
@@ -3172,7 +3146,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 拉取门店列表
 	 * 获取在公众平台上申请创建的门店列表
@@ -3198,7 +3171,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 批量导入门店信息
 	 * @tutorial 返回插入的门店id列表，以逗号分隔。如果有插入失败的，则为-1，请自行核查是哪个插入失败
@@ -3219,7 +3191,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 生成卡券二维码
 	 * 成功则直接返回ticket值，可以用 getQRUrl($ticket) 换取二维码url
@@ -3234,22 +3205,22 @@ function formatQueryParaMap($paraMap, $urlencode=false){
      */
     public function createCardQrcode($card_id,$code='',$openid='',$expire_seconds=0,$is_unique_code=false,$balance='') {
         $card = array(
-                'card_id' => $card_id
+            'card_id' => $card_id
+        );
+        $data = array(
+            'action_name' => "QR_CARD"
         );
         if ($code)
             $card['code'] = $code;
         if ($openid)
             $card['openid'] = $openid;
-        if ($expire_seconds)
-            $card['expire_seconds'] = $expire_seconds;
         if ($is_unique_code)
             $card['is_unique_code'] = $is_unique_code;
         if ($balance)
             $card['balance'] = $balance;
-        $data = array(
-            'action_name' => "QR_CARD",
-            'action_info' => array('card' => $card)
-        );
+        if ($expire_seconds)
+            $data['expire_seconds'] = $expire_seconds;
+        $data['action_info'] = array('card' => $card);
         if (!$this->access_token && !$this->checkAuth()) return false;
         $result = $this->http_post(self::API_BASE_URL_PREFIX . self::CARD_QRCODE_CREATE . 'access_token=' . $this->access_token, self::json_encode($data));
         if ($result) {
@@ -3263,7 +3234,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 消耗 code
      * 自定义 code（use_custom_code 为 true）的优惠券，在 code 被核销时，必须调用此接口。
@@ -3295,7 +3265,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * code 解码
      * @param string $encrypt_code 通过 choose_card_info 获取的加密字符串
@@ -3323,7 +3292,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 查询 code 的有效性（非自定义 code）
      * @param string $code
@@ -3356,7 +3324,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 批量查询卡列表
 	 * @param $offset  开始拉取的偏移，默认为0从头开始
@@ -3389,7 +3356,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 更改 code
      * 为确保转赠后的安全性，微信允许自定义code的商户对已下发的code进行更改。
@@ -3418,7 +3384,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 设置卡券失效
      * 设置卡券失效的操作不可逆
@@ -3445,7 +3410,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 库存修改
      * @param string $data
@@ -3465,7 +3429,25 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
+    /**
+     * 更新门票
+     * @param string $data
+     * @return boolean
+     */
+    public function updateMeetingCard($data) {
+        if (!$this->access_token && !$this->checkAuth()) return false;
+        $result = $this->http_post(self::API_BASE_URL_PREFIX . self::CARD_MEETINGCARD_UPDATEUSER . 'access_token=' . $this->access_token, self::json_encode($data));
+        if ($result) {
+            $json = json_decode($result, true);
+            if (!$json || !empty($json['errcode'])) {
+                $this->errCode = $json['errcode'];
+                $this->errMsg  = $json['errmsg'];
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
     /**
      * 激活/绑定会员卡
      * @param string $data 具体结构请参看卡券开发文档(6.1.1 激活/绑定会员卡)章节
@@ -3485,7 +3467,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 会员卡交易
      * 会员卡交易后每次积分及余额变更需通过接口通知微信，便于后续消息通知及其他扩展功能。
@@ -3506,7 +3487,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 更新红包金额
      * @param string $code      红包的序列号
@@ -3534,7 +3514,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 设置卡券测试白名单
      * @param string $openid    测试的 openid 列表
@@ -3560,7 +3539,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 申请设备ID
      * [applyShakeAroundDevice 申请配置设备所需的UUID、Major、Minor。
@@ -3589,7 +3567,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         "errcode": 0,
         "errmsg": "success."
         }
-
         apply_id:申请的批次ID，可用在“查询设备列表”接口按批次查询本次申请成功的设备ID
         device_identifiers:指定的设备ID 列表
         device_id:设备编号
@@ -3616,7 +3593,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 编辑设备信息
      * [updateShakeAroundDevice 编辑设备的备注信息。可用设备ID或完整的UUID、Major、Minor指定设备，二者选其一。]
@@ -3655,7 +3631,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 查询设备列表
      * [searchShakeAroundDevice 查询已有的设备ID、UUID、Major、Minor、激活状态、备注信息、关联门店、关联页面等信息。
@@ -3742,7 +3717,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [bindLocationShakeAroundDevice 配置设备与门店的关联关系]
      * @param string $device_id 设备编号，若填了UUID、major、minor，则可不填设备编号，若二者都填，则以设备编号为优先
@@ -3796,7 +3770,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [bindPageShakeAroundDevice 配置设备与页面的关联关系。
      * 支持建立或解除关联关系，也支持新增页面或覆盖页面等操作。
@@ -3857,7 +3830,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * 上传在摇一摇页面展示的图片素材
      * 注意：数组的键值任意，但文件名前必须加@，使用单引号以避免本地路径斜杠被转义
@@ -3876,7 +3848,7 @@ function formatQueryParaMap($paraMap, $urlencode=false){
      */
     public function uploadShakeAroundMedia($data){
         if (!$this->access_token && !$this->checkAuth()) return false;
-        $result = $this->http_post(self::API_URL_PREFIX.self::SHAKEAROUND_MATERIAL_ADD.'access_token='.$this->access_token,$data,true);
+        $result = $this->http_post(self::API_BASE_URL_PREFIX.self::SHAKEAROUND_MATERIAL_ADD.'access_token='.$this->access_token,$data,true);
         if ($result)
         {
             $json = json_decode($result,true);
@@ -3889,7 +3861,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [addShakeAroundPage 增加摇一摇出来的页面信息，包括在摇一摇页面出现的主标题、副标题、图片和点击进去的超链接。]
      * @param string $title 在摇一摇页面展示的主标题，不超过6 个字
@@ -3933,7 +3904,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [updateShakeAroundPage 编辑摇一摇出来的页面信息，包括在摇一摇页面出现的主标题、副标题、图片和点击进去的超链接。]
      * @param int $page_id
@@ -3979,7 +3949,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [searchShakeAroundPage 查询已有的页面，包括在摇一摇页面出现的主标题、副标题、图片和点击进去的超链接。
      * 提供两种查询方式，①可指定页面ID 查询，②也可批量拉取页面列表。]
@@ -4062,7 +4031,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [deleteShakeAroundPage 删除已有的页面，包括在摇一摇页面出现的主标题、副标题、图片和点击进去的超链接。
      * 只有页面与设备没有关联关系时，才可被删除。]
@@ -4101,7 +4069,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [getShakeInfoShakeAroundUser 获取设备信息，包括UUID、major、minor，以及距离、openID 等信息。]
      * @param string $ticket 摇周边业务的ticket，可在摇到的URL 中得到，ticket生效时间为30 分钟
@@ -4149,7 +4116,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
     /**
      * [deviceShakeAroundStatistics 以设备为维度的数据统计接口。
      * 查询单个设备进行摇周边操作的人数、次数，点击摇周边消息的人数、次数；查询的最长时间跨度为30天。]
@@ -4226,8 +4192,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
-
-
     /**
      * [pageShakeAroundStatistics 以页面为维度的数据统计接口。
      * 查询单个页面通过摇周边摇出来的人数、次数，点击摇周边页面的人数、次数；查询的最长时间跨度为30天。]
@@ -4285,6 +4249,141 @@ function formatQueryParaMap($paraMap, $urlencode=false){
         }
         return false;
     }
+	/**
+	 * 根据订单ID获取订单详情
+	 * @param string $order_id 订单ID
+	 * @return order array|bool
+	 */
+	public function getOrderByID($order_id){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		if (!$order_id) return false;
+		$data = array(
+			'order_id'=>$order_id
+		);
+		$result = $this->http_post(self::API_BASE_URL_PREFIX.self::MERCHANT_ORDER_GETBYID.'access_token='.$this->access_token, self::json_encode($data));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (isset($json['errcode']) && $json['errcode']) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return $json['order'];
+		}
+		return false;
+	}
+	/**
+	 * 根据订单状态/创建时间获取订单详情
+	 * @param int $status 订单状态(不带该字段-全部状态, 2-待发货, 3-已发货, 5-已完成, 8-维权中, )
+	 * @param int $begintime 订单创建时间起始时间(不带该字段则不按照时间做筛选)
+	 * @param int $endtime 订单创建时间终止时间(不带该字段则不按照时间做筛选)
+	 * @return order list array|bool
+	 */
+	public function getOrderByFilter($status = null, $begintime = null, $endtime = null){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		$data = array();
+		$valid_status = array(2, 3, 5, 8);
+		if (is_numeric($status) && in_array($status, $valid_status)) {
+			$data['status'] = $status;
+		}
+		if (is_numeric($begintime) && is_numeric($endtime)) {
+			$data['begintime'] = $begintime;
+			$data['endtime'] = $endtime;
+		}
+		$result = $this->http_post(self::API_BASE_URL_PREFIX.self::MERCHANT_ORDER_GETBYFILTER.'access_token='.$this->access_token, self::json_encode($data));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (isset($json['errcode']) && $json['errcode']) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return $json['order_list'];
+		}
+		return false;
+	}
+	/**
+	 * 设置订单发货信息
+	 * @param string $order_id 订单 ID
+	 * @param int $need_delivery 商品是否需要物流(0-不需要，1-需要)
+	 * @param string $delivery_company 物流公司 ID
+	 * @param string $delivery_track_no 运单 ID
+	 * @param int $is_others 是否为 6.4.5 表之外的其它物流公司(0-否，1-是)
+	 * @return bool
+	 */
+	public function setOrderDelivery($order_id, $need_delivery = 0, $delivery_company = null, $delivery_track_no = null, $is_others = 0){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		if (!$order_id) return false;
+		$data = array();
+		$data['order_id'] = $order_id;
+		if ($need_delivery) {
+			$data['delivery_company'] = $delivery_company;
+			$data['delivery_track_no'] = $delivery_track_no;
+			$data['is_others'] = $is_others;
+		}
+		else {
+			$data['need_delivery'] = $need_delivery;
+		}
+		$result = $this->http_post(self::API_BASE_URL_PREFIX.self::MERCHANT_ORDER_SETDELIVERY.'access_token='.$this->access_token, self::json_encode($data));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (isset($json['errcode']) && $json['errcode']) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 关闭订单
+	 * @param string $order_id 订单 ID
+	 * @return bool
+	 */
+	public function closeOrder($order_id){
+		if (!$this->access_token && !$this->checkAuth()) return false;
+		if (!$order_id) return false;
+		$data = array(
+			'order_id'=>$order_id
+		);
+		$result = $this->http_post(self::API_BASE_URL_PREFIX.self::MERCHANT_ORDER_CLOSE.'access_token='.$this->access_token, self::json_encode($data));
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (isset($json['errcode']) && $json['errcode']) {
+				$this->errCode = $json['errcode'];
+				$this->errMsg = $json['errmsg'];
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	private function parseSkuInfo($skuInfo) {
+		$skuInfo = str_replace("\$", "", $skuInfo);
+		$matches = explode(";", $skuInfo);
+		$result = array();
+		foreach ($matches as $matche) {
+			$arrs = explode(":", $matche);
+			$result[$arrs[0]] = $arrs[1];
+		}
+		return $result;
+	}
+	/**
+	 * 获取订单SkuInfo - 订单付款通知
+	 * 当Event为 merchant_order(订单付款通知)
+	 * @return array|boolean
+	 */
+	public function getRevOrderSkuInfo(){
+		if (isset($this->_receive['SkuInfo']))     //订单 SkuInfo
+			return $this->parseSkuInfo($this->_receive['SkuInfo']);
+		else
+			return false;
+	}
 }
 /**
  * PKCS7Encoder class
@@ -4294,7 +4393,6 @@ function formatQueryParaMap($paraMap, $urlencode=false){
 class PKCS7Encoder
 {
     public static $block_size = 32;
-
     /**
      * 对需要加密的明文进行填充补位
      * @param $text 需要进行填充补位操作的明文
@@ -4317,7 +4415,6 @@ class PKCS7Encoder
         }
         return $text . $tmp;
     }
-
     /**
      * 对解密后的明文进行补位删除
      * @param decrypted 解密后的明文
@@ -4325,16 +4422,13 @@ class PKCS7Encoder
      */
     function decode($text)
     {
-
         $pad = ord(substr($text, -1));
         if ($pad < 1 || $pad > PKCS7Encoder::$block_size) {
             $pad = 0;
         }
         return substr($text, 0, (strlen($text) - $pad));
     }
-
 }
-
 /**
  * Prpcrypt class
  *
@@ -4343,11 +4437,9 @@ class PKCS7Encoder
 class Prpcrypt
 {
     public $key;
-
     function __construct($k) {
         $this->key = base64_decode($k . "=");
     }
-
     /**
      * 兼容老版本php构造函数，不能在 __construct() 方法前边，否则报错
      */
@@ -4355,7 +4447,6 @@ class Prpcrypt
     {
         $this->key = base64_decode($k . "=");
     }
-
     /**
      * 对明文进行加密
      * @param string $text 需要加密的明文
@@ -4363,7 +4454,6 @@ class Prpcrypt
      */
     public function encrypt($text, $appid)
     {
-
         try {
             //获得16位随机字符串，填充到明文之前
             $random = $this->getRandomStr();//"aaaabbbbccccdddd";
@@ -4380,7 +4470,6 @@ class Prpcrypt
             $encrypted = mcrypt_generic($module, $text);
             mcrypt_generic_deinit($module);
             mcrypt_module_close($module);
-
             //			print(base64_encode($encrypted));
             //使用BASE64对加密后的字符串进行编码
             return array(ErrorCode::$OK, base64_encode($encrypted));
@@ -4389,7 +4478,6 @@ class Prpcrypt
             return array(ErrorCode::$EncryptAESError, null);
         }
     }
-
     /**
      * 对密文进行解密
      * @param string $encrypted 需要解密的密文
@@ -4397,7 +4485,6 @@ class Prpcrypt
      */
     public function decrypt($encrypted, $appid)
     {
-
         try {
             //使用BASE64对需要解密的字符串进行解码
             $ciphertext_dec = base64_decode($encrypted);
@@ -4411,8 +4498,6 @@ class Prpcrypt
         } catch (Exception $e) {
             return array(ErrorCode::$DecryptAESError, null);
         }
-
-
         try {
             //去除补位字符
             $pkc_encoder = new PKCS7Encoder;
@@ -4436,17 +4521,13 @@ class Prpcrypt
             return array(ErrorCode::$ValidateAppidError, null);
         //不注释上边两行，避免传入appid是错误的情况
         return array(0, $xml_content, $from_appid); //增加appid，为了解决后面加密回复消息的时候没有appid的订阅号会无法回复
-
     }
-
-
     /**
      * 随机生成16位字符串
      * @return string 生成的字符串
      */
     function getRandomStr()
     {
-
         $str = "";
         $str_pol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         $max = strlen($str_pol) - 1;
@@ -4455,9 +4536,7 @@ class Prpcrypt
         }
         return $str;
     }
-
 }
-
 /**
  * error code
  * 仅用作类内部使用，不用于官方API接口的errCode码
