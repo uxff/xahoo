@@ -75,6 +75,11 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $theNewContent = $this->replaceImgTag($artObj->content);
 
             // 准备缩略图
+            //$thumbMedia = $this->uploadImg($theFirstImg);
+            // 使用缩略图接口上传
+            $thumbParam = ['media'=>'@/pathto/file.png'];
+            $thumbMedia = $this->weObj->uploadForeverMedia($thumbParam);
+
             $articles = [[
                 'thumb_media_id' => '',
                 'author' => '', // null

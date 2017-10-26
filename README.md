@@ -18,5 +18,4 @@ Xahoo网站是一个demo网站，用于展示一套会员经营系统。包括�
 # 定时统计资讯数据
 1 10 * * * /usr/local/php/bin/php /data/wwwroot/xahoo/approot/protected/commands/console.php stastic stasticArticle --dur=-1  >/dev/null 2>&1
 ```
-### 定时
 
