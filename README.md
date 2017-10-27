@@ -11,6 +11,74 @@ Xahoo网站是一个demo网站，用于展示一套会员经营系统。包括�
 
 后台展示地址： http://b.xahoo.xenith.top/
 
+
+## 配置安装
+将 approot/protected/xahoomob/config/main.php.bak 复制为 approot/protected/xahoomob/config/main.php ,并修改对应数据库，缓存配置
+将 approot/protected/xahooadmin/config/main.php.bak 复制为 approot/protected/xahooadmin/config/main.php , 并修改对应的数据库，缓存配置
+修改 approot/protected/commands/config/consoleConfig.php 中的配置为对应的数据库配置
+
+approot/frontendmob.php 前端入口，对应手机端目录，使用 approot/protected/xahoomob/ 项目
+approot/backend.php 后端入口，对应后台管理目录，使用 approot/protected/xahooadmin/ 项目
+
+nginx 配置：
+```
+server {
+listen 80;
+server_name xahoo.xenith.top;
+access_log /data/logs/nginx/access.xahoo.xenith.top.log combined;
+error_log /data/logs/nginx/error.xahoo.xenith.top.log;
+index index.html index.php;
+include other.conf;
+root /data/wwwroot/xahoo/approot/;
+
+location ~ .*\.(php|php5)?$  {
+    fastcgi_pass unix:/tmp/php-cgi.sock;
+    fastcgi_index index.php;
+    include fastcgi.conf;
+    }
+
+location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+    expires 30d;
+    }
+
+location ~ .*\.(js|css)?$ {
+    expires 7d;
+    }
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+
+}
+# backend
+server {
+listen 80;
+server_name b.xahoo.xenith.top;
+access_log /data/logs/nginx/access.xahoo.xenith.top.log combined;
+error_log /data/logs/nginx/error.xahoo.xenith.top.log;
+index backend.php;
+include other.conf;
+root /data/wwwroot/xahoo/approot/;
+
+location ~ .*\.(php|php5)?$  {
+    fastcgi_pass unix:/tmp/php-cgi.sock;
+    fastcgi_index index.php;
+    include fastcgi.conf;
+    }
+
+location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+    expires 30d;
+    }
+
+location ~ .*\.(js|css)?$ {
+    expires 7d;
+    }
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+
+}
+```
+
 ## crontab 
 ```
 # 定时爬取资讯
