@@ -13,6 +13,8 @@ Xahoo网站是一个demo网站，用于展示一套会员经营系统。包括�
 
 
 ## 配置安装
+将项目拷贝到nginx的webroot下，比如/data/wwwroot/。
+
 将 approot/protected/xahoomob/config/main.php.bak 复制为 approot/protected/xahoomob/config/main.php ,并修改对应数据库，缓存配置
 将 approot/protected/xahooadmin/config/main.php.bak 复制为 approot/protected/xahooadmin/config/main.php , 并修改对应的数据库，缓存配置
 修改 approot/protected/commands/config/consoleConfig.php 中的配置为对应的数据库配置
@@ -78,6 +80,9 @@ location / {
 
 }
 ```
+数据库使用mysql,导入 approot/data/xahoo_20170604.sql 中的数据，包含测试用户。
+
+安装好后执行 approot/install.sh 为目录增加权限。
 
 ## crontab 
 ```
