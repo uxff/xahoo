@@ -70,6 +70,7 @@ CREATE TABLE `fh_article` (
   `share_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分享次数',
   `favor_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数量',
   `comment_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '评论数量',
+  `pubdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '发布日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `admin_id` int(11) NOT NULL COMMENT '创建人id',
