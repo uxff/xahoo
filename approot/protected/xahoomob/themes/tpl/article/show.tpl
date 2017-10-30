@@ -8,14 +8,18 @@
 {/literal}
 
 <!--内容区 start-->
-{if $iframeUrl}
+{if false && $iframeUrl}
 <section class="task-list" style="padding: 0 0 3.4624rem;">
 <iframe src="{$iframeUrl}" style="width:100%;min-height:800px;color:" border="0" frameborder="no">
 </iframe>
 </section>
 {else}
-<section class="task-list">
+<section class="task-list" style="padding: 0 0 3.4624rem;">
+<p style="text-align:center"><span>{$articleModel.pubdate}</span>&nbsp;&nbsp;&nbsp;<span>{$articleModel.remark}</span></p>
+<p>
     {$articleModel.content}
+</p>
+<a href="{$iframeUrl}" target="_blank">阅读原文</a>
 </section>
 {/if}
 <!--内容区 end-->

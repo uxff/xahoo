@@ -70,11 +70,11 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         $artList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today', [':today'=>$today.' 00:00:00']);//('t.status = 2');
 
         foreach ($artList as $artObj) {
-            // 每个文章的在线区间
+            // 替换文章内部图片
             //$imgUrls = preg_match_all('', $artObj->content)
             $theNewContent = $this->replaceImgTag($artObj->content);
 
-            // 准备缩略图
+            // 准备图文消息缩略图
             //$thumbMedia = $this->uploadImg($theFirstImg);
             // 使用缩略图接口上传
             $thumbParam = ['media'=>'@/pathto/file.png'];
@@ -90,16 +90,13 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 'show_cover_pic' => '',// null
             ]];
 
-            // 每个文章要搜索里面的图片 上传到mp
+            // 将替换后的html上传图文消息接口生成media_id
             $mediaInfo = $this->weObj->uploadArticles($articles);
 
             // 将media_id保存，等待发送mp消息使用
-            // 然后将替换图片地址后的整个html上传到mp
-            // 群发只能用media_id发送
-            // 单发可回复图文消息,带上url
-
-
             $this->saveMedia($mediaInfo['media_id'], 'NEWS', $this->mpid);
+
+            // 群发只能用media_id发送 // 单发可回复图文消息,带上url
 
             // 准备群发
             $massSendParam = [
