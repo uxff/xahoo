@@ -23,7 +23,7 @@ var NormalFetcher *h.Fetcher
 func FetchUrl(url string) (feed *Feed, items []*ArticleEntity, err error) {
 
 	headers := make(map[string]string)
-	headers["User-Agent"] = "Gofeed: xahoo" //fmt.Sprintf("QReader %s (%s)", Version.Version, Github)
+	headers["User-Agent"] = "QReader or SomeAnonymous Spider" //"Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50" //fmt.Sprintf("QReader %s (%s)", Version.Version, Github)
 
 	NormalFetcher = h.NewFetcher(nil, headers)
 
