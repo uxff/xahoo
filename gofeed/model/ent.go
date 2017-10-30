@@ -17,6 +17,7 @@ type ArticleEntity struct {
 	Share_count   int       `json:"share_count" xorm:"not null"`
 	Favor_count   int       `json:"favor_count" xorm:"not null"`
 	Comment_count int       `json:"comment_count" xorm:"not null"`
+	Pubdate       time.Time `json:"pubdate"     xorm:"not null"`
 	Create_time   time.Time `json:"create_time"   xorm:"not null"`
 	Last_modified time.Time `json:"last_modified" xorm:"not null"`
 	Admin_id      int       `json:"admin_id"   xorm:"not null"`

@@ -106,6 +106,7 @@ func assembleFeed(fd *feedreader.Feed) (feed *Feed, items []*ArticleEntity) {
 			item.Surface_url = *i.ImgLinks[0]
 		}
 
+			item.Pubdate = i.PubDate
 		/*
 			item.Last_modified = i.PubDate
 			if item.Last_modified.IsZero() {
