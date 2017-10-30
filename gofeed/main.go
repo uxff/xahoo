@@ -19,8 +19,14 @@ func main() {
 		http://tech.qq.com/web/webnews/rss_11.xml			// 腾讯互联网
 		http://tech.163.com/special/000944OI/headlines.xml  // 网易科技 // 垃圾广告多
 		http://www.ftchinese.com/rss/feed
-		http://www.scipark.net/feed/
+		http://www.scipark.net/feed/                        // 已过期
         http://feed.williamlong.info/                       // 月光博客
+        https://www.zhihu.com/rss                           // 知乎每日精选
+        http://www.read.org.cn/feed                         // 效率生活
+        http://36kr.com/feed                                // 36kr
+        http://dbanotes.net/feed                            // 小道消息
+        http://www.ruanyifeng.com/blog/atom.xml             // 阮一峰
+
 	*/
 	var url *string = flag.String("url", "", "feed url")
 	var doSave *bool = flag.Bool("dosave", true, "do save or debug")
