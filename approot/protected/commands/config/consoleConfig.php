@@ -86,5 +86,9 @@ return array (
     'modules'=>array(
        'api', 
        'order', 
-    )
+   ),
+   'params'=>array(
+       'LOG_PATH' => '',
+       'LOG_NAME' => 'console.log',
+   ),
 );
