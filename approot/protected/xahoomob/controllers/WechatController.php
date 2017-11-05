@@ -46,7 +46,14 @@ class WechatController extends BaseController {
         $this->weObj = new Wechat($wechatOptions);
 
         if (isset($_GET['echostr'])) {
-            return $this->weObj->valid();
+            if ($this->weObj->valid()) {
+                // 收到确认后，更新数据库状态为已确认状态
+                $mpModel = FhPosterAccountsModel::model()->find('id=:id',array(':id'=>$this->mpid));
+                $mpModel->status = FhPosterAccountsModel::STATUS_AUTHED;
+                if (!$mpModel->save()) {
+                    Yii::log('update FhPosterAccountsModel set status=STATUS_AUTHED error:'.$mpModel->lastError(), 'error', __METHOD__);
+                }
+            }
         }
         // 交给处理器
         $this->process();

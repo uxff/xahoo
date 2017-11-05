@@ -63,7 +63,8 @@
                                     <th style="width: 200px;">APPID</th>
                                     <th style="width: 200px;">EncodingAESKey</th>
                                     <th style="width: 200px;">mp配置服务器地址</th>
-                                    <th style="width: 180px;">最后更新时间</th>
+                                    <th style="width: 100px;">更新时间</th>
+                                    <th style="width: 100px;">状态</th>
                                     <th>操作</th>
                                 </tr>
                         </thead>
@@ -78,6 +79,7 @@
                                         <td>{$objModel['EncodingAESKey']}</td>   
                                         <td>{$mpurlPrefix}&amp;mpid={$objModel.id}</td>   
                                         <td>{$objModel['last_modified']}</td>                                                                          
+                                        <td>{$arrStatus[$objModel['status']]}</td>
                                         <td>
                                         <div class="hidden-sm hidden-xs btn-group">
                                             <a href="backend.php?r=Accounts/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>

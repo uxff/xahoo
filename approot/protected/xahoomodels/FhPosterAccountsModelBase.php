@@ -83,7 +83,7 @@ class FhPosterAccountsModelBase extends CActiveRecord
                        'appid' => 'appid',
                        'appsecret' => 'appsecret',
                        'EncodingAESKey' => 'EncodingAESKey',
-                       'status' => '状态:1有效2无效',
+                       'status' => '状态:1=未确认,2=已确认,9=无效',
                        'create_time' => '创建时间',
                        'last_modified' => '更新时间',
                );

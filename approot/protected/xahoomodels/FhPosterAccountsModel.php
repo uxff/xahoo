@@ -1,7 +1,16 @@
 <?php
 class FhPosterAccountsModel extends FhPosterAccountsModelBase
 {
-	
+
+    const STATUS_UNAUTH = 1;
+    const STATUS_AUTHED = 2;
+    const STATUS_DELETED = 3;
+    static $ARR_STATUS = [
+        self::STATUS_UNAUTH => '待对接',
+        self::STATUS_AUTHED => '对接成功',
+        self::STATUS_DELETED => '已删除',
+        ];
+
         /**
          * @return array validation rules for model attributes.
          */

@@ -25,6 +25,7 @@ class AccountsController extends Controller
             'pages'         =>  $pages,
             'accounts_name' =>  $_POST['poster']['accounts_name'],
             'mpurlPrefix'   =>  ($_SERVER['SERVER_PORT']=='443'?'https://':'http://').Yii::app()->params['frontendDomain'].'/index.php?r=wechat/index',
+            'arrStatus'     =>  FhPosterAccountsModel::$ARR_STATUS,
         );
         $this->smartyRender('accounts/index.tpl', $arrRender);
     }
@@ -60,8 +61,8 @@ class AccountsController extends Controller
             $desc                       =   '新增公众号'.$data1['accounts_name'];
             if($modela->save()){
                 $insertLog = $this->InsertLog($modela->id,$desc);
-                //$this->redirect(array('accounts/index'));        
-                $this->jsonSuccess('操作成功', ['return_url'=>$this->createUrl('accounts/index')]);
+                $this->redirect(array('accounts/index'));        
+                //$this->jsonSuccess('操作成功', ['return_url'=>$this->createUrl('accounts/index')]);
             }
             $this->jsonError('操作失败('.$modela->lastError().')');
     }
