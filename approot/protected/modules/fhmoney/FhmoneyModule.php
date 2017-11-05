@@ -72,10 +72,10 @@ class FhmoneyModule extends CWebModule
 
             // 提交
             $trans->commit();
-            Yii::log('dispatch success!'.' mid='.$member_id.' money='.$money.' remark='.$remark.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('dispatch success!'.' mid='.$member_id.' money='.$money.' remark='.$remark.' ', 'warning', __METHOD__);
             $ret = $moneyHistory->id;
         } catch (CException $e) {
-            Yii::log('dispatch error:'.$e->getMessage().' mid='.$member_id.' remark='.$remark.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('dispatch error:'.$e->getMessage().' mid='.$member_id.' remark='.$remark.' ', 'error', __METHOD__);
             $trans->rollback();
         }
 

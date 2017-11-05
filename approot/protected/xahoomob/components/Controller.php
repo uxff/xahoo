@@ -328,7 +328,7 @@ class Controller extends CController {
                 //$cookie = new CHttpCookie($name, $openid);  
                 //Yii::app()->request->cookies[$name] = $cookie;  
             } else {
-                Yii::log('第三方登录信息为空: sns_id='.$sns_id.' appid='.$appid.' plat='.$plat.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('第三方登录信息为空: sns_id='.$sns_id.' appid='.$appid.' plat='.$plat.' ', 'warning', __METHOD__);
             }
         }
 }

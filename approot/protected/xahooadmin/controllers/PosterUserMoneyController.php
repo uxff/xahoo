@@ -212,12 +212,12 @@ class PosterUserMoneyController extends Controller
                         
 
                         $trans->commit();
-                        Yii::log('withdraw pay money ok! mid='.$member_id.' money='.$val.' '.' '.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                        Yii::log('withdraw pay money ok! mid='.$member_id.' money='.$val.' '.' '.' ', 'warning', __METHOD__);
                         $ret = true;
                         $successNum++;
                     } catch (CException $e) {
                         $trans->rollback();
-                        Yii::log('withdraw pay money error(mid='.$member_id.',money='.$val.'):'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                        Yii::log('withdraw pay money error(mid='.$member_id.',money='.$val.'):'.$e->getMessage().' ', 'error', __METHOD__);
                     }
                 //}
             } else {
@@ -227,7 +227,7 @@ class PosterUserMoneyController extends Controller
                     $ret = $posterLog->save();
                     $successNum++;
                 } catch (CException $e) {
-                    Yii::log('update withdraw error(mid='.$member_id.',money='.$val.'):'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('update withdraw error(mid='.$member_id.',money='.$val.'):'.$e->getMessage().' ', 'error', __METHOD__);
                 }
             }
         }
@@ -269,7 +269,7 @@ class PosterUserMoneyController extends Controller
         $billno = $fhRedpack->billno();
         //$openid = 'o2CgkuPI-QMsUSkWiNzbEirQt4RM';//
         $openid = $haibao->openid;
-        Yii::log('prepare pay redpack:mid='.$member_id.' openid='.$openid.' money='.$money.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('prepare pay redpack:mid='.$member_id.' openid='.$openid.' money='.$money.' ', 'warning', __METHOD__);
         $ret = $fhRedpack->sendRedPack($openid, $money*100);
         //$ret = ['result_code'=>'SUCCESS','mch_id'=>1241495602];
 
@@ -290,13 +290,13 @@ class PosterUserMoneyController extends Controller
             $redPackLog->operator_name  = $_SESSION['memberadmin__adminUser']['name'];
             $redPackLog->create_time    = $redPackLog->last_modified = date('Y-m-d H:i:s');
             if (!$redPackLog->save()) {
-                Yii::log('withdraw pay success but log error(mid='.$member_id.'):'.$redPackLog->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('withdraw pay success but log error(mid='.$member_id.'):'.$redPackLog->lastError().' ', 'warning', __METHOD__);
                 //throw new CException($redPackLog->lastError());
             }
         } else {
             throw new CException($fhRedpack->errMsg);
         }
-        Yii::log('pay redpack SUCCESS:mid='.$member_id.' openid='.$openid.' money='.$money.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('pay redpack SUCCESS:mid='.$member_id.' openid='.$openid.' money='.$money.' ', 'warning', __METHOD__);
         return $ret;
     }
 }

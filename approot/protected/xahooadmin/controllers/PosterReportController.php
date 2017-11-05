@@ -109,7 +109,7 @@ class PosterReportController extends Controller
         $filename = '海报报表_'.substr($startDay, 0, 10).'_'.substr($endDay, 0, 10).'.csv';
         // 下载
         $this->downloadCsv($reportData, $ths, $filename);
-        //Yii::log('download over:'.$filename.' '.count($repoartData).'lines.'.' @'.__FILE__.':'.__LINE__, 'info', __METHOD__);
+        //Yii::log('download over:'.$filename.' '.count($repoartData).'lines.'.' ', 'info', __METHOD__);
     }
 
     public function actionExportExcel(){

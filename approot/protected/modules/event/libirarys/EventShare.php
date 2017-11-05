@@ -60,15 +60,15 @@ class EventShare extends EventAbs {
             $shareLogModel->use_invite_code = $params['shareCode'];
             $shareLogModel->article_url = $params['articleUrl'];
             if (!$shareLogModel->save()) {
-                Yii::log('save shareLogModel error:'.$shareLogModel->lastError().' @'.__FILE__.':'.__LINE__,'error',__METHOD__);
+                Yii::log('save shareLogModel error:'.$shareLogModel->lastError().' ','error',__METHOD__);
             }
-            Yii::log('new share log! mid='.$member_id.' aid='.$articleId.' platId='.$platId.' @'.__FILE__.':'.__LINE__,'warning',__METHOD__);
+            Yii::log('new share log! mid='.$member_id.' aid='.$articleId.' platId='.$platId.' ','warning',__METHOD__);
             $ret = true;
         } else {
             $shareLogModel->view_count += 1;
             $shareLogModel->save();
             $ret = false;
-            Yii::log('already shared! mid='.$member_id.' aid='.$articleId.' platId='.$platId.' @'.__FILE__.':'.__LINE__,'warning',__METHOD__);
+            Yii::log('already shared! mid='.$member_id.' aid='.$articleId.' platId='.$platId.' ','warning',__METHOD__);
         }
         
         $shareTitle = '分享';
@@ -113,7 +113,7 @@ class EventShare extends EventAbs {
             $taskInst = TaskInst::makeInstByTpl($member_id, $taskTplId);
             if ($taskInst) {
                 $taskInst->stepForward();
-                Yii::log('update his('.$member_id.') task('.$taskTplId.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('update his('.$member_id.') task('.$taskTplId.')'.' ', 'warning', __METHOD__);
                 //$shareTitle = '分享：'.$taskInst->getModel()->task_tpl->task_name;
                 if ($taskInst->isTaskFinished() && !$taskInst->isTaskRewarded()) {
                     // 奖励任务

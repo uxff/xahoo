@@ -88,7 +88,7 @@ class FriendModule extends CWebModule
         $friendShip->friend_id = $friend_id;
         $friendShip->from = $from;
         if (!$friendShip->save()) {
-            Yii::log(':'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log(':'.' ', 'error', __METHOD__);
         }
         return true;
     }

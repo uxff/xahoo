@@ -145,7 +145,7 @@ class WechatRedpack {
 
         $this->resData = $data = $this->post($redPackUrl,$postXml);
         $ret = (array)simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
-        Yii::log('SEND A REDPACK: postXml='.$postXml.' RES='.$data.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('SEND A REDPACK: postXml='.$postXml.' RES='.$data.' ', 'warning', __METHOD__);
         file_put_contents('/tmp/fanghu_wechat_debug',var_export($data,true),FILE_APPEND);
 
         if ($ret['result_code']=='SUCCESS') {

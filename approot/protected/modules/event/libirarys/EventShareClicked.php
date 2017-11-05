@@ -27,11 +27,11 @@ class EventShareClicked extends EventAbs {
         // 一个用户的分享 一个文章 只派发一次
         $taskTplId = (int)$params['taskTplId'];
         if (!$taskTplId) {
-            Yii::log('illegal task_id:'.$taskTplId.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('illegal task_id:'.$taskTplId.' ', 'error', __METHOD__);
         } else {
             $taskInst = TaskInst::makeInstByTpl($member_id, $taskTplId);
             if (!$taskInst) {
-                Yii::log('he('.$member_id.') has no task:'.$taskTplId.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('he('.$member_id.') has no task:'.$taskTplId.' ', 'error', __METHOD__);
             } else {
                 $isDispatched = $taskInst->getModel()->view_count > 1;
                 $ret = !$isDispatched;

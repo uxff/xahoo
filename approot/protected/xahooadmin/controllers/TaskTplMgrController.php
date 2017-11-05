@@ -159,10 +159,10 @@ class TaskTplMgrController extends Controller
                 if ($pointsRuleModel) {
                     $pointsRuleModel->points = $updateModel->reward_points;
                     if (!$pointsRuleModel->save()) {
-                        Yii::log('cannot sync rule('.$rule_id.') points by task_id='.$id.': '.$taskTplModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                        Yii::log('cannot sync rule('.$rule_id.') points by task_id='.$id.': '.$taskTplModel->lastError().' ', 'error', __METHOD__);
                     }
                 } else {
-                    Yii::log('task tpl('.$id.') has no rule_id='.$rule_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('task tpl('.$id.') has no rule_id='.$rule_id.' ', 'error', __METHOD__);
                 }
 
                 if ($updateModel->save()) {

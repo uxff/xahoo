@@ -45,7 +45,7 @@ class EventModule extends CWebModule
         $eventTpl = EventTplModel::model()->find('event_key=:event_key', array(':event_key'=>$event_key));
         if (empty($eventTpl)) {
             // 报错
-            Yii::log(' unknown event_key:'.$event_key.'!'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log(' unknown event_key:'.$event_key.'!'.' ', 'error', __METHOD__);
             return false;
         }
         if (is_array($event_param)) {
@@ -65,11 +65,11 @@ class EventModule extends CWebModule
         $eventQueueObj->pre_event_key = $pre_event_key;
         //$ret = $eventQueueObj->insert();
         //if (!$ret) {
-        //    Yii::log("error when save eventQueueObj:('$event_key'):".$eventQueueObj->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+        //    Yii::log("error when save eventQueueObj:('$event_key'):".$eventQueueObj->lastError().' ', 'error', __METHOD__);
         //    //print_r($eventQueueObj->getErrors());
         //    return false;
         //}
-        Yii::log("done: mid=".$member_id.' event_key='.$event_key.' pre_event_key='.$pre_event_key.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log("done: mid=".$member_id.' event_key='.$event_key.' pre_event_key='.$pre_event_key.' ', 'warning', __METHOD__);
         
         // 异步执行
         //$this->processEvent();
@@ -98,7 +98,7 @@ class EventModule extends CWebModule
         //static $eventTmp = array();
         
         if (!$queueObj) {
-            Yii::log('no obj in event queue need process!'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('no obj in event queue need process!'.' ', 'warning', __METHOD__);
             return false;
         }
         // 记录日志
@@ -107,7 +107,7 @@ class EventModule extends CWebModule
         if (!$queueObj->getIsNewRecord()) {
             $ret = EventQueueModel::model()->deleteByPk($queueObj->id);
             if (!$ret) {
-                Yii::log("when delete queueObj({$queueObj->id}): ".$queueObj->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log("when delete queueObj({$queueObj->id}): ".$queueObj->lastError().' ', 'error', __METHOD__);
             }
         }
 
@@ -115,7 +115,7 @@ class EventModule extends CWebModule
         $eventObj = EventFactory::createEventByEventId($queueObj->event_id);
 
         if (!$eventObj) {
-            Yii::log('no tpl obj of queue:'.$queueObj->event_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('no tpl obj of queue:'.$queueObj->event_id.' ', 'error', __METHOD__);
             return false;
         }
 
@@ -168,7 +168,7 @@ class EventModule extends CWebModule
         // Yii::log();
         $ret = $logModel->save();
         if (!$ret) {
-            Yii::log("when save queue log ".$queueObj->id.":".$logModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log("when save queue log ".$queueObj->id.":".$logModel->lastError().' ', 'error', __METHOD__);
         }
         //Yii::log(__METHOD__ .": done: ".$queueObj->id.' mid='.$queueObj->sender_mid.' event_key='.$queueObj->event_key, 'warning', __CLASS__);
         return $logModel->id;

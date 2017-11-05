@@ -72,7 +72,7 @@ class StasticCommand  extends CConsoleCommand
                 $stasticModel->attributes = $arrAttr;
 
                 if (!$stasticModel->save()) {
-                    Yii::log('save faild: '.$stasticModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('save faild: '.$stasticModel->lastError().' ', 'error', __METHOD__);
                     print_r($stasticModel->lastError());
                 }
                 echo "art=".$artObj->id." day=".$day." done\n";
@@ -112,9 +112,9 @@ class StasticCommand  extends CConsoleCommand
                 // 防止抛错 报错
                 try {
                     $ret = $stasticDayModel->save();
-                    Yii::log($day.' not exist, try to add: '.$ret.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                    Yii::log($day.' not exist, try to add: '.$ret.' ', 'warning', __METHOD__);
                 } catch (CException $e) {
-                    Yii::log('insert faild: '.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('insert faild: '.$e->getMessage().' ', 'error', __METHOD__);
                 }
             }
 
@@ -156,7 +156,7 @@ class StasticCommand  extends CConsoleCommand
             $stasticDayModel->attributes = $arrAttr;
 
             if (!$stasticDayModel->save()) {
-                Yii::log('save faild: '.$stasticDayModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save faild: '.$stasticDayModel->lastError().' ', 'error', __METHOD__);
                 print_r($stasticDayModel->lastError());
             }
             echo $day." done\n";

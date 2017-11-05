@@ -50,14 +50,14 @@ class SnsModule extends CWebModule
                     throw new CException($snsModel->lastError());
                 }
             } catch (CException $e) {
-                Yii::log('save sns error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save sns error:'.$e->getMessage().' ', 'error', __METHOD__);
                 $ret = false;
             }
         }
         
         $snsInfo = $this->getSnsInfo($snsid, $appid, $plat);
         if (!$snsInfo['_info']) {
-            Yii::log('no sns info from third part: snsid='.$snsid.' appid='.$appid.' plat='.$plat.' '.json_encode($snsInfo).' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('no sns info from third part: snsid='.$snsid.' appid='.$appid.' plat='.$plat.' '.json_encode($snsInfo).' ', 'error', __METHOD__);
             $ret = false;
         }
         
@@ -84,7 +84,7 @@ class SnsModule extends CWebModule
 
                 $ret = $ucMember;
             } catch (CException $e) {
-                Yii::log('save ucMember error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save ucMember error:'.$e->getMessage().' ', 'error', __METHOD__);
                 $ret = false;
             }
         }
@@ -161,17 +161,17 @@ class SnsModule extends CWebModule
     */
     public function combineAccount($master_id, $tmp_id, $openid) {
         if (empty($master_id) || empty($tmp_id)) {
-            Yii::log('empty param'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('empty param'.' ', 'error', __METHOD__);
             return false;
         }
 
         $tmpModel = UcMember::model()->findByPk($tmp_id);
         if (empty($tmpModel)) {
-            Yii::log('no model for tmp_id:'.$tmp_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('no model for tmp_id:'.$tmp_id.' ', 'error', __METHOD__);
             return false;
         }
         if ($tmpModel->status == UcMember::STATUS_DELETED) {
-            Yii::log('already mark deleted tmp_id:'.$tmp_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('already mark deleted tmp_id:'.$tmp_id.' ', 'error', __METHOD__);
             return false;
         }
 
@@ -191,7 +191,7 @@ class SnsModule extends CWebModule
                 throw new CException($masterTotal->lastError());
             }
         } catch (CException $e) {
-            Yii::log('combile total error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('combile total error:'.$e->getMessage().' ', 'error', __METHOD__);
         }
 
         // 交易记录
@@ -208,7 +208,7 @@ class SnsModule extends CWebModule
                 }
             }
         } catch (CException $e) {
-            Yii::log('combile money history error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('combile money history error:'.$e->getMessage().' ', 'error', __METHOD__);
         }
 
         // 交易记录
@@ -224,38 +224,38 @@ class SnsModule extends CWebModule
                 }
             }
         } catch (CException $e) {
-            Yii::log('combile points history error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('combile points history error:'.$e->getMessage().' ', 'error', __METHOD__);
         }
 
         // 标记为已经同步过的用户
         try {
             UcMember::model()->updateByPk($tmp_id, ['status'=>UcMember::STATUS_DELETED]);
         } catch (CException $e) {
-            Yii::log('mark tmp_id('.$tmp_id.') deleted error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('mark tmp_id('.$tmp_id.') deleted error:'.$e->getMessage().' ', 'error', __METHOD__);
         }
 
-        Yii::log('combile account done'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('combile account done'.' ', 'warning', __METHOD__);
         return true;
     }
     public function combineFans($master_id, $tmp_id, $openid) {
         if (empty($master_id) || empty($tmp_id)) {
-            Yii::log('empty param'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('empty param'.' ', 'error', __METHOD__);
             return false;
         }
         // 粉丝关系
         try {
             $ret = FhMemberFansModel::model()->updateAll(['member_id'=>$master_id], 'member_id=:mid', [':mid'=>$tmp_id]);
-            Yii::log('up member_id (master_id='.$master_id.',tmp_id='.$tmp_id.') ret='.$ret.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('up member_id (master_id='.$master_id.',tmp_id='.$tmp_id.') ret='.$ret.' ', 'warning', __METHOD__);
             $ret = FhMemberFansModel::model()->updateAll(['fans_id'=>$master_id], 'fans_openid=:openid', [':openid'=>$openid]);
-            Yii::log('up fans_id (master_id='.$master_id.',fans_openid='.$openid.') ret='.$ret.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('up fans_id (master_id='.$master_id.',fans_openid='.$openid.') ret='.$ret.' ', 'warning', __METHOD__);
 
             $masterModel = UcMember::model()->findByPk($master_id);
             $ret = FhMemberHaibaoModel::model()->updateAll(['member_id'=>$master_id, 'member_mobile'=>$masterModel->member_mobile], 'openid=:openid', [':openid'=>$openid]);
-            Yii::log('up haobai member_id (master_id='.$master_id.',fans_openid='.$openid.') ret='.$ret.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('up haobai member_id (master_id='.$master_id.',fans_openid='.$openid.') ret='.$ret.' ', 'warning', __METHOD__);
 
             return true;
         } catch (CException $e) {
-            Yii::log('combile fans error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('combile fans error:'.$e->getMessage().' ', 'error', __METHOD__);
         }
     }
     public function stasticSns($appid) {

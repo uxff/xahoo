@@ -11,7 +11,7 @@ class JSSDK {
   public function getSignPackage() {
     $jsapiTicket = $this->getJsApiTicket();
 
-    Yii::log('got a jsapiTicket:'.$jsapiTicket.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+    Yii::log('got a jsapiTicket:'.$jsapiTicket.' ', 'warning', __METHOD__);
     // 注意 URL 一定要动态获取，不能 hardcode.
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
     // 注意: SLB无法判断Https，此处只能写死
