@@ -309,7 +309,7 @@ class MyController extends BaseController
         
         $_POST['member_avatar'] ? ($memberInfo->member_avatar = $_POST['member_avatar']) : 0;
         if (!$memberInfo->save()) {
-            Yii::log('save profile failed!'.$memberInfo->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('save profile failed!'.$memberInfo->lastError().' ', 'error', __METHOD__);
         } else {
             // 保存cookie
             $cookieParams = array(
@@ -546,10 +546,10 @@ class MyController extends BaseController
             if (empty($checkInLog)) {
                 Yii::app()->getModule('event')->pushEvent($member_id, 'check_in');
             } else {
-                //Yii::log('already check in: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('already check in: mid='.$member_id.' startTime='.$startTime.' ', 'warning', __METHOD__);
             }
         } else {
-            Yii::log('token error: mid='.$member_id.' startTime='.$startTime.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('token error: mid='.$member_id.' startTime='.$startTime.' ', 'error', __METHOD__);
             //Yii::app()->loginUser->setFlash('error', '请求失败，请稍后再试');
         }
 

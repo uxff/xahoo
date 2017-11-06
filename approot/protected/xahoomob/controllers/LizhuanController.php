@@ -271,7 +271,7 @@ class LizhuanController extends BaseController {
         // 查询 shareCode
         $shareCodeModel = MemberInviteCodeModel::model()->find('invite_code=:code', array(':code'=>$shareCode));
         if (!$shareCodeModel) {
-            Yii::log('share code not exist:'.$shareCode.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('share code not exist:'.$shareCode.' ', 'error', __METHOD__);
             return false;
         }
         // 查询文章的分享记录
@@ -282,26 +282,26 @@ class LizhuanController extends BaseController {
         ]);
         // 
         if (!$shareLog) {
-            Yii::log('aid('.$id.') not shared by:'.$shareCode.'('.$shareCodeModel->member_id.') @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('aid('.$id.') not shared by:'.$shareCode.'('.$shareCodeModel->member_id.') ', 'warning', __METHOD__);
             return false;
         } else {
             try {
                 $shareLog->view_count += 1;
                 $shareLog->save();
             } catch (Exception $e) {
-                Yii::log('save share log view_count +=1 failed:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save share log view_count +=1 failed:'.$e->getMessage().' ', 'error', __METHOD__);
             }
         }
 
         if ($taskTplId) {
             $taskInst = TaskInst::makeInstByTpl($shareCodeModel->member_id, $taskTplId);
             if (!$taskInst) {
-                Yii::log('he('.$shareCodeModel->member_id.') has no task:'.$taskTplId.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('he('.$shareCodeModel->member_id.') has no task:'.$taskTplId.' ', 'error', __METHOD__);
             } else {
                 $taskInstModel = $taskInst->getModel();
                 $taskInstModel->view_count = $taskInstModel->view_count + 1;
                 if (!$taskInstModel->save()) {
-                    Yii::log('save art view_count failed:mid=('.$shareCodeModel->member_id.') :'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('save art view_count failed:mid=('.$shareCodeModel->member_id.') :'.' ', 'error', __METHOD__);
                 }
 
                 // 派发积分

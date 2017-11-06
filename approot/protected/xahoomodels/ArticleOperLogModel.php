@@ -118,7 +118,7 @@ class ArticleOperLogModel extends ArticleOperLogModelBase
             $model->has_online_status = ($newStatus == ArticleModel::STATUS_PUBLISHED || $oldStatus == ArticleModel::STATUS_PUBLISHED) ? 1:0;
             $model->oper_time  = date('Y-m-d H:i:s', time());
             if (!$model->save()) {
-                Yii::log('save faild: '.$model->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save faild: '.$model->lastError().' ', 'error', __METHOD__);
             }
         }
         /*
@@ -197,7 +197,7 @@ class ArticleOperLogModel extends ArticleOperLogModelBase
             // 
             $artObj = ArticleModel::model()->findByPk($aid);
             if (!$artObj) {
-                Yii::log('article_id not exist: '.$aid.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('article_id not exist: '.$aid.' ', 'error', __METHOD__);
                 return false;
             }
             $startTime  = substr($artObj->create_time, 0, 10).' 00:00:00';
@@ -224,7 +224,7 @@ class ArticleOperLogModel extends ArticleOperLogModelBase
                 // 起始时间必须是创建时间
                 $logModel->oper_time = $artObj->create_time;
                 if (!$logModel->save()) {
-                    Yii::log('save faild: '.$logModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('save faild: '.$logModel->lastError().' ', 'error', __METHOD__);
                 }
             }
         }

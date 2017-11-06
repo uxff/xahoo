@@ -176,7 +176,7 @@ class WechatController extends BaseController {
                         $weObj->text($msg)->reply();
                         break;
                     default:
-                        Yii::log('a click '.$eventInfo['key'].' from '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                        Yii::log('a click '.$eventInfo['key'].' from '.$fromUser.' ', 'warning', __METHOD__);
                         break;
                 }
                 break;
@@ -196,7 +196,7 @@ class WechatController extends BaseController {
                 $this->forceFlush();
 
                 $data = $weObj->getRevData();
-                Yii::log('收到一个关注： '.$fromUser.' qrscene='.$qrscene.' data='.json_encode($data).' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('收到一个关注： '.$fromUser.' qrscene='.$qrscene.' data='.json_encode($data).' ', 'warning', __METHOD__);
 
                 // 为粉丝创建账号
                 $memberModel = $this->makeAccount($fromUser);
@@ -221,22 +221,22 @@ class WechatController extends BaseController {
                 // 用户上报地理位置
                 // 此处保存用户的位置信息 待生成海报的时候使用地域海报
                 $data = $weObj->getRevData();
-                Yii::log('LOCATION lat='.$data['Latitude'].' long='.$data['Longitude'].' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('LOCATION lat='.$data['Latitude'].' long='.$data['Longitude'].' openid='.$fromUser.' ', 'warning', __METHOD__);
                 // 转换地理位置 从经纬度转换到地址描述后保存
                 $locationInfo = GeoConvertor::LocationToAddr($data['Latitude'], $data['Longitude']);
-                Yii::log('LOCATION convert ret='.$locationInfo['result']['formatted_address'].' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('LOCATION convert ret='.$locationInfo['result']['formatted_address'].' openid='.$fromUser.' ', 'warning', __METHOD__);
 
                 // 将地理位置写在uc_member_bind_sns对应的openid上
                 $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and member_id=:member_id', [':openid'=>$fromUser]);
                 $formatted_address = GeoConvertor::GetAddress($locationInfo['result']['formatted_address']);
                 $snsModel->location_address = $formatted_address;
                 if (!$snsModel->save()) {
-                   Yii::log('save snsModel failed:'.$snsModel->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                   Yii::log('save snsModel failed:'.$snsModel->lastError().' ', 'warning', __METHOD__);
                 }
-                //Yii::log('SNSMODEL member_id='.$snsModel->member_id.' bind_id='.$snsModel->bind_id.' openid='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('SNSMODEL member_id='.$snsModel->member_id.' bind_id='.$snsModel->bind_id.' openid='.$fromUser.' ', 'warning', __METHOD__);
                 break;
             default:
-                //Yii::log('a event from '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('a event from '.$fromUser.' ', 'warning', __METHOD__);
                 break;
         }
     }
@@ -267,13 +267,13 @@ class WechatController extends BaseController {
         // 检查是否绑定 如果没绑定则回复消息要求绑定
         $snsBindModel = $this->checkIsBind($fromUser);
         if (!$snsBindModel || !$snsBindModel->member_id) {
-            Yii::log('这个用户没绑定: '.' from='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('这个用户没绑定: '.' from='.$fromUser.' ', 'warning', __METHOD__);
             return false;
         }
 
         $sceneid    = $snsBindModel->bind_id;
         $member_id  = $snsBindModel->member_id;
-//Yii::log('sceneid='.$sceneid.' '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+//Yii::log('sceneid='.$sceneid.' '.$fromUser.' ', 'warning', __METHOD__);
 
         // 获取经纪人信息
         if ($isCheckJjr==1) {
@@ -297,7 +297,7 @@ class WechatController extends BaseController {
         $extParams = $jjrInfo;
         $extParams['is_addr_right'] = $isAddrRight;
         if (!$posterModel) {            
-            Yii::log('没有可用海报模板: mid='.$member_id.' sid='.$sceneid.' from='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('没有可用海报模板: mid='.$member_id.' sid='.$sceneid.' from='.$fromUser.' ', 'warning', __METHOD__);
             // 回复消息没有海报 
             $btime = '2016-10-14 18:30:00';
             if($btime < date('Y-m-d H:i:s')){
@@ -319,7 +319,7 @@ class WechatController extends BaseController {
         $memberHaibaoModel = $this->makeMemberHaibao($sceneid, $snsBindModel, $posterModel, $extParams);
 
         $bgpicPath = Yii::app()->basePath .'/..'. $posterModel->photo_url;
-        Yii::log('memberHaibaoModel saved sid='.$sceneid.' mid='.$member_id.' oid='.$fromUser.' file_exists('.$bgpicPath.')='.file_exists($bgpicPath).' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('memberHaibaoModel saved sid='.$sceneid.' mid='.$member_id.' oid='.$fromUser.' file_exists('.$bgpicPath.')='.file_exists($bgpicPath).' ', 'warning', __METHOD__);
         
         // 海报中显示元素:
         // 微信头像
@@ -329,16 +329,16 @@ class WechatController extends BaseController {
 
         $localAvatar = $runtimePath.'fanghu_wx_avatar_'.$sceneid.'_'.$fromUser.'.jpg';
         $localAvatar = $this->saveUrl($wxUserInfo['headimgurl'], $localAvatar);
-        Yii::log('localAvatar='.$localAvatar.' '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('localAvatar='.$localAvatar.' '.$fromUser.' ', 'warning', __METHOD__);
 
         // 获取带参数二维码
         $qrcode = $weObj->getQRCode($sceneid, 0, 2592000);
-        Yii::log('ticket='.$qrcode['ticket'].' '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('ticket='.$qrcode['ticket'].' '.$fromUser.' ', 'warning', __METHOD__);
         $qrurl = $weObj->getQRUrl($qrcode['ticket']);
-        Yii::log('qrurl='.$qrurl.' '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('qrurl='.$qrurl.' '.$fromUser.' ', 'warning', __METHOD__);
         $localQrPath = $runtimePath.'fanghu_qr_'.$sceneid.'.jpg';
         $localQrPath = $this->saveUrl($qrurl, $localQrPath);
-        Yii::log('localQrPath='.$localQrPath.' '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('localQrPath='.$localQrPath.' '.$fromUser.' ', 'warning', __METHOD__);
 
         //$bigImagePath = '/tmp/fanghu_20160329155119158.jpg';
         //$copyQrPath = $this->copyImage($bigImagePath, $localQrPath);
@@ -346,14 +346,14 @@ class WechatController extends BaseController {
         // 准备好资料后，生成海报图片
         $localPosterPath = $runtimePath.'fanghu_m_poster_'.$sceneid.'.jpg';
         $localPosterPath = $this->makeHaibaoImage($bgpicPath, $localAvatar, $arrStr, $localQrPath, $localPosterPath);
-        Yii::log('localPosterPath='.$localPosterPath.' '.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('localPosterPath='.$localPosterPath.' '.$fromUser.' ', 'warning', __METHOD__);
 
         // 上传海报图片生成media_id
         //$uploadData = (['media'=>'@'.$localPosterPath]);
         $uploadData = (['media'=>new CurlFile($localPosterPath)]);//php 5.5 use
         $qrMediaInfo = $weObj->uploadMedia($uploadData, 'image');
         $mediaId = $qrMediaInfo['media_id'];
-        Yii::log('mediaId='.$mediaId.' '.$fromUser.' qrMediaInfo='.json_encode($qrMediaInfo).' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('mediaId='.$mediaId.' '.$fromUser.' qrMediaInfo='.json_encode($qrMediaInfo).' ', 'warning', __METHOD__);
         
         // 海报media_id发送给用户
         $msg = ["touser"=>$fromUser, "msgtype"=>'image', "image"=>["media_id"=>$mediaId]];
@@ -381,7 +381,7 @@ class WechatController extends BaseController {
         $haibaoLog->poster_id   = $posterModel->id;
         $haibaoLog->create_time = date('Y-m-d H:i:s');
         if (!$haibaoLog->save()) {
-            Yii::log('FhMemberHaibaoLogModel->save error:'.$haibaoLog->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('FhMemberHaibaoLogModel->save error:'.$haibaoLog->lastError().' ', 'error', __METHOD__);
         }
 
         // 微信用户信息
@@ -390,7 +390,7 @@ class WechatController extends BaseController {
         // 获取用户是否生成海报
         $memberHaibaoModel = FhMemberHaibaoModel::model()->with('poster')->find('t.sns_bind_id=:bid and t.accounts_id=:accounts_id', [':bid'=>$sceneid, ':accounts_id'=>Yii::app()->params['accounts_id']]);
         if (!$memberHaibaoModel) {
-            Yii::log('这个用户没生成过海报: mid='.$member_id.' appid='.Yii::app()->params['appid'].' accounts_id='.Yii::app()->params['accounts_id'].' sid='.$sceneid.' from='.$fromUser.' jjr='.$extParams['jjr_type'].':'.$extParams['jjr_name'].' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('这个用户没生成过海报: mid='.$member_id.' appid='.Yii::app()->params['appid'].' accounts_id='.Yii::app()->params['accounts_id'].' sid='.$sceneid.' from='.$fromUser.' jjr='.$extParams['jjr_type'].':'.$extParams['jjr_name'].' ', 'warning', __METHOD__);
             //return false;
 
             // 生成新的用户海报数据记录
@@ -410,11 +410,11 @@ class WechatController extends BaseController {
             $memberHaibaoModel->withdraw_min    = $posterModel->lowest_withdraw_sum;
             $memberHaibaoModel->is_addr_right   = $extParams['is_addr_right'];
         } else {
-            Yii::log('生成过海报: mid='.$member_id.' from='.$fromUser.' jjr='.$extParams['jjr_type'].':'.$extParams['jjr_name'].' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('生成过海报: mid='.$member_id.' from='.$fromUser.' jjr='.$extParams['jjr_type'].':'.$extParams['jjr_name'].' ', 'warning', __METHOD__);
 
             // 可能sns上的已经更新 而haibao的没有更新
             if (!empty($snsBindModel->member_mobile) && empty($memberHaibaoModel->member_mobile)) {
-                Yii::log('haibao fill mobile='.$snsBindModel->member_mobile.' bid='.$sceneid.' mid='.$member_id.' from='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('haibao fill mobile='.$snsBindModel->member_mobile.' bid='.$sceneid.' mid='.$member_id.' from='.$fromUser.' ', 'warning', __METHOD__);
                 $tmp_id     = $memberHaibaoModel->member_id;
                 $member_id  = $snsBindModel->member_id;
                 $memberHaibaoModel->member_mobile   = $snsBindModel->member_mobile;
@@ -422,7 +422,7 @@ class WechatController extends BaseController {
             }
 
             //$limitWithdraw = FhMemberHaibaoLogModel::countMax($sceneid);
-            //Yii::log('limitWithdraw='.json_encode($limitWithdraw).' mid'.$member_id.' from='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            //Yii::log('limitWithdraw='.json_encode($limitWithdraw).' mid'.$member_id.' from='.$fromUser.' ', 'warning', __METHOD__);
 
             $memberHaibaoModel->withdraw_max    = $posterModel->highest_withdraw_sum;//$limitWithdraw['themax']*1.0;
             $memberHaibaoModel->withdraw_min    = $posterModel->lowest_withdraw_sum;//min($limitWithdraw['themin']*1.0, $posterModel->lowest_withdraw_sum);
@@ -446,10 +446,10 @@ class WechatController extends BaseController {
             }
             if ($tmp_id) {
                 $ret = FhMemberHaibaoLogModel::model()->updateAll(['member_id'=>$member_id], 'member_id=:tmp_id', [':tmp_id'=>$tmp_id]);
-                Yii::log('up haibao log: tmp_id='.$tmp_id.' mid='.$member_id.' from='.$fromUser.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('up haibao log: tmp_id='.$tmp_id.' mid='.$member_id.' from='.$fromUser.' ', 'warning', __METHOD__);
             }
         } catch (CException $e) {
-            Yii::log('保存用户海报: bid='.$sceneid.' mid='.$member_id.' mobile='.$snsBindModel->member_mobile.' from='.$fromUser.' '.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('保存用户海报: bid='.$sceneid.' mid='.$member_id.' mobile='.$snsBindModel->member_mobile.' from='.$fromUser.' '.$e->getMessage().' ', 'error', __METHOD__);
             return false;
         }
 
@@ -516,7 +516,7 @@ class WechatController extends BaseController {
         //@file_put_contents($path, $content);
         Http::curldownload($url, $path);
 
-        Yii::log('保存一个图片('.$url.')到本地:'.$path.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('保存一个图片('.$url.')到本地:'.$path.' ', 'warning', __METHOD__);
         return $path;
     }
     /*
@@ -550,7 +550,7 @@ class WechatController extends BaseController {
                 break;
         }
         if (!$bgImageSrc) {
-            Yii::log('无法打开图片('.$bgImagePath.') '.$bgSuffix.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('无法打开图片('.$bgImagePath.') '.$bgSuffix.' ', 'error', __METHOD__);
         }
 
         $bgAllHeightTail = $arrStr['under'] ? 270 : 200;
@@ -594,7 +594,7 @@ class WechatController extends BaseController {
         imagecopyresized($bgSrc, $qrImageSrc, $bgAllWidth-140-30, $bgAllHeight+30, 30, 30, 140, 140, $qrSizeWidth-60, $qrSizeHeight-60);
 
         imagejpeg($bgSrc, $saveName, 75);
-        Yii::log('输出用户海报带二维码:'.$saveName.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('输出用户海报带二维码:'.$saveName.' ', 'warning', __METHOD__);
 
         imagedestroy($bgImageSrc);
         imagedestroy($qrImageSrc);
@@ -642,12 +642,12 @@ class WechatController extends BaseController {
         // 检查用户分享者用户是否注册
         $masterRegModel = UcMemberBindSns::model()->find('bind_id=:mid', [':mid'=>$bind_id]);
         if (!$masterRegModel) {
-            Yii::log('二维码分享者不存在:'.$sceneid.' fansOpenid='.$fansOpenid.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('二维码分享者不存在:'.$sceneid.' fansOpenid='.$fansOpenid.' ', 'error', __METHOD__);
             return false;
         }
         // 检查是不是绑定自己
         if ($masterRegModel->sns_id == $fansOpenid) {
-            Yii::log('不能绑定分享者自己:'.$sceneid.' fansOpenid='.$fansOpenid.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('不能绑定分享者自己:'.$sceneid.' fansOpenid='.$fansOpenid.' ', 'error', __METHOD__);
             return false;
         }
 
@@ -710,12 +710,12 @@ class WechatController extends BaseController {
                     $upstreamRegModel = UcMemberBindSns::model()->find('member_id=:mid', [':mid'=>$this->upstreamModel->member_id]);
                     $this->notifyUpstreamMember($upstreamRegModel, $masterRegModel, $fansRegModel);
                 }
-                Yii::log('已通知:'.' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('已通知:'.' mid='.$member_id.' ', 'warning', __METHOD__);
             }
             $ret = true;
         
         } catch (CException $e) {
-            Yii::log('bindFans error:'.$e->getMessage().', mid='.$member_id.' fansOpenid='.$fansOpenid.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('bindFans error:'.$e->getMessage().', mid='.$member_id.' fansOpenid='.$fansOpenid.' ', 'error', __METHOD__);
             $ret = false;
         }
         return $ret;
@@ -735,19 +735,19 @@ class WechatController extends BaseController {
 
             // 为分享者派发money 增加直接粉丝数 总粉丝数
             $this->dispatchMoneyToMember($member_id, 1, $fansInfo['nickname'].'扫码关注奖励');
-            //Yii::log('已派发:'.' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            //Yii::log('已派发:'.' mid='.$member_id.' ', 'warning', __METHOD__);
             // 为分享者的上级派发money 增加二级粉丝数 总粉丝数
             if ($this->upstreamModel) {
                 $this->dispatchMoneyToMember($this->upstreamModel->member_id, 2, $fansInfo['nickname'].'扫码关注奖励');
-                //Yii::log('已给上级派发:'.' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('已给上级派发:'.' mid='.$member_id.' ', 'warning', __METHOD__);
             }
 
             // 提交
             $trans->commit();
-            Yii::log('trans success!'.' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('trans success!'.' mid='.$member_id.' ', 'warning', __METHOD__);
             $ret = true;
         } catch (CException $e) {
-            Yii::log('trans error:'.$e->getMessage().' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('trans error:'.$e->getMessage().' mid='.$member_id.' ', 'error', __METHOD__);
             $trans->rollback();
             $ret = false;
         }
@@ -759,7 +759,7 @@ class WechatController extends BaseController {
         $fansInfo = $this->getWxUserInfo($fansOpenid);
         $member_id = $_GET['member_id'] ? $_GET['member_id'] : 1009;
         $this->upstreamModel =  FhMemberFansModel::model()->find('fans_id=:mid', [':mid'=>$member_id]);;//$this->getBindSnsModel(1005);
-        Yii::log('in :'.' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('in :'.' mid='.$member_id.' ', 'warning', __METHOD__);
         $this->dispatchReward($member_id, $fansInfo);
         echo 'done';
     }
@@ -768,15 +768,15 @@ class WechatController extends BaseController {
     */
     public function dispatchMoneyToMember($member_id, $directLevel, $remark='') {
         // 查找对应参加的海报
-        Yii::log('#####SNSMODEL location_address region='.$region.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('#####SNSMODEL location_address region='.$region.' ', 'warning', __METHOD__);
         $memberPoster = FhMemberHaibaoModel::model()->with('poster')->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
         if (!$memberPoster) {
-            //Yii::log('cannot find memberPoster:'.' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            //Yii::log('cannot find memberPoster:'.' mid='.$member_id.' ', 'error', __METHOD__);
             throw new CException('cannot find memberPoster: mid='.$member_id);
         }
 
         if ($memberPoster->poster->poster_status!=2) {
-            //Yii::log('cannot find memberPoster:'.' mid='.$member_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            //Yii::log('cannot find memberPoster:'.' mid='.$member_id.' ', 'error', __METHOD__);
             throw new CException('poster not ok: poster='.$memberPoster->poster->id);
         }
 
@@ -892,13 +892,13 @@ class WechatController extends BaseController {
         }
         
 
-        Yii::log('will success: mid='.$member_id.' directLevel='.$directLevel.' money='.$rewardMoney.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('will success: mid='.$member_id.' directLevel='.$directLevel.' money='.$rewardMoney.' ', 'warning', __METHOD__);
         // 
         return true;
     }
     public function notifyMember($masterRegModel, $fansRegModel) {
         //$masterWxInfo = $this->weObj->getUserInfo()
-        //Yii::log('we notify user:'.$masterRegModel->member_id.' fans:'.$fansRegModel->sns_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        //Yii::log('we notify user:'.$masterRegModel->member_id.' fans:'.$fansRegModel->sns_id.' ', 'warning', __METHOD__);
         $masterInfo = $this->getWxUserInfo($masterRegModel->sns_id);
         $fansInfo   = $this->getWxUserInfo($fansRegModel->sns_id);
         $memberTotal = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$masterRegModel->member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
@@ -913,7 +913,7 @@ class WechatController extends BaseController {
     }
     public function notifyUpstreamMember($upstreamModel, $masterRegModel, $fansRegModel) {
         //$masterWxInfo = $this->weObj->getUserInfo()
-        //Yii::log('we notify upstream user:'.$upstreamModel->member_id.' fans:'.$fansRegModel->sns_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        //Yii::log('we notify upstream user:'.$upstreamModel->member_id.' fans:'.$fansRegModel->sns_id.' ', 'warning', __METHOD__);
         $upstreamInfo   = $this->getWxUserInfo($upstreamModel->sns_id);
         $masterInfo     = $this->getWxUserInfo($masterRegModel->sns_id);
         $fansInfo       = $this->getWxUserInfo($fansRegModel->sns_id);
@@ -1047,7 +1047,7 @@ class WechatController extends BaseController {
         $tokenInfo = $this->weObj->getOauthAccessToken();
 
         if (!$tokenInfo['access_token'] && !$tokenInfo['openid']) {
-            Yii::log('oauth token error: '.json_encode($tokenInfo).' '.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('oauth token error: '.json_encode($tokenInfo).' '.' ', 'warning', __METHOD__);
             $this->redirect($this->createAbsoluteUrl('user/login', ['oauth'=>'e', 'return_url'=>$return_url]));
             return false;
         }
@@ -1058,7 +1058,7 @@ class WechatController extends BaseController {
             'plat'      => UcMemberBindSns::SNS_SOURCE_WECHAT,
         ];
         $_SESSION[Yii::app()->params['third_login_sess_name']] = $sessionValue;
-        Yii::log('oauth token success: '.json_encode($tokenInfo).' '.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('oauth token success: '.json_encode($tokenInfo).' '.' ', 'warning', __METHOD__);
 
         $this->redirect($this->createAbsoluteUrl('user/wxautologin', ['return_url'=>$return_url]));
     }
@@ -1072,9 +1072,9 @@ class WechatController extends BaseController {
         $dir = Yii::app()->runtimePath.'/hbpic/';
         if (!file_exists($dir)) {
             if (@mkdir($dir, 0777, true)) {
-                Yii::log('mkdir(runtimePath='.$dir.') success'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('mkdir(runtimePath='.$dir.') success'.' ', 'warning', __METHOD__);
             } else {
-                Yii::log('mkdir(runtimePath='.$dir.') error'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('mkdir(runtimePath='.$dir.') error'.' ', 'error', __METHOD__);
             }
         }
         return $dir;
@@ -1165,7 +1165,7 @@ class WechatController extends BaseController {
         $snsModel = $this->getBindSnsModel($openid, 1);
         
         if (empty($snsModel)) {
-            Yii::log('no sns (openid='.$openid.') when dispatch'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('no sns (openid='.$openid.') when dispatch'.' ', 'error', __METHOD__);
             return false;
         }
 
@@ -1177,14 +1177,14 @@ class WechatController extends BaseController {
         //$memberHaibaoModel = FhMemberHaibaoLogModel::model()->find('member_id=:mid', [':mid'=>$member_id]);
         $posterModel = FhPosterModel::model()->GetPosterApi();
         if (empty($posterModel)) {
-            Yii::log('no poster ok(mid='.$member_id.') when dispatch'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('no poster ok(mid='.$member_id.') when dispatch'.' ', 'error', __METHOD__);
             return false;
         }
         // 钱不够时，自动关闭项目
         if ($posterModel->subscribe_rewards + $posterModel->all_rewarded > $posterModel->project_bonus_ceiling) {
             $posterModel->poster_status = 1;
             $posterModel->save();
-            Yii::log('no enough money: (poster='.$posterModel->id.'), close it'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('no enough money: (poster='.$posterModel->id.'), close it'.' ', 'error', __METHOD__);
             return false;
         }
 
@@ -1205,9 +1205,9 @@ class WechatController extends BaseController {
 
             $trans->commit();
             $ret = true;
-            Yii::log('dispatch subscribe trans ok(mid='.$member_id.',openid='.$openid.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('dispatch subscribe trans ok(mid='.$member_id.',openid='.$openid.')'.' ', 'warning', __METHOD__);
         } catch (CException $e) {
-            Yii::log('dispatch subscribe trans error:'.$e->getMessage().'(mid='.$member_id.',openid='.$openid.')'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('dispatch subscribe trans error:'.$e->getMessage().'(mid='.$member_id.',openid='.$openid.')'.' ', 'error', __METHOD__);
             $trans->rollback();
         }
         

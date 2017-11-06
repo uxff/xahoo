@@ -137,7 +137,7 @@ class ArticleController extends BaseController {
         $logModel->use_invite_code = $shareCode;
         $logModel->create_time  = date('Y-m-d H:i:s', $now);
         if (!$logModel->save()) {
-            Yii::log('log visit error:aid='.$id.' ip:'.$ip.' day:'.$dayStart.' :'.$logModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('log visit error:aid='.$id.' ip:'.$ip.' day:'.$dayStart.' :'.$logModel->lastError().' ', 'error', __METHOD__);
         }
 
 
@@ -150,7 +150,7 @@ class ArticleController extends BaseController {
         // 查询 shareCode
         $shareCodeModel = MemberInviteCodeModel::model()->find('invite_code=:code', array(':code'=>$shareCode));
         if (!$shareCodeModel) {
-            Yii::log('share code not exist:'.$shareCode.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('share code not exist:'.$shareCode.' ', 'error', __METHOD__);
             return false;
         }
         // 查询文章的分享记录
@@ -161,26 +161,26 @@ class ArticleController extends BaseController {
         ]);
         // 进入shareClicked,确保已经有sharelog
         if (!$shareLog) {
-            Yii::log('aid('.$id.') not shared by:'.$shareCode.'('.$shareCodeModel->member_id.') @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('aid('.$id.') not shared by:'.$shareCode.'('.$shareCodeModel->member_id.') ', 'warning', __METHOD__);
             return false;
         } else {
             try {
                 $shareLog->view_count += 1;
                 $shareLog->save();
             } catch (Exception $e) {
-                Yii::log('save share log view_count +=1 failed:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save share log view_count +=1 failed:'.$e->getMessage().' ', 'error', __METHOD__);
             }
         }
 
         if ($taskTplId) {
             $taskInst = TaskInst::makeInstByTpl($shareCodeModel->member_id, $taskTplId);
             if (!$taskInst) {
-                Yii::log('he('.$shareCodeModel->member_id.') has no task:'.$taskTplId.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('he('.$shareCodeModel->member_id.') has no task:'.$taskTplId.' ', 'error', __METHOD__);
             } else {
                 $taskInstModel = $taskInst->getModel();
                 $taskInstModel->view_count = $taskInstModel->view_count + 1;
                 if (!$taskInstModel->save()) {
-                    Yii::log('save art view_count failed:mid=('.$shareCodeModel->member_id.') :'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('save art view_count failed:mid=('.$shareCodeModel->member_id.') :'.' ', 'error', __METHOD__);
                 }
 
                 // 派发积分
@@ -204,7 +204,7 @@ class ArticleController extends BaseController {
     */
     public function actionAjaxShareSuccess() {
 
-        Yii::log('CALLBACK:'.Yii::app()->request->url.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        Yii::log('CALLBACK:'.Yii::app()->request->url.' ', 'warning', __METHOD__);
         $isGuest = Yii::app()->loginUser->getIsGuest();
         if ($isGuest) {
             $member_id = 0;
@@ -245,7 +245,7 @@ class ArticleController extends BaseController {
             //}            
             //$res = $membertotalModel->save();
             //if (!$ret) {
-            //    Yii::log('CALLBACK err:'.'taskid->'.$task_id.'memberid->'.$member_id.'accountid->'.$accounts_id.'reward_money->'.$task_data->reward_money.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            //    Yii::log('CALLBACK err:'.'taskid->'.$task_id.'memberid->'.$member_id.'accountid->'.$accounts_id.'reward_money->'.$task_data->reward_money.' ', 'warning', __METHOD__);
             //}
             //$member_up = MemberTotalModel::model()->updateAll(['money_total'=>new CDbExpression('money_total+'.$task_data->reward_money)],'accounts_id=:accounts_id AND member_id=:member_id',[':accounts_id'=>$accounts_id,':member_id'=>$member_id]);
             
@@ -267,13 +267,13 @@ class ArticleController extends BaseController {
                 // 记录分享 尝试完成任务
                 $eventParam['taskTplId'] = $task_id;
             } else {
-                Yii::log('cannot parse_str:'.$urlArr['query'].' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('cannot parse_str:'.$urlArr['query'].' ', 'error', __METHOD__);
             //    return $this->jsonError('分享失败，url参数不正确');
             }
             Yii::app()->getModule('event')->pushEvent($member_id, 'share', $eventParam);
-            Yii::log('share url:'.$shareUrl.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('share url:'.$shareUrl.' ', 'warning', __METHOD__);
         } else {
-            Yii::log('cannot parse_url:'.$shareUrl.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('cannot parse_url:'.$shareUrl.' ', 'error', __METHOD__);
             return $this->jsonError('分享失败，不是合法的url地址');
         }
         $this->jsonSuccess('分享成功');

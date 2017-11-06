@@ -183,11 +183,11 @@ class LotController extends BaseController {
             // 5 事务结束
             $trans->commit();
             $ret = $his->id;
-            Yii::log('pay bet success!'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('pay bet success!'.' ', 'warning', __METHOD__);
         } catch (CException $e) {
             $trans->rollback();
             $ret = false;
-            Yii::log('pay bet failed:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('pay bet failed:'.$e->getMessage().' ', 'error', __METHOD__);
         }
 
         return $ret;
@@ -260,10 +260,10 @@ class LotController extends BaseController {
             $rand = mt_rand(1, $num);
             //$prizeDotStart = 1;
             //$prizeDotEnd   = 0;
-            //Yii::log('rand='.$rand.' num='.$num.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            //Yii::log('rand='.$rand.' num='.$num.' ', 'warning', __METHOD__);
             foreach($prize_arr as $k=>$v){
                 //$prizeDotEnd   = $prizeDotStart + $v['rate'];
-                //Yii::log('in select rand='.$rand.' v.id='.$v['id'].' v.rate='.$v['rate'].' prize.s='.$prizeDotStart.' prize.e='.$prizeDotEnd.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('in select rand='.$rand.' v.id='.$v['id'].' v.rate='.$v['rate'].' prize.s='.$prizeDotStart.' prize.e='.$prizeDotEnd.' ', 'warning', __METHOD__);
                 //$prizeDotStart += $v['rate'];
 
                 if($rand <= $v['rate']){
@@ -273,7 +273,7 @@ class LotController extends BaseController {
                         $item['id'] = $v['id'];
                         $item['name'] = $v['name'];
                     } else {
-                        Yii::log('no stock then thanks: product_id='.$v['id'].' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                        Yii::log('no stock then thanks: product_id='.$v['id'].' ', 'warning', __METHOD__);
                     }
                     break;
                 }else{
@@ -281,7 +281,7 @@ class LotController extends BaseController {
                     $rand -= $v['rate'];
                 }
             }
-            //Yii::log('after rand='.$rand.' v.id='.$v['id'].' v.rate='.$v['rate'].' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            //Yii::log('after rand='.$rand.' v.id='.$v['id'].' v.rate='.$v['rate'].' ', 'warning', __METHOD__);
 
             $hitStatus = FhActivityLotteryModel::STATUS_HIT_NONE;
 
@@ -329,10 +329,10 @@ class LotController extends BaseController {
             
 
             $trans->commit();
-            Yii::log('bet success! mid='.$member_id.' status='.$hitStatus.' prize='.$item['name'].' rand='.$rand.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('bet success! mid='.$member_id.' status='.$hitStatus.' prize='.$item['name'].' rand='.$rand.' ', 'warning', __METHOD__);
         } catch (CException $e) {
             $trans->rollback();
-            Yii::log('bet failed(mid='.$member_id.'):'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('bet failed(mid='.$member_id.'):'.$e->getMessage().' ', 'error', __METHOD__);
         }
         return $item;
     }
@@ -350,10 +350,10 @@ class LotController extends BaseController {
         // 先取缓存 再取数据库
         $arr = $this->getWinListCache();
         if (!empty($arr)) {
-            //Yii::log('got in cache'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            //Yii::log('got in cache'.' ', 'warning', __METHOD__);
             return $arr;
         }
-        //Yii::log('got NONE in cache'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        //Yii::log('got NONE in cache'.' ', 'warning', __METHOD__);
 
         $fakeList = [
             ['member_mobile'=>'15011111155', 'prize'=>'iPhone6S'],

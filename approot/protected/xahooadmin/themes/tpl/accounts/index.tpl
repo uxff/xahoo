@@ -57,7 +57,7 @@
                 <table id="idTable" class="table table-striped table-bordered table-hover">
                         <thead>
                                 <tr>
-                                    <th style="width: 70px;">序号</th>
+                                    <th style="width: 70px;">id</th>
                                     <th style="width: 200px;">公众号名称</th>
                                     <th style="width: 120px;">公众号token</th>
                                     <th style="width: 200px;">APPID</th>
@@ -72,7 +72,7 @@
                         <tbody>
                                 {foreach from=$listData key=i item=objModel}
                                 <tr>
-                                        <td>{($pages.curPage-1)*$pages.pageSize+1+$i}</td>                                                                 
+                                        <td index="{($pages.curPage-1)*$pages.pageSize+1+$i}">{$objModel.id}</td>                                                                 
                                         <td>{$objModel['accounts_name']}</td>
                                         <td>{$objModel['token']}</td>     
                                         <td data-appid='{$objModel.appid}' data-appsecret='{$objModel.appsecret}'>{$objModel['appid']}</td>      

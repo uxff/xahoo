@@ -283,7 +283,7 @@ class FhMemberHaibaoModel extends FhMemberHaibaoModelBase
                     //FhMemberHaibaoModel::model()->updateByPk($member_id, [''])
                 }
             } catch (CException $e) {
-                Yii::log('error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('error:'.$e->getMessage().' ', 'warning', __METHOD__);
             }
         }
         //static public function combineHaibao($master_id, $)

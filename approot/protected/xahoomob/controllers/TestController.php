@@ -172,7 +172,7 @@ class TestController extends Controller {
     }
     public function actionLog() {
         $text = $_GET['text'];
-        Yii::log('log content:'.$text.''.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+        Yii::log('log content:'.$text.''.' ', 'error', __METHOD__);
     }
     public function actionTestabrate() {
         $n = (int)$_GET['n'] ? (int)$_GET['n'] : 200000;

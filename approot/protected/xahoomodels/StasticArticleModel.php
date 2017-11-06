@@ -228,7 +228,7 @@ class StasticArticleModel extends StasticArticleModelBase
             $stasticModel->attributes = $arrAttr;
 
             if (!$stasticModel->save()) {
-                Yii::log('save faild: '.$stasticModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save faild: '.$stasticModel->lastError().' ', 'error', __METHOD__);
                 //print_r($stasticModel->lastError());
                 return false;
             }

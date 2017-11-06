@@ -179,7 +179,7 @@ class UserController extends Controller {
                 $objMember->last_login_ip = Tools::getUserHostAddress();
                 $objMember->login_times += 1;
                 if (!$objMember->save()) {
-                    Yii::log(''.$objMember->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log(''.$objMember->lastError().' ', 'error', __METHOD__);
                 }
 
 				//$this->redirect($return_url);
@@ -284,7 +284,7 @@ class UserController extends Controller {
             $invite_code = MemberInviteCodeModel::correctInviteCode($invite_code);
             $inviteCodeModel = MemberInviteCodeModel::findInviteCode($invite_code);
             if (!$inviteCodeModel) {
-                Yii::log('invite code not exist:'.$invite_code.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('invite code not exist:'.$invite_code.' ', 'error', __METHOD__);
                 $errMsg = '邀请码不存在';
             }
         }
@@ -299,25 +299,25 @@ class UserController extends Controller {
             if ($checkObj) { 
                 $errMsg = $username.'已注册';
                 /*
-                Yii::log('mobile exist in xqsj:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('mobile exist in xqsj:'.$username.' ', 'warning', __METHOD__);
                 $errMsg = '该账号已在新奇世界注册过了，请直接登录';
                 // xqsj 已注册
                 // 检查fanghu本地有没有 没有则添加
                 $checkFanghuMember = Member::model()->find($arrSqlParams);
                 if (!$checkFanghuMember) {
-                    Yii::log('mobile not exist in fanghu:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                    Yii::log('mobile not exist in fanghu:'.$username.' ', 'warning', __METHOD__);
                     // fh 本地没有，同步过来
                     $fanghuMember = Member::cloneUcMember($checkObj);
                     $fanghuMember->member_from = $inviteCodeModel ? Member::MEMBER_FROM_XQSJ_TO_FANGHU_INVITE : Member::MEMBER_FROM_XQSJ_TO_FANGHU_REG;
                     if (!$fanghuMember->save()) {
-                        Yii::log('clone xqsj member to fanghu member failed:'.$fanghuMember->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                        Yii::log('clone xqsj member to fanghu member failed:'.$fanghuMember->lastError().' ', 'error', __METHOD__);
                         $errMsg = '账号已在新奇世界注册过了，但是同步到 fh 失败，请重新提交注册';
                     } else {
-                        Yii::log('sync exist xqsj member to fanghu:'.$username.$fanghuMember->lastError().' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                        Yii::log('sync exist xqsj member to fanghu:'.$username.$fanghuMember->lastError().' ', 'warning', __METHOD__);
                         $errMsg = '账号已在新奇世界注册过了，并成功同步到 fh ，请直接用新奇世界账号登录';
                     }
                 } else {
-                    Yii::log('mobile exist in fanghu:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                    Yii::log('mobile exist in fanghu:'.$username.' ', 'warning', __METHOD__);
                 }
                 */
             }
@@ -370,16 +370,16 @@ class UserController extends Controller {
 			$member->last_modified = date('Y-m-d H:i:s', time());
             $member->last_login = $member->last_modified;
 			if ($member->insert()) {
-                Yii::log('new xqsj member created:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('new xqsj member created:'.$username.' ', 'warning', __METHOD__);
 				$member_id = $member->member_id;
 
                 // 同步记录 fh 用户库
                 /*
                 $fanghuMember = Member::cloneUcMember($member);
                 if (!$fanghuMember->save()) {
-                    Yii::log('cannot save xqsj member to fanghu:'.$fanghuMember->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                    Yii::log('cannot save xqsj member to fanghu:'.$fanghuMember->lastError().' ', 'error', __METHOD__);
                 } else {
-                    Yii::log('sync new xqsj member to fanghu:'.$username.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                    Yii::log('sync new xqsj member to fanghu:'.$username.' ', 'warning', __METHOD__);
                 }
                 */
 
@@ -397,10 +397,10 @@ class UserController extends Controller {
                         $inviteLogModel->invitee_acct = $username;
                         $inviteLogModel->invite_code = $inviteCodeModel->invite_code;
                         if (!$inviteLogModel->insert()) {
-                            Yii::log('cannot add invite log:'.$inviteLogModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                            Yii::log('cannot add invite log:'.$inviteLogModel->lastError().' ', 'error', __METHOD__);
                         }
                     } else {
-                        Yii::log('cannot update invite count:'.$inviteCodeModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                        Yii::log('cannot update invite count:'.$inviteCodeModel->lastError().' ', 'error', __METHOD__);
                     }
                     // 添加邀请注册成功事件
                     Yii::app()->getModule('event')->pushEvent($member_id, 'register_by_invite', array('inviter'=>$inviteCodeModel->member_id, 'invite_code'=>$invite_code, 'member_mobile'=>$username));
@@ -1056,7 +1056,7 @@ class UserController extends Controller {
     public function checkAndBindThirdPart($member_id, $member_mobile, $member_fullname='') {
         $name = Yii::app()->params['third_login_sess_name'];
         if (!isset($_SESSION[$name])) {
-            Yii::log('empty session: '.$name.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('empty session: '.$name.' ', 'warning', __METHOD__);
             return false;
         }
         $authInfo = $_SESSION[$name];
@@ -1066,7 +1066,7 @@ class UserController extends Controller {
         // format ['plat'=>'1','appid'=>'appid','sns_id'=>'sns_id']
         switch ($authInfo['plat']) {
             case UcMemberBindSns::SNS_SOURCE_WECHAT:
-                //Yii::log('prepare bind wechat:'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                //Yii::log('prepare bind wechat:'.' ', 'warning', __METHOD__);
                 $ret = $this->bindFhOpenid($authInfo['sns_id'], $member_id, $member_mobile);
                 //$authInfo['return_url'] = $this->createAbsoluteUrl('Wechat/autoclose');
                 break;
@@ -1075,7 +1075,7 @@ class UserController extends Controller {
             default:
                 break;
         }
-        //Yii::log('bind success: mid='.$objMember->member_id.' authInfo='.json_encode($authInfo).' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+        //Yii::log('bind success: mid='.$objMember->member_id.' authInfo='.json_encode($authInfo).' ', 'warning', __METHOD__);
         return $ret;
     }
 
@@ -1091,7 +1091,7 @@ class UserController extends Controller {
         ];
         $appid = Yii::app()->params['fh_wechat_appid'];
         if (empty($openid) || empty($member_id) || empty($member_mobile)) {
-            Yii::log('empty info : mid='.$member_id.' openid='.$openid.' mobile='.$member_mobile.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('empty info : mid='.$member_id.' openid='.$openid.' mobile='.$member_mobile.' ', 'error', __METHOD__);
             return $ret;
         }
 
@@ -1099,7 +1099,7 @@ class UserController extends Controller {
         $memberSns = UcMemberBindSns::model()->find('member_id=:mid and sns_appid=:appid', [':mid'=>$member_id, ':appid'=>$appid]);
         if ($memberSns) {
             // 登陆的手机号绑定过
-            Yii::log('mid('.$member_id.') already bind on(openid='.$memberSns->sns_id.' mobile='.$memberSns->member_mobile.'), expect bind on oid='.$openid.' mobile='.$member_mobile.' mid='.$memberSns->member_id.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('mid('.$member_id.') already bind on(openid='.$memberSns->sns_id.' mobile='.$memberSns->member_mobile.'), expect bind on oid='.$openid.' mobile='.$member_mobile.' mid='.$memberSns->member_id.' ', 'error', __METHOD__);
             if ($memberSns->sns_id == $openid) {
                 // 手机号绑定的是自己绑定过的微信
                 $ret['msg'] = '本账号已绑定过，并绑定正常';
@@ -1128,7 +1128,7 @@ class UserController extends Controller {
             if (empty($ucMemberBindSns->member_id)) {
                 // 有关系，属于临时账号，来自扫码，但是没有注册
                 // 执行绑定
-                Yii::log('fill: mid='.$member_id.' openid='.$openid.' mobile='.$member_mobile.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('fill: mid='.$member_id.' openid='.$openid.' mobile='.$member_mobile.' ', 'warning', __METHOD__);
                 $ucMemberBindSns->member_id     = $member_id;
                 $ucMemberBindSns->member_mobile = $member_mobile;
                 $snsNeedSave = true;
@@ -1138,15 +1138,15 @@ class UserController extends Controller {
                     // 填写手机号
                     $ucMemberBindSns->member_mobile = $member_mobile;
                     $snsNeedSave = true;
-                    Yii::log('already bind and fill mobile openid('.$openid.') on (mid='.$ucMemberBindSns->member_id.' mobile='.$ucMemberBindSns->member_mobile.'): mid='.$member_id.' mobile='.$member_mobile.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                    Yii::log('already bind and fill mobile openid('.$openid.') on (mid='.$ucMemberBindSns->member_id.' mobile='.$ucMemberBindSns->member_mobile.'): mid='.$member_id.' mobile='.$member_mobile.' ', 'warning', __METHOD__);
                 } else {
                     // 正确绑定
-                    Yii::log('already bind ok openid('.$openid.') on (mid='.$ucMemberBindSns->member_id.' mobile='.$ucMemberBindSns->member_mobile.'): mid='.$member_id.' mobile='.$member_mobile.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                    Yii::log('already bind ok openid('.$openid.') on (mid='.$ucMemberBindSns->member_id.' mobile='.$ucMemberBindSns->member_mobile.'): mid='.$member_id.' mobile='.$member_mobile.' ', 'warning', __METHOD__);
                     return $ret;
                 }
             } elseif (empty($ucMemberBindSns->member_mobile)) {
                 // 临时账号，需要绑定账号 并需要合并
-                Yii::log('temp account: (mid='.$ucMemberBindSns->member_id.' openid='.$openid.') need bind on (mid='.$member_id.'mobile='.$member_mobile.')'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('temp account: (mid='.$ucMemberBindSns->member_id.' openid='.$openid.') need bind on (mid='.$member_id.'mobile='.$member_mobile.')'.' ', 'warning', __METHOD__);
                 $tmp_id = $ucMemberBindSns->member_id;
 
                 $ucMemberBindSns->member_id = $member_id;
@@ -1158,7 +1158,7 @@ class UserController extends Controller {
                 //$snsNeedSave = true;
             } else {
                 // 该微信被绑定到别的手机号码了
-                Yii::log('already bind odd openid('.$openid.') on (mid='.$ucMemberBindSns->member_id.' mobile='.$ucMemberBindSns->member_mobile.'): login mid='.$member_id.' mobile='.$member_mobile.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('already bind odd openid('.$openid.') on (mid='.$ucMemberBindSns->member_id.' mobile='.$ucMemberBindSns->member_mobile.'): login mid='.$member_id.' mobile='.$member_mobile.' ', 'warning', __METHOD__);
                 $ret['code'] = 3;
                 $miscMobile = Tools::miscMobile($ucMemberBindSns->member_mobile);
                 $ret['msg']  = '该微信已绑定到手机号'.$miscMobile.'，请重新登录。';
@@ -1180,7 +1180,7 @@ class UserController extends Controller {
 
         try {
             if ($snsNeedSave && !$ucMemberBindSns->save()) {
-                Yii::log('save ucMemberBindSns error:'.$ucMemberBindSns->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save ucMemberBindSns error:'.$ucMemberBindSns->lastError().' ', 'error', __METHOD__);
             }
 
             //更新粉丝表的member_id 之前绑定的MemberFansModel中么有fans_id
@@ -1190,13 +1190,13 @@ class UserController extends Controller {
                     // 补上fans_id
                     $fansModel->fans_id = $member_id;
                     if (!$fansModel->save()) {
-                        Yii::log('save FhMemberFansModel error:'.$fansModel->lastError().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+                        Yii::log('save FhMemberFansModel error:'.$fansModel->lastError().' ', 'error', __METHOD__);
                     }
                 }
             }
-            Yii::log('bind success: openid='.$openid.' mid='.$member_id.' mobile='.$member_mobile.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('bind success: openid='.$openid.' mid='.$member_id.' mobile='.$member_mobile.' ', 'warning', __METHOD__);
         } catch (CException $e) {
-            Yii::log('save ucMemberBindSns error:'.$e->getMessage().' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('save ucMemberBindSns error:'.$e->getMessage().' ', 'error', __METHOD__);
         }
         $ret['snsModel'] = $ucMemberBindSns;
 
@@ -1220,7 +1220,7 @@ class UserController extends Controller {
 		$member_id = '';
         $authInfo = $_SESSION[Yii::app()->params['third_login_sess_name']];
         if (!$authInfo) {
-            Yii::log('auto login error: no session'.' @'.__FILE__.':'.__LINE__, 'error', __METHOD__);
+            Yii::log('auto login error: no session'.' ', 'error', __METHOD__);
             $this->redirect($this->createAbsoluteUrl('user/login'));
         }
 
@@ -1238,14 +1238,14 @@ class UserController extends Controller {
                 $this->redirect($return_url);
             } else {
                 // 无手机号，属于临时账号，需要绑定到现有账号上
-                Yii::log('auto login error: sns bind but no mobile, go binding: sns_id='.$authInfo['sns_id'].' mid='.$snsBindModel->member_id.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+                Yii::log('auto login error: sns bind but no mobile, go binding: sns_id='.$authInfo['sns_id'].' mid='.$snsBindModel->member_id.' ', 'warning', __METHOD__);
                 // 清除登录状态，但是不清除第三方绑定信息
                 Yii::app()->loginUser->logout(false);
                 $this->redirect($this->createAbsoluteUrl('user/login', ['return_url'=>$return_url]));
                 
             }
 		} else {
-            Yii::log('auto login error: sns no bind'.' @'.__FILE__.':'.__LINE__, 'warning', __METHOD__);
+            Yii::log('auto login error: sns no bind'.' ', 'warning', __METHOD__);
 			//没有绑定则跳转到登陆页，登陆页会根据session，执行绑定
 			//$this->redirect('frontendmob.php?r=user/thirdPartLoginMobile&from=' . $from);
             $this->redirect($this->createAbsoluteUrl('user/login', ['return_url'=>$return_url]));
