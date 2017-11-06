@@ -25,7 +25,7 @@ abstract class TaskTypeAbs
     */
 	public function calcStep($instModel)
 	{
-        Yii::log(__METHOD__ .': illegal taskType:'.$instModel->task_tpl->task_type, 'error', 'TaskModule');
+        Yii::log('illegal taskType:'.$instModel->task_tpl->task_type, 'error', __METHOD__);
         return false;
 	}
     
