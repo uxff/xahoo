@@ -4,13 +4,14 @@ return array (
     'basePath' => dirname ( __FILE__ ) . DIRECTORY_SEPARATOR . '../../',
     //'basePath' => $protectedPath,
     'name' => 'consoles',
+    'preload' => ['log'],
     'import' => array (
         'application.xqsjmodels.*', 
         'application.common.components.*',  
         'application.common.extensions.*',  
      ),
     'components' => array ( 
-       'db' => array(
+        'db' => array(
             'class' => 'application.common.components.DbConnectionManager',//扩展路径
             //'connectionString' => 'mysql:host=rdst5k07c121z1c2j41d.mysql.rds.aliyuncs.com;dbname=xqsj_db',//主数据库 写
             //'connectionString' => 'mysql:host=112.126.73.37;dbname=fanghu_db',
@@ -88,7 +89,8 @@ return array (
        'order', 
    ),
    'params'=>array(
-       'LOG_PATH' => '',
+       'LOG_PATH' => 'logs/',
        'LOG_NAME' => 'console.log',
+       'LOG_LEVEL' => 2,
    ),
 );
