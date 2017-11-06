@@ -16,7 +16,6 @@ abstract class TaskTypeAbs
 	public function isFinished($instModel)
 	{
         $this->_model = $instModel;
-        Yii::log(__METHOD__ .': here', 'warning', __FILE__.':'.__LINE__);
         return ($this->_model && ($this->_model->step_count>=$this->_model->step_need_count));
 	}
     

@@ -56,7 +56,7 @@ class PicsetController extends Controller
                 $arrStorageId   = $_POST['pic_storage_id'];
                 $arrLinkUrl     = $_POST['link_url'];
                 $arrWeight      = $_POST['weight'];
-                //Yii::log(__METHOD__ .': ')
+                //Yii::log('')
                 //print_r($arrStorageId);exit;
                 if ($model->type == 1) {
                     asort($arrWeight);
@@ -75,13 +75,13 @@ class PicsetController extends Controller
                                 $picStorageModel->link_url = $arrLinkUrl[$pic_storage_id];
                                 $picStorageModel->weight = $arrWeight[$pic_storage_id];
                                 if (!$picStorageModel->save()) {
-                                    Yii::log(__METHOD__ .': '.$picStorageModel->getError(), 'error', __FILE__ .':'.__LINE__);
+                                    Yii::log(''.$picStorageModel->getError(), 'error', __METHOD__);
                                 }
                             } else {
                                 $picStorageModel->delete();
                             }
                         } else {
-                            Yii::log(__METHOD__ .': pic_storage_id('.$pic_storage_id.') not exist!', 'error', __FILE__ .':'.__LINE__);
+                            Yii::log('pic_storage_id('.$pic_storage_id.') not exist!', 'error', __METHOD__);
                         }
                     }
                 } else {
@@ -92,10 +92,10 @@ class PicsetController extends Controller
                             $picStorageModel->link_url = $arrLinkUrl[$pic_storage_id];
                             $picStorageModel->weight = $arrWeight[$pic_storage_id];
                             if (!$picStorageModel->save()) {
-                                Yii::log(__METHOD__ .': '.$picStorageModel->getError(), 'error', __FILE__ .':'.__LINE__);
+                                Yii::log(''.$picStorageModel->getError(), 'error', __METHOD__);
                             }
                         } else {
-                            Yii::log(__METHOD__ .': pic_storage_id('.$pic_storage_id.') not exist!', 'error', __FILE__ .':'.__LINE__);
+                            Yii::log('pic_storage_id('.$pic_storage_id.') not exist!', 'error', __METHOD__);
                         }
                     }
                 }
@@ -178,13 +178,13 @@ class PicsetController extends Controller
                                 $picStorageModel->link_url = $arrLinkUrl[$pic_storage_id];
                                 $picStorageModel->weight = $arrWeight[$pic_storage_id];
                                 if (!$picStorageModel->save()) {
-                                    Yii::log(__METHOD__ .': '.$picStorageModel->getError(), 'error', __FILE__ .':'.__LINE__);
+                                    Yii::log(''.$picStorageModel->getError(), 'error', __METHOD__);
                                 }
                             } else {
                                 $picStorageModel->delete();
                             }
                         } else {
-                            Yii::log(__METHOD__ .': pic_storage_id('.$pic_storage_id.') not exist!', 'error', __FILE__ .':'.__LINE__);
+                            Yii::log('pic_storage_id('.$pic_storage_id.') not exist!', 'error', __METHOD__);
                         }
                     }
                 } else {
@@ -195,10 +195,10 @@ class PicsetController extends Controller
                             $picStorageModel->link_url = $arrLinkUrl[$pic_storage_id];
                             $picStorageModel->weight = $arrWeight[$pic_storage_id];
                             if (!$picStorageModel->save()) {
-                                Yii::log(__METHOD__ .': '.$picStorageModel->getError(), 'error', __FILE__ .':'.__LINE__);
+                                Yii::log(''.$picStorageModel->getError(), 'error', __METHOD__);
                             }
                         } else {
-                            Yii::log(__METHOD__ .': pic_storage_id('.$pic_storage_id.') not exist!', 'error', __FILE__ .':'.__LINE__);
+                            Yii::log('pic_storage_id('.$pic_storage_id.') not exist!', 'error', __METHOD__);
                         }
                     }
                 }
