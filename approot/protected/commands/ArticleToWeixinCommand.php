@@ -45,7 +45,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $this->weObj = new Wechat($this->wechatOptions);
             //$this->weObj->valid();
         } else {
-            var_dump('cannot load wechat obj',  'warning', __METHOD__);
+            Yii::log('cannot load wechat obj',  'warning', __METHOD__);
         }   
 
     }
@@ -57,9 +57,9 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         //print_r($serverIp);
         //$menu = $this->weObj->getMenu();
         //print_r($menu);
-        var_dump('mpid='.$mpid.' appid='.$appid.' aid='.$aid, 'warning', __METHOD__);
+        Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid, 'warning', __METHOD__);
 
-        $this->actionSyncArticle((int)$dur, 0, $aid);
+        //$this->actionSyncArticle((int)$dur, 0, $aid);
         //单发消息
         //$this->weObj->sendCustomMessage();
     }
@@ -79,14 +79,14 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         } else {
             $artList[] = ArticleModel::model()->find('id=:id', [':id'=>$aid]);
         }
-        var_dump('will sync '.$aid.'...', 'warning', __METHOD__);
+        Yii::log('will sync '.$aid.'...', 'warning', __METHOD__);
 
         foreach ($artList as $artObj) {
             // 替换文章内部图片
             //$imgUrls = preg_match_all('', $artObj->content)
             $theReplacedArticle = $this->replaceImgTag($artObj->content);
             $theNewContent = $theReplacedArticle['content'];
-            var_dump('after replaceImgTag: len(old content)='.strlen($artObj->content).' len(new content)='.strlen($theNewContent), 'warning', __METHOD__);
+            Yii::log('after replaceImgTag: len(old content)='.strlen($artObj->content).' len(new content)='.strlen($theNewContent), 'warning', __METHOD__);
             echo 'the uploaded pics:'.json_encode($theReplacedArticle['pics'])."\n";//pics=>[$urlOrigin, $urlUploaded, $localPath]
 
             // 准备图文消息缩略图 缩略图必须使用永久素材media_id
@@ -95,7 +95,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $thumbParam = ['media'=>'@'.$theReplacedArticle['pics'][0][2], 'type'=>'thumb'];//['media'=>'@/pathto/file.png'];
             //$thumbMedia = $this->weObj->uploadForeverMedia($thumbParam);
             $thumbMedia = $this->weObj->AlexUploadMedia($thumbParam);
-            var_dump('after upload thumb Media rets='.json_encode($thumbMedia), 'warning', __METHOD__);
+            Yii::log('after upload thumb Media rets='.json_encode($thumbMedia), 'warning', __METHOD__);
 
             $articles = ['articles'=>[[
                 // thumb_media_id 缩略图id
@@ -117,7 +117,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             echo 'will uploadnews:'. json_encode($articles)."\n";
             // 将替换后的html上传图文消息接口生成media_id
             $mpNewsMediaInfo = $this->weObj->uploadArticles($articles);
-            var_dump('after uploadArticles rets=', $mpNewsMediaInfo, 'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode);
+            Yii::log('after uploadArticles rets=', $mpNewsMediaInfo, 'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode);
 
             // 将media_id保存到本地，等待发送mp消息使用
             //$this->saveMedia($mpNewsMediaInfo['media_id'], 'NEWS', $this->mpid);
@@ -134,7 +134,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 'send_ignore_reprint' => 0,
             ];
             $res = $this->weObj->sendGroupMassMessage($massSendParam);
-            var_dump('after sendGroupMassMessage res=', $res, 'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode);
+            Yii::log('after sendGroupMassMessage res=', $res, 'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode);
             //
             // 单发测试
             foreach ($this->adminOpenid[$this->mpid] as $openid) {
@@ -190,7 +190,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         $path = $this->getPicRuntimePath().'mpimg_'.date('YmdHis').'_'.substr(md5(mt_rand()), 0, 8).'.jpg';
         Http::curldownload($url, $path);
 
-        //var_dump('保存一个图片('.$url.')到本地:'.$path, 'warning', __METHOD__);
+        //Yii::log('保存一个图片('.$url.')到本地:'.$path, 'warning', __METHOD__);
         return $path;
 
     }
@@ -198,9 +198,9 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         $dir = Yii::app()->runtimePath.'/mppic/';
         if (!file_exists($dir)) {
             if (@mkdir($dir, 0777, true)) {
-                var_dump('mkdir(runtimePath='.$dir.') success', 'warning', __METHOD__);
+                Yii::log('mkdir(runtimePath='.$dir.') success', 'warning', __METHOD__);
             } else {
-                var_dump('mkdir(runtimePath='.$dir.') error', 'error', __METHOD__);
+                Yii::log('mkdir(runtimePath='.$dir.') error', 'error', __METHOD__);
             }
         }
         return $dir;
