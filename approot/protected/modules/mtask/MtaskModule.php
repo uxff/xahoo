@@ -33,13 +33,13 @@ class MtaskModule extends CWebModule
     */
     public function dispatchTask($member_id, $taskTplId) {
         if (!$member_id || !$taskTplId) {
-            Yii::log('member_id or taskTplId must not be null!'.' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+            Yii::log('member_id or taskTplId must not be null!'.' ', 'error', __METHOD__);
             return false;
         }
 
         $taskTplModel = TaskTplModel::model()->findByPk($taskTplId);
         if (!$taskTplModel) {
-            Yii::log('taskTplId('.$taskTplId.') not exist!'.' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+            Yii::log('taskTplId('.$taskTplId.') not exist!'.' ', 'error', __METHOD__);
             return false;
         }
 
@@ -50,7 +50,7 @@ class MtaskModule extends CWebModule
         $taskInstModel->step_need_count = $taskTplModel->step_need_count;
 
         if (!$taskInstModel->save()) {
-            Yii::log('cannot create MemberTaskModel(mid='.$member_id.',tid='.$taskTplId.') :'.$taskInstModel->lastError().' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+            Yii::log('cannot create MemberTaskModel(mid='.$member_id.',tid='.$taskTplId.') :'.$taskInstModel->lastError().' ', 'error', __METHOD__);
             return false;
         }
         $taskInstModel->task_tpl = $taskTplModel;
@@ -70,7 +70,7 @@ class MtaskModule extends CWebModule
         if ($taskInst && $taskInst->isAlready()) {
             return $taskInst->finishTask();
         }
-        Yii::log('cannot find task inst: mid='.$member_id.' taskTplId='.$taskTplId.' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+        Yii::log('cannot find task inst: mid='.$member_id.' taskTplId='.$taskTplId.' ', 'error', __METHOD__);
         return false;
     }
 
@@ -84,7 +84,7 @@ class MtaskModule extends CWebModule
         if ($taskInst && $taskInst->isAlready()) {
             return $taskInst->isTaskFinished();
         }
-        Yii::log('taskInst not exist! mid='.$member_id.' taskTplId='.$taskTplId.' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+        Yii::log('taskInst not exist! mid='.$member_id.' taskTplId='.$taskTplId.' ', 'error', __METHOD__);
         return false;
     }
 
@@ -98,7 +98,7 @@ class MtaskModule extends CWebModule
         if ($taskInst && $taskInst->isAlready()) {
             return $taskInst->flushTaskStatus();
         }
-        Yii::log('taskInst not exist! mid='.$member_id.' taskTplId='.$taskTplId.' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+        Yii::log('taskInst not exist! mid='.$member_id.' taskTplId='.$taskTplId.' ', 'error', __METHOD__);
         return false;
     }
 
@@ -112,7 +112,7 @@ class MtaskModule extends CWebModule
         if ($taskInst && $taskInst->isAlready()) {
             return $taskInst->stepForward();
         }
-        Yii::log('taskInst not exist! mid='.$member_id.' taskTplId='.$taskTplId.' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+        Yii::log('taskInst not exist! mid='.$member_id.' taskTplId='.$taskTplId.' ', 'error', __METHOD__);
         return false;
     }
 
@@ -135,19 +135,19 @@ class MtaskModule extends CWebModule
             $ruleModel->flag = 2;
             $ret = $ruleModel->save();
             if (!$ret) {
-                Yii::log('save rule failed: '.$ruleModel->lastError().' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save rule failed: '.$ruleModel->lastError().' ', 'error', __METHOD__);
                 return false;
             }
             */
             $model->rule_id = PointsRuleModel::RULE_ID_FOR_TASK; //$ruleModel->rule_id;
             if (!$model->save()) {
                 //print_r($model->getErrors());print_r($taskTplAttr);exit;
-                Yii::log('save taskTplModel failed: '.$model->lastError().' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+                Yii::log('save taskTplModel failed: '.$model->lastError().' ', 'error', __METHOD__);
                 return false;
             }
             
         } else {
-            Yii::log('task type '.$model->task_type.' not valid!'.' @'.__FILE__ .':'.__LINE__, 'error', __METHOD__);
+            Yii::log('task type '.$model->task_type.' not valid!'.' ', 'error', __METHOD__);
             return false;
         }
         return $model;
