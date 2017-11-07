@@ -117,6 +117,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             echo 'will uploadnews:'. json_encode($articles)."\n";
             // 将替换后的html上传图文消息接口生成media_id
             $mpNewsMediaInfo = $this->weObj->uploadArticles($articles);
+            // invalid media_id hint: [RSSvuA0469e604] 40007
             Yii::log('after uploadArticles rets='.json_encode( $mpNewsMediaInfo). 'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
 
             // 将media_id保存到本地，等待发送mp消息使用
