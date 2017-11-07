@@ -92,14 +92,17 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             // 准备图文消息缩略图 缩略图必须使用永久素材media_id
             //$thumbMedia = $this->uploadImg($theFirstImg);//此接口返回url，不返回media_id
             // 使用缩略图接口上传
-            $thumbParam = ['media'=>'@'.$theReplacedArticle['pics'][0][2], 'type'=>'thumb'];//['media'=>'@/pathto/file.png'];
-            $thumbMedia = $this->weObj->uploadForeverMedia($thumbParam);// 返回url+media_id
-            //$thumbMedia = $this->weObj->AlexUploadMedia($thumbParam);
-            Yii::log('after upload thumb Media rets='.json_encode($thumbMedia), 'warning', __METHOD__);
+            $thumbParam = ['media'=>'@'.$theReplacedArticle['pics'][0][2]];//['media'=>'@/pathto/file.png'];
+            $thumbParam = ['media'=>'@'.'/tmp/xiaoqingxing.jpg'];
+            //$thumbMedia = $this->weObj->uploadForeverMedia($thumbParam);// 返回url+media_id
+            $thumbMedia = $this->weObj->UploadMedia($thumbParam, 'thumb');//false
+            //$thumbMedia = $this->weObj->AlexUploadMedia($thumbParam, 'thumb');//false//invalid media size
+            // 错误要用 $this->weObj->errMsg $this->weObj->errCode 来取
+            Yii::log('after upload thumb Media param='.json_encode($thumbParam).' rets='.json_encode($thumbMedia). ' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
 
             $articles = ['articles'=>[[
                 // thumb_media_id 缩略图id
-                'thumb_media_id' => $thumbMedia['media_id'],//'dHmuALCB4dZ597NUMweP4qlUWtw6579aRQ7BW7yZOjo',//$thumbMedia['media_id'],
+                'thumb_media_id' => $thumbMedia['thumb_media_id'],//'dHmuALCB4dZ597NUMweP4qlUWtw6579aRQ7BW7yZOjo',//$thumbMedia['media_id'],
                 // author 作者
                 'author' => $artObj->remark, // default null
                 // 标题
@@ -118,7 +121,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             // 将替换后的html上传图文消息接口生成media_id
             $mpNewsMediaInfo = $this->weObj->uploadArticles($articles);
             // invalid media_id hint: [RSSvuA0469e604] 40007
-            Yii::log('after uploadArticles rets='.json_encode( $mpNewsMediaInfo). 'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
+            Yii::log('after uploadArticles rets='.json_encode( $mpNewsMediaInfo). ' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
 
             // 将media_id保存到本地，等待发送mp消息使用
             //$this->saveMedia($mpNewsMediaInfo['media_id'], 'NEWS', $this->mpid);
@@ -146,7 +149,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 // 发送素材图文消息
                 //$singleMsg = ['touser'=>$openid, 'msgtype'=>'mpnews', 'mpnews'=>['media_id'=>$mpNewsMediaInfo]];
                 $res = $this->weObj->sendCustomMessage($singleMsg);
-                Yii::log('sendCustomMessage:'.json_encode($singleMsg).' res='.json_encode($res), 'warning', __METHOD__);
+                Yii::log('sendCustomMessage:'.json_encode($singleMsg).' res='.json_encode($res).' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             }
         }
         echo "done\n";
