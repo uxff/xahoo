@@ -96,7 +96,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $thumbParam = ['media'=>'@'.'/tmp/xiaoqingxing.jpg'];
             //$thumbMedia = $this->weObj->uploadForeverMedia($thumbParam);// 返回url+media_id
             $thumbMedia = $this->weObj->UploadMedia($thumbParam, 'thumb');//false
-            //$thumbMedia = $this->weObj->AlexUploadMedia($thumbParam, 'thumb');//false//invalid media size
+            //$thumbMedia = $this->weObj->AlexUploadMedia($thumbParam, 'thumb');//false//invalid media size // 解决方法 使用小图片
             // 错误要用 $this->weObj->errMsg $this->weObj->errCode 来取
             Yii::log('after upload thumb Media param='.json_encode($thumbParam).' rets='.json_encode($thumbMedia). ' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
 
@@ -120,7 +120,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             echo 'will uploadnews:'. json_encode($articles)."\n";
             // 将替换后的html上传图文消息接口生成media_id
             $mpNewsMediaInfo = $this->weObj->uploadArticles($articles);
-            // invalid media_id hint: [RSSvuA0469e604] 40007
+            // invalid media_id hint: [RSSvuA0469e604] 40007 // 解决方式 使用 thumb_media_id 
             Yii::log('after uploadArticles rets='.json_encode( $mpNewsMediaInfo). ' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
 
             // 将media_id保存到本地，等待发送mp消息使用
@@ -137,6 +137,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 'mpnews' => ['media_id'=>$mpNewsMediaInfo['media_id']],
                 'send_ignore_reprint' => 0,
             ];
+
             $res = $this->weObj->sendGroupMassMessage($massSendParam);
             Yii::log('after sendGroupMassMessage res='.json_encode($res).'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             //
@@ -148,6 +149,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                         'title'=>$artObj->title, 'description'=>$artObj->abstract, 'picurl'=>$theReplacedArticle['pics'][0], 'url'=>$artObj->outer_url]]];
                 // 发送素材图文消息
                 //$singleMsg = ['touser'=>$openid, 'msgtype'=>'mpnews', 'mpnews'=>['media_id'=>$mpNewsMediaInfo]];
+                // 不能在没收到公众号事件的时候给用户回复消息，所以此发送无效
                 $res = $this->weObj->sendCustomMessage($singleMsg);
                 Yii::log('sendCustomMessage:'.json_encode($singleMsg).' res='.json_encode($res).' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             }
