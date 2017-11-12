@@ -1,7 +1,7 @@
 /*rest*/
 @charset "utf-8";
 html { font-family: "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-size: 62.5%; }
-body { font-family:"微软雅黑";margin: 0; line-height: 1.5; color: #333333; background-color: #f0f0f0; height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+body { font-family:"微软雅黑";margin: 0; line-height: 1.5; color: #333333; background-color: #fffffe; height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
 html,body{height: 100%}
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
 audio, canvas, progress, video { display: inline-block; vertical-align: baseline; }
