@@ -87,6 +87,16 @@ location / {
 
 安装好后执行 approot/install.sh 为目录增加权限。
 
+进入gofeed目录编译gofeed。需要go环境，安装go环境请参考[这里](https://studygolang.com/articles/1605)
+
+```
+$ cd gofeed
+$ go build main.go
+
+```
+编译后得到./main 可执行程序,在下面抓取资讯使用。
+
+
 ## crontab 
 ```
 # 定时爬取资讯
