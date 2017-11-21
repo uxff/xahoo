@@ -139,7 +139,7 @@ class FhMemberHaibaoModelBase extends CActiveRecord
 				$criteria->compare('t.project_id',$this->project_id);
 				$criteria->compare('t.jjr_name',$this->jjr_name,true);
 				$criteria->compare('t.is_jjr',$this->is_jjr);
-				$criteria->compare('t.is_addr_right',$this->is_addr_right);
+				$criteria->compare('t.is_addr_right',$this->is_addr_right, true);
 				$criteria->compare('t.desc',$this->desc,true);
 				$criteria->compare('t.reward_money',$this->reward_money);
 				$criteria->compare('t.fans_total',$this->fans_total);

@@ -28,7 +28,7 @@
                     </div>
                                            
                     <div class="form-group col-xs-3">
-                        <label for="advert_last_modified" class="col-xs-4 control-label no-padding-right">所属项目</label>
+                        <label for="advert_last_modified" class="col-xs-4 control-label no-padding-right">海报活动模板</label>
                         <div class="col-xs-7">
                             <select class="form-control" id="poster_project"  name="poster[project]" style="height:30px">
                                 <option value="" >请选择</option>
@@ -70,7 +70,7 @@
                                                                 <tr>
                                                                     <th>序号</th>
                                                                     <th>手机号码</th>
-                                                                    <th>所属项目</th>
+                                                                    <th>海报模板</th>
                                                                     <th>会员姓名</th>
                                                                     <th>会员昵称</th>
                                                                     <th>会员类型</th>
@@ -86,7 +86,7 @@
                                                                 <tr>
                                                                         <td>{($pages.curPage-1)*$pages.pageSize+1+$i}</td>   
                                                                         <td title="openid: {$objModel.openid}">{$objModel['member_mobile']}</td>                                                                    
-                                                                        <td>{$objModel['project']}</td>
+                                                                        <td>{$objModel.project}</td>
                                                                         <td>{$objModel['jjr_name']|default:'-'}</td>                                   
                                                                         <td>{$objModel['wx_nickname']}</td>   
                                                                         {if $objModel['is_jjr'] == 1}       
