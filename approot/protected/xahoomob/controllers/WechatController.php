@@ -375,7 +375,7 @@ class WechatController extends BaseController {
 
         // 生成海报记录 后面统计要用到 所以先保存
         $haibaoLog = new FhMemberHaibaoLogModel;
-        $haibaoLog->accounts_id = Yii::app()->params['accounts_id'];
+        $haibaoLog->accounts_id = $this->mpid;
         $haibaoLog->member_id   = $member_id;
         $haibaoLog->sns_bind_id = $snsBindModel->bind_id;
         $haibaoLog->poster_id   = $posterModel->id;
@@ -388,14 +388,14 @@ class WechatController extends BaseController {
         $wxUserInfo = $this->getWxUserInfo($fromUser);
 
         // 获取用户是否生成海报
-        $memberHaibaoModel = FhMemberHaibaoModel::model()->with('poster')->find('t.sns_bind_id=:bid and t.accounts_id=:accounts_id', [':bid'=>$sceneid, ':accounts_id'=>Yii::app()->params['accounts_id']]);
+        $memberHaibaoModel = FhMemberHaibaoModel::model()->with('poster')->find('t.sns_bind_id=:bid and t.accounts_id=:accounts_id', [':bid'=>$sceneid, ':accounts_id'=>$this->mpid]);
         if (!$memberHaibaoModel) {
-            Yii::log('这个用户没生成过海报: mid='.$member_id.' appid='.Yii::app()->params['appid'].' accounts_id='.Yii::app()->params['accounts_id'].' sid='.$sceneid.' from='.$fromUser.' jjr='.$extParams['jjr_type'].':'.$extParams['jjr_name'].' ', 'warning', __METHOD__);
+            Yii::log('这个用户没生成过海报: mid='.$member_id.' appid='.Yii::app()->params['appid'].' accounts_id='.$this->mpid.' sid='.$sceneid.' from='.$fromUser.' jjr='.$extParams['jjr_type'].':'.$extParams['jjr_name'].' ', 'warning', __METHOD__);
             //return false;
 
             // 生成新的用户海报数据记录
             $memberHaibaoModel = new FhMemberHaibaoModel;
-            $memberHaibaoModel->accounts_id     = Yii::app()->params['accounts_id'];
+            $memberHaibaoModel->accounts_id     = $this->mpid;
             $memberHaibaoModel->member_id       = $snsBindModel->member_id;//可能为空
             $memberHaibaoModel->sns_bind_id     = $snsBindModel->bind_id;
             $memberHaibaoModel->poster_id       = $posterModel->id;
@@ -769,7 +769,7 @@ class WechatController extends BaseController {
     public function dispatchMoneyToMember($member_id, $directLevel, $remark='') {
         // 查找对应参加的海报
         Yii::log('#####SNSMODEL location_address region='.$region.' ', 'warning', __METHOD__);
-        $memberPoster = FhMemberHaibaoModel::model()->with('poster')->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
+        $memberPoster = FhMemberHaibaoModel::model()->with('poster')->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$member_id,':accounts_id'=>$this->mpid]);
         if (!$memberPoster) {
             //Yii::log('cannot find memberPoster:'.' mid='.$member_id.' ', 'error', __METHOD__);
             throw new CException('cannot find memberPoster: mid='.$member_id);
@@ -824,10 +824,10 @@ class WechatController extends BaseController {
         }
         
         // 个人财富增加
-        $memberTotal = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
+        $memberTotal = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$member_id,':accounts_id'=>$this->mpid]);
         if (!$memberTotal) {
             $memberTotal = new MemberTotalModel;
-            $memberTotal->accounts_id     = Yii::app()->params['accounts_id'];
+            $memberTotal->accounts_id     = $this->mpid;
             $memberTotal->member_id         = $member_id;
             $memberTotal->create_time       = date('Y-m-d H:i:s', time());
             $memberTotal->money_total       = $rewardMoney;
@@ -847,7 +847,7 @@ class WechatController extends BaseController {
             
             // 个人财富记录
             $moneyHistory = new FhMemberMoneyHistoryModel;
-            $moneyHistory->accounts_id  = Yii::app()->params['accounts_id'];
+            $moneyHistory->accounts_id  = $this->mpid;
             $moneyHistory->member_id    = $member_id;
             $moneyHistory->money        = $rewardMoney;
             $moneyHistory->type         = FhMemberMoneyHistoryModel::TYPE_REWARD;
@@ -901,8 +901,8 @@ class WechatController extends BaseController {
         //Yii::log('we notify user:'.$masterRegModel->member_id.' fans:'.$fansRegModel->sns_id.' ', 'warning', __METHOD__);
         $masterInfo = $this->getWxUserInfo($masterRegModel->sns_id);
         $fansInfo   = $this->getWxUserInfo($fansRegModel->sns_id);
-        $memberTotal = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$masterRegModel->member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
-        $memberPoster   = FhMemberHaibaoModel::model()->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$masterRegModel->member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
+        $memberTotal = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$masterRegModel->member_id,':accounts_id'=>$this->mpid]);
+        $memberPoster   = FhMemberHaibaoModel::model()->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$masterRegModel->member_id,':accounts_id'=>$this->mpid]);
 
         $watchMyRewardUrl = $this->createAbsoluteUrl('myHaibao/myreward');
         $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$watchMyRewardUrl]);
@@ -917,8 +917,8 @@ class WechatController extends BaseController {
         $upstreamInfo   = $this->getWxUserInfo($upstreamModel->sns_id);
         $masterInfo     = $this->getWxUserInfo($masterRegModel->sns_id);
         $fansInfo       = $this->getWxUserInfo($fansRegModel->sns_id);
-        $memberTotal    = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$upstreamModel->member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
-        $memberPoster   = FhMemberHaibaoModel::model()->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$upstreamModel->member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
+        $memberTotal    = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$upstreamModel->member_id,':accounts_id'=>$this->mpid]);
+        $memberPoster   = FhMemberHaibaoModel::model()->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$upstreamModel->member_id,':accounts_id'=>$this->mpid]);
 
         $watchMyRewardUrl = $this->createAbsoluteUrl('myHaibao/myreward');
         $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$watchMyRewardUrl]);
@@ -931,7 +931,7 @@ class WechatController extends BaseController {
         $masterInfo     = $this->getWxUserInfo($openid);
         
         $snsModel       = $this->getBindSnsModel($openid);
-        $memberTotal    = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$snsModel->member_id,':accounts_id'=>Yii::app()->params['accounts_id']]);
+        $memberTotal    = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$snsModel->member_id,':accounts_id'=>$this->mpid]);
 
         $watchMyRewardUrl = $this->createAbsoluteUrl('myHaibao/myreward');
         $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$watchMyRewardUrl]);
@@ -1196,7 +1196,7 @@ class WechatController extends BaseController {
         $trans = Yii::app()->db->beginTransaction();
         try {
             // 查看是否奖励过
-            $moneyHistory = FhMemberMoneyHistoryModel::model()->find('member_id=:mid and eid=:eid and accounts_id=:accounts_id', [':mid'=>$member_id, ':eid'=>$histKey, ':accounts_id'=>Yii::app()->params['accounts_id']]);
+            $moneyHistory = FhMemberMoneyHistoryModel::model()->find('member_id=:mid and eid=:eid and accounts_id=:accounts_id', [':mid'=>$member_id, ':eid'=>$histKey, ':accounts_id'=>$this->mpid]);
             if (!empty($moneyHistory)) {
                 throw new CException('already got reward: '.$histKey);
             }
