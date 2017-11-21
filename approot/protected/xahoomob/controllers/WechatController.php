@@ -429,7 +429,7 @@ class WechatController extends BaseController {
             
             $memberHaibaoModel->poster_id       = $posterModel->id;
             $memberHaibaoModel->project_id      = $posterModel->project_id;
-            $memberHaibaoModel->is_addr_right   = $extParams['is_addr_right'];
+            $memberHaibaoModel->is_addr_right   = $extParams['is_addr_right'] ? 1 : 0;
         }
 
         // 判断是否经纪人
