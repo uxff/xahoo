@@ -8,6 +8,7 @@ class WechatController extends BaseController {
     protected $weObj;
     protected $wechatOptions;
     protected $mpid;
+    protected $mpModel;
     protected $directRewardPer;
     protected $indirectRewardPer;
     protected $upstreamModel;
@@ -21,9 +22,9 @@ class WechatController extends BaseController {
     }
 
     protected function getAccountOptions($mpid) {
-        $accounts_data = FhPosterAccountsModel::model()->find('id=:id',array(':id'=>$mpid));
-        if ($accounts_data) {
-            $accounts_data = $accounts_data->toArray();
+        $this->mpModel = FhPosterAccountsModel::model()->find('id=:id',array(':id'=>$mpid));
+        if ($this->mpModel) {
+            $accounts_data = $this->mpModel->toArray();
         }
         $this->wechatOptions = [
                     'token'=>$accounts_data['token'], 
@@ -48,10 +49,12 @@ class WechatController extends BaseController {
         if (isset($_GET['echostr'])) {
             if ($this->weObj->valid()) {
                 // 收到确认后，更新数据库状态为已确认状态
-                $mpModel = FhPosterAccountsModel::model()->find('id=:id',array(':id'=>$this->mpid));
-                $mpModel->status = FhPosterAccountsModel::STATUS_AUTHED;
-                if (!$mpModel->save()) {
-                    Yii::log('update FhPosterAccountsModel set status=STATUS_AUTHED error:'.$mpModel->lastError(), 'error', __METHOD__);
+                if (empty($this->mpModel)) {
+                    $this->mpModel = FhPosterAccountsModel::model()->find('id=:id',array(':id'=>$this->mpid));
+                }
+                $this->mpModel->status = FhPosterAccountsModel::STATUS_AUTHED;
+                if (!$this->mpModel->save()) {
+                    Yii::log('update FhPosterAccountsModel set status=STATUS_AUTHED error:'.$this->mpModel->lastError(), 'error', __METHOD__);
                 }
             }
         }
@@ -72,6 +75,12 @@ class WechatController extends BaseController {
                 $weObj->text("您的留言已收到，正在努力寻找答案。")->reply();
                 $revText = $weObj->getRevContent();
                 $this->processText($fromUser, $revText);
+
+                // 更新为活跃公众号
+                $this->mpModel->status = FhPosterAccountsModel::STATUS_AUTHED;
+                if (!$this->mpModel->save()) {
+                    Yii::log('update FhPosterAccountsModel set status=STATUS_AUTHED error:'.$this->mpModel->lastError(), 'error', __METHOD__);
+                }
 
                 Yii::app()->end();
                 break;
