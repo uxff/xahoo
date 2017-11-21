@@ -141,7 +141,11 @@
                         {if isset($arrUcMemberFrom[$objModel.member_from])}
                             {$arrUcMemberFrom[$objModel.member_from]}
                         {else}
-                            {$arrMpAccounts[$objModel.sns.sns_appid]['accounts_name']}
+                            {if isset($arrMpAccounts[$objModel.sns.sns_appid])}
+                                公众号({$arrMpAccounts[$objModel.sns.sns_appid]['accounts_name']})
+                            {else}
+                                -
+                            {/if}
                         {/if}
                     </td>
                     <td>{$objModel.create_time}</td>
