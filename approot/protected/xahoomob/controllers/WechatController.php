@@ -158,7 +158,7 @@ class WechatController extends BaseController {
                                 // 活动已开始，正在进行中
                                 $return_url = $this->createAbsoluteUrl('myHaibao/DiyHaibao');
                                 if ($this->makeAccount($fromUser)) {
-                                    $loginUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$return_url]);
+                                    $loginUrl = $this->createAbsoluteUrl('wechat/authlogin', ['mpid'=>$this->mpid, 'return_url'=>$return_url]);
                                     $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"生成个性化海报，请点击<a href=\"$loginUrl\"> 这里 </a>，填写专属信息"]];
                                     $weObj->sendCustomMessage($msg);
                                 } else {
@@ -476,7 +476,7 @@ class WechatController extends BaseController {
 
         $return_url = $return_url ? $return_url : $this->createAbsoluteUrl('user/autoclose');
 
-        $loginUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$return_url]);
+        $loginUrl = $this->createAbsoluteUrl('wechat/authlogin', ['mpid'=>$this->mpid, 'return_url'=>$return_url]);
         $msg = ["touser"=>$openid, "msgtype"=>'text', "text"=>["content"=>"生成海报，需要先登录\n<a href=\"$loginUrl\">立即登录</a>"]];
         $weObj->sendCustomMessage($msg);
         return false;
@@ -906,7 +906,7 @@ class WechatController extends BaseController {
         $memberPoster   = FhMemberHaibaoModel::model()->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$masterRegModel->member_id,':accounts_id'=>$this->mpid]);
 
         $watchMyRewardUrl = $this->createAbsoluteUrl('myHaibao/myreward');
-        $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$watchMyRewardUrl]);
+        $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['mpid'=>$this->mpid, 'return_url'=>$watchMyRewardUrl]);
         $msg = sprintf("亲爱的%s，恭喜您获得一个粉丝！\n粉丝昵称: %s\n关注时间: %s\n奖励零钱: %.2f元\n当前余额: %.2f元\n奖励满%.0f元即可提现\n\n<a href=\"%s\">【查看我的奖励】</a>", 
             $masterInfo['nickname'], $fansInfo['nickname'], date('Y-m-d H:i', $fansInfo['subscribe_time']), $this->directRewardPer, $memberTotal->money_total*1.0, $memberPoster->withdraw_min, $authToUrl);
         $ret = $this->sendTextMessage($masterRegModel->sns_id, $msg);
@@ -922,7 +922,7 @@ class WechatController extends BaseController {
         $memberPoster   = FhMemberHaibaoModel::model()->find('t.member_id=:mid AND t.accounts_id=:accounts_id', [':mid'=>$upstreamModel->member_id,':accounts_id'=>$this->mpid]);
 
         $watchMyRewardUrl = $this->createAbsoluteUrl('myHaibao/myreward');
-        $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$watchMyRewardUrl]);
+        $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['mpid'=>$this->mpid, 'return_url'=>$watchMyRewardUrl]);
         $msg = sprintf("亲爱的%s，恭喜您获得一个间接粉丝！\n粉丝昵称: %s\n推荐人: %s\n关注时间: %s\n奖励零钱: %.2f元\n当前余额: %.2f元\n奖励满%.0f元即可提现\n\n<a href=\"%s\">【查看我的奖励】</a>", 
             $upstreamInfo['nickname'], $fansInfo['nickname'], $masterInfo['nickname'], date('Y-m-d H:i', $fansInfo['subscribe_time']), $this->indirectRewardPer, $memberTotal->money_total*1.0, $memberPoster->withdraw_min, $authToUrl);
         $ret = $this->sendTextMessage($upstreamModel->sns_id, $msg);
@@ -935,7 +935,7 @@ class WechatController extends BaseController {
         $memberTotal    = MemberTotalModel::model()->find('member_id=:mid AND accounts_id=:accounts_id', [':mid'=>$snsModel->member_id,':accounts_id'=>$this->mpid]);
 
         $watchMyRewardUrl = $this->createAbsoluteUrl('myHaibao/myreward');
-        $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$watchMyRewardUrl]);
+        $authToUrl = $this->createAbsoluteUrl('wechat/authlogin', ['mpid'=>$this->mpid, 'return_url'=>$watchMyRewardUrl]);
 
         $msg = sprintf("亲爱的%s，恭喜您获得关注奖励！\n关注时间: %s\n奖励零钱: %.2f元\n当前余额: %.2f元\n奖励满%.0f元即可提现\n\n<a href=\"%s\">【查看我的奖励】</a>", 
             $masterInfo['nickname'], date('Y-m-d H:i', $masterInfo['subscribe_time']), $posterModel->subscribe_rewards, $memberTotal->money_total*1.0, $posterModel->lowest_withdraw_sum, $authToUrl);
@@ -1016,7 +1016,7 @@ class WechatController extends BaseController {
     public function actionTestoauth() {
         //getOauthRedirect($callback,$state='',$scope='snsapi_userinfo'){
         $callback = $this->createAbsoluteUrl('Wechat/authecho');
-        $state = 'fanghu_poster';
+        $state = 'xahoo_poster';
         $scope = 'snsapi_base';
         $url = $this->weObj->getOauthRedirect($callback, $state, $scope);
         $this->redirect($url);
@@ -1027,9 +1027,12 @@ class WechatController extends BaseController {
     */
     public function actionAuthlogin() {
 		$return_url = $this->outPutString($_GET['return_url']);
+        $this->mpid = intval($_GET['mpid']) ? : 1;
+        $wechatOptions = $this->getAccountOptions($this->mpid);
+        $this->weObj = new Wechat($wechatOptions);
 
-        $callback = $this->createAbsoluteUrl('Wechat/authecho', ['return_url'=>$return_url]);
-        $state = 'fanghu_poster';
+        $callback = $this->createAbsoluteUrl('Wechat/authecho', ['mpid'=>$this->mpid, 'return_url'=>$return_url]);
+        $state = 'xahoo_poster';
         $scope = 'snsapi_base';
         $url = $this->weObj->getOauthRedirect($callback, $state, $scope);
         $this->redirect($url);
@@ -1044,6 +1047,11 @@ class WechatController extends BaseController {
         if (isset($_GET['return_url']) && !empty($_GET['return_url'])) {
             $return_url = $_GET['return_url'];
         }
+
+        $this->mpid = intval($_GET['mpid']) ? : 1;
+        $wechatOptions = $this->getAccountOptions($this->mpid);
+        $this->weObj = new Wechat($wechatOptions);
+
         // 拿到code去取access_token
         $tokenInfo = $this->weObj->getOauthAccessToken();
 
@@ -1136,7 +1144,7 @@ class WechatController extends BaseController {
         
         $snsModel = UcMemberBindSns::model()->find('member_id=:mid', [':mid'=>$member_id]);
         if (empty($snsModel)) {
-            $url = $this->createAbsoluteUrl('wechat/authlogin');
+            $url = $this->createAbsoluteUrl('wechat/authlogin', ['mpid'=>$this->mpid]);
             $this->jsonError('页面过期,请重新登录', ['return_url'=>$url]);
         }
 
@@ -1337,7 +1345,7 @@ class WechatController extends BaseController {
         {
             "type":"view",
             "name":"我的奖励",
-            "url":"http://xahoo.xenith.top/index.php?r=wechat/authlogin&return_url=http%3A%2F%2Fxahoo.xenith.top%2Findex.php%3Fr%3DmyHaibao%2FmyReward%26accounts_id%3D2"
+            "url":"http://xahoo.xenith.top/index.php?r=wechat/authlogin&mpid=1&return_url=http%3A%2F%2Fxahoo.xenith.top%2Findex.php%3Fr%3DmyHaibao%2FmyReward%26accounts_id%3D2"
         }]
     },
     {
