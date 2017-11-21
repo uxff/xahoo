@@ -206,7 +206,7 @@ class UcMemberMgrController extends Controller
         $mpAccountsData = $this->convertModelToArray($mpAccounts);
         $arrMpAccounts = array();
         foreach ($mpAccountsData as $OneMpAccount) {
-            $arrMpAccounts[$OneMpAccount['appid']] => $OneMpAccount;
+            $arrMpAccounts[$OneMpAccount['appid']] = $OneMpAccount;
         }
 
 
@@ -225,8 +225,10 @@ class UcMemberMgrController extends Controller
             'levelList' => Yii::app()->getModule('points')->getLevelList(),
             'arrTotalInfo' => $arrTotalInfo,
             'condition' => $condition,
-            'arrMpAccounts' => $mpAccountsData,
+            'arrMpAccounts' => $arrMpAccounts,
         );
+
+        Yii::log('arrMpAccounts='.json_encode($arrMpAccounts), 'warning');
 
         //smarty render
         $this->smartyRender('ucmembermgr/index.tpl', $arrRender);
