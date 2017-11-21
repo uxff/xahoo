@@ -1,6 +1,12 @@
 <?php
 class FhPosterModel extends FhPosterModelBase
 {
+    const POSTER_STATUS_TOBESTARTED = 1;
+    const POSTER_STATUS_STARTED = 2;
+    static $ARR_POSTER_STATUS = [
+        self::POSTER_STATUS_TOBESTARTED => '未开始',
+        self::POSTER_STATUS_STARTED => '进行中',
+    ];
 	
         /**
          * @return array validation rules for model attributes.
@@ -129,6 +135,10 @@ class FhPosterModel extends FhPosterModelBase
         public static function model($className=__CLASS__)
         {
                 return parent::model($className);
+        }
+        
+        public function GetStartedModel($mpid = 1) {
+            return self::model()->find('t.accounts_id = :mpid and t.poster_status='.self::POSTER_STATUS_STARTED, [':mpid'=>$mpid]);
         }
         
         public function GetPosterApi(){

@@ -140,16 +140,11 @@ class WechatController extends BaseController {
                         // 获取当前有效海报
                         // 地域海报 按地域选择poster
                         //$posterModel = $this->choicePosterByLocation($addr);
-                        $posterModel = FhPosterModel::model()->GetPosterApi();
+                        $posterModel = FhPosterModel::model()->GetStartedModel($this->mpid);
                         if (empty($posterModel)) {
                             $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
                             $weObj->sendCustomMessage($msg);
                             break;
-                            //倒计时
-                            $btime = '2016-10-14 18:30:00';
-                            if($btime < date('Y-m-d H:i:s')){
-                            }else{
-                            }
                         } else {
                             // 如果有posterModel，但是尚未开始，则倒计时
                             $posterStartTimestamp = strtotime($posterModel->valid_begintime);
