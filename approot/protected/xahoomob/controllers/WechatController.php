@@ -408,7 +408,7 @@ class WechatController extends BaseController {
             $memberHaibaoModel->last_modified   = date('Y-m-d H:i:s');
             $memberHaibaoModel->withdraw_max    = $posterModel->highest_withdraw_sum;
             $memberHaibaoModel->withdraw_min    = $posterModel->lowest_withdraw_sum;
-            $memberHaibaoModel->is_addr_right   = $extParams['is_addr_right'];
+            $memberHaibaoModel->is_addr_right   = $extParams['is_addr_right'] ? 1 : 0;
         } else {
             Yii::log('生成过海报: mid='.$member_id.' from='.$fromUser.' jjr='.$extParams['jjr_type'].':'.$extParams['jjr_name'].' ', 'warning', __METHOD__);
 
