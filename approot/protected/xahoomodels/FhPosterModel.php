@@ -137,7 +137,7 @@ class FhPosterModel extends FhPosterModelBase
                 return parent::model($className);
         }
         
-        public function GetStartedModel($mpid = 1) {
+        public static function GetStartedModel($mpid = 1) {
             return self::model()->find('t.accounts_id = :mpid and t.poster_status='.self::POSTER_STATUS_STARTED, [':mpid'=>$mpid]);
         }
         

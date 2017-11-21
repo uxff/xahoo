@@ -148,31 +148,28 @@ class WechatController extends BaseController {
                         } else {
                             // 如果有posterModel，但是尚未开始，则倒计时
                             $posterStartTimestamp = strtotime($posterModel->valid_begintime);
-                            $timestampToStart = time() - $posterStartTimestamp;
-                            if ($timestampToStart>0) {
-                                // 尚未开始
-                                if ($timestampToStart < 3600*24) {
+                            $timestampToStart = $posterStartTimestamp - time();
+                            if (0 < $timestampToStart && $timestampToStart < 3600*24) {
                                     // 1 天内 回复倒计时消息
-                                    $atime = date('H小时i分s秒', $timestampToStart-3600*8);
-                                    $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"海报转发领红包倒计时".$atime."，敬请关注！"]];
-                                } else {
-                                    // 1 天内不开始 回复活动已结束
-                                    $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"本期活动已结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
-                                }
+                                $atime = date('H小时i分s秒', $timestampToStart-3600*8);
+                                $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"海报转发领红包倒计时".$atime."，敬请关注！"]];
                                 $weObj->sendCustomMessage($msg);
-                                break;
+                            } else if ($timestampToStart < 0) {
+                                // 活动已开始，正在进行中
+                                $return_url = $this->createAbsoluteUrl('myHaibao/DiyHaibao');
+                                if ($this->makeAccount($fromUser)) {
+                                    $loginUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$return_url]);
+                                    $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"生成个性化海报，请点击<a href=\"$loginUrl\"> 这里 </a>，填写专属信息"]];
+                                    $weObj->sendCustomMessage($msg);
+                                } else {
+                                    $this->checkIsBind($fromUser);
+                                }
+                            } else {
+                                $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"很遗憾，本期活动刚结束！查看红包和提现请点击【我的奖励】，红包到账时间：申请提现之日起的2-3个工作日。敬请关注下期活动！"]];
+                                $weObj->sendCustomMessage($msg);
                             }
-                            // 活动已开始，正在进行中
                         }
 
-                        $return_url = $this->createAbsoluteUrl('myHaibao/DiyHaibao');
-                        if ($this->makeAccount($fromUser)) {
-                            $loginUrl = $this->createAbsoluteUrl('wechat/authlogin', ['return_url'=>$return_url]);
-                            $msg = ["touser"=>$fromUser, "msgtype"=>'text', "text"=>["content"=>"生成个性化海报，请点击<a href=\"$loginUrl\"> 这里 </a>，填写专属信息"]];
-                            $weObj->sendCustomMessage($msg);
-                        } else {
-                            $this->checkIsBind($fromUser);
-                        }
                         break;
                     case 'MENU_ONLINE_ADVICE':
                         // 在线咨询
