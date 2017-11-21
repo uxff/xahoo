@@ -201,6 +201,15 @@ class UcMemberMgrController extends Controller
         $arrAttributeLabel = $model->attributeLabels();
         unset($arrAttributeLabel['create_time']);
         //unset($arrAttributeLabel['last_modified']);
+
+        $mpAccounts = FhPosterAccountsModel::model()->findAll();
+        $mpAccountsData = $this->convertModelToArray($mpAccounts);
+        $arrMpAccounts = array();
+        foreach ($mpAccountsData as $OneMpAccount) {
+            $arrMpAccounts[$OneMpAccount['appid']] => $OneMpAccount;
+        }
+
+
         $arrRender = array(
             'modelId' => 'member_id',
             'modelName' => 'UcMember',
@@ -216,6 +225,7 @@ class UcMemberMgrController extends Controller
             'levelList' => Yii::app()->getModule('points')->getLevelList(),
             'arrTotalInfo' => $arrTotalInfo,
             'condition' => $condition,
+            'arrMpAccounts' => $mpAccountsData,
         );
 
         //smarty render

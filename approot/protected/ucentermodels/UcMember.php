@@ -43,6 +43,7 @@ class UcMember extends UcMemberBase
     public function relations() {
             $curRelations = array(
                 'member_total' => array(self::HAS_ONE, 'MemberTotalModel', '', 'on' => 'member_total.member_id=t.member_id and member_total.accounts_id=1'),
+                'sns' => array(self::HAS_ONE, 'UcMemberBindSns', '', 'on' => 'sns.member_id=t.member_id'),
             );
             return array_merge(parent::relations(), $curRelations);
     }
@@ -116,7 +117,7 @@ class UcMember extends UcMemberBase
             $pager->pageVar = 'page'; //修改分页参数，默认为page
             $pager->params = array('type' => 'msg'); //分页中添加其他参数
             $pager->applyLimit($criteria);
-            $list = $this->findAll($criteria);
+            $list = $this->with('sns')->findAll($criteria);
             $pages = array(
                 'curPage' => $pager->currentPage+1,
                 'totalPage' => ceil($pager->itemCount/$pager->pageSize),

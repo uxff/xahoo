@@ -141,7 +141,7 @@
                         {if isset($arrUcMemberFrom[$objModel.member_from])}
                             {$arrUcMemberFrom[$objModel.member_from]}
                         {else}
-                            -
+                            {$arrMpAccounts[$objModel.sns.sns_appid]['accounts_name']}
                         {/if}
                     </td>
                     <td>{$objModel.create_time}</td>
