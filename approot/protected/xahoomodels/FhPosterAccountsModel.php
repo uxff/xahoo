@@ -146,4 +146,8 @@ class FhPosterAccountsModel extends FhPosterAccountsModelBase
                 'EncodingAESKey'    => $this->EncodingAESKey,  
             ];
         }
+        
+        public function toWechatObj() {
+            return new Wechat($this->toWechatOption());
+        }
 }

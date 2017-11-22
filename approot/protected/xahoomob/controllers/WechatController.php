@@ -1331,7 +1331,7 @@ class WechatController extends BaseController {
         "sub_button":[
         {
             "type":"click",
-            "name":"项目海报",
+            "name":"快速海报",
             "key":"MENU_HAIBAO_COMMON"
         },
         {
