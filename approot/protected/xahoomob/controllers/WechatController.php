@@ -23,15 +23,9 @@ class WechatController extends BaseController {
 
     protected function getAccountOptions($mpid) {
         $this->mpModel = FhPosterAccountsModel::model()->find('id=:id',array(':id'=>$mpid));
-        if ($this->mpModel) {
-            $accounts_data = $this->mpModel->toArray();
+        if (!empty($this->mpModel)) {
+            $this->wechatOptions = $this->mpModel->toWechatOption();
         }
-        $this->wechatOptions = [
-                    'token'=>$accounts_data['token'], 
-                    'appid' => $accounts_data['appid'], 
-                    'appsecret' => $accounts_data['appsecret'],  
-                    'EncodingAESKey' => $accounts_data['EncodingAESKey'],  
-        ];
 
         return $this->wechatOptions;
     }

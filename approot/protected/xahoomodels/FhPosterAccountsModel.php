@@ -137,4 +137,13 @@ class FhPosterAccountsModel extends FhPosterAccountsModelBase
         {
                 return parent::model($className);
         }
+        
+        public function toWechatOption() {
+            return [
+                'token'             => $this->token, 
+                'appid'             => $this->appid, 
+                'appsecret'         => $this->appsecret,  
+                'EncodingAESKey'    => $this->EncodingAESKey,  
+            ];
+        }
 }
