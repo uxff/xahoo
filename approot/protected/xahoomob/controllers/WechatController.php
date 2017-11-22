@@ -1062,8 +1062,9 @@ class WechatController extends BaseController {
         }
         //$userInfo = $this->getWxUserInfo($tokenInfo['openid']);
         $sessionValue = [
+            'mpid'      => $this->mpid,
             'sns_id'    => $tokenInfo['openid'],
-            'appid'     => Yii::app()->params['fh_wechat_appid'],
+            'appid'     => $wechatOptions['appid'],//Yii::app()->params['fh_wechat_appid'],
             'plat'      => UcMemberBindSns::SNS_SOURCE_WECHAT,
         ];
         $_SESSION[Yii::app()->params['third_login_sess_name']] = $sessionValue;
