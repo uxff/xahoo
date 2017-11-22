@@ -19,6 +19,8 @@ class WechatController extends BaseController {
         Yii::import('application.common.extensions.wechatlib.*');
         Yii::import('application.common.extensions.util.*');
         Yii::app()->getModule('points');
+        $this->mpid = isset($_SESSION[Yii::app()->params['third_login_sess_name']]) ? $_SESSION[Yii::app()->params['third_login_sess_name']]['mpid'] : 0;
+        $this->mpid = $this->mpid ? : intval($_GET['mpid'] ? : 1);
     }
 
     protected function getAccountOptions($mpid) {
@@ -32,10 +34,6 @@ class WechatController extends BaseController {
 
     public function actionIndex() {
         // 通过mpid参数来选择公众号
-        $this->mpid = 1;
-        if (isset($_GET['mpid'])) {
-            $this->mpid = intval($_GET['mpid']);
-        }
 
         $wechatOptions = $this->getAccountOptions($this->mpid);
         $this->weObj = new Wechat($wechatOptions);
@@ -1131,7 +1129,11 @@ class WechatController extends BaseController {
         个性海报提交资料生成个性海报
     */
     public function actionAjaxDiyHaibao() {
-		$member_id = Yii::app()->loginUser->getUserId();
+        $member_id = Yii::app()->loginUser->getUserId();
+
+        $wechatOptions = $this->getAccountOptions($this->mpid);
+        $this->weObj = new Wechat($wechatOptions);
+
         $weObj = $this->weObj;
         $nick = $_POST['nickname'];
         $tel = $_POST['tel'];
