@@ -3,21 +3,20 @@
  * 提现
  * coderdjc@xqshijie.cn
  * //可提现剩余金额计算：累计最高提款金额（FhMemberHaibaoModel->withdraw_max） - 已提现金额 （FhMemberHaibaoModel->withdraw_money） - 已提申请的待审批、审批通过金额（FhMoneyWithdrawModel->withdraw_money）
+ * need wechat oauth login
  */
 class WithdrawCashController extends BaseController {
     private $pointsModule;
+    private $mpid;
 	public function init() {
         parent::init();
         $this->checkLogin(Yii::app()->request->hostInfo.Yii::app()->request->url);
         $this->pointsModule = Yii::app()->getModule('points');
+        $this->mpid = $_SESSION[Yii::app()->params['third_login_sess_name']]['mpid'] ? : 1;
     }
     public function actionIndex(){     
-        $fanghu_appid = 'wx829d7b12c00c4a97';
-        $accounts_data= FhPosterAccountsModel::model()->find('appid=:appid',array(':appid'=>$fanghu_appid));
-        $accounts_data= $this->convertModelToArray($accounts_data);
-        Yii::app()->params['accounts_id'] = $accounts_data['id'];
         $member_id = Yii::app()->loginUser->getUserId();
-        $posterData = FhMemberHaibaoModel::model()->findAll('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_data['id']));
+        $posterData = FhMemberHaibaoModel::model()->findAll('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$this->mpid));
         $memberTotal = $this->pointsModule->getMemberTotalModel($member_id);
         $posterDatas= $this->convertModelToArray($posterData);  
         //$poster_cash = $posterDatas[0]['withdraw_max'] - $posterDatas[0]['withdraw_money'];
@@ -44,13 +43,14 @@ class WithdrawCashController extends BaseController {
     
     public function actionGetCash(){
         $member_id = Yii::app()->loginUser->getUserId();
-        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
         $token = $_GET['token'];
         $webToken = new WebToken;
         if (!$webToken->checkToken($token)) {
             $this->jsonError('服务器忙，请刷新页面后再试。');
         }
-        
+
+        $accounts_id = $this->mpid;
+
         $cash = isset($_GET['cash']) ?(double)$_GET['cash']:0;
         //$cash = $cash * 1.0 < 0 ? 0 : $cash;
         
@@ -107,7 +107,7 @@ class WithdrawCashController extends BaseController {
         获取可提现金额
     */
     public function getRemainCash($member_id, $total) {
-        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
+        $accounts_id = $this->mpid;
         $withdraw_data = FhMoneyWithdrawModel::model()->findBySql("select sum(withdraw_money) as withdraw_money from fh_money_withdraw where member_id =".$member_id." and accounts_id =".$accounts_id." and status in(1,3)");
         $withdraw_cash = $this->convertModelToArray($withdraw_data);
         $last_cash = $total;
@@ -119,7 +119,7 @@ class WithdrawCashController extends BaseController {
     }
     //提现记录
     public function actionRecord(){
-        $accounts_id = Yii::app()->params['accounts_id'] ? Yii::app()->params['accounts_id'] : 1;
+        $accounts_id = $this->mpid;
         $member_id = Yii::app()->loginUser->getUserId();
         $data = FhMoneyWithdrawModel::model()->findAll('member_id=:member_id and accounts_id=:accounts_id',array(':member_id'=>$member_id,':accounts_id'=>$accounts_id));
         $recordData = $this->convertModelToArray($data);
