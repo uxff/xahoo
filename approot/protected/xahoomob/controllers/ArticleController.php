@@ -17,7 +17,6 @@ class ArticleController extends BaseController {
     */
     public function actionShow($id) {
         $isGuest = Yii::app()->loginUser->getIsGuest();
-        $accounts_id    = isset($_GET['accounts_id'])?$_GET['accounts_id']:1;
         $shareCode = $_GET['share_code'];
         $showHeader = intval($_GET['noheader'])==1 ? false : true;
 
