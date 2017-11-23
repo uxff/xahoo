@@ -45,7 +45,7 @@ class MyHaibaoController extends BaseController{
 		$model->unsetAttributes(); 
 		# 查询以会员ID和金额操作类型为条件查询 
 		$condition['member_id']   = Yii::app()->loginUser->getUserId();
-		$condition['accounts_id'] = Yii::app()->params['accounts_id'];
+		$condition['accounts_id'] = $this->mpid;
 		$condition['type'] 		  = $model::TYPE_REWARD;
 		# 在model文件中获取查询数据 
 		$data 		= $model->mySearch2($condition);
