@@ -1,4 +1,8 @@
 <?php
+/*
+ * MyHaibaoController
+ * need wechat oauth login
+* */
 
 class MyHaibaoController extends BaseController{
     protected $mpid;
