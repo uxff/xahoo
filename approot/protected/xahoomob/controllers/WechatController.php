@@ -286,7 +286,7 @@ class WechatController extends BaseController {
         // $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and member_id=:member_id', [':openid'=>$fromUser,':member_id'=>$member_id]);
 
         $posterModel = FhPosterModel::model()->GetStartedModel($this->mpid);
-        $isAddrRight = FhPosterModel::model()->GetPosterAddr($snsBindModel->location_address);
+        $isAddrRight = FhPosterModel::model()->GetPosterByAddr($snsBindModel->location_address, $this->mpid);
         $extParams = $jjrInfo;
         $extParams['is_addr_right'] = $isAddrRight;
         if (!$posterModel) {            

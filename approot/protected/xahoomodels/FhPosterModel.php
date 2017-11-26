@@ -141,30 +141,15 @@ class FhPosterModel extends FhPosterModelBase
             return self::model()->find('t.accounts_id = :mpid and t.poster_status='.self::POSTER_STATUS_STARTED, [':mpid'=>$mpid]);
         }
         
-        public function GetPosterApi(){
-            $criteria = $this->getBaseCDbCriteria(); 
-            $ssql = 't.poster_status = 2';
-            $criteria = new CDbCriteria();
-            $criteria->addCondition($ssql);  
-            $data = $this->find($criteria);
-            if($data){
-                return $data;                
-            }else{
-                return false;
-            }
-        }
-
         /**
             
-         * [GetPosterAddr description] 地域海报
+         * [GetPosterByAddr description] 地域海报
          * @param string $location_address [description]
          */
-        public function GetPosterAddr($location_address = ''){
+        public function GetPosterByAddr($location_address, $mpid){
             $criteria = $this->getBaseCDbCriteria(); 
-            $ssql = 't.poster_status = 2';
-            $criteria = new CDbCriteria();
-            $criteria->addCondition($ssql);  
-            $data = $this->find($criteria);
+            $where = 't.accounts_id = :mpid AND t.poster_status = '.self::POSTER_STATUS_STARTED;
+            $data = self::model()->find($where, [':mpid' => $mpid]);
             if($data){
                 $validArr = array();
                 if($location_address != ''){
@@ -175,7 +160,7 @@ class FhPosterModel extends FhPosterModelBase
                             // if(strstr($location_address,$validArr[$k])){
                                 return true;
                             }else{
-                                return false;
+                                //return false;
                             }
                         }
                     }
