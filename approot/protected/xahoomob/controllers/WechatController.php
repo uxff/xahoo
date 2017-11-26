@@ -220,7 +220,7 @@ class WechatController extends BaseController {
                 Yii::log('LOCATION convert ret='.$locationInfo['result']['formatted_address'].' openid='.$fromUser.' ', 'warning', __METHOD__);
 
                 // 将地理位置写在uc_member_bind_sns对应的openid上
-                $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and member_id=:member_id', [':openid'=>$fromUser]);
+                $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and sns_appid=:appid', [':openid'=>$fromUser, ':appid'=>$this->wechatOptions['appid']]);
                 $formatted_address = GeoConvertor::GetAddress($locationInfo['result']['formatted_address']);
                 $snsModel->location_address = $formatted_address;
                 if (!$snsModel->save()) {
