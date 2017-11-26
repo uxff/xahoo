@@ -124,4 +124,8 @@ $config['params']['protocol'] = 'auto';
 // for dev
 $config['params']['tplPath'] = '/fanghumobv2';
 
+// baidu api refer: http://lbsyun.baidu.com/apiconsole/key
+$config['params']['bdlbs']['ak'] = 'yourak';
+$config['params']['bdlbs']['sk'] = 'yoursk';
+
 return $config;
