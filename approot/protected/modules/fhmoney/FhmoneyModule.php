@@ -35,7 +35,7 @@ class FhmoneyModule extends CWebModule
         $trans = Yii::app()->db->beginTransaction();
         try {
 
-            if ($money*1.00 == 0) {
+            if (intval($money*100) == 0) {
                 throw new CException('money cannot be zero');
             }
             if (empty($remark)) {
@@ -90,7 +90,7 @@ class FhmoneyModule extends CWebModule
         if ($model) {
             return array($model->withdraw_min, $model->withdraw_max);
         }
-        $model = FhPosterModel::model()->getPosterApi();
+        $model = FhPosterModel::model()->GetStartedModel();
         if ($model) {
             return array($model->lowest_withdraw_sum, $model->highest_withdraw_sum);
         }
