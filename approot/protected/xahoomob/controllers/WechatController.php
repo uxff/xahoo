@@ -214,10 +214,10 @@ class WechatController extends BaseController {
                 // 用户上报地理位置
                 // 此处保存用户的位置信息 待生成海报的时候使用地域海报
                 $data = $weObj->getRevData();
-                Yii::log('LOCATION lat='.$data['Latitude'].' long='.$data['Longitude'].' openid='.$fromUser.' ', 'warning', __METHOD__);
+                //Yii::log('LOCATION lat='.$data['Latitude'].' long='.$data['Longitude'].' openid='.$fromUser.' ', 'warning', __METHOD__);
                 // 转换地理位置 从经纬度转换到地址描述后保存
                 $locationInfo = GeoConvertor::LocationToAddr($data['Latitude'], $data['Longitude']);
-                Yii::log('LOCATION convert ret='.$locationInfo['result']['formatted_address'].' openid='.$fromUser.' ', 'warning', __METHOD__);
+                Yii::log('LOCATION('.$data['Latitude'].','.$data['Longitude'].')='.$locationInfo['result']['formatted_address'].' openid='.$fromUser.' ', 'warning', __METHOD__);
 
                 // 将地理位置写在uc_member_bind_sns对应的openid上
                 $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and sns_appid=:appid', [':openid'=>$fromUser, ':appid'=>$this->wechatOptions['appid']]);
@@ -285,7 +285,7 @@ class WechatController extends BaseController {
         // 获取当前有效海报背景图
         // $snsModel = UcMemberBindSns::model()->find('sns_id=:openid and member_id=:member_id', [':openid'=>$fromUser,':member_id'=>$member_id]);
 
-        $posterModel = FhPosterModel::model()->GetPosterApi();
+        $posterModel = FhPosterModel::model()->GetStartedModel($this->mpid);
         $isAddrRight = FhPosterModel::model()->GetPosterAddr($snsBindModel->location_address);
         $extParams = $jjrInfo;
         $extParams['is_addr_right'] = $isAddrRight;
@@ -1181,7 +1181,7 @@ class WechatController extends BaseController {
         }
 
         //$memberHaibaoModel = FhMemberHaibaoLogModel::model()->find('member_id=:mid', [':mid'=>$member_id]);
-        $posterModel = FhPosterModel::model()->GetPosterApi();
+        $posterModel = FhPosterModel::model()->GetStartedModel($this->mpid);
         if (empty($posterModel)) {
             Yii::log('no poster ok(mid='.$member_id.') when dispatch'.' ', 'error', __METHOD__);
             return false;
