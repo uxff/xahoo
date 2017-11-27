@@ -22,7 +22,7 @@
                 </li>
 			    <li>
 				    <span>验证码</span>
-				    <input type="tel" class="form-input" id="reg_yzm"  name="vetify_code" placeholder="请输入验证码" />
+				    <input type="tel" class="form-input" id="reg_yzm"  name="vetify_code" placeholder="请输入验证码(1234)" />
 				    <input type="button" id="yzm_txt" class="btn-yzm" value="获取验证码" />
 			    </li>
 			    <li>

@@ -298,28 +298,6 @@ class UserController extends Controller {
 
             if ($checkObj) { 
                 $errMsg = $username.'已注册';
-                /*
-                Yii::log('mobile exist in xqsj:'.$username.' ', 'warning', __METHOD__);
-                $errMsg = '该账号已在新奇世界注册过了，请直接登录';
-                // xqsj 已注册
-                // 检查fanghu本地有没有 没有则添加
-                $checkFanghuMember = Member::model()->find($arrSqlParams);
-                if (!$checkFanghuMember) {
-                    Yii::log('mobile not exist in fanghu:'.$username.' ', 'warning', __METHOD__);
-                    // fh 本地没有，同步过来
-                    $fanghuMember = Member::cloneUcMember($checkObj);
-                    $fanghuMember->member_from = $inviteCodeModel ? Member::MEMBER_FROM_XQSJ_TO_FANGHU_INVITE : Member::MEMBER_FROM_XQSJ_TO_FANGHU_REG;
-                    if (!$fanghuMember->save()) {
-                        Yii::log('clone xqsj member to fanghu member failed:'.$fanghuMember->lastError().' ', 'error', __METHOD__);
-                        $errMsg = '账号已在新奇世界注册过了，但是同步到 fh 失败，请重新提交注册';
-                    } else {
-                        Yii::log('sync exist xqsj member to fanghu:'.$username.$fanghuMember->lastError().' ', 'warning', __METHOD__);
-                        $errMsg = '账号已在新奇世界注册过了，并成功同步到 fh ，请直接用新奇世界账号登录';
-                    }
-                } else {
-                    Yii::log('mobile exist in fanghu:'.$username.' ', 'warning', __METHOD__);
-                }
-                */
             }
         }
         
@@ -373,15 +351,7 @@ class UserController extends Controller {
                 Yii::log('new xqsj member created:'.$username.' ', 'warning', __METHOD__);
 				$member_id = $member->member_id;
 
-                // 同步记录 fh 用户库
-                /*
-                $fanghuMember = Member::cloneUcMember($member);
-                if (!$fanghuMember->save()) {
-                    Yii::log('cannot save xqsj member to fanghu:'.$fanghuMember->lastError().' ', 'error', __METHOD__);
-                } else {
-                    Yii::log('sync new xqsj member to fanghu:'.$username.' ', 'warning', __METHOD__);
-                }
-                */
+
 
                 // 添加注册事件
                 if (!empty($inviteCodeModel)) {
@@ -409,49 +379,6 @@ class UserController extends Controller {
                     Yii::app()->getModule('event')->pushEvent($member_id, 'register', array('member_mobile'=>$username));
                 }
 
-				//更新推荐小伙伴的房源
-                /*
-				if ($is_invite == 1) {
-					$fanghuUrl = $this->createFanghuUrl('Api/Invite');
-					$time_sign = time();
-					$project_appkey = 'test';
-					$project_appsecret = '123456';
-					$token = strtoupper(md5($project_appkey . $project_appsecret . $time_sign));
-
-					$fh_params = array(
-                        'time_sign' => $time_sign,
-                        'source' => 'fangfull',
-                        'member_id' => $member->parent_id,
-                        'invite_tel' => $username,
-                        'invite_id' => $member_id,
-                        'token' => $token,
-					);
-					$fh_data = $this->doPost($fanghuUrl, $fh_params);
-				}
-				$this->MemberRegisterInit($member_id, $parent_id);
-				$this->addPoint($member_id, 'bind_phone'); //手机绑定加积分
-                */
-				
-				// 调用房否接口同步客户信息
-                /*
-				$arrParmas = array(
-				    'member_mobile'        => $username,
-				    'member_fullname'      => '',
-				    'member_gender'        => '',
-				    'member_id_number'     => '',
-				    'province'             => '',
-				    'city'             => '',
-				    'county'   => '',
-				    'address'   => '',
-				    'customer_from'   => 8,
-				    'add_time'   => date('Y-m-d H:i:s'),
-				);
-				$apiModule = Yii::app()->getModule('api');
-				$apiModule->FangfullApi($arrParmas)->synCustomer();
-				
-				//房否入数据
-				//$this->fangfullRegister($username,$parent_mobile);
-                */
 				
 				//注册成功后，自动登录
 				$objUserIdentity = new UserIdentity($username, $password);// 授权验证该用户
@@ -492,134 +419,7 @@ class UserController extends Controller {
 			}
 		}
 	}
-/*
-	public function fangfullRegister($mobile,$mobile_about) {
 
-		//房否入数据
-		$fangfullUrl = $this->createFangFullApiUrl("api/insertCustomer","");
-
-		$time_sign = time();
-		$project_appkey = 'test';
-		$project_appsecret = '123456';
-		$token = strtoupper(md5($project_appkey . $project_appsecret . $time_sign));
-
-		$fh_params = array(
-                'test' => 1,
-                'token' => $token,
-                'mobile' => $mobile,
-                'mobileAbout' => $mobile_about,
-		);
-		$fh_data = $this->doPost($fangfullUrl, $fh_params);
-
-
-	}
-*/
-	/**
-	 * 邮箱注册 手机版不需要
-	 */
-	/*
-	 public function actionRegisterEmailForm() {
-	 //post数据
-	 $email = strtolower($this->getString($_POST['email']));
-	 $password = $this->getString($_POST['password']);
-	 $return_url = $this->getString($_POST['return_url']);
-
-	 // 后台表单验证
-	 $errMsg = '';
-	 if (empty($email) || empty($password)) {
-	 $errMsg = '邮箱或密码不能为空';
-	 } elseif (!empty($email)) {
-	 if (!AresValidator::isValidEmail($email)) {
-	 $errMsg = '请输入正确的邮箱';
-	 }
-	 } elseif (!empty($password) && (strlen($password) < 6)) {
-	 $errMsg = '密码至少为6位字母数字组合';
-	 }
-
-
-	 //判断 是否该账号已经注册
-	 $arrSqlParams = array(
-	 'condition' => 'member_email="' . $email . '"',
-	 );
-	 $checkObj = UcMember::model()->find($arrSqlParams);
-	 $checkArr = is_object($checkObj) ? $this->convertModelToArray($checkObj) : array();
-
-	 if (!empty($checkArr)) {
-	 $errMsg = '该账号已经注册过了';
-	 }
-	 if (empty($errMsg)) {
-	 $member = new UcMember();
-	 //登录名
-	 if (AresValidator::isValidEmail($email)) {
-	 //判断验证码是否有效
-	 $vetify_code = $this->getString($_POST['vetify_code']);
-	 if (Yii::app()->session['email_verify_code'] != $vetify_code) {
-	 $errMsg = '验证码不正确';
-	 Yii::app()->loginUser->setFlash('error', $errMsg);
-	 $this->redirect($this->createAbsoluteUrl('user/registeremail'));
-	 exit;
-	 }
-	 $member->member_email = $email;
-	 }
-	 $parent_id = 0;
-	 $cookie = Yii::app()->request->getCookies();
-	 if (!empty($cookie['signage']->value)) {
-	 $signage = $cookie['signage']->value;
-	 $objMember = UcMember::model()->find("signage=:signage", array(":signage" => $signage));
-	 if (!empty($objMember)) {
-	 //$member->member_from = 2; //来源邀请
-	 $member->parent_id = $objMember->member_id; //会员上级编号
-	 $parent_id = $objMember->member_id;
-	 }
-	 }
-
-	 $member->member_password = AresUtil::encryptPassword($password);
-	 $member->member_nickname = AresUtil::generateRandomStr(16);
-	 $member->is_email_actived = 1;
-	 $member->signage = AresUtil::generateRandomStr(16);
-	 $member->create_time = date('Y-m-d H:i:s', time());
-	 $member->last_modified = date('Y-m-d H:i:s', time());
-	 if ($member->insert()) {
-	 $member_id = $member->member_id;
-	 $this->MemberRegisterInit($member_id,$parent_id);
-	 $errMsg = '注册成功，请登录';
-	 Yii::app()->loginUser->setFlash('error', $errMsg);
-	 unset(Yii::app()->session['email']);
-	 unset(Yii::app()->session['email_verify_code']);
-	 $this->redirect($this->createAbsoluteUrl('user/login',array('return_url' => $return_url)));
-	 exit;
-	 } else {
-	 $errMsg = '注册失败，请重新注册';
-	 }
-	 }
-
-	 // 后台表单验证错误信息提示
-	 if (!empty($errMsg)) {
-	 Yii::app()->loginUser->setFlash('error', $errMsg);
-	 $this->redirect($this->createAbsoluteUrl('user/registeremail',array('return_url' => $return_url)));
-	 }
-	 }
-	 */
-	/**
-	 * 邮箱注册入口页面 手机版不需要
-	 */
-	/*
-	 public function actionRegisterEmail() {
-	 $return_url = $this->outPutString($_GET['return_url']);
-
-	 if(empty($return_url)) {
-	 $return_url = $this->createAbsoluteUrl('site/index');
-	 }
-	 $arrMsgStack = Yii::app()->loginUser->getFlashes();
-	 $arrRender = array(
-	 'gShowHeader' => true,
-	 'return_url' => $return_url,
-	 'headerTitle' => '邮箱注册',
-	 'arrMsgStack' => $arrMsgStack,
-	 );
-	 $this->smartyRender('user/registeremail.tpl', $arrRender);
-	 }
-	 */
 
 	/**
 	 * 忘记密码：手机找回页面
@@ -1067,7 +867,7 @@ class UserController extends Controller {
         switch ($authInfo['plat']) {
             case UcMemberBindSns::SNS_SOURCE_WECHAT:
                 //Yii::log('prepare bind wechat:'.' ', 'warning', __METHOD__);
-                $ret = $this->bindFhOpenid($authInfo['sns_id'], $member_id, $member_mobile);
+                $ret = $this->bindOpenid($authInfo['sns_id'], $member_id, $member_mobile, $authInfo['appid']);
                 //$authInfo['return_url'] = $this->createAbsoluteUrl('Wechat/autoclose');
                 break;
             case UcMemberBindSns::SNS_SOURCE_WEIBO:
@@ -1083,13 +883,12 @@ class UserController extends Controller {
         绑定openid和member
             必然有手机号和openid
     */
-    public function bindFhOpenid($openid, $member_id, $member_mobile) {
+    public function bindOpenid($openid, $member_id, $member_mobile, $appid) {
         $ret = [
             'code'  => 1,
             'msg'   => '',
             'snsModel' => null,
         ];
-        $appid = Yii::app()->params['fh_wechat_appid'];
         if (empty($openid) || empty($member_id) || empty($member_mobile)) {
             Yii::log('empty info : mid='.$member_id.' openid='.$openid.' mobile='.$member_mobile.' ', 'error', __METHOD__);
             return $ret;
