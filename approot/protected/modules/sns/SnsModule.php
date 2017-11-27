@@ -91,11 +91,6 @@ class SnsModule extends CWebModule
         
         return $ucMember;
     }
-    public function getFhSnsModel($snsid) {
-        $appid  = Yii::app()->params['fh_wechat_appid'];
-        $plat   = UcMemberBindSns::SNS_SOURCE_WECHAT;
-        return $this->getSnsModel($snsid, $appid, $plat);
-    }
     public function getSnsInfo($snsid, $appid, $plat) {
         $info = [
             'acct'  => $snsid,
@@ -118,25 +113,12 @@ class SnsModule extends CWebModule
     }
     public function getWechatSnsInfo($snsid, $appid) {
         $info = null;
-        switch ($appid) {
-            case Yii::app()->params['fh_wechat_appid']:
-                $info = $this->getFanghuSnsInfo($snsid);
-                break;
-            default:
-                break;
+        $mpModel = FhPosterAccountsModel::model()->find('appid=:appid',array(':appid'=>$appid));
+        if (!empty($mpModel)) {
+            $wechatOptions = $mpModel->toWechatOption();
+            $weObj = new Wechat($wechatOptions);
+            $info = $weObj->getUserInfo($snsid);
         }
-        return $info;
-    }
-    public function getFanghuSnsInfo($openid) {
-        
-        $options = array(
-            'token'=>'fanghu', //填写你设定的key
-            'encodingaeskey'=>'k1fkSbcCjeucm7AEFfL4NczHSBTWayTqgoH8oGQfqA5', //填写加密用的EncodingAESKey，如接口为明文模式可忽略
-            'appid' => Yii::app()->params['fh_wechat_appid'], //'wx829d7b12c00c4a97',
-            'appsecret' => Yii::app()->params['fh_wechat_appsecret'], //'d0eb0ee77de35361ee51fc41df85da60',
-        );
-        $weObj = new Wechat($options);
-        $info = $weObj->getUserInfo($openid);
         return $info;
     }
     /*
