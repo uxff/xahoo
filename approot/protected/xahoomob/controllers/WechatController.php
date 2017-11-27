@@ -484,7 +484,7 @@ class WechatController extends BaseController {
             return $arrInfo[$openid];
         }
 
-        $appid = $this->wechatOptions['appid'];//Yii::app()->params['fh_wechat_appid'];
+        $appid = $this->wechatOptions['appid'];
         $snsModel = UcMemberBindSns::model()->find('sns_source=:source and sns_appid=:appid and sns_id=:oid', [
                 ':oid'      =>$openid,
                 ':appid'    =>$appid,
@@ -645,7 +645,7 @@ class WechatController extends BaseController {
         }
 
         $member_id = $masterRegModel->member_id;
-        $appid  = $this->wechatOptions['appid'];//Yii::app()->params['fh_wechat_appid'];
+        $appid  = $this->wechatOptions['appid'];
         // 预先读取好粉丝信息
         $fansInfo = $this->getWxUserInfo($fansOpenid);
 
@@ -1056,7 +1056,7 @@ class WechatController extends BaseController {
         $sessionValue = [
             'mpid'      => $this->mpid,
             'sns_id'    => $tokenInfo['openid'],
-            'appid'     => $wechatOptions['appid'],//Yii::app()->params['fh_wechat_appid'],
+            'appid'     => $wechatOptions['appid'],
             'plat'      => UcMemberBindSns::SNS_SOURCE_WECHAT,
         ];
         $_SESSION[Yii::app()->params['third_login_sess_name']] = $sessionValue;
