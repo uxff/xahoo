@@ -1117,7 +1117,7 @@ class WechatController extends BaseController {
     */
     public function makeAccount($openid) {
         $snsModule = Yii::app()->getModule('sns');
-        $ret = $snsModule->makeSnsAccount($openid, $this->wechatOptions['appid'], UcMemberBindSns::SNS_SOURCE_WECHAT, UcMember::MEMBER_FROM_WX_FANGHU);
+        $ret = $snsModule->makeSnsAccount($openid, $this->wechatOptions['appid'], UcMemberBindSns::SNS_SOURCE_WECHAT, UcMember::MEMBER_FROM_WECHAT_TEMP);
         return $ret;
     }
     public function actionTestmakeaccount() {

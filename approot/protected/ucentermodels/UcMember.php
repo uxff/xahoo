@@ -5,19 +5,19 @@
 class UcMember extends UcMemberBase
 {
 
-    const MEMBER_FROM_XQSJ_PCREG    = '2';  // PC注册
-    const MEMBER_FROM_XQSJ_MREG     = '3';  // M站注册
-    const MEMBER_FROM_XQSJ_APPREG   = '4';  // APP注册
-    const MEMBER_FROM_FANGHU_REG    = '11'; // Xahoo注册
-    const MEMBER_FROM_FANGHU_INVITE = '12'; // Xahoo邀请注册
-    const MEMBER_FROM_WX_FANGHU     = '21'; // 关注Xahoo公众号的 属于临时账号 不显示
+    const MEMBER_FROM_WEB_PCREG     = '2';  // PC注册
+    const MEMBER_FROM_WEB_MREG      = '3';  // M站注册
+    const MEMBER_FROM_WEB_APPREG    = '4';  // APP注册
+    const MEMBER_FROM_WAP_REG       = '11'; // Xahoo注册
+    const MEMBER_FROM_WAP_INVITE    = '12'; // Xahoo邀请注册
+    const MEMBER_FROM_WECHAT_TEMP   = '21'; // 关注Xahoo公众号的 属于临时账号 不显示
     static $ARR_MEMBER_FROM = [
-        self::MEMBER_FROM_XQSJ_PCREG    => '新奇世界PC',
-        self::MEMBER_FROM_XQSJ_MREG     => '新奇世界M站', 
-        self::MEMBER_FROM_XQSJ_APPREG   => '新奇世界APP', 
-        self::MEMBER_FROM_FANGHU_REG    => 'Xahoo注册',
-        self::MEMBER_FROM_FANGHU_INVITE => 'Xahoo邀请',
-        //self::MEMBER_FROM_WX_FANGHU     => '临时用户(作废)',
+        self::MEMBER_FROM_WEB_PCREG  => 'PC',
+        self::MEMBER_FROM_WEB_MREG   => 'M站', 
+        self::MEMBER_FROM_WEB_APPREG => 'APP', 
+        self::MEMBER_FROM_WAP_REG    => 'Xahoo注册',
+        self::MEMBER_FROM_WAP_INVITE => 'Xahoo邀请',
+        //self::MEMBER_FROM_WECHAT_TEMP     => '临时用户(作废)',
     ];
     
     const STATUS_VALID      = 1;    // 有效

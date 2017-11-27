@@ -3,20 +3,18 @@
 class Member extends MemberBase {
 
     const MEMBER_FROM_BACKEND_ADD   = 1;    // 后台添加
-    const MEMBER_FROM_XQSJ_PC_REG   = 2;    // 新奇世界pc注册
-    const MEMBER_FROM_XQSJ_M_REG    = 3;    // 新奇世界m站注册
-    const MEMBER_FROM_FANGHU_REG    = 11;   // fh 新注册用户
-    const MEMBER_FROM_FANGHU_INVITE = 12;   // fh 新邀请注册用户
-    const MEMBER_FROM_XQSJ_TO_FANGHU_REG    = 13;   // 已在新奇世界注册用户
-    const MEMBER_FROM_XQSJ_TO_FANGHU_INVITE = 14;   // 已在新奇世界注册用户，受邀请
+    const MEMBER_FROM_XQSJ_PC_REG   = 2;    // 
+    const MEMBER_FROM_XQSJ_M_REG    = 3;    // 
+    const MEMBER_FROM_WAP_REG       = 11;   // 
+    const MEMBER_FROM_WAP_INVITE    = 12;   // 
+    const MEMBER_FROM_XQSJ_TO_FANGHU_REG    = 13;   // 已在WEB注册用户
+    const MEMBER_FROM_XQSJ_TO_FANGHU_INVITE = 14;   // 已在WEB注册用户，受邀请
     static $ARR_MEMBER_FROM = array(
         self::MEMBER_FROM_BACKEND_ADD => '后台添加',
-        self::MEMBER_FROM_XQSJ_PC_REG => '新奇世界pc注册',
-        self::MEMBER_FROM_XQSJ_M_REG => '新奇世界m站注册',
-        self::MEMBER_FROM_FANGHU_REG => 'fh 注册',
-        self::MEMBER_FROM_FANGHU_INVITE => 'fh 邀请注册',
-        //self::MEMBER_FROM_XQSJ_TO_FANGHU_REG => '新奇世界注册',
-        //self::MEMBER_FROM_XQSJ_TO_FANGHU_INVITE => '新奇世界注册，并使用房乎用户邀请码',
+        self::MEMBER_FROM_XQSJ_PC_REG => 'pc注册',
+        self::MEMBER_FROM_XQSJ_M_REG => 'm站注册',
+        self::MEMBER_FROM_WAP_REG => 'wap 注册',
+        self::MEMBER_FROM_WAP_INVITE => 'wap 邀请注册',
     );
 
         /**

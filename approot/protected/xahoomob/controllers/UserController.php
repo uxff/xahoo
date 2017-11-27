@@ -323,7 +323,7 @@ class UserController extends Controller {
 				$member->member_mobile = $username;
 				//$member->is_mobile_actived = 1;
                 // 注册来源 fh 注册
-				$member->member_from = $inviteCodeModel ? UcMember::MEMBER_FROM_FANGHU_INVITE : UcMember::MEMBER_FROM_FANGHU_REG;
+				$member->member_from = $inviteCodeModel ? UcMember::MEMBER_FROM_WAP_INVITE : UcMember::MEMBER_FROM_WAP_REG;
 			}
 
 			$parent_id = 0;
