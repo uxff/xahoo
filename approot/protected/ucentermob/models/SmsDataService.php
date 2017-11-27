@@ -22,7 +22,7 @@ class SmsDataService{
             $verify_code = SmsManagerFactory::generateVerifyCode($phone);
     
             // 拼装模板
-            $content = "新奇世界注册验证码{$verify_code}，请完成注册，如非本人操作，请忽略本短信。";
+            $content = "注册验证码{$verify_code}，请完成注册，如非本人操作，请忽略本短信。";
 
             $objSmsManager = new SmsManagerFactory(self::SMS_VENDOR);
             
@@ -62,7 +62,7 @@ class SmsDataService{
         //注册发默认密码
         public static function sendPassword($mobile,$pwd){
             
-            $content = "您已经是新奇世界的会员，默认密码为{$pwd},请及时登录修改密码";
+            $content = "您已经是XAHOO的会员，默认密码为{$pwd},请及时登录修改密码";
             $objSmsManager = new SmsManagerFactory(self::SMS_VENDOR);
 
             $res = $objSmsManager->sendSMS($mobile, $content);
