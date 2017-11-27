@@ -122,15 +122,6 @@ class SnsModule extends CWebModule
         return $info;
     }
     /*
-        从fh公众号的关注创建账号
-    */
-    public function makeAccountFromWxFanghu($openid) {
-        $appid = Yii::app()->params['fh_wechat_appid'];
-        $plat = UcMemberBindSns::SNS_SOURCE_WECHAT;
-        $memberFrom = UcMember::MEMBER_FROM_WX_FANGHU;
-        return $this->makeSnsAccount($openid, $appid, $plat, $memberFrom);
-    }
-    /*
         合并账户
             将tmp_id上的信息合并到master_id上 以后使用master_id,放弃tmp_id
             1 fh_member_total

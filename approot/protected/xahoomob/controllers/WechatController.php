@@ -1085,7 +1085,7 @@ class WechatController extends BaseController {
         $member_id = $_GET['member_id'] ? $_GET['member_id'] : 1005;
         $ret = FhMemberHaibaoLogModel::countMax($member_id);
         echo 'ret=';print_r($ret);
-        $count = Yii::app()->getModule('sns')->stasticSns($this->wechatOptions['appid']);//Yii::app()->params['fh_wechat_appid']);
+        $count = Yii::app()->getModule('sns')->stasticSns($this->wechatOptions['appid']);
         echo 'count(sns)=';print_r($count);
     }
     public function actionTestmakehaibaolog() {
@@ -1117,7 +1117,7 @@ class WechatController extends BaseController {
     */
     public function makeAccount($openid) {
         $snsModule = Yii::app()->getModule('sns');
-        $ret = $snsModule->makeAccountFromWxFanghu($openid);
+        $ret = $snsModule->makeSnsAccount($openid, $this->wechatOptions['appid'], UcMemberBindSns::SNS_SOURCE_WECHAT, UcMember::MEMBER_FROM_WX_FANGHU);
         return $ret;
     }
     public function actionTestmakeaccount() {
