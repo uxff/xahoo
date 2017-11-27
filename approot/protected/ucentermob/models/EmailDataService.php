@@ -8,8 +8,8 @@
  */
 class EmailDataService extends BaseDataService {
 
-        const MAIL_WEBSITE_SHORT_NAME = '新奇世界';
-        const MAIL_WEBSITE_FULL_NAME = '新奇世界网';
+        const MAIL_WEBSITE_SHORT_NAME = 'COMPANY';
+        const MAIL_WEBSITE_FULL_NAME = 'WEB';
 
         /**
          * 使用AresMailer发送邮件
@@ -68,8 +68,8 @@ class EmailDataService extends BaseDataService {
         public static function sendForgetPassword($mail_to, $mail_data) {
                 // mail setting
 //                $mail_subject = self::MAIL_WEBSITE_FULL_NAME . ' 找回密码';
-                $mail_subject = '新奇世界会员通行证' . ' 重设密码';
-                $mail_content = '您在' . date('Y-m-d H:i', time()) . '申请在新奇世界重设密码';
+                $mail_subject = '会员通行证' . ' 重设密码';
+                $mail_content = '您在' . date('Y-m-d H:i', time()) . '申请重设密码';
                 $mail_parameters = array(
 //                    'EMAIL_TXT_WELCOME_NAME' => $mail_data['welcome_name'],
 //                    'EMAIL_TXT_NEW_PASSWORD' => $mail_data['password'],
@@ -188,7 +188,7 @@ class EmailDataService extends BaseDataService {
             $mail_content = '您在' . date('Y-m-d H:i', time()) . '分在' . self::MAIL_WEBSITE_FULL_NAME . '请求重置密保问题。'.'请点击或复制以链接至密保问题重置页面<br />'.$url;
 
             $mail_parameters = array(
-                'EMAIL_TXT_WELCOME_NAME' => '新奇世界重置密保问题',
+                'EMAIL_TXT_WELCOME_NAME' => '重置密保问题',
                 'EMAIL_TXT_VERIFY_CONTENT' => $mail_content,
                 'EMAIL_LINK_VERIFY' => $mail_content,
 //                'EMAIL_LINK_VERIFY' => self::createUrl('member/verifyEmail', array('verify' => $mail_data['verify_code'])),
@@ -242,7 +242,7 @@ class EmailDataService extends BaseDataService {
                 $mail_content = '您在' . date('Y-m-d H:i', time()) . '分在' . self::MAIL_WEBSITE_FULL_NAME . '发起的邮箱激活需求已经处理完成。';
             }
             $mail_parameters = array(
-                'EMAIL_TXT_WELCOME_NAME' => '新奇世界绑定邮箱',
+                'EMAIL_TXT_WELCOME_NAME' => '绑定邮箱',
                 'EMAIL_TXT_VERIFY_CONTENT' => $mail_content,
                 'EMAIL_LINK_VERIFY' => self::createUrl('account/activeEmail', array('signage' => $mail_data['signage'], 'verify' => $mail_data['verify_code'], 'active' => 'active')),
                 'EMAIL_TXT_WEBSITE_SHORT_NAME' => self::MAIL_WEBSITE_SHORT_NAME,

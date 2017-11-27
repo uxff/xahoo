@@ -83,7 +83,7 @@ class SmsManager extends CApplicationComponent
      * 签名
      * 
      */
-    private $_sign = '【新奇世界】';
+    private $_sign = '【COMPANY】';
 
     /**
      * 返回信息的格式

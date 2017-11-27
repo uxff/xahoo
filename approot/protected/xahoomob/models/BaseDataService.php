@@ -72,7 +72,7 @@ class BaseDataService {
     }
 
     /**
-     * 获取新奇世界绝对URL
+     * 获取WEB绝对URL
      * 
      * @param  string·   $route     页面路由
      * @param  array     $params    页面参数列表

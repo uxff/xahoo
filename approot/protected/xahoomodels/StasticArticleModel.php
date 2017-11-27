@@ -186,7 +186,7 @@ class StasticArticleModel extends StasticArticleModelBase
             return $ret;
         }
         /*
-            统计新奇世界访问数据
+            统计访问数据
             @param string $startTime = '2016-04-01 00:00:00'
             @param string $endTime   = '2016-04-02 00:00:00'
             // 线上不可跨库查

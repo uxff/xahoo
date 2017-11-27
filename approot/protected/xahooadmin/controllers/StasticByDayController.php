@@ -126,7 +126,7 @@ class StasticByDayController extends Controller
         }
 
         // 表头
-        $ths = ['序号', '日期', 'PV(活动累计)', 'UV(活动累计)', '转发量', '新增用户', '新奇访问用户','积分单日增量','积分单日消耗'];
+        $ths = ['序号', '日期', 'PV(活动累计)', 'UV(活动累计)', '转发量', '新增用户', '访问用户','积分单日增量','积分单日消耗'];
         // 文件名
         $filename = '运营报表_'.substr($start_time, 0, 10).'_'.substr($end_time, 0, 10).'.csv';
         // 下载

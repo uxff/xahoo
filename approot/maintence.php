@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>新奇世界系统升级维护中</title>
+		<title>系统升级维护中</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<style>
 				*{

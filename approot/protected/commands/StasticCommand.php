@@ -126,7 +126,7 @@ class StasticCommand  extends CConsoleCommand
             $regCountInfo = StasticArticleModel::stasticRegCount($startDay, $endDay);
             //print_r($regCount);
 
-            // 新奇世界访问数
+            // 访问数
             $xqsjVisitInfo = StasticArticleModel::stasticXqsjVisit($startDay, $endDay);
             //echo 'day='.$day;print_r($xqsjVisitInfo);
             $points_add = Yii::app()->db->createCommand()
