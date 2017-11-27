@@ -242,7 +242,7 @@ class WechatController extends BaseController {
     public function processText($fromUser, $revText) {
         switch ($revText) {
             case 'the total':
-                $count = Yii::app()->getModule('sns')->stasticSns(Yii::app()->params['fh_wechat_appid']);
+                $count = Yii::app()->getModule('sns')->stasticSns($this->wechatOptions['appid']);
                 $msg = '当前关注数:'.$count['cnt']*1;
                 $this->sendTextMessage($fromUser, $msg);
                 break;
@@ -484,7 +484,7 @@ class WechatController extends BaseController {
             return $arrInfo[$openid];
         }
 
-        $appid = Yii::app()->params['fh_wechat_appid'];
+        $appid = $this->wechatOptions['appid'];//Yii::app()->params['fh_wechat_appid'];
         $snsModel = UcMemberBindSns::model()->find('sns_source=:source and sns_appid=:appid and sns_id=:oid', [
                 ':oid'      =>$openid,
                 ':appid'    =>$appid,
@@ -645,7 +645,7 @@ class WechatController extends BaseController {
         }
 
         $member_id = $masterRegModel->member_id;
-        $appid  = Yii::app()->params['fh_wechat_appid'];
+        $appid  = $this->wechatOptions['appid'];//Yii::app()->params['fh_wechat_appid'];
         // 预先读取好粉丝信息
         $fansInfo = $this->getWxUserInfo($fansOpenid);
 
@@ -1085,7 +1085,7 @@ class WechatController extends BaseController {
         $member_id = $_GET['member_id'] ? $_GET['member_id'] : 1005;
         $ret = FhMemberHaibaoLogModel::countMax($member_id);
         echo 'ret=';print_r($ret);
-        $count = Yii::app()->getModule('sns')->stasticSns(Yii::app()->params['fh_wechat_appid']);
+        $count = Yii::app()->getModule('sns')->stasticSns($this->wechatOptions['appid']);//Yii::app()->params['fh_wechat_appid']);
         echo 'count(sns)=';print_r($count);
     }
     public function actionTestmakehaibaolog() {
