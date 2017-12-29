@@ -66,6 +66,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
     
     // 统计文章 每天每文章访问数 
     public function actionSyncArticle($dur = -1, $includeToday = 0, $aid = -1) {
+        $limit = 5;
         $dayLength = $dur;
         $now = time();
         $today = date('Y-m-d', $now);
@@ -81,7 +82,14 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         }
         Yii::log('will sync '.$aid.'...', 'warning', __METHOD__);
 
+        $successNo = 0;
         foreach ($artList as $artObj) {
+
+            if ($successNo>$limit) {
+                break;
+            }
+            $successNo++;
+
             // 替换文章内部图片
             //$imgUrls = preg_match_all('', $artObj->content)
             $theReplacedArticle = $this->replaceImgTag($artObj->content);
@@ -93,7 +101,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             //$thumbMedia = $this->uploadImg($theFirstImg);//此接口返回url，不返回media_id
             // 使用缩略图接口上传
             $thumbParam = ['media'=>'@'.$theReplacedArticle['pics'][0][2]];//['media'=>'@/pathto/file.png'];
-            $thumbParam = ['media'=>'@'.'/tmp/xiaoqingxing.jpg'];
+            //$thumbParam = ['media'=>'@'.'/tmp/xiaoqingxing.jpg'];
             //$thumbMedia = $this->weObj->uploadForeverMedia($thumbParam);// 返回url+media_id
             $thumbMedia = $this->weObj->UploadMedia($thumbParam, 'thumb');//false
             //$thumbMedia = $this->weObj->AlexUploadMedia($thumbParam, 'thumb');//false//invalid media size // 解决方法 使用小图片
@@ -155,7 +163,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 Yii::log('sendCustomMessage:'.json_encode($singleMsg).' res='.json_encode($res).' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             }
         }
-        echo "done\n";
+        echo "done $successNo\n";
     }
     //protected function sendToMy
 
