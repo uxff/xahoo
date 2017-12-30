@@ -80,27 +80,46 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         } else {
             $artList[] = ArticleModel::model()->find('id=:id', [':id'=>$aid]);
         }
+        shuffle($artList);
         Yii::log('will sync '.$aid.'...', 'warning', __METHOD__);
 
+        $articles = ['articles'=>[]];
         $successNo = 0;
+
         foreach ($artList as $artObj) {
 
             if ($successNo>$limit) {
                 break;
             }
-            $successNo++;
 
             // 替换文章内部图片
             //$imgUrls = preg_match_all('', $artObj->content)
             $theReplacedArticle = $this->replaceImgTag($artObj->content);
             $theNewContent = $theReplacedArticle['content'];
-            Yii::log('after replaceImgTag: len(old content)='.strlen($artObj->content).' len(new content)='.strlen($theNewContent), 'warning', __METHOD__);
-            Yii::log('the uploaded pics:'.json_encode($theReplacedArticle['pics']), 'warning', __METHOD__);//pics=>[$urlOrigin, $urlUploaded, $localPath]
+            Yii::log('after replaceImgTag: len(old content)='.strlen($artObj->content).' len(new content)='.strlen($theNewContent).' matchcount='.$theReplacedArticle['matchcount'], 'warning', __METHOD__);
+            Yii::log('the replaced article pics uploaded:'.json_encode($theReplacedArticle['pics']), 'warning', __METHOD__);//pics=>[$urlOrigin, $urlUploaded, $localPath]
+
+            if ($theReplacedArticle['matchcount'] == 0) {
+                continue;
+            }
 
             // 准备图文消息缩略图 缩略图必须使用永久素材media_id
             //$thumbMedia = $this->uploadImg($theFirstImg);//此接口返回url，不返回media_id
+
+            list($firstImgWidth, $firstImgHeight) = getimagesize($theReplacedArticle['pics'][0][2]);
+
+            $targetWidth = 600;
+            $targetHeight = intval($firstImgHeight/($firstImgWidth/$targetWidth));
+
+            $resizedThumbPath = $this->resizeImg($theReplacedArticle['pics'][0][2], $theReplacedArticle['pics'][0][2].'-'.$targetWidth.'x'.$targetHeight, $targetWidth, $targetHeight);
+
+            if (!$resizedThumbPath) {
+                Yii::log('resize failed of '.$theReplacedArticle['pics'][0][2]);
+                continue;
+            }
+
             // 使用缩略图接口上传
-            $thumbParam = ['media'=>'@'.$theReplacedArticle['pics'][0][2]];//['media'=>'@/pathto/file.png'];
+            $thumbParam = ['media'=>'@'.$resizedThumbPath];//['media'=>'@/pathto/file.png'];
             //$thumbParam = ['media'=>'@'.'/tmp/xiaoqingxing.jpg'];
             //$thumbMedia = $this->weObj->uploadForeverMedia($thumbParam);// 返回url+media_id
             $thumbMedia = $this->weObj->UploadMedia($thumbParam, 'thumb');//false
@@ -108,8 +127,8 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             // 错误要用 $this->weObj->errMsg $this->weObj->errCode 来取
             Yii::log('after upload thumb Media param='.json_encode($thumbParam).' rets='.json_encode($thumbMedia). ' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
 
-            $articles = ['articles'=>[[
-                // thumb_media_id 缩略图id
+            $articles['articles'][] = [
+                // thumb_media_id 缩略图id // media_id 为空将导致发不出去
                 'thumb_media_id' => $thumbMedia['thumb_media_id'],//'dHmuALCB4dZ597NUMweP4qlUWtw6579aRQ7BW7yZOjo',//$thumbMedia['media_id'],
                 // author 作者
                 'author' => $artObj->remark, // default null
@@ -123,9 +142,12 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 'digest' => '', // default null
                 // 是否显示封面
                 'show_cover_pic' => 1,// default null, 0 or 1
-            ]]];
+            ];
+            $successNo++;
+        }
 
-            echo 'will uploadnews:'. json_encode($articles)."\n";
+        //exit;
+        //echo 'will uploadnews:'. json_encode($articles)."\n";
             // 将替换后的html上传图文消息接口生成media_id
             $mpNewsMediaInfo = $this->weObj->uploadArticles($articles);
             // invalid media_id hint: [RSSvuA0469e604] 40007 // 解决方式 使用 thumb_media_id 
@@ -147,6 +169,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 'send_ignore_reprint' => 0,
             ];
 
+            $res = 'expected success.';//
             $res = $this->weObj->sendGroupMassMessage($massSendParam);
             Yii::log('after sendGroupMassMessage res='.json_encode($res).'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             //
@@ -162,8 +185,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 $res = $this->weObj->sendCustomMessage($singleMsg);
                 Yii::log('sendCustomMessage:'.json_encode($singleMsg).' res='.json_encode($res).' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             }
-        }
-        echo "done $successNo\n";
+        echo "success done $successNo\n";
     }
     //protected function sendToMy
 
@@ -172,17 +194,21 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         $ret = [
             'content' => null,//$html,
             'pics' => [],
+            'matchcount' => 0,
         ];
+
         $str = $html;//&= $ret['content'];
         $reg = '/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i';
         preg_match_all($reg,$str,$mat);
         for($i=0;$i<count($mat[0]);$i++){
             $localFile = null;
             $targetUrl = $this->uploadImg($mat[2][$i], $localFile);
-            echo 'MATCHED 0====>'.$mat[0][$i].' 1====>'.$mat[2][$i].' UPLOADED='.$targetUrl."\n";
+            echo 'when replaceImgTag MATCHED 0====>'.$mat[0][$i].' 1====>'.$mat[2][$i].' UPLOADED='.$targetUrl."\n";
             $ret['pics'][] = [$mat[2][$i], $targetUrl, $localFile];
             $str = str_replace($mat[2][$i], $targetUrl, $str);
+            $ret['matchcount']++;
         }
+
         $ret['content'] = $str;
         return $ret;
     }
@@ -203,13 +229,32 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
     protected function downloadImg($url) {
 
-        $path = $this->getPicRuntimePath().'mpimg_'.date('YmdHis').'_'.substr(md5(mt_rand()), 0, 8).'.jpg';
+        $urlSplited = explode('.', $url);
+        $lastSplited = $urlSplited[count($urlSplited)-1];
+        $urlSuffix = substr($lastSplited, 0, 3);
+
+        $targetSuffix = 'jpg';
+        switch (strtolower($urlSuffix)) {
+        case 'jpg':
+        case 'jpe':
+            $targetSuffix = 'jpg';
+            break;
+        case 'png':
+            $targetSuffix = 'png';
+            break;
+        case 'gif':
+            $targetSuffix = 'gif';
+            break;
+        }
+
+        $path = $this->getPicRuntimePath().'mpimg_'.date('YmdHis').'_'.substr(md5(mt_rand()), 0, 8).'.'.$targetSuffix;
         Http::curldownload($url, $path);
 
         //Yii::log('保存一个图片('.$url.')到本地:'.$path, 'warning', __METHOD__);
         return $path;
 
     }
+
     public function getPicRuntimePath() {
         $dir = Yii::app()->runtimePath.'/mppic/';
         if (!file_exists($dir)) {
@@ -220,6 +265,49 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             }
         }
         return $dir;
+    }
+    public function resizeImg($sourcePath, $savePath, $targetWidth, $targetHeight) {
+        $bgSuffixArr = explode('.', $sourcePath);
+
+        $bgSuffix = $bgSuffixArr[count($bgSuffixArr)-1];
+        $bgSuffix = substr($bgSuffix, 0, 3);
+
+        switch (strtolower($bgSuffix)) {
+        case 'jpg':
+        case 'jpe':
+            $bgImageSrc = imagecreatefromjpeg($sourcePath);
+            break;
+        case 'png':
+            $bgImageSrc = imagecreatefrompng($sourcePath);
+            break;
+        case 'gif':
+            $bgImageSrc = imagecreatefromgif($sourcePath);
+            break;
+        default:
+            $bgImageSrc = imagecreatefromjpeg($sourcePath);
+            break;
+        }
+
+        if (!$bgImageSrc) {
+            Yii::log('cannot open img as resource:'.$sourcePath);
+            return false;
+        }
+
+        list($srcWidth, $srcHeight) = getimagesize($sourcePath);
+
+        $bgSrc = imagecreatetruecolor($targetWidth, $targetHeight);
+        //$color = imagecolorAllocate($bgSrc,255,255,255);
+        //imagefill($bgSrc, 0, 0, $color);
+
+        imagecopyresized($bgSrc, $bgImageSrc, 0, 0, 0, 0, $targetWidth, $targetHeight, $srcWidth, $srcHeight);
+
+        // write out target
+        imagejpeg($bgSrc, $savePath, 75);
+
+        imagedestroy($bgImageSrc);
+        imagedestroy($bgSrc);
+
+        return $savePath;
     }
 
 }
