@@ -26,7 +26,7 @@ func main() {
         http://36kr.com/feed                                // 36kr
         http://dbanotes.net/feed                            // 小道消息
         http://www.ruanyifeng.com/blog/atom.xml             // 阮一峰
-
+        http://www.juzimi.com/feed                          // 鸡汤
 	*/
 	var url *string = flag.String("url", "", "feed url")
 	var doSave *bool = flag.Bool("dosave", true, "do save or debug")
