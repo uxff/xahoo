@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"regexp"
+	"strings"
 	//"os"
 
 	//feedreader "./feedreader"
@@ -20,30 +21,36 @@ func main() {
 		http://tech.163.com/special/000944OI/headlines.xml  // 网易科技 // 垃圾广告多
 		http://www.ftchinese.com/rss/feed
 		http://www.scipark.net/feed/                        // 已过期
-        http://feed.williamlong.info/                       // 月光博客
-        https://www.zhihu.com/rss                           // 知乎每日精选
-        http://www.read.org.cn/feed                         // 效率生活
-        http://36kr.com/feed                                // 36kr
-        http://dbanotes.net/feed                            // 小道消息
-        http://www.ruanyifeng.com/blog/atom.xml             // 阮一峰
-        http://www.juzimi.com/feed                          // 鸡汤
+		http://feed.williamlong.info/                       // 月光博客
+		https://www.zhihu.com/rss                           // 知乎每日精选
+		http://www.read.org.cn/feed                         // 效率生活
+		http://36kr.com/feed                                // 36kr
+		http://dbanotes.net/feed                            // 小道消息
+		http://www.ruanyifeng.com/blog/atom.xml             // 阮一峰
+		http://www.juzimi.com/feed                          // 鸡汤
 	*/
 	var url *string = flag.String("url", "", "feed url")
 	var doSave *bool = flag.Bool("dosave", true, "do save or debug")
+	var originMark *string = flag.String("origin", "", "origin")
 	flag.Parse()
 	if url == nil || len(*url) == 0 {
 		fmt.Println("url cannot be null")
 		return
 	}
 
-	//testReg()
+	mark := *originMark
+	if len(*originMark) == 0 {
+		mark = FindMark(*url)
+	}
+
 	//return
+	//testReg()
 
 	// after this, its test model
 	feed, items, e := model.FetchUrl(*url)
 	succNum := 0 //len(items) //
 	if *doSave {
-		succNum = model.SaveArticles(items)
+		succNum = model.SaveArticles(items, mark)
 	}
 	fmt.Println("feed len(items)=", len(items), "save success:", succNum, "lines", "feed=", feed, "e=", e)
 	/*
@@ -88,4 +95,47 @@ func testReg() {
 			}
 		}
 	}
+}
+
+func FindMark(urlStr string) (mark string) {
+	urlElemStr := strings.Split(urlStr, "/")
+	if len(urlElemStr) >= 3 {
+		domainPart := urlElemStr[2]
+		domainPartArr := strings.Split(domainPart, ".")
+
+		ignoreTags := []string{"com", "net", "gov", "org", "info", "edu", "top", "biz", "xyz", "pro", "name", "wang"}
+
+		if len(domainPartArr[len(domainPartArr)-1]) == 2 {
+			domainPartArr = domainPartArr[:len(domainPartArr)-2]
+			//fmt.Printf("domain part arr =%v\n", domainPartArr)
+		}
+
+		for i := len(domainPartArr) - 1; i >= 0; i-- {
+			isIgnoreTags := false
+			for _, it := range ignoreTags {
+				if it == strings.ToLower(domainPartArr[i]) {
+					isIgnoreTags = true
+					break
+				}
+			}
+
+			if isIgnoreTags {
+				//fmt.Printf("kick a tag:%v i=%v TAGS=%v\n", domainPartArr[i], i, domainPartArr)
+				domainPartArr = domainPartArr[:i]
+				//fmt.Printf("after kick TAGS=%v\n", domainPartArr)
+			}
+		}
+
+		if len(domainPartArr) > 0 {
+			mark = domainPartArr[len(domainPartArr)-1]
+		} else {
+			mark = domainPart
+		}
+
+		fmt.Printf("find mark for origin=%v\n", mark)
+	}
+
+	mark = strings.ToLower(mark)
+
+	return mark
 }
