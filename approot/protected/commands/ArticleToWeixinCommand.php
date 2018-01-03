@@ -114,7 +114,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $resizedThumbPath = $this->resizeImg($theReplacedArticle['pics'][0][2], $theReplacedArticle['pics'][0][2].'-'.$targetWidth.'x'.$targetHeight, $targetWidth, $targetHeight);
 
             if (!$resizedThumbPath) {
-                Yii::log('resize failed of '.$theReplacedArticle['pics'][0][2]);
+                Yii::log('resize failed and ignore: '.$theReplacedArticle['pics'][0][2]);
                 continue;
             }
 

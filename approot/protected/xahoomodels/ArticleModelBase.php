@@ -62,12 +62,12 @@ class ArticleModelBase extends CActiveRecord
                         array('type, status, admin_id', 'numerical', 'integerOnly'=>true),
                         array('title, outer_url, visit_url, surface_url, remark', 'length', 'max'=>255),
                         array('abstract', 'length', 'max'=>500),
-                        array('view_count, share_count, favor_count, comment_count', 'length', 'max'=>10),
+                        array('view_count, share_count, favor_count, comment_count, origin', 'length', 'max'=>10),
                         array('admin_name', 'length', 'max'=>32),
                         array('create_time, pubdate', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, title, type, content, outer_url, visit_url, surface_url, abstract, status, remark, view_count, share_count, favor_count, comment_count, pubdate, create_time, last_modified, admin_id, admin_name', 'safe', 'on'=>'search'),
+                        array('id, title, type, content, outer_url, visit_url, surface_url, abstract, status, remark, view_count, share_count, favor_count, comment_count, pubdate, create_time, last_modified, admin_id, admin_name, origin', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -159,6 +159,7 @@ class ArticleModelBase extends CActiveRecord
 				$criteria->compare('t.last_modified',$this->last_modified,true);
 				$criteria->compare('t.admin_id',$this->admin_id);
 				$criteria->compare('t.admin_name',$this->admin_name,true);
+				$criteria->compare('t.origin',$this->origin,true);
                 return $criteria;
          }
 
