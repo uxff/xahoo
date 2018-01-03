@@ -50,7 +50,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
     }
 
-    public function actionIndex($mpid = 0, $appid = '', $aid = -1) {
+    public function actionIndex($mpid = 0, $appid = '', $aid = -1, $origin = '') {
         $this->loadwechat($mpid, $appid);
         // 验证是否可用
         //$serverIp = $this->weObj->getServerIp();
@@ -59,13 +59,13 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         //print_r($menu);
         Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid, 'warning', __METHOD__);
 
-        $this->actionSyncArticle((int)$dur, 0, $aid);
+        $this->actionSyncArticle((int)$dur, 0, $aid, $origin);
         //单发消息
         //$this->weObj->sendCustomMessage();
     }
     
     // 统计文章 每天每文章访问数 
-    public function actionSyncArticle($dur = -1, $includeToday = 0, $aid = -1) {
+    public function actionSyncArticle($dur = -1, $includeToday = 0, $aid = -1, $origin = '') {
         $limit = 5;
         $dayLength = $dur;
         $now = time();
@@ -75,13 +75,17 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         }
 
         // 查出在那天的文章
-        if ($aid == -1) {
-            $artList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today', [':today'=>$today.' 00:00:00']);//('t.status = 2');
-        } else {
+        if ($aid > 0) {
             $artList[] = ArticleModel::model()->find('id=:id', [':id'=>$aid]);
+        } else {
+            if ($origin) {
+                $artList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today and t.origin= :origin', [':today'=>$today.' 00:00:00', ':origin'=>$origin]);//('t.status = 2');
+            } else {
+                $artList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today', [':today'=>$today.' 00:00:00']);//('t.status = 2');
+            }
         }
         shuffle($artList);
-        Yii::log('will sync '.$aid.'...', 'warning', __METHOD__);
+        Yii::log('will sync aid='.$aid.'. count='.count($artList), 'warning', __METHOD__);
 
         $articles = ['articles'=>[]];
         $successNo = 0;
@@ -144,6 +148,11 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 'show_cover_pic' => 1,// default null, 0 or 1
             ];
             $successNo++;
+        }
+
+        if (count($articles['articles']) == 0) {
+            echo "no articles selected\n";
+            return;
         }
 
         //exit;
