@@ -57,7 +57,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         //print_r($serverIp);
         //$menu = $this->weObj->getMenu();
         //print_r($menu);
-        Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid, 'warning', __METHOD__);
+        Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid.' origin='.$origin, 'warning', __METHOD__);
 
         $this->actionSyncArticle((int)$dur, 0, $aid, $origin);
         //单发消息
@@ -179,10 +179,12 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             ];
 
             $res = 'expected success.';//
+            Yii::log('will sendGroupMassMessage res='.json_encode($res));
             $res = $this->weObj->sendGroupMassMessage($massSendParam);
             Yii::log('after sendGroupMassMessage res='.json_encode($res).'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             //
             // 单发测试
+            if (false)
             foreach ($this->adminOpenid[$this->mpid] as $openid) {
                 // 发送非素材图文消息
                 $singleMsg = ['touser'=>$openid, 'msgtype'=>'news', 'news'=>[
@@ -256,8 +258,21 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             break;
         }
 
-        $path = $this->getPicRuntimePath().'mpimg_'.date('YmdHis').'_'.substr(md5(mt_rand()), 0, 8).'.'.$targetSuffix;
-        Http::curldownload($url, $path);
+        $pathPre = $this->getPicRuntimePath().'mpimg_'.date('YmdHis').'_'.substr(md5(mt_rand()), 0, 8);
+        $path = $pathPre.'.'.$targetSuffix;
+        $res = Http::curldownload($url, $path);
+        $headerArr = explode("\r\n", $res['header']);
+        $contentType = 'Content-Type:';
+        $contentTypeVal = '';
+        foreach ($headerArr as $header) {
+            
+            if (substr($header, 0, strlen($contentType)) == $contentTypea) {
+                $contentTypeVal = trim(substr($header, strlen($contentType)));
+                break;
+            }
+        }
+
+        Yii::log('contentType='.$contentTypeVal);
 
         //Yii::log('保存一个图片('.$url.')到本地:'.$path, 'warning', __METHOD__);
         return $path;
