@@ -50,26 +50,25 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
     }
 
-    public function actionIndex($mpid = 0, $appid = '', $aid = -1, $origin = '') {
+    public function actionIndex($mpid = 0, $appid = '', $aid = -1, $origin = '', $limit = 5) {
         $this->loadwechat($mpid, $appid);
         // 验证是否可用
         //$serverIp = $this->weObj->getServerIp();
         //print_r($serverIp);
         //$menu = $this->weObj->getMenu();
         //print_r($menu);
-        Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid.' origin='.$origin, 'warning', __METHOD__);
+        Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid.' origin='.$origin.' limit='.$limit, 'warning', __METHOD__);
 
-        $this->actionSyncArticle((int)$dur, 0, $aid, $origin);
+        $this->actionSyncArticle((int)$dur, 0, $aid, $origin, $limit);
         //单发消息
         //$this->weObj->sendCustomMessage();
     }
     
     // 统计文章 每天每文章访问数 
-    public function actionSyncArticle($dur = -1, $includeToday = 0, $aid = -1, $origin = '') {
-        $limit = 5;
+    public function actionSyncArticle($dur = -1, $includeToday = 0, $aid = -1, $origin = '', $limit = 5) {
         $dayLength = $dur;
         $now = time();
-        $today = date('Y-m-d', $now);
+        $today = date('Y-m-d', $now-86400*7);
         if ($dayLength==-1) {
             $dayLength = (int)(($now - strtotime('2016-03-01')) / 86400);
         }
@@ -92,7 +91,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
         foreach ($artList as $artObj) {
 
-            if ($successNo>$limit) {
+            if ($successNo>=$limit) {
                 break;
             }
 
@@ -170,7 +169,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             // 准备群发
             $massSendParam = [
                 // 群发使用 is_to_all=true  分组发使用 tag_id=1
-                'filter' => ['is_to_all' => true, 'tag_id'=>1],
+                'filter' => ['is_to_all' => false, 'tag_id'=>1],
                 // mpnews | voice | image | mpvideo => array( "media_id"=>"MediaId")
                 //'msgtype' => ['mpnews' => $mpNewsMediaInfo['media_id']],
                 'msgtype' => 'mpnews',
@@ -240,32 +239,31 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
     protected function downloadImg($url) {
 
-        $urlSplited = explode('.', $url);
-        $lastSplited = $urlSplited[count($urlSplited)-1];
-        $urlSuffix = substr($lastSplited, 0, 3);
+        $sizeInfo = getimagesize($url);
 
         $targetSuffix = 'jpg';
-        switch (strtolower($urlSuffix)) {
-        case 'jpg':
-        case 'jpe':
+        switch ($sizeInfo['mime']) {
+        case 'image/jpeg':
+        case 'image/jpg':
             $targetSuffix = 'jpg';
             break;
-        case 'png':
+        case 'image/png':
             $targetSuffix = 'png';
             break;
-        case 'gif':
+        case 'image/gif':
             $targetSuffix = 'gif';
             break;
         }
 
+
         $pathPre = $this->getPicRuntimePath().'mpimg_'.date('YmdHis').'_'.substr(md5(mt_rand()), 0, 8);
         $path = $pathPre.'.'.$targetSuffix;
         $res = Http::curldownload($url, $path);
+
         $headerArr = explode("\r\n", $res['header']);
         $contentType = 'Content-Type:';
         $contentTypeVal = '';
         foreach ($headerArr as $header) {
-            
             if (substr($header, 0, strlen($contentType)) == $contentTypea) {
                 $contentTypeVal = trim(substr($header, strlen($contentType)));
                 break;
