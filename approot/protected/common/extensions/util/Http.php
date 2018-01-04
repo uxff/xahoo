@@ -24,14 +24,36 @@ class Http {
      * @param string $local 本地保存文件名
      * @return mixed
      */
-    static public function curlDownload($remote,$local) {
+    static public function curlDownload($remote,$local,$reqHeaders=[]) {
         $cp = curl_init($remote);
         $fp = fopen($local,"w");
         curl_setopt($cp, CURLOPT_FILE, $fp);
-        curl_setopt($cp, CURLOPT_HEADER, 0);
-        curl_exec($cp);
+
+        if (!empty($reqHeaders)) {
+            curl_setopt($cp, CURLOPT_HTTPHEADER, $reqHeaders); 
+        }
+
+        //curl_setopt($cp, CURLOPT_HEADER, 1);
+        $res = curl_exec($cp);
+
+        $headerSize = curl_getinfo($cp, CURLINFO_HEADER_SIZE);
+        $headerCnt = substr($res, 0, $headerSize);
+        $bodyCnt = substr($res, $headerSize+1);
+
+        $httpCode = curl_getinfo($cp,CURLINFO_HTTP_CODE);
+
+        //fwrite($fp, $bodyCnt);
+
         curl_close($cp);
         fclose($fp);
+
+        //$headerArr = explode("\r\n", $headerCnt);
+
+        return [
+            'code' => $httpCode,
+            'header' => $headerCnt,
+            'body' => $bodyCnt,
+        ];
     }
 
    /**
