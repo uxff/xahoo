@@ -169,7 +169,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             // 准备群发
             $massSendParam = [
                 // 群发使用 is_to_all=true  分组发使用 tag_id=1
-                'filter' => ['is_to_all' => false, 'tag_id'=>1],
+                'filter' => ['is_to_all' => true, 'tag_id'=>1],
                 // mpnews | voice | image | mpvideo => array( "media_id"=>"MediaId")
                 //'msgtype' => ['mpnews' => $mpNewsMediaInfo['media_id']],
                 'msgtype' => 'mpnews',
