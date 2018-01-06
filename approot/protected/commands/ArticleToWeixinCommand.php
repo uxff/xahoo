@@ -195,7 +195,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 $res = $this->weObj->sendCustomMessage($singleMsg);
                 Yii::log('sendCustomMessage:'.json_encode($singleMsg).' res='.json_encode($res).' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             }
-        echo "success done $successNo\n";
+        echo "success done $successNo sendGroupMassMessage res=".json_encode($res)."\n";
     }
     //protected function sendToMy
 
