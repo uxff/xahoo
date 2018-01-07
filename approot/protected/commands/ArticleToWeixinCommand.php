@@ -210,6 +210,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         $str = $html;//&= $ret['content'];
         $reg = '/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i';
         preg_match_all($reg,$str,$mat);
+
         for($i=0;$i<count($mat[0]);$i++){
             $localFile = null;
             $targetUrl = $this->uploadImg($mat[2][$i], $localFile);
@@ -252,6 +253,9 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             break;
         case 'image/gif':
             $targetSuffix = 'gif';
+            break;
+        case 'image/webm':
+            $targetSuffix = 'webm';
             break;
         }
 
