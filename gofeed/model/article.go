@@ -172,6 +172,8 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 
 		succNum++
 	}
+
+    fmt.Println("all", succNum, "saved")
 	return
 }
 
