@@ -102,6 +102,11 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             Yii::log('after replaceImgTag: len(old content)='.strlen($artObj->content).' len(new content)='.strlen($theNewContent).' matchcount='.$theReplacedArticle['matchcount'], 'warning', __METHOD__);
             Yii::log('the replaced article pics uploaded:'.json_encode($theReplacedArticle['pics']), 'warning', __METHOD__);//pics=>[$urlOrigin, $urlUploaded, $localPath]
 
+            if ($theReplacedArticle['pics'] == 0) {
+                //
+                continue;
+            }
+
             if ($theReplacedArticle['matchcount'] == 0) {
                 continue;
             }
@@ -117,7 +122,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $resizedThumbPath = $this->resizeImg($theReplacedArticle['pics'][0][2], $theReplacedArticle['pics'][0][2].'-'.$targetWidth.'x'.$targetHeight, $targetWidth, $targetHeight);
 
             if (!$resizedThumbPath) {
-                Yii::log('resize failed and ignore: '.$theReplacedArticle['pics'][0][2]);
+                Yii::log('resize failed and ignore: '.$theReplacedArticle['pics'][0][2], 'warning', __METHOD__);
                 continue;
             }
 
@@ -178,7 +183,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             ];
 
             $res = 'expected success.';//
-            Yii::log('will sendGroupMassMessage res='.json_encode($res));
+            Yii::log('will sendGroupMassMessage res='.json_encode($res), 'warning', __METHOD__);
             $res = $this->weObj->sendGroupMassMessage($massSendParam);
             Yii::log('after sendGroupMassMessage res='.json_encode($res).'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             //
