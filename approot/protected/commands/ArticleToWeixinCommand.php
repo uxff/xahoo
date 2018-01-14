@@ -3,7 +3,7 @@
 * 
 * author: xdr
 * date:   2016-01-26
-* cmd:    php console.php ArticleToWeixin index --mpid=1 --aid=11161
+* cmd:    php console.php ArticleToWeixin index --mpid=4 --origins=36kr+3,wx100000p+2 --limit=5
 */
 class ArticleToWeixinCommand  extends CConsoleCommand 
 {
@@ -50,14 +50,14 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
     }
 
-    public function actionIndex($mpid = 0, $appid = '', $aid = -1, $origin = '', $limit = 5) {
+    public function actionIndex($mpid = 0, $appid = '', $aid = -1, $origins = '', $limit = 5) {
         $this->loadwechat($mpid, $appid);
         // 验证是否可用
         //$serverIp = $this->weObj->getServerIp();
         //print_r($serverIp);
         //$menu = $this->weObj->getMenu();
         //print_r($menu);
-        Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid.' origin='.$origin.' limit='.$limit, 'warning', __METHOD__);
+        Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid.' origins='.$origins.' limit='.$limit, 'warning', __METHOD__);
 
         $this->actionSyncArticle((int)$dur, 0, $aid, $origin, $limit);
         //单发消息
@@ -65,7 +65,8 @@ class ArticleToWeixinCommand  extends CConsoleCommand
     }
     
     // 统计文章 每天每文章访问数 
-    public function actionSyncArticle($dur = -1, $includeToday = 0, $aid = -1, $origin = '', $limit = 5) {
+    // --origins=wx100000p,wx100000p,36kr+3,36kr
+    public function actionSyncArticle($dur = -1, $includeToday = 0, $aid = -1, $origins = '', $limit = 5) {
         $dayLength = $dur;
         $now = time();
         $today = date('Y-m-d', $now-86400*7);
@@ -73,18 +74,35 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $dayLength = (int)(($now - strtotime('2016-03-01')) / 86400);
         }
 
+        $artList = [];
         // 查出在那天的文章
         if ($aid > 0) {
             $artList[] = ArticleModel::model()->find('id=:id', [':id'=>$aid]);
         } else {
-            if ($origin) {
-                $artList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today and t.origin= :origin', [':today'=>$today.' 00:00:00', ':origin'=>$origin]);//('t.status = 2');
+            if ($origins) {
+                $originMarks = explode(',', $origins);
+                foreach ($originMarks as $originWithNum) {
+                    $numMarks = explode('+', $originWithNum);
+                    if (count($numMarks) == 0) {
+                        continue;
+                    }
+                    $origin = $numMarks[0];
+                    $num = intval($numMarks[1]) ? intval($numMarks[1]) : 1;
+
+
+                    $preArtList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today and t.origin= :origin and type=0', [':today'=>$today.' 00:00:00', ':origin'=>$origin]);//('t.status = 2');
+                    shuffle($preArtList);
+                    
+                    $artList = array_merge($artList, array_slice($preArtList, 0, $num));
+                    Yii::log('selected  '.count($artList).' aids by origin='.$origin.' expected='.$num, 'warning', __METHOD__);
+                    unset($preArtList);
+                }
             } else {
                 $artList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today', [':today'=>$today.' 00:00:00']);//('t.status = 2');
             }
         }
-        shuffle($artList);
-        Yii::log('will sync aid='.$aid.'. count='.count($artList), 'warning', __METHOD__);
+        //shuffle($artList);
+        Yii::log('will sync aid='.$aid.'. selected count='.count($artList), 'warning', __METHOD__);
 
         $articles = ['articles'=>[]];
         $successNo = 0;
@@ -159,6 +177,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             return;
         }
 
+
         //exit;
         //echo 'will uploadnews:'. json_encode($articles)."\n";
             // 将替换后的html上传图文消息接口生成media_id
@@ -183,9 +202,25 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             ];
 
             $res = 'expected success.';//
+
+
             Yii::log('will sendGroupMassMessage res='.json_encode($res), 'warning', __METHOD__);
             $res = $this->weObj->sendGroupMassMessage($massSendParam);
             Yii::log('after sendGroupMassMessage res='.json_encode($res).'errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
+
+            // mark as sent, type=9
+            if ($res['errcode'] ==0 && $res['msg_id']) {
+                // success
+                foreach ($artList as &$artObj) {
+                    $artObj->type = 2;
+                    $artObj->admin_id=1;
+                    $artObj->admin_name = 'console';
+                    $saveRet = $artObj->save();
+                    if (!$saveRet) {
+                        Yii::log('mark aid '.$artObj->id.' as success sent weixin falied:'.$artObj->lastError(), 'warning', __METHOD__);
+                    }
+                }
+            }
             //
             // 单发测试
             if (false)
