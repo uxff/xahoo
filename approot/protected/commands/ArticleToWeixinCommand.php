@@ -371,6 +371,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
         //$color = imagecolorAllocate($bgSrc,255,255,255);
         //imagefill($bgSrc, 0, 0, $color);
+        $tryTimes = 10;
 
         do {
             $bgSrc = imagecreatetruecolor($targetWidth, $targetHeight);
@@ -391,7 +392,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $targetHeight = intval($targetHeight/1.4);
 
             imagedestroy($bgSrc);
-        } while(true);
+        } while(--$tryTime>0);
 
         imagedestroy($bgImageSrc);
         imagedestroy($bgSrc);
