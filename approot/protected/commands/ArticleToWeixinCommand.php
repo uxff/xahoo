@@ -134,10 +134,10 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
             list($firstImgWidth, $firstImgHeight) = getimagesize($theReplacedArticle['pics'][0][2]);
 
-            $targetWidth = 600;
+            $targetWidth = 500;
             $targetHeight = intval($firstImgHeight/($firstImgWidth/$targetWidth));
 
-            $resizedThumbPath = $this->resizeImg($theReplacedArticle['pics'][0][2], $theReplacedArticle['pics'][0][2].'-'.$targetWidth.'x'.$targetHeight, $targetWidth, $targetHeight);
+            $resizedThumbPath = $this->resizeImg($theReplacedArticle['pics'][0][2], $theReplacedArticle['pics'][0][2].'-'.$targetWidth.'x'.$targetHeight, $targetWidth, $targetHeight, 64*1024);
 
             if (!$resizedThumbPath) {
                 Yii::log('resize failed and ignore: '.$theReplacedArticle['pics'][0][2], 'warning', __METHOD__);
@@ -210,6 +210,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
             // mark as sent, type=9
             if ($res['errcode'] ==0 && $res['msg_id']) {
+                echo "success done $successNo sendGroupMassMessage res=".json_encode($res)."\n";
                 // success
                 foreach ($artList as &$artObj) {
                     $artObj->type = 2;
@@ -220,6 +221,8 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                         Yii::log('mark aid '.$artObj->id.' as success sent weixin falied:'.$artObj->lastError(), 'warning', __METHOD__);
                     }
                 }
+            } else {
+                echo "done $successNo sendGroupMassMessage res=".json_encode($res)."\n";
             }
             //
             // 单发测试
@@ -235,7 +238,6 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 $res = $this->weObj->sendCustomMessage($singleMsg);
                 Yii::log('sendCustomMessage:'.json_encode($singleMsg).' res='.json_encode($res).' errMsg='.$this->weObj->errMsg.' '.$this->weObj->errCode, 'warning', __METHOD__);
             }
-        echo "success done $successNo sendGroupMassMessage res=".json_encode($res)."\n";
     }
     //protected function sendToMy
 
@@ -253,10 +255,16 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
         for($i=0;$i<count($mat[0]);$i++){
             $localFile = null;
-            $targetUrl = $this->uploadImg($mat[2][$i], $localFile);
-            echo 'when replaceImgTag MATCHED 0====>'.$mat[0][$i].' 1====>'.$mat[2][$i].' UPLOADED='.$targetUrl."\n";
+            if (substr($mat[2][$i], 0, 20) == 'http://mmbiz.qpic.cn'
+             || substr($mat[2][$i], 0, 21) == 'https://mmbiz.qpic.cn') {
+                $targetUrl = $mat[2][$i];
+                echo 'when replaceImgTag MATCHED 0====>'.$mat[0][$i].' 1====>'.$mat[2][$i].' NONDEED UPLOAD'."\n";
+            } else {
+                $targetUrl = $this->uploadImg($mat[2][$i], $localFile);
+                $str = str_replace($mat[2][$i], $targetUrl, $str);
+                echo 'when replaceImgTag MATCHED 0====>'.$mat[0][$i].' 1====>'.$mat[2][$i].' UPLOADED='.$targetUrl."\n";
+            }
             $ret['pics'][] = [$mat[2][$i], $targetUrl, $localFile];
-            $str = str_replace($mat[2][$i], $targetUrl, $str);
             $ret['matchcount']++;
         }
 
@@ -332,7 +340,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         }
         return $dir;
     }
-    public function resizeImg($sourcePath, $savePath, $targetWidth, $targetHeight) {
+    public function resizeImg($sourcePath, $savePath, $targetWidth, $targetHeight, $limitFileSize = 1024*1024) {
         $bgSuffixArr = explode('.', $sourcePath);
 
         $bgSuffix = $bgSuffixArr[count($bgSuffixArr)-1];
@@ -355,20 +363,35 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         }
 
         if (!$bgImageSrc) {
-            Yii::log('cannot open img as resource:'.$sourcePath);
+            Yii::log('cannot open img as resource:'.$sourcePath,'warning', __METHOD__);
             return false;
         }
 
         list($srcWidth, $srcHeight) = getimagesize($sourcePath);
 
-        $bgSrc = imagecreatetruecolor($targetWidth, $targetHeight);
         //$color = imagecolorAllocate($bgSrc,255,255,255);
         //imagefill($bgSrc, 0, 0, $color);
 
-        imagecopyresized($bgSrc, $bgImageSrc, 0, 0, 0, 0, $targetWidth, $targetHeight, $srcWidth, $srcHeight);
+        do {
+            $bgSrc = imagecreatetruecolor($targetWidth, $targetHeight);
 
-        // write out target
-        imagejpeg($bgSrc, $savePath, 75);
+            imagecopyresized($bgSrc, $bgImageSrc, 0, 0, 0, 0, $targetWidth, $targetHeight, $srcWidth, $srcHeight);
+
+            // write out target
+            imagejpeg($bgSrc, $savePath, 75);
+
+            // redo smaller size if file too big
+            $imageSize = filesize($savePath);
+            if ($imageSize <= $limitFileSize) {
+                break;
+            }
+
+            Yii::log('retry resize image from '.$imageSize.' to '.$limitFileSize.' '.$sourcePath, 'warning', __METHOD__);
+            $targetWidth = intval($targetWidth/1.4);
+            $targetHeight = intval($targetHeight/1.4);
+
+            imagedestroy($bgSrc);
+        } while(true);
 
         imagedestroy($bgImageSrc);
         imagedestroy($bgSrc);
