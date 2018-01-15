@@ -59,7 +59,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         //print_r($menu);
         Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid.' origins='.$origins.' limit='.$limit, 'warning', __METHOD__);
 
-        $this->actionSyncArticle((int)$dur, 0, $aid, $origin, $limit);
+        $this->actionSyncArticle((int)$dur, 0, $aid, $origins, $limit);
         //单发消息
         //$this->weObj->sendCustomMessage();
     }
@@ -80,6 +80,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             $artList[] = ArticleModel::model()->find('id=:id', [':id'=>$aid]);
         } else {
             if ($origins) {
+                $eachCount = [];
                 $originMarks = explode(',', $origins);
                 foreach ($originMarks as $originWithNum) {
                     $numMarks = explode('+', $originWithNum);
@@ -96,13 +97,14 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                     $artList = array_merge($artList, array_slice($preArtList, 0, $num));
                     Yii::log('selected  '.count($artList).' aids by origin='.$origin.' expected='.$num, 'warning', __METHOD__);
                     unset($preArtList);
+                    $eachCount[$origin] = count($artList);
                 }
             } else {
                 $artList = ArticleModel::model()->orderBy('t.id desc')->findAll('create_time >= :today', [':today'=>$today.' 00:00:00']);//('t.status = 2');
             }
         }
         //shuffle($artList);
-        Yii::log('will sync aid='.$aid.'. selected count='.count($artList), 'warning', __METHOD__);
+        Yii::log('will sync aid='.$aid.'. selected count='.count($artList).' each count='.json_encode($eachCount), 'warning', __METHOD__);
 
         $articles = ['articles'=>[]];
         $successNo = 0;
