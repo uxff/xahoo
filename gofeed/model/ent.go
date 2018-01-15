@@ -23,6 +23,7 @@ type ArticleEntity struct {
 	Admin_id      int       `json:"admin_id"   xorm:"not null"`
 	Admin_name    string    `json:"admin_name" xorm:"not null default ''"`
 	Origin        string    `json:"origin"     xorm:"not null default ''"`
+	Author        string    `json:"author"     xorm:"not null default ''"`
 }
 
 func (this *ArticleEntity) TableName() string {
