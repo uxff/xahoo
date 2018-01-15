@@ -64,10 +64,11 @@ class ArticleModelBase extends CActiveRecord
                         array('abstract', 'length', 'max'=>500),
                         array('view_count, share_count, favor_count, comment_count, origin', 'length', 'max'=>10),
                         array('admin_name', 'length', 'max'=>32),
+                        array('author', 'length', 'max'=>40),
                         array('create_time, pubdate', 'safe'),
                                         // The following rule is used by search().
                         // @todo Please remove those attributes that should not be searched.
-                        array('id, title, type, content, outer_url, visit_url, surface_url, abstract, status, remark, view_count, share_count, favor_count, comment_count, pubdate, create_time, last_modified, admin_id, admin_name, origin', 'safe', 'on'=>'search'),
+                        array('id, title, type, content, outer_url, visit_url, surface_url, abstract, status, remark, view_count, share_count, favor_count, comment_count, pubdate, create_time, last_modified, admin_id, admin_name, origin, author', 'safe', 'on'=>'search'),
                 );
         }
 
@@ -160,6 +161,7 @@ class ArticleModelBase extends CActiveRecord
 				$criteria->compare('t.admin_id',$this->admin_id);
 				$criteria->compare('t.admin_name',$this->admin_name,true);
 				$criteria->compare('t.origin',$this->origin,true);
+				$criteria->compare('t.author',$this->author,true);
                 return $criteria;
          }
 
