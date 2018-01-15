@@ -43,7 +43,7 @@ class CLogger extends CComponent
 	 * automatically invoked once. If this is 0, it means messages will never be flushed automatically.
 	 * @since 1.1.0
 	 */
-	public $autoFlush=10000;
+	public $autoFlush=10;
 	/**
 	 * @var boolean this property will be passed as the parameter to {@link flush()} when it is
 	 * called in {@link log()} due to the limit of {@link autoFlush} being reached.
