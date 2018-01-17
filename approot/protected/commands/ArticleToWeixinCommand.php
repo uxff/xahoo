@@ -59,7 +59,13 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         //print_r($menu);
         Yii::log('mpid='.$mpid.' appid='.$appid.' aid='.$aid.' origins='.$origins.' limit='.$limit, 'warning', __METHOD__);
 
-        $this->actionSyncArticle((int)$dur, 0, $aid, $origins, $limit);
+        $tryTimes = 3;
+        do {
+
+            if ($this->actionSyncArticle((int)$dur, 0, $aid, $origins, $limit)) {
+                break;
+            }
+        } while(--$tryTimes > 0);
         //单发消息
         //$this->weObj->sendCustomMessage();
     }
@@ -176,7 +182,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
 
         if (count($articles['articles']) == 0) {
             echo "no articles selected\n";
-            return;
+            return false;
         }
 
 
@@ -223,6 +229,8 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                         Yii::log('mark aid '.$artObj->id.' as success sent weixin falied:'.$artObj->lastError(), 'warning', __METHOD__);
                     }
                 }
+
+                return true;
             } else {
                 echo "done $successNo sendGroupMassMessage res=".json_encode($res)."\n";
             }
