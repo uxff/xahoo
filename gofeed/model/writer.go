@@ -145,6 +145,10 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 
 		item.Origin = origin
 
+        if item.Visit_url == "" {
+            item.Visit_url = MakeArticleUrl(item)
+        }
+
 		_, e := Orm.Insert(item)
 		if e != nil {
 			fmt.Println("insert Article error:", e)
@@ -153,22 +157,6 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 		//fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
 
 		// save as hot article, so show
-		hotItem := new(HotArticleEntity)
-		hotItem.Title = item.Title
-		hotItem.Is_local_url = 1
-		hotItem.Status = 2
-		hotItem.Surface_url = item.Surface_url
-		hotItem.Create_time = item.Create_time
-		hotItem.Last_modified = item.Last_modified
-		hotItem.Admin_id = item.Admin_id
-		hotItem.Admin_name = item.Admin_name + "(gohead)"
-		hotItem.Url = MakeArticleUrl(item)
-
-		_, e = Orm.Insert(hotItem)
-		if e != nil {
-			fmt.Println("insert hotArticle error:", e)
-			continue
-		}
 
 		succNum++
 	}
