@@ -508,7 +508,15 @@ class MyController extends BaseController
 
         // 热推
         $hotArtLimit = 4;
-        $hotArtModels = HotArticleModel::model()->orderBy('t.weight,t.create_time desc')->findAll(array('condition'=>'status=2','limit'=>$hotArtLimit));
+        $hotArtModels = ArticleModel::model()->orderBy('t.create_time desc')->findAll(array('condition'=>'status=2','limit'=>$hotArtLimit));
+        foreach ($hotArtModels as &$model) {
+            if (empty($model->visit_url)) {
+                $model->visit_url = $this->createAbsoluteUrl('article/show', [
+                    'id' => $model->id,
+                    'sign' => $model->makeSign($model->id),
+                ]);
+            }
+        }
 
 		$arrMsgStack = Yii::app()->loginUser->getFlashes();
 

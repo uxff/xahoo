@@ -32,11 +32,11 @@
         <ul>
             {foreach from=$hotArtModels key=k item=hotArtModel}
             <li>
-                <a href="{$hotArtModel.url}" target="_blank">
+                <a href="{$hotArtModel.visit_url}" target="_blank">
                 <img src="{$hotArtModel.surface_url}" coolieignore/>
                 </a>
                 <p class="fl">{$hotArtModel.title}</p>
-                <span class="fr"><font>{$hotArtModel.tips}</font></span>
+                <span class="fr"><font>{$hotArtModel.remark}</font></span>
             </li>
             {/foreach}
         </ul>

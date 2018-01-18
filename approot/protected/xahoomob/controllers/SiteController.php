@@ -32,7 +32,6 @@ class SiteController extends BaseController {
                     'id' => $model->id,
                     'sign' => $model->makeSign($model->id),
                 ]);
-
             }
         }
 
