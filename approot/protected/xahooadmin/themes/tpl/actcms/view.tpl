@@ -1,6 +1,6 @@
 <div class="page-content-area">
     <div class="page-header">
-        <h1> <a href="backend.php?r=actcms">活动管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
+        <h1> <a href="backend.php?r=actcms">文章管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看详情 </small> </h1>
     </div>
     <!-- /.page-header -->
 
@@ -16,15 +16,23 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>活动ID</td>
+                                    <td>文章ID</td>
                                     <td>{$objModel.id}</td>
                                 </tr>
                                 <tr>
-                                    <td>活动名称</td>
-                                    <td>{$objModel.title}</td>
+                                    <td>文章名称</td>
+                                    <td>
+                                    {if $objModel.visit_url}
+                                    <a href="{$objModel.visit_url}" target="_blank">{$objModel.title}</a>
+                                    {else if $objModel.outer_url}
+                                    <a href="{$objModel.outer_url}" target="_blank">{$objModel.title}</a>
+                                    {else}
+                                    {$objModel.title}
+                                    {/if}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>活动分类</td>
+                                    <td>文章分类</td>
                                     <td>
                                         {if isset($arrType[$objModel.type])}
                                             {$arrType[$objModel.type]}
@@ -34,7 +42,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>活动状态</td>
+                                    <td>文章状态</td>
                                     <td>
                                         {if isset($arrStatus[$objModel.status])}
                                             {$arrStatus[$objModel.status]}
@@ -64,7 +72,7 @@
                                     <td>{$objModel.outer_url}</td>
                                 </tr>
                                 <tr>
-                                    <td>活动详情</td>
+                                    <td>文章详情</td>
                                     <td>{$objModel.content}</td>
                                 </tr>
                             </tbody>

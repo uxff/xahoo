@@ -1,6 +1,6 @@
 <div class="page-content-area">
 <div class="page-header">
-    <h1> 活动管理 <small> <i class="ace-icon fa fa-angle-double-right"></i> 列表</small> </h1>
+    <h1> 文章管理 <small> <i class="ace-icon fa fa-angle-double-right"></i> 列表</small> </h1>
 </div>
 <div class="row">
     <div class="col-xs-12"> 
@@ -15,11 +15,11 @@
             <div class="col-xs-12">
                 <br/>
                 <div class="form-group  col-xs-3">
-                    <label class="col-xs-3 control-label no-padding-right" for="ArticleModel_title">活动名称</label>
+                    <label class="col-xs-3 control-label no-padding-right" for="ArticleModel_title">文章名称</label>
                     <div class="col-xs-8"><input type="text" id="ArticleModel_title" name="ArticleModel[title]" size="60" maxlength="200" class="col-xs-12" value="{$dataObj.title}" /></div>
                 </div>
                 <div class="form-group  col-xs-3">
-                    <label class="col-xs-3 control-label no-padding-right" for="ArticleModel_type">活动分类</label>
+                    <label class="col-xs-3 control-label no-padding-right" for="ArticleModel_type">文章分类</label>
                     <div class="col-xs-8">
                         <select class="form-control" id="ArticleModel_type" name="ArticleModel[type]" style="width:120px;">
                         <option value="">请选择</option>
@@ -49,7 +49,7 @@
                 </div>
                 -->
                 <div class="form-group col-xs-3">
-                    <label class="col-sm-3 control-label no-padding-right" for="ArticleModel_status">活动状态</label>
+                    <label class="col-sm-3 control-label no-padding-right" for="ArticleModel_status">发布状态</label>
                     <div class="col-sm-8">
                         <select class="form-control" id="ArticleModel_status" name="ArticleModel[status]" style="width:120px;">
                         <option value="">请选择</option>
@@ -174,7 +174,11 @@
                 <tr>
                     <td>{$i+1}</td>
                     <td>{$objModel.title}</td>
-						<td style="font-size:10px;">{$objModel.visit_url}</td>
+					<td style="font-size:10px;">
+                    {if $objModel.visit_url}<a href="{$objModel.visit_url}">inner</a>{/if}
+                    &nbsp;
+                    {if $objModel.outer_url}<a href="{$objModel.outer_url}">outer</a>{/if}
+                    </td>
                     <td>
                         {if isset($arrType[$objModel.type])}
                             {$arrType[$objModel.type]}

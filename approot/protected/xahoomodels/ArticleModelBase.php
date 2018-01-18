@@ -89,10 +89,10 @@ class ArticleModelBase extends CActiveRecord
        {
                return array(
 
-                       'id' => '活动ID',
-                       'title' => '活动名称',
-                       'type' => '活动分类',
-                       'content' => '活动详情',
+                       'id' => '文章ID',
+                       'title' => '文章名称',
+                       'type' => '文章分类',
+                       'content' => '文章详情',
                        'outer_url' => '使用外部链接',
                        'visit_url' => 'URL',
                        //'abstract' => 'Abstract',
@@ -116,10 +116,10 @@ class ArticleModelBase extends CActiveRecord
                return array(
 
                        'id' => '序号',
-                       'title' => '活动名称',
-                       'visit_url' => '活动URL',
-                       'type' => '活动分类',
-                       //'content' => '活动详情',
+                       'title' => '文章名称',
+                       'visit_url' => '文章URL',
+                       'type' => '文章分类',
+                       //'content' => '文章详情',
                        //'visit_url' => 'Visit Url',
                        //'abstract' => 'Abstract',
                        //'status' => '活动状态',

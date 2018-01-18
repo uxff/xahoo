@@ -1,7 +1,7 @@
 
 <div class="page-content-area">
         <div class="page-header">
-                <h1> <a href="backend.php?r=actcms">活动管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
+                <h1> <a href="backend.php?r=actcms">文章管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i> 新增 </small> </h1><br />
                 <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
         </div>
         <!-- /.page-header -->
@@ -29,16 +29,16 @@
 
                         <form class="form-horizontal"  id="actcms-form" role="form" action="backend.php?r=actcms/create" method="POST">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_title">活动名称</label>
+                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_title">文章名称</label>
                     <div class="col-sm-7"><input type="text" id="ArticleModel_title" name="ArticleModel[title]" size="60" maxlength="200" class="col-xs-10 col-sm-5" value="{$dataObj.title}" /></div>
                     <div class="col-sm-2"> <span class="help-inline middle" id="ArticleModel_title_em_">  </span> </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_type">活动分类</label>
+                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_type">文章分类</label>
                     <div class="col-sm-7">
                     <select class="form-control" id="ArticleModel_type" name="ArticleModel[type]" style="width:120px;">   
                     <option value="">请选择</option>
-                    <option value="1"{if $dataObj.type eq "1"} selected="selected"{/if}>活动分享</option>
+                    <option value="1"{if $dataObj.type eq "1"} selected="selected"{/if}>文章分享</option>
                     <option value="2"{if $dataObj.type eq "2"} selected="selected"{/if}>项目分享</option>
                     <option value="3"{if $dataObj.type eq "3"} selected="selected"{/if}>企业资讯</option>
                     <option value="4"{if $dataObj.type eq "4"} selected="selected"{/if}>其他</option>
@@ -68,7 +68,7 @@
                     <div class="col-sm-2"> <span class="help-inline middle" id="ArticleModel_outer_url_em_">  </span> </div>
                 </div>
                 <div class="form-group" id="div_content">
-                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_content">活动详情</label>
+                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_content">文章详情</label>
                     <div class="col-sm-7">
                         <div style="width:800px;margin:20px auto 40px;">
                             <script type="text/plain" id="ArticleModel_content_um" name="ArticleModel[content]" style="width:100%;height:600px;"></script>
@@ -78,7 +78,7 @@
                     <div class="col-sm-2"> <span class="help-inline middle" id="ArticleModel_content_em_">  </span> </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_status">活动状态</label>
+                    <label class="col-sm-2 control-label no-padding-right" for="ArticleModel_status">文章状态</label>
                     <div class="col-sm-7">
                     <select class="form-control" id="ArticleModel_status" name="ArticleModel[status]" style="width:120px;">
                     <option value="1"{if $dataObj.status eq "1"} selected="selected"{/if}>未发布</option>
