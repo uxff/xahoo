@@ -8,8 +8,8 @@ class ActcmsController extends Controller
      */
     public function filters() {
         return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
+            //'accessControl', // perform access control for CRUD operations
+            //'postOnly + delete', // we only allow deletion via POST request
         );
     }
 
@@ -225,11 +225,16 @@ class ActcmsController extends Controller
      */
     public function actionDelete($id) {
         //TODO
-        //$this->loadModel($id)->delete();
+        $model = $this->loadModel($id);
+        if ($model) {
+            $model->delete();
+        }
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            return;
         }
+        $this->jsonSuccess('ok');
     }
 
     /**
@@ -307,8 +312,8 @@ class ActcmsController extends Controller
      */
     public function loadModel($id) {
         $model = ArticleModel::model()->findByPk($id);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+        //if ($model === null)
+            //throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
 

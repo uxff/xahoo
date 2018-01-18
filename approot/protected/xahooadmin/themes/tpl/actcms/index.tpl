@@ -166,6 +166,7 @@
                             {foreach from=$arrAttributeLabels item=labelName}
                             <th>{$labelName}</th>
                             {/foreach}
+                            <th>来源</th>
                             <th>操作</th>
                     </tr>
                 </thead>
@@ -188,14 +189,13 @@
                     </td>
                     <td>{$objModel.admin_name}</td>
                     <td>{$objModel.last_modified}</td>
+                    <td>{$objModel.origin}</td>
                     <td>
                         <div class="hidden-sm hidden-xs btn-group">
                             <a href="backend.php?r=actcms/view&id={$objModel.$modelId}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                             <a href="backend.php?r=actcms/update&id={$objModel.$modelId}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
                            
-                            <!--
-                            <button onclick="delConfirm('backend.php?r=actcms/delete&amp;id={$objModel.$modelId}');" data-url="" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i>删除 </button>
-                            -->
+                            <button onclick="delConfirm('backend.php?r=actcms/delete&amp;id={$objModel.id}');" data-url="" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i>删除 </button>
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline position-relative">
