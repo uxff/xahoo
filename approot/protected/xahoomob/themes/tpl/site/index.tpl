@@ -63,18 +63,21 @@
     </div>
 </section>
 <section class="index-list">
-    <h2>热门推荐</h2>
+    <h2>热门资讯</h2>
     <ul>
         {foreach from=$hotArtModels key=k item=hotArtModel}
         <li>
-            <a href="{$hotArtModel.url}">
+            <a href="{$hotArtModel.visit_url}">
             	<img data-original="{$hotArtModel.surface_url}" coolieignore src="../../../../../resource/xahoo3.0/images/integral/bg_big.png" />
             </a>
-            {if empty($hotArtModel.tips)}
-            <p >{$hotArtModel.title}</p>
-            {else}
+            {if $hotArtModel.remark}
             <p class="fl">{$hotArtModel.title}</p>
-            <span class="fr"><font>{$hotArtModel.tips}</font></span>
+            <span class="fr"><font>{$hotArtModel.remark}</font></span>
+            {else if $hotArtModel.author}
+            <p class="fl">{$hotArtModel.title}</p>
+            <span class="fr"><font>{$hotArtModel.author}</font></span>
+            {else}
+            <p >{$hotArtModel.title}</p>
             {/if}
         </li>
         {/foreach}

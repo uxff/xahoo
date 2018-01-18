@@ -24,7 +24,17 @@ class SiteController extends BaseController {
         $actPicsModel = PicSetModel::model()->orderBy('weight ASC, t.id desc')->with('pics')->find('t.used_type='.PicSetModel::USED_TYPE_ACTIVITY);
         
         // 热推
-        $hotArtModels = HotArticleModel::model()->orderBy('t.weight,t.create_time desc')->findAll(array('condition'=>'status=2','limit'=>10));
+        $hotArtModels = ArticleModel::model()->orderBy('t.create_time desc')->findAll(array('condition'=>'status=2','limit'=>50));
+
+        foreach ($hotArtModels as &$model) {
+            if (empty($model->visit_url)) {
+                $model->visit_url = $this->createAbsoluteUrl('article/show', [
+                    'id' => $model->id,
+                    'sign' => $model->makeSign($model->id),
+                ]);
+
+            }
+        }
 
 
         $arrRender = array(
