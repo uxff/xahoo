@@ -235,40 +235,6 @@ INSERT INTO `fh_event_tpl` VALUES (1,'check_in_nday','连续签到7天','','',''
 /*!40000 ALTER TABLE `fh_event_tpl` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `fh_hot_article`
---
-
-DROP TABLE IF EXISTS `fh_hot_article`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fh_hot_article` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `title` varchar(255) NOT NULL COMMENT '推荐名称',
-  `tips` varchar(60) NOT NULL DEFAULT '' COMMENT '标签',
-  `act_type` tinyint(4) NOT NULL COMMENT '活动分类>1|活动分享,2|项目分享,3|企业资讯,4|其他',
-  `status` tinyint(4) NOT NULL COMMENT '推荐状态>1|未发布,2|已发布,3|已撤销',
-  `url` varchar(255) NOT NULL COMMENT 'URL',
-  `is_local_url` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否本服务器url',
-  `weight` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '权重:越小排序越前',
-  `surface_url` varchar(255) NOT NULL COMMENT '封面图',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
-  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
-  `admin_id` int(11) NOT NULL COMMENT '创建人id',
-  `admin_name` varchar(32) NOT NULL COMMENT '创建人',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fh_hot_article`
---
-
-LOCK TABLES `fh_hot_article` WRITE;
-/*!40000 ALTER TABLE `fh_hot_article` DISABLE KEYS */;
-INSERT INTO `fh_hot_article` VALUES (1,'【网络中国节】追忆端午风俗 酝酿中华精神乡愁','端午',1,2,'http://xahoo.xenith.top/index.php?r=article/show&id=6&sign=23cf080107894d2fa199b7f4a43c700d',1,1,'/upload/201705/surface/20170528153002400.jpg','2017-05-28 07:30:03','2017-05-29 14:21:14',1,'theAdmin'),(2,'与支付宝微信差距大，负责人又离职，百度钱包还有机会吗？','百度支付,支付宝,微信支付',4,2,'http://xahoo.xenith.top/index.php?r=article/show&id=5&sign=7c208bcb1dabd57c53dcc0736806cd98',1,1,'/upload/201705/surface/20170528154842627.jpg','2017-05-28 07:48:45','2017-05-29 14:21:06',1,'theAdmin'),(3,'为挖角其它平台用户 苹果用过这么多套路','苹果',4,2,'http://xahoo.xenith.top/index.php?r=article/show&id=4&sign=dfc4d9925c24d3b2ef437b289aa350f9',1,1,'/upload/201705/surface/20170528155127950.jpg','2017-05-28 07:51:28','2017-05-29 14:20:54',1,'theAdmin'),(4,'做无人驾驶+低速新能源整车，“新悦智行”希望打通整车供应链做无人驾驶落地','',4,2,'http://xahoo.xenith.top/index.php?r=article/show&id=7&sign=40820371af479b34fec1bd247e1c9011',1,1,'/upload/201706/surface/20170604164120902.png','2017-06-04 08:41:28','2017-06-04 08:41:28',1,'theAdmin'),(5,'股价飙升500倍，市值近4800亿美元，从网络书店起家的亚马逊凭什么一飞冲天？','',4,2,'http://xahoo.xenith.top/index.php?r=article/show&id=8&sign=18c28b09343419415cb70168a0af9f2b',1,1,'/upload/201706/surface/20170604164353209.jpg','2017-06-04 08:43:56','2017-06-04 08:43:56',1,'theAdmin'),(6,'菜鸟顺丰之争落幕：6月3日12时起全面恢复数据传输','',4,2,'http://xahoo.xenith.top/index.php?r=article/show&id=9&sign=61a81d2995862134312e4c0801bd810c',1,1,'/upload/201706/surface/20170604164748736.png','2017-06-04 08:47:49','2017-06-04 08:47:49',1,'theAdmin');
-/*!40000 ALTER TABLE `fh_hot_article` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `fh_lot_product`
