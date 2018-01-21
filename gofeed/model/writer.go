@@ -145,6 +145,35 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 
 		item.Origin = origin
 
+        var exist bool
+
+        if len(item.Outer_url) > 1 {
+            var queryArticle = ArticleEntity{Outer_url: item.Outer_url}
+            //Orm.QueryRow("select * from fh_article where ").Scan(&existArticle)
+            rows, err := Orm.Rows(&queryArticle)
+            if err != nil {
+                fmt.Printf("could not query by outer_url, err:%v\n", err)
+            } else {
+                defer rows.Close()
+                for rows.Next() {
+                    err = rows.Scan(&queryArticle)
+                    if err != nil {
+                        fmt.Printf("could not scan, err:%v\n", err)
+                    } else {
+                        exist = true
+                        break
+                    }
+                }
+            }
+
+            if exist {
+                fmt.Printf("outer_url already exist in db:%v\n", item.Outer_url)
+                continue
+            }
+        }
+
+
+
         if item.Visit_url == "" {
             item.Visit_url = MakeArticleUrl(item)
         }
