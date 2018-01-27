@@ -112,6 +112,8 @@ class ArticleToWeixinCommand  extends CConsoleCommand
         //shuffle($artList);
         Yii::log('will sync aid='.$aid.'. selected count='.count($artList).' each count='.json_encode($eachCount), 'warning', __METHOD__);
 
+
+
         $articles = ['articles'=>[]];
         $successNo = 0;
 
@@ -128,27 +130,26 @@ class ArticleToWeixinCommand  extends CConsoleCommand
             Yii::log('after replaceImgTag: len(old content)='.strlen($artObj->content).' len(new content)='.strlen($theNewContent).' matchcount='.$theReplacedArticle['matchcount'], 'warning', __METHOD__);
             Yii::log('the replaced article pics uploaded:'.json_encode($theReplacedArticle['pics']), 'warning', __METHOD__);//pics=>[$urlOrigin, $urlUploaded, $localPath]
 
-            if ($theReplacedArticle['pics'] == 0) {
-                //
-                continue;
-            }
 
             if ($theReplacedArticle['matchcount'] == 0) {
-                continue;
+                //continue;
             }
 
             // 准备图文消息缩略图 缩略图必须使用永久素材media_id
             //$thumbMedia = $this->uploadImg($theFirstImg);//此接口返回url，不返回media_id
 
-            list($firstImgWidth, $firstImgHeight) = getimagesize($theReplacedArticle['pics'][0][2]);
+            $thumbImgOrigin = strlen($artObj->surface_url) > 0 ? $artObj->surface_url : $theReplacedArticle['pics'][0][0];
+            $thumbImgInMp = strlen($artObj->surface_url) > 0 ? $this->uploadImg($thumbImgOrigin, $thumbImgLocal) : $theReplacedArticle['pics'][0][1];
+
+            list($firstImgWidth, $firstImgHeight) = getimagesize($thumbImgLocal);
 
             $targetWidth = 500;
             $targetHeight = intval($firstImgHeight/($firstImgWidth/$targetWidth));
 
-            $resizedThumbPath = $this->resizeImg($theReplacedArticle['pics'][0][2], $theReplacedArticle['pics'][0][2].'-'.$targetWidth.'x'.$targetHeight, $targetWidth, $targetHeight, 64*1024);
+            $resizedThumbPath = $this->resizeImg($thumbImgLocal, $thumbImgLocal.'-'.$targetWidth.'x'.$targetHeight, $targetWidth, $targetHeight, 64*1024);
 
             if (!$resizedThumbPath) {
-                Yii::log('resize failed and ignore: '.$theReplacedArticle['pics'][0][2], 'warning', __METHOD__);
+                Yii::log('resize failed and ignore: '.$thumbImgLocal, 'warning', __METHOD__);
                 continue;
             }
 
