@@ -160,7 +160,7 @@ class ActcmsController extends Controller
                 }
                 
                 // 未发布不产生url
-                if ($updateModel->status == ArticleModel::STATUS_PUBLISHED) {
+                //if ($updateModel->status == ArticleModel::STATUS_PUBLISHED) {
                     $updateModel->visit_url = $this->createFanghuServerUrl('article/show', array(
                         'id'=>$updateModel->id,
                         'sign'=> $updateModel->makeSign($updateModel->id),
@@ -168,9 +168,9 @@ class ActcmsController extends Controller
 
                     // 如果是发布 增加统计记录
                     //StasticArticleModel::addStastic($updateModel, date('Y-m-d'));
-                } else {
-                    $updateModel->visit_url = '';
-                }
+                //} else {
+                //    $updateModel->visit_url = '';
+                //}
 
                 if ($updateModel->save()) {
                     // 增加操作日志
@@ -254,6 +254,13 @@ class ActcmsController extends Controller
         $mySearch = $model->mySearch($condition);
         $arrData = $mySearch['list'];
         $pages = $mySearch['pages'];
+
+        foreach ($arrData as $k=>$oneModel) {
+            $arrData[$k]['visit_url'] = $this->createFanghuServerUrl('article/show', array(
+                        'id'=>$oneModel['id'],
+                        'sign'=> $model->makeSign($oneModel['id']),
+                    ));
+        }
 
         $arrAttributeLabel = $model->attrLabelsForList(); //$model->attributeLabels();
         // 项目分类

@@ -176,9 +176,9 @@
                     <td>{$i+1}</td>
                     <td>{$objModel.title}</td>
 					<td style="font-size:10px;">
-                    {if $objModel.visit_url}<a href="{$objModel.visit_url}">inner</a>{/if}
-                    &nbsp;
-                    {if $objModel.outer_url}<a href="{$objModel.outer_url}">outer</a>{/if}
+                    {if $objModel.visit_url}<a href="{$objModel.visit_url}">[inner]</a>{/if}
+                    &nbsp;&nbsp;
+                    {if $objModel.outer_url}<a href="{$objModel.outer_url}">[outer]</a>{/if}
                     </td>
                     <td>
                         {if isset($arrType[$objModel.type])}
