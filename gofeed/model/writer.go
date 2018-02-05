@@ -144,6 +144,7 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 	}
 	Orm.SetMapper(core.SameMapper{})
 
+    insertedIds := make([]int, 0)
 	//session := Orm.NewSession()
 	for _, item := range items {
 
@@ -171,7 +172,7 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
             }
 
             if exist {
-                fmt.Printf("outer_url already exist in db:%v\n", item.Outer_url)
+                fmt.Printf("outer_url already exist in db:%v=>%v\n", queryArticle.Id,item.Outer_url)
                 continue
             }
         }
@@ -184,6 +185,7 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 			continue
 		}
 		//fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
+        insertedIds = append(insertedIds, item.Id)
 
         //updateItem := &ArticleEntity{Id:item.Id}
         //if item.Visit_url == "" {
@@ -200,7 +202,7 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 		succNum++
 	}
 
-    fmt.Println("all", succNum, "saved")
+    fmt.Println("all:", succNum, "saved ids:", insertedIds)
 	return
 }
 
