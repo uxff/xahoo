@@ -40,6 +40,9 @@ class SysNodeBase extends CActiveRecord {
                     'published' => array(
                         'condition' => 'status=1',
                     ),
+                    'autosort' => array(
+                        'order' => 'sort desc',
+                    ),
                 );
         }
 

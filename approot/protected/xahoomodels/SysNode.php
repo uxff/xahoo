@@ -56,7 +56,7 @@ class SysNode extends SysNodeBase {
         }
 
         public function getNodeTree($roleid = 0) {
-                $rtn = $this->findAll();
+                $rtn = $this->autosort()->findAll();
                 $array = OBJTool::convertModelToArray($rtn);
 
                 //如果角色不为空，则查询所有role下的节点
