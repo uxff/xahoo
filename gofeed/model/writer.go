@@ -181,14 +181,14 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 		}
 		//fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
 
-        updateItem := &ArticleEntity{Id:item.Id}
-        if item.Visit_url == "" {
-            item.Visit_url = MakeArticleUrl(item)
-        }
-        r, e := Orm.Where(updateItem).Update(&ArticleEntity{Visit_url:item.Visit_url})
-        if e != nil {
-            fmt.Println("update error:", e, r)
-        }
+        //updateItem := &ArticleEntity{Id:item.Id}
+        //if item.Visit_url == "" {
+        //    item.Visit_url = MakeArticleUrl(item)
+        //}
+        //r, e := Orm.Where(updateItem).Update(&ArticleEntity{Visit_url:item.Visit_url})
+        //if e != nil {
+        //    fmt.Println("update error:", e, r)
+        //}
 
 
 		// save as hot article, so show
