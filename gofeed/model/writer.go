@@ -98,7 +98,11 @@ func assembleFeed(fd *feedreader.Feed) (feed *Feed, items []*ArticleEntity) {
 		item.Title = i.Title
 		item.Content = i.Content
 		rs := []rune(i.Content)
-		item.Abstract = string(rs[:200])
+        absLen := len(rs)
+        if absLen > 200 {
+            absLen = 200
+        }
+		item.Abstract = string(rs[:absLen])
 		item.Create_time = now
 		item.Last_modified = now
 		item.Status = 2
