@@ -1,18 +1,24 @@
 package model
 
+//import "crypto/md5"
+import "time"
+import "fmt"
+
 import xorm "github.com/go-xorm/xorm"
 import core "github.com/go-xorm/core"
 
 //import _ "github.com/mattn/go-sqlite3"
 import h "github.com/m3ng9i/go-utils/http"
-
-//import "crypto/md5"
-import "time"
 import _ "github.com/go-sql-driver/mysql"
-import "fmt"
+
 import (
 	feedreader "../feedreader"
 	//global "../global"
+)
+
+const (
+	UA_IOS    = "QReader on IOS 10"
+	UA_PUBLIC = "Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50"
 )
 
 var Orm *xorm.Engine
@@ -23,7 +29,7 @@ var NormalFetcher *h.Fetcher
 func FetchUrl(url string) (feed *Feed, items []*ArticleEntity, err error) {
 
 	headers := make(map[string]string)
-	headers["User-Agent"] = "QReader or SomeAnonymous Spider" //"Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50" //fmt.Sprintf("QReader %s (%s)", Version.Version, Github)
+	headers["User-Agent"] = UA_IOS //fmt.Sprintf("QReader %s (%s)", Version.Version, Github)
 
 	NormalFetcher = h.NewFetcher(nil, headers)
 
@@ -98,10 +104,10 @@ func assembleFeed(fd *feedreader.Feed) (feed *Feed, items []*ArticleEntity) {
 		item.Title = i.Title
 		item.Content = i.Content
 		rs := []rune(i.Content)
-        absLen := len(rs)
-        if absLen > 200 {
-            absLen = 200
-        }
+		absLen := len(rs)
+		if absLen > 200 {
+			absLen = 200
+		}
 		item.Abstract = string(rs[:absLen])
 		item.Create_time = now
 		item.Last_modified = now
@@ -144,40 +150,38 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 	}
 	Orm.SetMapper(core.SameMapper{})
 
-    insertedIds := make([]int, 0)
+	insertedIds := make([]int, 0)
 	//session := Orm.NewSession()
 	for _, item := range items {
 
 		item.Origin = origin
 
-        var exist bool
+		var exist bool
 
-        if len(item.Outer_url) > 1 {
-            var queryArticle = ArticleEntity{Outer_url: item.Outer_url}
-            //Orm.QueryRow("select * from fh_article where ").Scan(&existArticle)
-            rows, err := Orm.Rows(&queryArticle)
-            if err != nil {
-                fmt.Printf("could not query by outer_url, err:%v\n", err)
-            } else {
-                defer rows.Close()
-                for rows.Next() {
-                    err = rows.Scan(&queryArticle)
-                    if err != nil {
-                        fmt.Printf("could not scan, err:%v\n", err)
-                    } else {
-                        exist = true
-                        break
-                    }
-                }
-            }
+		if len(item.Outer_url) > 1 {
+			var queryArticle = ArticleEntity{Outer_url: item.Outer_url}
+			//Orm.QueryRow("select * from fh_article where ").Scan(&existArticle)
+			rows, err := Orm.Rows(&queryArticle)
+			if err != nil {
+				fmt.Printf("could not query by outer_url, err:%v\n", err)
+			} else {
+				defer rows.Close()
+				for rows.Next() {
+					err = rows.Scan(&queryArticle)
+					if err != nil {
+						fmt.Printf("could not scan, err:%v\n", err)
+					} else {
+						exist = true
+						break
+					}
+				}
+			}
 
-            if exist {
-                fmt.Printf("outer_url already exist in db:%v=>%v\n", queryArticle.Id,item.Outer_url)
-                continue
-            }
-        }
-
-
+			if exist {
+				fmt.Printf("outer_url already exist in db:%v=>%v\n", queryArticle.Id, item.Outer_url)
+				continue
+			}
+		}
 
 		_, e := Orm.Insert(item)
 		if e != nil {
@@ -185,24 +189,23 @@ func SaveArticles(items []*ArticleEntity, origin string) (succNum int) {
 			continue
 		}
 		//fmt.Println("insert success: num=", num, "all=", succNum, "id=", item.Id)
-        insertedIds = append(insertedIds, item.Id)
+		insertedIds = append(insertedIds, item.Id)
 
-        //updateItem := &ArticleEntity{Id:item.Id}
-        //if item.Visit_url == "" {
-        //    item.Visit_url = MakeArticleUrl(item)
-        //}
-        //r, e := Orm.Where(updateItem).Update(&ArticleEntity{Visit_url:item.Visit_url})
-        //if e != nil {
-        //    fmt.Println("update error:", e, r)
-        //}
-
+		//updateItem := &ArticleEntity{Id:item.Id}
+		//if item.Visit_url == "" {
+		//    item.Visit_url = MakeArticleUrl(item)
+		//}
+		//r, e := Orm.Where(updateItem).Update(&ArticleEntity{Visit_url:item.Visit_url})
+		//if e != nil {
+		//    fmt.Println("update error:", e, r)
+		//}
 
 		// save as hot article, so show
 
 		succNum++
 	}
 
-    fmt.Println("all:", succNum, "saved ids:", insertedIds)
+	fmt.Println("all:", succNum, "saved ids:", insertedIds)
 	return
 }
 

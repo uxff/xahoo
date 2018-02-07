@@ -7,35 +7,46 @@ import (
 	"strings"
 	//"os"
 
+	"github.com/henrylee2cn/pholcus/common/goquery"
+
 	//feedreader "./feedreader"
 	model "./model"
 )
 
+//	example url:
+var rssUrls = []string{
+	"http://news.qq.com/newsgj/rss_newswj.xml",           // 腾讯国际
+	"http://news.qq.com/photon/rss_photo.xml",            // 腾讯图片
+	"http://n.rss.qq.com/rss/tech_rss.php",               // 腾讯科技 // 有图片
+	"http://tech.qq.com/web/webnews/rss_11.xml",          // 腾讯互联网
+	"http://tech.163.com/special/000944OI/headlines.xml", // 网易科技 // 垃圾广告多
+	"http://www.ftchinese.com/rss/feed",
+	"http://www.scipark.net/feed/",                    // 已过期
+	"http://feed.williamlong.info/",                   // 月光博客
+	"https://www.zhihu.com/rss",                       // 知乎每日精选
+	"http://www.read.org.cn/feed",                     // 效率生活
+	"http://36kr.com/feed",                            // 36kr
+	"http://dbanotes.net/feed",                        // 小道消息
+	"http://www.ruanyifeng.com/blog/atom.xml",         // 阮一峰
+	"http://www.juzimi.com/feed",                      // 鸡汤
+	"https://a.jiemian.com/index.php?m=article&a=rss", // 界面
+	"http://www.94ys.com/data/rss/66.xml",             // 搞笑
+}
+
 func main() {
-	/*
-		example url:
-		http://news.qq.com/newsgj/rss_newswj.xml			// 腾讯国际
-		http://news.qq.com/photon/rss_photo.xml 			// 腾讯图片
-		http://n.rss.qq.com/rss/tech_rss.php				// 腾讯科技 // 有图片
-		http://tech.qq.com/web/webnews/rss_11.xml			// 腾讯互联网
-		http://tech.163.com/special/000944OI/headlines.xml  // 网易科技 // 垃圾广告多
-		http://www.ftchinese.com/rss/feed
-		http://www.scipark.net/feed/                        // 已过期
-		http://feed.williamlong.info/                       // 月光博客
-		https://www.zhihu.com/rss                           // 知乎每日精选
-		http://www.read.org.cn/feed                         // 效率生活
-		http://36kr.com/feed                                // 36kr
-		http://dbanotes.net/feed                            // 小道消息
-		http://www.ruanyifeng.com/blog/atom.xml             // 阮一峰
-		http://www.juzimi.com/feed                          // 鸡汤
-        https://a.jiemian.com/index.php?m=article&a=rss     // 界面
-	*/
+
 	var url *string = flag.String("url", "", "feed url")
 	var doSave *bool = flag.Bool("dosave", true, "do save or debug")
 	var originMark *string = flag.String("origin", "", "origin")
+	var doTrail *bool = flag.Bool("dotrail", false, "do trail link")
 	flag.Parse()
+
 	if url == nil || len(*url) == 0 {
-		fmt.Println("url cannot be null")
+		fmt.Println("url cannot be null, use --url http://xx.com/xx...")
+		fmt.Println(" example urls:")
+		for _, v := range rssUrls {
+			fmt.Println("\t", v)
+		}
 		return
 	}
 
@@ -51,8 +62,25 @@ func main() {
 	feed, items, e := model.FetchUrl(*url)
 	succNum := 0 //len(items) //
 	if *doSave {
+		for _, item := range items {
+			if *doTrail && item.Outer_url != "" {
+				node, err := goquery.NewDocument(item.Outer_url)
+				if err != nil {
+					fmt.Println("goquery get url as node error, url,err=", url, err)
+					continue
+				}
+
+				item.Content, _ = node.Find(".content").Html()
+				contentLen := len(item.Content)
+				if contentLen > 20 {
+					contentLen = 20
+				}
+				fmt.Println("item has no content, filled.", item.Outer_url, "content=", item.Content[:contentLen])
+			}
+		}
 		succNum = model.SaveArticles(items, mark)
 	}
+
 	fmt.Println("feed len(items)=", len(items), "save success:", succNum, "lines", "feed=", feed, "e=", e)
 	/*
 		// after this, its test feedreader.Fetch
