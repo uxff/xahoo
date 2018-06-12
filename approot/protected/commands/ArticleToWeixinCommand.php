@@ -123,7 +123,7 @@ class ArticleToWeixinCommand  extends CConsoleCommand
                 break;
             }
 
-            // 替换文章内部图片
+            // 替换文章内部图片地址 替换成微信素材地址
             //$imgUrls = preg_match_all('', $artObj->content)
             $theReplacedArticle = $this->replaceImgTag($artObj->content);
             $theNewContent = $theReplacedArticle['content'];
