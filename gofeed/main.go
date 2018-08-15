@@ -132,7 +132,7 @@ func FindMark(urlStr string) (mark string) {
 		domainPart := urlElemStr[2]
 		domainPartArr := strings.Split(domainPart, ".")
 
-		ignoreTags := []string{"com", "net", "gov", "org", "info", "edu", "top", "biz", "xyz", "pro", "name", "wang", "tech", "ltd", "club", "vip"}
+		ignoreTags := []string{"com", "net", "gov", "org", "info", "edu", "top", "biz", "xyz", "pro", "name", "wang", "tech", "ltd", "club", "vip", "website"}
 
 		if len(domainPartArr[len(domainPartArr)-1]) == 2 {
 			domainPartArr = domainPartArr[:len(domainPartArr)-2]
