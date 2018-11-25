@@ -69,9 +69,11 @@ class WechatController extends BaseController {
                 $this->processText($fromUser, $revText);
 
                 // 更新为活跃公众号
-                $this->mpModel->status = FhPosterAccountsModel::STATUS_AUTHED;
-                if (!$this->mpModel->save()) {
-                    Yii::log('update FhPosterAccountsModel set status=STATUS_AUTHED error:'.$this->mpModel->lastError(), 'error', __METHOD__);
+                if ($this->mpModel->status != FhPosterAccountsModel::STATUS_AUTHED) {
+                    $this->mpModel->status = FhPosterAccountsModel::STATUS_AUTHED;
+                    if (!$this->mpModel->save()) {
+                        Yii::log('update FhPosterAccountsModel set status=STATUS_AUTHED  error:'.$this->mpModel->lastError(), 'error', __METHOD__);
+                    }
                 }
 
                 Yii::app()->end();
@@ -245,6 +247,15 @@ class WechatController extends BaseController {
                 $count = Yii::app()->getModule('sns')->stasticSns($this->wechatOptions['appid']);
                 $msg = '当前关注数:'.$count['cnt']*1;
                 $this->sendTextMessage($fromUser, $msg);
+                break;
+            case '打卡':
+                $this->sendTextMessage($fromUser, '打卡时间：'.date('Y-m-d H:i:s'));
+                break;
+            case '充值':
+                $this->sendTextMessage($fromUser, '已充值，充值时间：'.date('Y-m-d H:i:s'));
+                break;
+            case '余额':
+                $this->sendTextMessage($fromUser, '充值0元，瓜分福利0元。');
                 break;
             default:
                 break;

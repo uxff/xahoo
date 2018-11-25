@@ -235,7 +235,7 @@ class SnsModule extends CWebModule
         $ret = Yii::app()->UCenterDb->createCommand()
             ->select('count(bind_id) cnt')
             ->from('uc_member_bind_sns')
-            ->where('sns_appid=:sns_id', [':sns_id'=>$appid])
+            ->where('sns_appid=:appid', [':appid'=>$appid])
             ->queryAll();
         return $ret[0];
     }

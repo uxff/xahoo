@@ -1466,7 +1466,9 @@ CREATE TABLE `uc_member_bind_sns` (
   `location_address` varchar(255) NOT NULL DEFAULT '',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`bind_id`)
+  PRIMARY KEY (`bind_id`),
+  UNIQUE KEY `sns_id` (`sns_id`),
+  KEY `member_id` (`member_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
