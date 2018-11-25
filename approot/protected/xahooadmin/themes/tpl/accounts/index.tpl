@@ -82,6 +82,7 @@
                                         <td>
                                         <div class="hidden-sm hidden-xs btn-group">
                                             <a href="backend.php?r=Accounts/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
+                                            <a href="backend.php?r=Accounts/Editmenu&id={$objModel['id']}" class="btn btn-xs btn-warning"> <i class="ace-icon fa fa-pencil bigger-120"></i>菜单 </a>
                                             <a href="backend.php?r=Accounts/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                                         </div>
                                         </td>

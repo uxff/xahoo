@@ -1,6 +1,6 @@
 <?php
 
-class AccountsController extends Controller
+class MpaccountsController extends Controller
 {
 
     public function actionIndex($keyword='', $pageNo=1, $pageSize=10) {
@@ -44,7 +44,30 @@ class AccountsController extends Controller
         );
         $this->smartyRender('accounts/edit.tpl', $arrRender);
     }
-    
+
+    public function actionEditmenu() {
+        $id = isset($_GET['id'])?$_GET['id']:'';
+        if($id != ''){
+            $mpAccountModel = FhPosterAccountsModel::model()->findByPk($id);
+            $accountsData = $this->convertModelToArray($mpAccountModel);
+            $weObj = $mpAccountModel->toWechatObj();
+            $menu = $weObj->getMenu();
+            if (isset($_POST['menu']) && !empty($_POST['menu'])) {
+                $menu = $_POST['menu'];
+                Yii::log('post menu='.$menu, 'warning', __METHOD__);
+                $ret = $weObj->createMenu($menu);
+                Yii::log('create menu ret='.json_encode($ret), 'warning', __METHOD__);
+                $this->redirect(array('editmenu', 'id'=>$id));
+            }
+        }
+
+        $arrRender = array(
+            'accountsData' =>$accountsData,
+            'mpMenu' => json_encode($menu, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE),
+        );
+        $this->smartyRender('accounts/edit.tpl', $arrRender);
+    }
+
     public function actionInsert(){
             $post                       =   $_POST['poster'];
             $modela                     =   new FhPosterAccountsModel;
