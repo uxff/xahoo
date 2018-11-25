@@ -111,7 +111,7 @@ text-align:center;
 
 <div class="page-content-area">
   <div class="page-header">
-    <h1> <a href="backend.php?r=poster">海报管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i>编辑公众号 </small> </h1>
+    <h1> <a href="backend.php?r=poster">公众号管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i>编辑公众号 </small> </h1>
     {*
     <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
     *} </div>

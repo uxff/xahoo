@@ -141,7 +141,7 @@ text-align:center;
           </div>
         </div>
         <br />
-        菜单内容样例：
+        菜单内容样例(可参考官方技术文档：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013">https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013</a>)：
         <pre>
 {
      "button":[

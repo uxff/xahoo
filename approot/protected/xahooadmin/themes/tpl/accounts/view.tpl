@@ -1,6 +1,6 @@
 <div class="page-content-area" xmlns="http://www.w3.org/1999/html">
         <div class="page-header">
-                <h1> 海报管理 <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看  </small> </h1>
+                <h1> 公众号管理 <small> <i class="ace-icon fa fa-angle-double-right"></i> 查看  </small> </h1>
         </div>
         <!-- /.page-header -->
 
