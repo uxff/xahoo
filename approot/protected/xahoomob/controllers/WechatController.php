@@ -260,6 +260,9 @@ class WechatController extends BaseController {
             case '余额':
                 $this->weObj->text('充值0元，瓜分福利0元。')->reply();
                 break;
+            case 'send':
+                $this->sendTextMessage($fromUser, 'send a msg to '.$fromUser);
+                break;
             default:
                 $this->weObj->text('您的留言已收到，正在努力寻找答案。(openid:'.$fromUser.')')->reply();
                 break;
