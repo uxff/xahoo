@@ -52,20 +52,20 @@ class MpaccountsController extends Controller
             $accountsData = $this->convertModelToArray($mpAccountModel);
             $weObj = $mpAccountModel->toWechatObj();
             $menu = $weObj->getMenu();
-            if (isset($_POST['menu']) && !empty($_POST['menu'])) {
-                $menu = $_POST['menu'];
+            if (isset($_POST['mp_menu']) && !empty($_POST['mp_menu'])) {
+                $menu = $_POST['mp_menu'];
                 Yii::log('post menu='.$menu, 'warning', __METHOD__);
-                $ret = $weObj->createMenu($menu);
-                Yii::log('create menu ret='.json_encode($ret), 'warning', __METHOD__);
+                $ret = $weObj->createMenu(json_decode($menu, true));
+                Yii::log('create menu ret='.json_encode($ret).' errMsg='.$weObj->errMsg, 'warning', __METHOD__);
                 $this->redirect(array('editmenu', 'id'=>$id));
             }
         }
 
         $arrRender = array(
             'accountsData' =>$accountsData,
-            'mpMenu' => json_encode($menu, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE),
+            'mpMenu' => json_encode($menu['menu'], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE),
         );
-        $this->smartyRender('accounts/edit.tpl', $arrRender);
+        $this->smartyRender('accounts/editmenu.tpl', $arrRender);
     }
 
     public function actionInsert(){

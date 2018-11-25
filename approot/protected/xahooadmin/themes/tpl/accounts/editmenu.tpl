@@ -111,43 +111,28 @@ text-align:center;
 
 <div class="page-content-area">
   <div class="page-header">
-    <h1> <a href="backend.php?r=poster">海报管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i>编辑公众号菜单 </small> </h1>
+    <h1> <a href="backend.php?r=poster">公众号管理</a> <small> <i class="ace-icon fa fa-angle-double-right"></i>编辑公众号菜单 </small> </h1>
     {*
-    <h1> 提示信息： <small> 以下均为必选项 </small> </h1>
     *} </div>
   <!-- /.page-header -->
   
   <div class="row">
     <div class="col-xs-12"> 
-      <form class="form-horizontal"  id="poster_form" role="form" action="backend.php?r=mpAccounts/menu&id={$accountsData['id']}" method="POST"  autocomplete="off">
+      <form class="form-horizontal"  id="poster_form" role="form" action="backend.php?r=mpaccounts/editmenu&id={$accountsData['id']}" method="POST"  autocomplete="off">
         <br /><br />        
         <div class="box_base poster_baseinfo clearfix">
-          <div class="col-xs-12">
-            <div class="form-group col-xs-6">
-              <label class="col-sm-3 control-label no-padding-right" for="accounts_name">公众号名称*</label>
-              <div class="col-sm-8">
-                <input type="text" id="accounts_name" name="poster[accounts_name]" size="60"  class="col-xs-10 col-sm-12" placeholder="输入公众号名称" readonly="readonly" value="{$accountsData['accounts_name']}" />
-              </div>
-              <label class="control-label no-padding-right" for="accounts_name"></label>
-              <div class="col-sm-1"> <span class="help-inline middle" id="accounts_name_em_"> </span> </div>
+            <div class="form-group col-xs-12">
+              <div class="col-xs-6" for="accounts_name">公众号名称: {$accountsData['accounts_name']}</div>
+              <div class="col-xs-6" for="appid">AppID: {$accountsData['appid']}</div>
             </div>
-            <div class="form-group col-xs-6">
-              <label class="col-sm-3 control-label no-padding-right" for="appid">AppID*</label>
-              <div class="col-sm-8">
-                <input type="text" id="appid" name="poster[appid]" size="60"  class="col-xs-10 col-sm-12" placeholder="输入公众号的AppID" value="{$accountsData['appid']}" />
-              </div>
-              <label class="control-label no-padding-right" for="appid"></label>
-              <div class="col-sm-1"> <span class="help-inline middle" id="appid_em_"> </span> </div>
-            </div>
-          </div>
         </div>
         <br />
         <div class="box_base poster_baseinfo clearfix">
           <div class="form-group col-xs-12">
-            <div class=" col-xs-12">
-              <label class="col-sm-3 control-label no-padding-right" for="mp_menu">Menu</label>
-              <div class="col-sm-8">
-                <input type="text" id="mp_menu" name="poster[menu]" size="60"  class="col-xs-10 col-sm-12" placeholder="输入菜单内容" value="{$mpMenu}" />
+            <div class="col-xs-12">
+              <label class="col-sm-2 control-label no-padding-right" for="mp_menu">Menu(json):</label>
+              <div class="col-sm-10">
+                <textarea type="text" id="mp_menu" name="mp_menu" style="min-height:400px" class="col-xs-10 col-sm-12" placeholder="输入菜单内容" value="{$mpMenu}">{$mpMenu} </textarea>
               </div>
               <label class="control-label no-padding-right" for="mp_menu"></label>
               <div class="col-sm-1"> <span class="help-inline middle" id="mp_menu_em_"> </span> </div>
@@ -159,63 +144,34 @@ text-align:center;
         菜单内容样例：
         <pre>
 {
-    "menu": {
-        "button": [
-            {
-                "name": "生成海报",
-                "sub_button": [
-                    {
-                        "type": "click",
-                        "name": "项目海报",
-                        "key": "MENU_HAIBAO_COMMON",
-                        "sub_button": []
-                    },
-                    {
-                        "type": "click",
-                        "name": "个性海报",
-                        "key": "MENU_HAIBAO_DIY",
-                        "sub_button": []
-                    },
-                    {
-                        "type": "view",
-                        "name": "我的奖励",
-                        "url": "http:\/\/xahoo.xenith.top\/index.php?r=wechat\/authlogin&return_url=http%3A%2F%2Fxahoo.xenith.top%2Findex.php%3Fr%3DmyHaibao%2FmyReward%26accounts_id%3D2",
-                        "sub_button": []
-                    }
-                ]
+     "button":[
+     {    
+          "type":"click",
+          "name":"今日歌曲",
+          "key":"V1001_TODAY_MUSIC"
+      },
+      {
+           "name":"菜单",
+           "sub_button":[
+           {    
+               "type":"view",
+               "name":"搜索",
+               "url":"http://www.soso.com/"
             },
             {
-                "type": "view",
-                "name": "积分任务",
-                "url": "http:\/\/xahoo.xenith.top\/index.php?r=lizhuan\/index",
-                "sub_button": []
-            },
+                 "type":"某某小程序",
+                 "name":"wxa",
+                 "url":"http://mp.weixin.qq.com",
+                 "appid":"wx286b93c14bbf93aa",
+                 "pagepath":"pages/lunar/index"
+             },
             {
-                "name": "服务中心",
-                "sub_button": [
-                    {
-                        "type": "view",
-                        "name": "注册好礼",
-                        "url": "http:\/\/xahoo.xenith.top\/index.php?r=user\/register",
-                        "sub_button": []
-                    },
-                    {
-                        "type": "view",
-                        "name": "我的积分",
-                        "url": "http:\/\/xahoo.xenith.top\/index.php?r=myPoints\/index",
-                        "sub_button": []
-                    },
-                    {
-                        "type": "click",
-                        "name": "在线咨询",
-                        "key": "MENU_ONLINE_ADVICE",
-                        "sub_button": []
-                    }
-                ]
-            }
-        ]
-    }
-}
+               "type":"click",
+               "name":"赞一下我们",
+               "key":"V1001_GOOD"
+            }]
+       }]
+ }
         </pre>
         <br />
         </div>

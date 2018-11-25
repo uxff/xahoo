@@ -119,7 +119,7 @@ text-align:center;
   
   <div class="row">
     <div class="col-xs-12"> 
-      <form class="form-horizontal"  id="poster_form" role="form" onsubmit="return check_form_two();" action="backend.php?r=Accounts/Insert" method="POST"  autocomplete="off">
+      <form class="form-horizontal"  id="poster_form" role="form" onsubmit="return check_form_two();" action="backend.php?r=mpaccounts/Insert" method="POST"  autocomplete="off">
         <br /><br />
         <div class="box_base poster_baseinfo clearfix">
           <div class="col-xs-12">

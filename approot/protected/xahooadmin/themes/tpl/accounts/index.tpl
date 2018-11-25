@@ -18,7 +18,7 @@
                                 <div class="col-xs-12">
                                         <br />
           <div id="searchContainer">
-                <form class="form-horizontal"  id="project-form" role="form" action="{yii_createurl c=Accounts a=Index}" method="POST">
+                <form class="form-horizontal"  id="project-form" role="form" action="{yii_createurl c=mpaccounts a=Index}" method="POST">
                 <!--     start  --> 
 
                <div class="col-xs-12">
@@ -49,7 +49,7 @@
         <div class="">
                 共 {$pages.totalCount} 条查询结果：
                 <span class="pull-right">
-                        <a href="backend.php?r=Accounts/Create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增公众号</a>
+                        <a href="backend.php?r=mpaccounts/Create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus bigger-120"></i>新增公众号</a>
                 </span>
         </div>
     <form id="project-form" class="form-horizontal" method="POST" action="" role="form" style="">
@@ -81,9 +81,9 @@
                                         <td>{$arrStatus[$objModel['status']]}</td>
                                         <td>
                                         <div class="hidden-sm hidden-xs btn-group">
-                                            <a href="backend.php?r=Accounts/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
-                                            <a href="backend.php?r=Accounts/Editmenu&id={$objModel['id']}" class="btn btn-xs btn-warning"> <i class="ace-icon fa fa-pencil bigger-120"></i>菜单 </a>
-                                            <a href="backend.php?r=Accounts/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
+                                            <a href="backend.php?r=mpaccounts/Edit&id={$objModel['id']}" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil bigger-120"></i>编辑 </a>
+                                            <a href="backend.php?r=mpaccounts/Editmenu&id={$objModel['id']}" class="btn btn-xs btn-warning"> <i class="ace-icon fa fa-pencil bigger-120"></i>菜单 </a>
+                                            <a href="backend.php?r=mpaccounts/View&id={$objModel['id']}" class="btn btn-xs btn-info"> <i class="ace-icon fa fa-search-plus bigger-120"></i>查看 </a>
                                         </div>
                                         </td>
                                 </tr>
