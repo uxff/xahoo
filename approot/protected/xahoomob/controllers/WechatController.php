@@ -263,6 +263,10 @@ class WechatController extends BaseController {
             case 'send':
                 $this->sendTextMessage($fromUser, 'send a msg to '.$fromUser);
                 break;
+            case 'menu':
+                $menu = $this->weObj->getMenu();
+                $this->sendTextMessage($fromUser, 'my menu:'.json_encode($menu, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+                break;
             default:
                 $this->weObj->text('您的留言已收到，正在努力寻找答案。(openid:'.$fromUser.')')->reply();
                 break;
