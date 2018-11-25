@@ -64,7 +64,7 @@ class WechatController extends BaseController {
 
         switch($type) {
             case Wechat::MSGTYPE_TEXT:
-                $weObj->text("您的留言已收到，正在努力寻找答案。")->reply();
+                //$weObj->text("您的留言已收到，我们正在努力寻找答案。($fromUser)")->reply();
                 $revText = $weObj->getRevContent();
                 $this->processText($fromUser, $revText);
 
@@ -240,24 +240,28 @@ class WechatController extends BaseController {
 
     /*
         处理文本消息
+        只能回复一次
+        sendTextMessage 不可用
     */
     public function processText($fromUser, $revText) {
         switch ($revText) {
             case 'the total':
                 $count = Yii::app()->getModule('sns')->stasticSns($this->wechatOptions['appid']);
-                $msg = '当前关注数:'.$count['cnt']*1;
-                $this->sendTextMessage($fromUser, $msg);
+                $msg = '关注数:'.$count['cnt']*1;
+                $this->weObj->text($msg)->reply();
                 break;
             case '打卡':
-                $this->sendTextMessage($fromUser, '打卡时间：'.date('Y-m-d H:i:s'));
+                $this->weObj->text('打卡时间：'.date('Y-m-d H:i:s'))->reply();
+                $this->weObj->text('今日已打卡')->reply();//第二句回复无效
                 break;
             case '充值':
-                $this->sendTextMessage($fromUser, '已充值，充值时间：'.date('Y-m-d H:i:s'));
+                $this->weObj->text('暂不支持充值')->reply();
                 break;
             case '余额':
-                $this->sendTextMessage($fromUser, '充值0元，瓜分福利0元。');
+                $this->weObj->text('充值0元，瓜分福利0元。')->reply();
                 break;
             default:
+                $this->weObj->text('您的留言已收到，正在努力寻找答案。(openid:'.$fromUser.')')->reply();
                 break;
         }
     }
