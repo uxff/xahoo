@@ -17,7 +17,7 @@
                         <input type="password" name="password" class="form-input" placeholder="请输入密码" id="password" />
                 </li>
         </ul>
-        <input type="hidden" id="postUri" value="{yii_createurl c=user a=loginForm}"></input>
+        <input type="hidden" id="postUri" value="{yii_createurl c=user a=loginForm}"/>
 </section>
 <section class="btn-link">
         <button class="btn lot-btn">登录</button>

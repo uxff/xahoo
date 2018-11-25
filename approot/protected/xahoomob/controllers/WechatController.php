@@ -485,7 +485,7 @@ class WechatController extends BaseController {
         }
 
         $appid = $this->wechatOptions['appid'];
-        $snsModel = UcMemberBindSns::model()->find('sns_source=:source and sns_appid=:appid and sns_id=:oid', [
+        $snsModel = UcMemberBindSns::model()->find('sns_id=:oid and sns_appid=:appid and sns_source=:source', [
                 ':oid'      =>$openid,
                 ':appid'    =>$appid,
                 ':source'   =>UcMemberBindSns::SNS_SOURCE_WECHAT,
@@ -1016,6 +1016,9 @@ class WechatController extends BaseController {
     /*
         微信授权登录入口
             将跳转到微信授权页面 必须微信客户端打开此页
+        订阅号以下权限被微信收回：
+            - 网页授权获取用户基本信息
+            - 获取用户基本信息
     */
     public function actionAuthlogin() {
 		$return_url = $this->outPutString($_GET['return_url']);

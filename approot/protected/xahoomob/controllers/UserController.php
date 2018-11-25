@@ -1054,7 +1054,7 @@ class UserController extends Controller {
         
         // 绑定社交关系账号
         $ucMemberBindSns = UcMemberBindSns::model()->find(
-            'sns_source=:source and sns_appid=:appid and sns_id=:oid', [
+            'sns_id=:oid and sns_appid=:appid and sns_source=:source', [
                 ':oid'      =>$openid,
                 ':appid'    =>$appid,
                 ':source'   =>$plat,
@@ -1089,6 +1089,7 @@ class UserController extends Controller {
         $master_id = $_GET['master_id'] ? $_GET['master_id'] : 1005;
         $tmp_id = $_GET['tmp_id'] ? $_GET['tmp_id'] : 1260;
         $openid = $_GET['openid'] ? $_GET['openid'] : 'oDizAwl-h6sqpuUW5PI_9tsasnoA';
+        $snsModule = Yii::app()->getModule('sns');
         $ret = $this->combineAccount($master_id, $tmp_id, $openid);
         echo 'combineAccount ret=';print_r($ret);
         $snsModule->combineFans($master_id, $tmp_id, $openid);
