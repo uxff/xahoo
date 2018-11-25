@@ -32,7 +32,9 @@ class UserController extends Controller {
 		//}
 		$urlarr = parse_url($return_url);
 		$url = $urlarr['scheme'] . '://' . $urlarr['host'] . $urlarr['path'];
-		Yii::app()->loginUser->logoutAndClearStates();
+        Yii::app()->loginUser->logoutAndClearStates();
+        // todo: to destroy wechat authed status
+        $_SESSION[Yii::app()->params['third_login_sess_name']] = null;
 		$this->redirect($url);
 	}
 
@@ -72,7 +74,13 @@ class UserController extends Controller {
 		$weixin_url = $weixin->get_authorize_url($WX_CALLBACK_URL);
 
 		// 登陆状态检测
-		if ($isGuest) {
+        if ($isGuest) {
+            $authedSession = $_SESSION[Yii::app()->params['third_login_sess_name']];
+            if ($authedSession && $authedSession['mpid'] ) {
+                $mpModel = $mpAccountModel = FhPosterAccountsModel::model()->findByPk($authedSession['mpid']);
+                $weObj = $mpModel->toWechatObj();
+                $authInfo = $weObj->getUserInfo($authedSession['sns_id']);
+            }
 			$arrRender = array(
                 'gShowHeader' => true,
                 'gShowFooter' => true,
@@ -82,6 +90,7 @@ class UserController extends Controller {
                 'sina_url' => $code_url,
                 'qq_url' => $qq_url,
                 'weixin_url' => $weixin_url,
+                'wechat_auth_info' => $authInfo,
 			);
 
 			$this->layout = "layouts/user.tpl";
@@ -1043,7 +1052,8 @@ class UserController extends Controller {
                 $this->redirect($this->createAbsoluteUrl('user/login', ['return_url'=>$return_url]));
                 
             }
-		} else {
+        } else {
+            // 已经有微信授权，但是没有xahoo的手机注册，跳到注册
             Yii::log('auto login error: sns no bind'.' ', 'warning', __METHOD__);
 			//没有绑定则跳转到登陆页，登陆页会根据session，执行绑定
 			//$this->redirect('frontendmob.php?r=user/thirdPartLoginMobile&from=' . $from);

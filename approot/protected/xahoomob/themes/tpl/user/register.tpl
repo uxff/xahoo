@@ -44,6 +44,11 @@
 				    <input type="text" class="form-input"   name="invite_code"  value="{$invite_code}"  placeholder="请输入好友邀请码" />
 			    </li>
                 {/if}
+                {if $wechat_auth_info}
+                <li>
+                        <span>登录将绑定到微信：<img src="{$wechat_auth_info['headimgurl']}" style="">{$wechat_auth_info['nickname']}({$wechat_auth_info['openid']})</span>
+                </li>
+                {/if}
 		    </ul>
 		    <a id="invite-code-toggler" href="javascript:;">我有邀请码<i class="iconfont icon-down"></i></a>
 		</section>
