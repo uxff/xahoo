@@ -241,7 +241,7 @@ class WechatController extends BaseController {
     /*
         处理文本消息
         只能回复一次
-        sendTextMessage 不可用
+        sendTextMessage 在订阅号不可用
     */
     public function processText($fromUser, $revText) {
         switch ($revText) {
@@ -265,7 +265,8 @@ class WechatController extends BaseController {
                 break;
             case 'menu':
                 $menu = $this->weObj->getMenu();
-                $this->sendTextMessage($fromUser, 'my menu:'.json_encode($menu, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+                //Yii::log($fromUser.' request getMenu: '.json_encode($menu, JSON_UNESCAPED_UNICODE), 'warning', __METHOD__);
+                $this->sendTextMessage($fromUser, $fromUser.' request getMenu:'.json_encode($menu, JSON_UNESCAPED_UNICODE));
                 break;
             default:
                 $this->weObj->text('您的留言已收到，正在努力寻找答案。(openid:'.$fromUser.')')->reply();
