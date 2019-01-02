@@ -134,7 +134,7 @@ text-align:center;
             <div class="form-group col-xs-6">
               <label class="col-sm-3 control-label no-padding-right" for="token">token*</label>
               <div class="col-sm-8">
-                <input type="text" id="token" name="poster[token]" size="60"  class="col-xs-10 col-sm-12" placeholder="输入公众号的AppSecret" value="{$accountsData['token']}" />
+                <input type="text" id="token" name="poster[token]" size="60"  class="col-xs-10 col-sm-12" placeholder="输入公众号的Token" value="{$accountsData['token']}" />
               </div>
               <label class="control-label no-padding-right" for="token"></label>
               <div class="col-sm-1"> <span class="help-inline middle" id="token_em_"> </span> </div>

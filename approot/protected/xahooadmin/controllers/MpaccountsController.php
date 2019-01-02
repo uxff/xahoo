@@ -84,8 +84,8 @@ class MpaccountsController extends Controller
             $desc                       =   '新增公众号'.$data1['accounts_name'];
             if($modela->save()){
                 $insertLog = $this->InsertLog($modela->id,$desc);
-                $this->redirect(array('accounts/index'));        
-                //$this->jsonSuccess('操作成功', ['return_url'=>$this->createUrl('accounts/index')]);
+                $this->redirect(array('mpaccounts/index'));        
+                //$this->jsonSuccess('操作成功', ['return_url'=>$this->createUrl('mpaccounts/index')]);
             }
             $this->jsonError('操作失败('.$modela->lastError().')');
     }
@@ -120,7 +120,7 @@ class MpaccountsController extends Controller
                         $desc .= 'EncodingAESKey&nbsp;'.$oldDatas['EncodingAESKey'].'&nbsp;变更为&nbsp;'.$post['EncodingAESKey'].'<br/>';
                     }
                     $insertLog = $this->InsertLog($_GET['id'],$desc);
-                    $this->redirect(array('accounts/index'));
+                    $this->redirect(array('mpaccounts/index'));
                 }
             }
             
