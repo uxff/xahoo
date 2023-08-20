@@ -1,5 +1,7 @@
 # Xahoo - A demo website with membership system
 
+English | [中文](README.zhCN.md)
+
 Xahoo website is a demo website, used to show a set of member management system. Including member function, points system, points level, sign in, share earn points, points games, information, posters, wechat red envelope, invite friends and other functions.
 
 The front-end interface uses the Yii framework, and the back-end information data uses golang to subscribe to rss.
